@@ -1,5 +1,5 @@
 """
-WSGI config for PersonalSpendingTracker project.
+WSGI config for personal-spending-tracker project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,7 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'PersonalSpendingTracker.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE',
+                      'personal-spending-tracker.settings')
 
 application = get_wsgi_application()
