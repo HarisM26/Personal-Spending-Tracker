@@ -5,13 +5,13 @@
 
 ## Team
 
-Haris Malik
-Joel Jolly
-Konrad Bylina
-Malika Boss
-Oreoluwa Fayemiwo
-Richmond Bobie
-Vanessa Neboh
+-Haris Malik
+-Joel Jolly
+-Konrad Bylina
+-Malika Boss
+-Oreoluwa Fayemiwo
+-Richmond Bobie
+-Vanessa Neboh
 
 ## Personal-Spending-Tracker
 
