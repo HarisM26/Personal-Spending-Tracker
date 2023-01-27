@@ -9,7 +9,7 @@ class NotificationModelTest(TestCase):
     self.notification = Notification.objects.create(
     title = 'Approaching limit!',
     message = 'You are close to your set limit. Consider reducing your spending from now onwards',
-    status = False,
+    status = 'unread',
     time_created = datetime.time(datetime.now()),
     date_created = datetime.date(datetime.now())
     )
@@ -18,7 +18,7 @@ class NotificationModelTest(TestCase):
     notification = Notification.objects.create(
     title = 'Approaching limit!',
     message = 'You are close to your set limit. Consider reducing your spending from now onwards',
-    status = False,
+    status = 'unread',
     time_created = datetime.time(datetime.now()),
     date_created = datetime.date(datetime.now())
     )
@@ -42,9 +42,9 @@ class NotificationModelTest(TestCase):
     self.notification.title = ''
     self.assert_notification_is_invalid()
 
-  def test_message_may_exist(self):
+  def test_title_may_exist(self):
     other_notification = self.create_other_notification()
-    self.notification.message = other_notification.message
+    self.notification.title = other_notification.title
     self.assert_notification_is_valid()
 
   def test_title_should_have_up_to_300_characters(self):
