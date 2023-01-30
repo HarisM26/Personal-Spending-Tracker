@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<div id="cover-image">
+    <div class="header">
+        <div class="container">
+            <nav class="nav">
+                <a type="button" href='{% url "home" %}' class="btn btn-500"> Home </a>
+            </nav>
+        </div>
+    </div>
+    <div class="container vh-100">
+        <div class="row h-100">
+            <div class="col-12 my-auto">
+                <div class="cover-card">
+                    <h1>Register</h1>
+                    <p>Create an Account</p>
+                    <form action="{% url 'register' %}" method="post">
+                        {% csrf_token %}
+                        {% include 'partials/bootstrap_form.html' with form=form %}
+                    <input type="submit" value="Register" class="btn btn-100">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+        
+{% endblock %}
