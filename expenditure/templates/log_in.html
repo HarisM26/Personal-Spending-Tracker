@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %} 
+<title>Login • VMT</title>
+<div class="welcome_text" >
+    <h1>Login</h1>
+        <div class="welcome_paragraph">
+          <form action="{% url 'log_in' %}" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Log In">
+        </div>
+
+    </div>
+{% endblock content %}
