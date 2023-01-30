@@ -27,5 +27,6 @@ urlpatterns = [
     path('about/',views.about, name='about'),
     path('features/',views.features, name='features'),
     path('contact/',views.contact, name='contact'),
-    path('news_page/',views.news_page, name='news_page')
+    path('news_page/',views.news_page, name='news_page'),
+    path('notification_page/',views.notification_page, name='notification_page')
 ]

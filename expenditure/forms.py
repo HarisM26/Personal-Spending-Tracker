@@ -1,10 +1,9 @@
-from email import message
 from django import forms
 from django.core.validators import RegexValidator
 from expenditure.models import User
 
 
-class SignUpForm(forms.ModelForm):
+class RegisterForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', 'email']

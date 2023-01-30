@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .forms import SignUpForm, LogInForm
+from .forms import RegisterForm, LogInForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 
@@ -22,16 +22,19 @@ def feed(request):
 def news_page(request):
     return render(request, 'news_page.html')
 
+def notification_page(request):
+    return render(request, 'notification_page.html')
+
 def register(request):
     if request.method == 'POST':
         # request.POST contains dictionary with all of the data
-        form = SignUpForm(request.POST)
+        form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
             return redirect('feed')
     else:
-        form = SignUpForm()
+        form = RegisterForm()
     return render(request, 'register.html', {'form': form})
 
 def log_in(request):
