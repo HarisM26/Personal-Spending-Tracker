@@ -1,6 +1,6 @@
 from django import forms
 from django.core.validators import RegexValidator
-from expenditure.models import User
+from expenditure.models import *
 
 
 class RegisterForm(forms.ModelForm):
@@ -44,3 +44,13 @@ class RegisterForm(forms.ModelForm):
 class LogInForm(forms.Form):
     username = forms.CharField(label="Username")
     password = forms.CharField(label="Password", widget=forms.PasswordInput)
+
+class TransactionForm(forms.ModelForm):
+    class Meta:
+        model = Transaction
+        fields = '__all__'
+
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ('name','limit')

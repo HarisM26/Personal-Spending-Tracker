@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .forms import RegisterForm, LogInForm
+from .forms import *
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 
@@ -25,6 +25,7 @@ def news_page(request):
 def notification_page(request):
     return render(request, 'notification_page.html')
 
+
 def register(request):
     if request.method == 'POST':
         # request.POST contains dictionary with all of the data
@@ -36,6 +37,28 @@ def register(request):
     else:
         form = RegisterForm()
     return render(request, 'register.html', {'form': form})
+
+def create_category(request):
+    if request.method == 'POST':
+        # request.POST contains dictionary with all of the data
+        if request.user.is_authenticated:
+            current_user = request.user
+            form = CategoryForm(request.POST)
+            if form.is_valid():
+                name=form.cleaned_data.get('name')
+                limit=form.cleaned_data.get('limit')
+                category = Category.objects.create(user=current_user,name=name,limit=limit)
+                messages.add_message(request, messages.SUCCESS,
+                             "Category created!")
+                return redirect('create_category')
+            messages.add_message(request, messages.ERROR,
+                             "The credentials provided were invalid!")
+        else:
+            return redirect('log_in')
+    else:
+        form = CategoryForm()
+        return render(request, 'create_category.html', {'form': form})
+
 
 def log_in(request):
     if request.method == 'POST':
@@ -51,9 +74,8 @@ def log_in(request):
         messages.add_message(request, messages.ERROR,
                              "The credentials provided were invalid!")
     else:
-        next = request.GET.get('next') or ''
-    form = LogInForm()
-    return render(request, 'log_in.html', {'form': form})
+        form = LogInForm()
+        return render(request, 'log_in.html', {'form': form})
 
 def log_out(request):
     logout(request)
