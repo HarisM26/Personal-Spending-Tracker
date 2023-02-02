@@ -5,6 +5,7 @@ from decimal import *
 
 @receiver(post_save,sender=Transaction)
 def transaction_post_save_handler(sender,instance,created,*args,**kwargs):
+  sender = instance.category.user
   if created:
     all_transactions = Transaction.objects.filter(category = instance.category)
     sum = 0
@@ -12,10 +13,10 @@ def transaction_post_save_handler(sender,instance,created,*args,**kwargs):
       sum+=_.amount
 
     if sum >= (instance.category.limit*Decimal('0.90')) and sum < instance.category.limit :
-      notification = create_notification(instance.category.user,instance.category.limit,sum)
+      notification = create_notification(sender,instance.category.limit,sum)
       print(notification.message)
     elif sum >= (instance.category.limit*Decimal('0.90')):
-      notification = create_notification(instance.category.user,instance.category.limit,sum)
+      notification = create_notification(sender,instance.category.limit,sum)
       print(notification.message)
 
 def create_notification(user,category_limit,sum):
