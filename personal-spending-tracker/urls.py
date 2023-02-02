@@ -14,8 +14,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path,include
 from expenditure import views
+#import notifications.urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,4 +31,5 @@ urlpatterns = [
     path('news_page/',views.news_page, name='news_page'),
     path('notification_page/',views.notification_page, name='notification_page'),
     path('create_category/',views.create_category,name='create_category'),
+   # path('^inbox/notifications/',include(notifications.urls,namespace='notifications')),
 ]
