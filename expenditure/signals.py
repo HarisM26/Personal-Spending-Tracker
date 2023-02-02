@@ -4,23 +4,22 @@ from django.dispatch import receiver
 from decimal import *
 
 @receiver(post_save,sender=Transaction)
-def transaction_post_save_handler(sender,instance,created,*args,**kwargs):
-  sender = instance.category.user
+def transaction_post_save_handler(instance,created,*args,**kwargs):
+  current_user = instance.category.user
   if created:
     all_transactions = Transaction.objects.filter(category = instance.category)
     sum = 0
-    for _ in all_transactions:
-      sum+=_.amount
+    for transaction in all_transactions:
+      sum+=transaction.amount
 
     if sum >= (instance.category.limit*Decimal('0.90')) and sum < instance.category.limit :
-      notification = create_notification(sender,instance.category.limit,sum)
+      notification = create_notification(current_user,instance.category.limit,sum)
       print(notification.message)
     elif sum >= (instance.category.limit*Decimal('0.90')):
-      notification = create_notification(sender,instance.category.limit,sum)
+      notification = create_notification(current_user,instance.category.limit,sum)
       print(notification.message)
 
 def create_notification(user,category_limit,sum):
-  current_message = ''
   if sum >= (category_limit*Decimal('0.90')) and sum < category_limit:
     current_message = 'You close to your limit. Please consider reducing your spending'
   else:

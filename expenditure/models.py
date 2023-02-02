@@ -19,7 +19,7 @@ class Notification(models.Model):
     user_receiver = models.ForeignKey(User,on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=300)
     message = models.CharField(max_length = 1200)
-    status = models.CharField(max_length=6,choices=STATUS_CHOICE,default=1)
+    status = models.CharField(max_length=6,choices=STATUS_CHOICE,default= 'unread')
     time_created = models.TimeField(auto_now_add=True)
     date_created = models.DateField(auto_now_add=True)
 

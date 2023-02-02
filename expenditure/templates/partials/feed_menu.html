@@ -5,14 +5,16 @@
     <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
         <i class="fa-regular fa-bell">
-          <span class="badge rounded-pill bg-danger"> &#160; </span>
+          {% if unread_status_count > 0 %}
+            <span class="badge rounded-pill bg-danger"> &#160; </span>
+          {% endif %}
         </i>
         
       </a>
       <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-        <li><a class="dropdown-item" href="#">Action</a></li>
-        <li><a class="dropdown-item" href="#">Another action</a></li>
-        <li><a class="dropdown-item" href="#">Something else here</a></li>
+        {% for notification in notifications %}
+        <li><a class="dropdown-item" href="#">{{ notification.title }}</a></li>
+        {% endfor %}
         <li><hr class="dropdown-divider"></li>
         <li><a class="dropdown-item" href="{% url 'notification_page' %}">See all notifications</a></li>
       </ul>

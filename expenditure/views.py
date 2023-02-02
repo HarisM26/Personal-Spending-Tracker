@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from .forms import *
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from datetime import datetime
 
 
 def home(request):
@@ -17,13 +18,22 @@ def contact(request):
     return render(request, 'contact.html')
 
 def feed(request):
-    return render(request, 'feed.html')
+    current_user = request.user
+    unread_status_count = Notification.objects.filter(user_receiver = current_user,status = 'unread').count()
+    notifications = Notification.objects.filter(user_receiver = current_user, date_created = datetime.date(datetime.now()))
+    context = {
+        'notifications': notifications,
+        'unread_status_count': unread_status_count,
+    }
+    return render(request, 'feed.html', context)
 
 def news_page(request):
     return render(request, 'news_page.html')
 
 def notification_page(request):
-    return render(request, 'notification_page.html')
+    current_user = request.user
+    notifications = Notification.objects.filter(user_receiver = current_user)
+    return render(request, 'notification_page.html',{'notifications': notifications})
 
 
 def register(request):
@@ -57,7 +67,7 @@ def create_category(request):
             return redirect('log_in')
     else:
         form = CategoryForm()
-        return render(request, 'create_category.html', {'form': form})
+    return render(request, 'create_category.html', {'form': form})
 
 
 def log_in(request):
@@ -75,7 +85,7 @@ def log_in(request):
                              "The credentials provided were invalid!")
     else:
         form = LogInForm()
-        return render(request, 'log_in.html', {'form': form})
+    return render(request, 'log_in.html', {'form': form})
 
 def log_out(request):
     logout(request)

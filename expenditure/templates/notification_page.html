@@ -2,6 +2,17 @@
 {% block content %}
 
 <h1> NOTIFICATIONS </h1>
-<h2> Page is under construction </h2>
+<div>
+  {% for notification in notifications%}
+  <li> 
+    <span><b>{{ notification.title }} </b></span><br>
+    <i>{{ notification.message }}</i> <br>
+    <span>{{ notification.time_created }}</span>
+    <span>{{ notification.date_created }}</span>
+    <span>{{ notification.status }}</span>
+    <li><hr ></li>
+  </li>
+  {% endfor %}
+</div>
 
 {% endblock %}
