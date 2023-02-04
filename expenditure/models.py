@@ -16,7 +16,7 @@ class User(AbstractUser):
 class Notification(models.Model):
     STATUS_CHOICE=[('unread',('unread')),('read',('read'))]
 
-    user_receiver = models.ForeignKey(User,on_delete=models.CASCADE, null=True)
+    user_receiver = models.ForeignKey(User,on_delete=models.CASCADE)
     title = models.CharField(max_length=300)
     message = models.CharField(max_length = 1200)
     status = models.CharField(max_length=6,choices=STATUS_CHOICE,default= 'unread')
