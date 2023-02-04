@@ -25,19 +25,34 @@ class Notification(models.Model):
 
     class Meta:
         ordering = ['-date_created','-time_created']
+    
+    def __str__(self):
+        return self.message
 
 class Category(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     limit = models.DecimalField(max_digits= 10, decimal_places=2, verbose_name= 'category Limit')
-
+    #slug = models.SlugField()
+    #parent = models.ForeignKey('self',blank=True, null=True ,related_name='children')
     def __str__(self):
         return self.name
+    """
+    class Meta:
+        #enforcing that there can not be two categories under a parent with same slug
+        
+        # __str__ method elaborated later in post.  use __unicode__ in place of
+        
+        # __str__ if you are using python 2
+
+        unique_together = ('slug', 'parent',)    
+        verbose_name_plural = "categories"    
+        """ 
 
 class Transaction(models.Model):
     description = models.CharField(max_length=50,)
     amount = models.DecimalField(max_digits= 10, decimal_places=2)
-    category = models.ForeignKey(Category,on_delete=models.CASCADE)
+    category = models.ForeignKey(Category,on_delete=models.CASCADE,)
 
     def __str__(self):
         return 'desc: '+ self.description + ' -> $ ' + str(self.amount)

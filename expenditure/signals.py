@@ -19,9 +19,10 @@ def transaction_post_save_handler(instance,created,*args,**kwargs):
       notification = create_notification(current_user,instance.category.limit,sum)
       print(notification.message)
 
+#to do add category_name
 def create_notification(user,category_limit,sum):
   if sum >= (category_limit*Decimal('0.90')) and sum < category_limit:
-    current_message = 'You close to your limit. Please consider reducing your spending'
+    current_message = 'You are close to your limit. Please consider reducing your spending'
   else:
     current_message = 'You have reached your limit!'
   

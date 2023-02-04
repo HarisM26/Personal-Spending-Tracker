@@ -3,6 +3,7 @@ from .forms import *
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from datetime import datetime
+from django.http import HttpResponse, HttpResponseRedirect
 
 
 def home(request):
@@ -17,23 +18,56 @@ def features(request):
 def contact(request):
     return render(request, 'contact.html')
 
+def get_unread_nofications(user):
+    return Notification.objects.filter(user_receiver = user,status = 'unread').count()
+
+def get_user_notifications(user):
+    return Notification.objects.filter(user_receiver = user)
+
 def feed(request):
     current_user = request.user
-    unread_status_count = Notification.objects.filter(user_receiver = current_user,status = 'unread').count()
-    notifications = Notification.objects.filter(user_receiver = current_user, date_created = datetime.date(datetime.now()))
+    unread_status_count = get_unread_nofications(current_user)
+    notifications = get_user_notifications(current_user)
+    latest_notifications = notifications[0:3]
     context = {
-        'notifications': notifications,
+        'latest_notifications': latest_notifications,
         'unread_status_count': unread_status_count,
     }
     return render(request, 'feed.html', context)
 
+def notification_page(request):
+    current_user = request.user
+    notifications = get_user_notifications(current_user)
+    latest_notifications = notifications[0:3]
+    unread_status_count = get_unread_nofications(current_user)
+    context = {
+        'latest_notifications': latest_notifications,
+        'notifications': notifications,
+        'unread_status_count': unread_status_count,
+    }
+    return render(request, 'notification_page.html',context)
+
+def mark_as_read(request,id):
+   notification = Notification.objects.get(id=id)
+   notification.status = 'read'
+   notification.save()
+   return redirect('notification_page') 
+
 def news_page(request):
     return render(request, 'news_page.html')
 
-def notification_page(request):
+def all_categories(request):
     current_user = request.user
-    notifications = Notification.objects.filter(user_receiver = current_user)
-    return render(request, 'notification_page.html',{'notifications': notifications})
+    categories = Category.objects.filter(user = current_user)
+    notifications = get_user_notifications(current_user)
+    latest_notifications = notifications[0:3]
+    unread_status_count = get_unread_nofications(current_user)
+    context = {
+        'latest_notifications': latest_notifications,
+        'categories':categories,
+        'unread_status_count': unread_status_count,
+        }
+    return render(request, 'all_categories.html',context)
 
 
 def register(request):
@@ -49,10 +83,13 @@ def register(request):
     return render(request, 'register.html', {'form': form})
 
 def create_category(request):
+    current_user = request.user
+    notifications = get_user_notifications(current_user)
+    latest_notifications = notifications[0:3]
+    unread_status_count = get_unread_nofications(current_user)
     if request.method == 'POST':
         # request.POST contains dictionary with all of the data
         if request.user.is_authenticated:
-            current_user = request.user
             form = CategoryForm(request.POST)
             if form.is_valid():
                 name=form.cleaned_data.get('name')
@@ -67,7 +104,12 @@ def create_category(request):
             return redirect('log_in')
     else:
         form = CategoryForm()
-    return render(request, 'create_category.html', {'form': form})
+    context = {
+        'form': form,
+        'latest_notifications': latest_notifications,
+        'unread_status_count': unread_status_count,
+    }
+    return render(request, 'create_category.html', context)
 
 
 def log_in(request):

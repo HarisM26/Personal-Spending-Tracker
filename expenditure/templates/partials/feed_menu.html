@@ -2,6 +2,9 @@
   <ul class="navbar-nav me-auto mb-2 mb-lg-0">
   </ul>
   <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+    <li>
+      <a href= "{% url 'all_categories' %}"> view all categories </a>
+    </li>
     <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
         <i class="fa-regular fa-bell">
@@ -12,9 +15,9 @@
         
       </a>
       <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-        {% for notification in notifications %}
-        <li><a class="dropdown-item" href="#">{{ notification.title }}</a></li>
-        {% endfor %}
+        {% for notification in latest_notifications%}
+          <li><a class="dropdown-item" href="{% url 'mark_as_read' notification.id %}">{{ notification.title }}</a></li>
+        {% endfor%}
         <li><hr class="dropdown-divider"></li>
         <li><a class="dropdown-item" href="{% url 'notification_page' %}">See all notifications</a></li>
       </ul>
