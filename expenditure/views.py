@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from datetime import datetime
 from django.http import HttpResponse, HttpResponseRedirect
+from .news_api import all_articles
 
 
 def home(request):
@@ -52,9 +53,6 @@ def mark_as_read(request,id):
    notification.status = 'read'
    notification.save()
    return redirect('notification_page') 
-
-def news_page(request):
-    return render(request, 'news_page.html')
 
 def all_categories(request):
     current_user = request.user
@@ -132,3 +130,8 @@ def log_in(request):
 def log_out(request):
     logout(request)
     return redirect('home')
+
+def news_page(request):
+    articles = all_articles['articles']
+    return render(request, 'news_page.html',{'articles':articles})
+

@@ -14,3 +14,7 @@ def get_transaction_total(iterable):
   for element in iterable:
     total+=element.amount
   return total
+
+@register.filter
+def get_article_dict_element(dict, key):
+  return dict[f'{key}']
