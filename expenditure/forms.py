@@ -9,7 +9,7 @@ class LogInForm(forms.Form):
 class SignUpForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email']
+        fields = ['first_name', 'last_name', 'email', 'user_id']
     
     new_password = forms.CharField(label='Password', widget=forms.PasswordInput(), validators=[RegexValidator(
         regex=r'^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).*$',
@@ -36,6 +36,8 @@ class SignUpForm(forms.ModelForm):
             password=self.cleaned_data.get('new_password'),
             first_name=self.cleaned_data.get('first_name'),
             last_name=self.cleaned_data.get('last_name'),
+            user_id = user.pk
+
             
         )
         return user
