@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
+
 {% block content %} 
-<title>Sign up • VMT</title>
+<title>Logout • VMT</title>
 <div class="welcome_text" >
-    <h1>Sign up</h1>
+    <h1>Logout</h1>
         <div class="welcome_paragraph">
-          <form action="{% url 'sign_up' %}" method="post">
+          <form action="{% url 'log_out' %}" method="post">
             {% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" value="Sign up">  
+            <button type="submit">Logout</button>
+        </form>
         </div>
 
     </div>

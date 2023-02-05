@@ -1,11 +1,76 @@
-from django.core.validators import RegexValidator
-from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django import forms
+from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractBaseUser, UserManager
+from django.contrib.auth.base_user import BaseUserManager
 
 
-class User(AbstractUser):
-    password_confirmation = forms.CharField(label='Password confirmation', widget=forms.PasswordInput())
+class UserManager(BaseUserManager):
+
+    use_in_migrations = True
+
+    def _create_user(self, email, password, **extra_fields):
+        '''Create and save a user with the given email, and
+        password.
+        '''
+        if not email:
+            raise ValueError('The given email must be set')
+
+        email = self.normalize_email(email)
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_user(self, email, password=None, **extra_fields):
+        return self._create_user(email, password, **extra_fields)
+
+    
+
+
+
+class User(AbstractBaseUser):
+  email = models.EmailField(
+        unique=True,
+        max_length=255,
+        blank=False,
+    )
+
+  
+  first_name = models.CharField(
+    max_length=30,
+    blank=True,
+    )
+
+  last_name = models.CharField(
+    max_length=150,
+    blank=True,
+    )
+
+  def login(email, password):
+    ''' Use student details to authenticate and login user. '''
+    # retrieves user object
+    user = User.objects.filter(email=email)
+
+    if user.exists():
+      user = user.first()
+    else:
+      return { 'success': False, 'msg': 'Email is not registered!' }
+
+    # validates password for user
+    if not user.check_password(password):
+      return { 'success': False, 'msg': 'Invalid password supplied!' }
+
+    
+  REQUIRED_FIELDS = ('User',)
+
+
+  objects =  UserManager()
+  USERNAME_FIELD = 'email'
+
+
+
+    
    
 
 

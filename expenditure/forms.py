@@ -10,7 +10,7 @@ class SignUpForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email']
-
+    
     new_password = forms.CharField(label='Password', widget=forms.PasswordInput(), validators=[RegexValidator(
         regex=r'^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).*$',
         message='Password must contain an uppercase character, a lowercase character and a number'
@@ -32,9 +32,10 @@ class SignUpForm(forms.ModelForm):
     def save(self):
         super().save(commit=False)
         user=User.objects.create_user(
+            self.cleaned_data.get('email'),
+            password=self.cleaned_data.get('new_password'),
             first_name=self.cleaned_data.get('first_name'),
             last_name=self.cleaned_data.get('last_name'),
-            email=self.cleaned_data.get('email'),
-            password=self.cleaned_data.get('new_password'),
+            
         )
         return user
