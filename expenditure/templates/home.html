@@ -1,10 +1,19 @@
-<html>
-<head>
-    <title>Personal Spending Tracker</title>
-</head>
-    <body>
-        <h1>Personal Spending Tracker</h1>
-        <p><a href='{% url 'sign_up' %}'>Sign Up</a></p>
-        <p><a href='{% url 'log_in' %}'>Log in</a></p>
-    </body>
-</html> 
+{% include 'base_content.html' %}
+{% block body %}
+<div id="cover-image"> 
+    <div class="container vh-100">
+        <div class="row h-100">
+            <div class="col-12 my-auto" id="outer_card">
+                <div class="card">
+                    <div class="text-center">
+                        <h1>Welcome to VMT</h1>
+                    </div>
+                    <p>Welcome Message</p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

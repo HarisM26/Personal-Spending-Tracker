@@ -1,11 +1,10 @@
 
-
 body {
   font-family: "Lato", sans-serif;
 }
 
 
-header {
+body {
   background: url(/static/images/bkg3.jpg);
   height: 100vh;
   -webkit-background-size: cover;
@@ -14,23 +13,21 @@ header {
   position: relative;
 }
 
-.welcome_text {
+/* .text-center {
   width: 100%;
   position: absolute;
   text-align: center;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-}
-.welcome_text h1 {
+} */
+.text-center h1 {
   text-align: center;
-  color: aliceblue;
   text-transform: uppercase;
   font-size: 38px;
 }
 
-.welcome_paragraph {
-  border: 1px solid whitesmoke;
+.text-center h2{
   padding: 10px 25px;
   text-decoration: none;
   text-transform: uppercase;

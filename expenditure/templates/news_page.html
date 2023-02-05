@@ -1,0 +1,40 @@
+{% extends 'base_content.html' %}
+{% load custom_tags%}
+{% block content %}
+
+<div class="row">
+  <div class="col-12">
+    <h1> Personal Finance News</h1>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">URL</th>
+          <th scope="col">Title</th>
+          <th scope="col">Source</th>
+          <th scope="col">Date published</th>
+        </tr>
+      </thead>
+      {% for article in articles %}
+      <tr>
+        <td>
+          <tbody>
+            <tr>
+              <th scope="row">&#8658;</th>
+              <td><a href="{{ article|get_article_dict_element:'url' }}" target="_blank"> {{ article|get_article_dict_element:"url" }} </a></td>
+              <td>{{ article|get_article_dict_element:"title" }}</td>
+              <!--get source which is a dict and pass it as a value -->
+              <td>{{ article|get_article_dict_element:"source"|get_article_dict_element:"Name" }}</td>
+              <td>{{ article|get_article_dict_element:"publishedAt" }}</td>
+              <td>
+              </td>
+            </tr>
+            </tbody>
+          </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+
+{% endblock %}

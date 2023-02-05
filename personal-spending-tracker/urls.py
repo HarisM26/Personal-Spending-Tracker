@@ -16,13 +16,21 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from expenditure import views
+#import notifications.urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
-    path('features/', views.features, name='features'),
-    path('contact/', views.contact, name='contact'),
-    path('about/', views.about, name='about'),
-    path('sign_up/', views.sign_up, name='sign_up'),
+    path('register/',views.register,name='register'),
     path('log_in/', views.log_in, name='log_in'),
+    path('feed/',views.feed, name='feed'),
+    path('log_out/',views.log_out, name='log_out'),
+    path('about/',views.about, name='about'),
+    path('features/',views.features, name='features'),
+    path('contact/',views.contact, name='contact'),
+    path('news_page/',views.news_page, name='news_page'),
+    path('notification_page/',views.notification_page, name='notification_page'),
+    path('create_category/',views.create_category,name='create_category'),
+    path('all_categories/', views.all_categories, name='all_categories'),
+    path('notification_page/<int:id>',views.mark_as_read, name='mark_as_read'),
 ]
