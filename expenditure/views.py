@@ -15,13 +15,6 @@ def addTransaction(request):
     if request.method == 'POST':
         create_transaction_form = TransactionForm(request.POST, request.FILES)
         if create_transaction_form.is_valid():
-            if request.FILES:
-                file = request.FILES['reciept']
-                fs = FileSystemStorage()
-                file_name = fs.save(file.name, file)
-                file_url = fs.url(file_name)
-                print(file_name, file_url)
-                create_transaction_form.cleaned_data['reciept'] = file_url
             create_transaction_form.save()
             return HttpResponseRedirect(reverse('transactions'))
     else:

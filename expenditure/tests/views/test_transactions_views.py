@@ -1,0 +1,85 @@
+from datetime import date
+from django.test import TestCase
+from django.urls import reverse
+from django.core.files.uploadedfile import SimpleUploadedFile
+from expenditure.models import Transaction, Category
+
+class TransactionViews(TestCase):
+
+    def setUp(self):
+        self.url_list_transactions = reverse('transactions')
+        self.url_add_transaction = reverse('addTransaction')
+    
+        self.category = Category.objects.create(
+            name = 'test_category'
+        )
+        self.transaction = Transaction.objects.create(
+            title = 'req_trans',
+            date = date.today(),
+            amount = 30.00,
+            category = self.category,
+        )
+
+        self.transaction_input = {
+            'title': 'transaction_test',
+            'date': date.today(),
+            'amount': 80.00,
+            'category': self.category.pk,
+        }
+
+        self.image = SimpleUploadedFile('reciept.jpg', b'blablabla', content_type='image/jpeg')
+
+    def test_transaction_urls(self):
+        self.assertEqual(self.url_list_transactions,'/transactions/')
+        self.assertEqual(self.url_add_transaction,'/transactions/add/')
+    
+    def test_transaction_urls_are_accessible(self):
+        response_list_transactions = self.client.get(self.url_list_transactions)
+        response_add_transaction = self.client.get(self.url_add_transaction)
+
+        self.assertEqual(response_list_transactions.status_code, 200)
+        self.assertEqual(response_add_transaction.status_code, 200)
+
+        self.assertIn('transactions.html', (t.name for t in response_list_transactions.templates))
+        self.assertIn('add_transaction.html', (t.name for t in response_add_transaction.templates))
+    
+    def test_add_transaction(self):
+        before_count = Transaction.objects.all().count()
+        response = self.client.post(self.url_add_transaction, self.transaction_input)
+        transaction = Transaction.objects.latest('created')
+        after_count = Transaction.objects.all().count()
+        response_url = reverse('transactions')
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(after_count, before_count+1)
+        self.assertEqual(transaction.title, self.transaction_input['title'])
+        self.assertEqual(transaction.date, self.transaction_input['date'])
+        self.assertEqual(transaction.amount, self.transaction_input['amount'])
+        self.assertEqual(transaction.category.pk, self.transaction_input['category'])
+        self.assertFalse(transaction.is_income)
+        self.assertRedirects(response, response_url, status_code=302, target_status_code=200)
+    
+    # def test_add_transaction(self):
+    #     before_count = Transaction.objects.all().count()
+    #     self.transaction_input['title'] = ''
+    #     response = self.client.post(self.url_add_transaction, self.transaction_input)
+    #     after_count = Transaction.objects.all().count()
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertEqual(after_count, before_count)
+    
+    # def test_add_transaction_with_reciept(self):
+    #     before_count = Transaction.objects.all().count()
+    #     self.transaction_input['reciept'] = self.image
+    #     print(self.transaction_input)
+    #     response = self.client.post(self.url_add_transaction, self.transaction_input)
+    #     transaction = Transaction.objects.latest('created')
+    #     after_count = Transaction.objects.all().count()
+    #     response_url = reverse('transactions')
+    #     #self.assertEqual(response.status_code, 302)
+    #     self.assertEqual(after_count, before_count+1)
+    #     self.assertEqual(transaction.title, self.transaction_input['title'])
+    #     self.assertEqual(transaction.date, self.transaction_input['date'])
+    #     self.assertEqual(transaction.amount, self.transaction_input['amount'])
+    #     self.assertEqual(transaction.category.pk, self.transaction_input['category'])
+    #     self.assertFalse(transaction.is_income)
+    #     self.assertRedirects(response, response_url, status_code=302, target_status_code=200)
+    
