@@ -10,3 +10,9 @@ class Notification(models.Model):
   time_created = models.TimeField(auto_now_add=True)
   date_created = models.DateField(auto_now_add=True)
 
+class Limit(models.Model):
+  LIMIT_STATUS=[('reached',('reached')),('not reached',('not reached')), ('approaching',('approaching'))]
+  limit_amount = models.DecimalField(max_digits=10,decimal_places=2)
+  spent_amount = models.DecimalField(max_digits=10,decimal_places=2)
+  status = models.CharField(choices=LIMIT_STATUS, default='not reached')
+  
