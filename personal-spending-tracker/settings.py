@@ -138,3 +138,5 @@ STATICFILES_FINDERS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 ASGI_APPLICATION = "personal-spending-tracker.asgi.application"
+# User model for authentication purposes 
+AUTH_USER_MODEL = 'expenditure.User'

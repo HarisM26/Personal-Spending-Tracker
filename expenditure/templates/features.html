@@ -1,52 +1,14 @@
-<!DOCTYPE html>
-<head>
-    <meta charset="UTF_8">
-    <title>What's New • VMT</title>
-    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+{% extends 'base.html' %}
 
-    <style>
-
-    </style>
-
-
-</head>
-<body>
-
-<header>
-    <div class="navbar">
-        <div class="wrapper">
-            <div class="logo">
-                <img src="logo.png" alt="" width="50" height="50">
-            </div>
-            <a class="brand_area">Void Money Tracker</a>
-
-            <ul class="nav_area">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About Us</a></li>
-                <li><a href="features.html">What's New</a></li>
-                <li><a href="contact.html">Contact</a></li>
-                <li><a href="login.html">Login</a></li>
-                <li><a href="register.html">Get Started</a></li>
-            </ul>
-        </div>
-    </div>
-
-
+{% block content %} 
+<title>What's New • VMT</title>
 <div class="welcome_text" >
-    <h1>What's New?</h1>
-    <div class="welcome_paragraph">
-        <p> aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
-        <p> aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
-        <p> aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+    <h1>What's New</h1>
+        <div class="welcome_paragraph">
+            <p> aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+            <p> aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+            <p> aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+        </div>
+
     </div>
-
-</div>
-
-
-</header>
-
-
-</body>
-</html>
+{% endblock content %}
