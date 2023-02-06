@@ -47,20 +47,6 @@ class User(AbstractBaseUser):
     blank=True,
     )
 
-  def login(email, password):
-    ''' Use student details to authenticate and login user. '''
-    # retrieves user object
-    user = User.objects.filter(email=email)
-
-    if user.exists():
-      user = user.first()
-    else:
-      return { 'success': False, 'msg': 'Email is not registered!' }
-
-    # validates password for user
-    if not user.check_password(password):
-      return { 'success': False, 'msg': 'Invalid password supplied!' }
-
     
   REQUIRED_FIELDS = ('User',)
 
