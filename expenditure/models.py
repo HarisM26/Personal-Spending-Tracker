@@ -12,7 +12,29 @@ class Notification(models.Model):
 
 class Limit(models.Model):
   LIMIT_STATUS=[('reached',('reached')),('not reached',('not reached')), ('approaching',('approaching'))]
+  TIME_LIMIT_TYPE=[('weekly',('weekly')),('monthly',('monthly')),('yearly',('yearly'))]
+
   limit_amount = models.DecimalField(max_digits=10,decimal_places=2)
   spent_amount = models.DecimalField(max_digits=10,decimal_places=2)
-  status = models.CharField(choices=LIMIT_STATUS, default='not reached')
+  status = models.CharField(max_length=50, choices=LIMIT_STATUS, default='not reached')
+  time_limit_type = models.CharField(max_length=50, choices=TIME_LIMIT_TYPE, default='weekly')
+  start_date = models.DateField()
+  end_date = models.DateField()
+ 
+
+
+  def update_status(self):
+    used_percent = self.get_percentage_of_limit_used()
+    if used_percent >= 1:
+      self.status = 'reached'
+    if used_percent >= 0.9:
+      self.status = 'approaching'
+    else:
+      self.status ='not reached'
+    self.save()
+  
+  def get_percentage_of_limit_used(self):
+    return self.spent_amount/self.limit_amount
+
+
   
