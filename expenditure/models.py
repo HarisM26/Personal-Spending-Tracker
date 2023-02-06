@@ -55,6 +55,18 @@ class User(AbstractBaseUser, PermissionsMixin):
     max_length=150,
     blank=True,
     )
+  
+  def get_first_name(self):
+    return self.first_name
+
+  def get_id(self):
+    return self.id
+
+  user_id = models.CharField( 
+    get_first_name + get_id
+
+
+  )
 
   is_staff = models.BooleanField(default=False)
     
