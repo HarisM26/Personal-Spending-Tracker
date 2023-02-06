@@ -32,15 +32,21 @@ class Category(models.Model):
   def setLimit(self, limitAmount):
     self.category_limit.limit_amount = limitAmount
 
+  # Update spent amount in category_limit
+  def updateSpentAmountInLimit(self, amount):
+    self.category_limit.spent_amount = amount
+
   # Set the total amount form all transaction in this category
   def setTotal(self):
     self.transactions_total = 0
     for transaction in Transaction.objects.filter(category=self):
       self.transactions_total += transaction.amount
-
+    self.updateSpentAmountInLimit(self.transactions_total)
+    
   # Adding to total when new transaction belonging to this category is created.
   def addToTotal(self, amount):
     self.transactions_total += amount
+    self.updateSpentAmountInLimit(self.transactions_total)
 
   # Returns one of: reached, not reached or approaching 
   def getLimitStatus(self):
