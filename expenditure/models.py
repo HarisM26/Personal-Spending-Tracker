@@ -62,11 +62,10 @@ class User(AbstractBaseUser, PermissionsMixin):
   def get_id(self):
     return self.id
 
-  user_id = models.CharField( 
-    get_first_name + get_id
+  #user_id = models.CharField( 
+    #get_first_name + get_id
 
 
-  )
 
   is_staff = models.BooleanField(default=False)
     
