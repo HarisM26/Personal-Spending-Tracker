@@ -10,3 +10,24 @@ class Notification(models.Model):
   time_created = models.TimeField(auto_now_add=True)
   date_created = models.DateField(auto_now_add=True)
 
+class Transaction(models.model):
+
+  def __str__(self):
+    return "Transaction"
+
+class Limit(models.model):
+
+  def __str__(self):
+    return "Limit"
+
+class Category(models.Model):
+
+  name = models.CharField(max_length=50)
+  categorical_limit = models.OneToOneField(Limit, on_delete=models.CASCADE)
+  transactions_total = models.IntegerField()
+
+  def setLimit(self, limitAmount):
+    self.categorical_limit.amount = limitAmount
+
+  def __str__(self):
+    return self.name 
