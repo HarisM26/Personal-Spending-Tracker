@@ -2,7 +2,11 @@
 {% load custom_tags %}
 {% block content %}
 
-<h1> CATEGORIES </h1>
+
+
+
+<div class="card">
+  <h1> Categories </h1>
 <div>
   {% for category in categories %}
   <li> 
@@ -18,6 +22,8 @@
   {% endwith %}
   <li><hr></li>
   {% endfor %}
+</div>
+
 </div>
 
 {% endblock %}

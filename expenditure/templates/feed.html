@@ -2,10 +2,12 @@
 
 {% block content %}
 
-<h1> WELCOME TO FEED </h1>
 
-<p>
-  <a href='{% url "create_category" %}'>Create category</a> 
-  </p>
+  <div class="card">
+    <div class="text-center">
+        <h1>Feed</h1>
+    </div>
+    <p><a href='{% url "create_category" %}'>Create category</a></p>
 
+</div>
 {% endblock %}
