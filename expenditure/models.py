@@ -25,11 +25,19 @@ class Category(models.Model):
   name = models.CharField(max_length=50)
   # Each category has one spending limit, and that spending limit belongs to one category
   categorical_limit = models.OneToOneField(Limit, on_delete=models.CASCADE)
-  transactions_total = models.IntegerField()
+  transactions_total = models.DecimalField(max_digits=10,decimal_places=2)
 
   # Set the spending limit for this category
   def setLimit(self, limitAmount):
     self.categorical_limit.limit_amount = limitAmount
+
+  # Returns one of: reached, not reached or approaching 
+  def getLimitStatus(self):
+    return self.categorical_limit.status
+
+  # Return total of all transactions in category
+  def getTotal(self):
+    return self.transactions_total
 
   def __str__(self):
     return self.name
