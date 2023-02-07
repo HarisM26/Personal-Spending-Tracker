@@ -7,8 +7,7 @@ class NotificationModelTest(TestCase):
 
   def setUp(self):
     self.notification = Notification.objects.create(
-    user_receiver = User.objects.create_user(
-      username = '@jdoe',
+    user_receiver = User.objects.create(
       first_name = 'John',
       last_name = 'Doe',
       email = 'johndoe@email.com'
@@ -22,8 +21,7 @@ class NotificationModelTest(TestCase):
   
   def create_other_notification(self):
     notification = Notification.objects.create(
-      user_receiver = User.objects.create_user(
-      username = '@janedoe',
+      user_receiver = User.objects.create(
       first_name = 'Jane',
       last_name = 'Doe',
       email = 'janetdoe@email.com'

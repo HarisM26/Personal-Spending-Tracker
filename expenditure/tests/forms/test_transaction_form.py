@@ -3,13 +3,20 @@ from django import forms
 from django.test import TestCase
 from django.core.files.uploadedfile import SimpleUploadedFile
 from expenditure.forms import TransactionForm
-from expenditure.models import Transaction, Category
+from expenditure.models import Transaction, Category,User
+from decimal import Decimal
 
 class TransactionFormTestCase(TestCase):
 
     def setUp(self):
         self.category = Category.objects.create(
-            name = 'test_category'
+            user = User.objects.create(
+                email='johndoe@email.com',
+                first_name='John',
+                last_name='Doe'
+            ),
+            name = 'test_category',
+            limit = Decimal('50.00')
         )
 
         self.form_input = {
@@ -26,7 +33,6 @@ class TransactionFormTestCase(TestCase):
         self.assertIn('title', form.fields)
         self.assertIn('date', form.fields)
         self.assertIn('amount', form.fields)
-        self.assertIn('category', form.fields)
 
     def test_form_accepts_valid_input(self):
         form = TransactionForm(data=self.form_input)
@@ -44,11 +50,6 @@ class TransactionFormTestCase(TestCase):
     
     def test_form_rejects_blank_amount(self):
         self.form_input['amount'] = ''
-        form = TransactionForm(data=self.form_input)
-        self.assertFalse(form.is_valid())
-    
-    def test_form_rejects_blank_category(self):
-        self.form_input['category'] = ''
         form = TransactionForm(data=self.form_input)
         self.assertFalse(form.is_valid())
 

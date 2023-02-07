@@ -2,18 +2,25 @@ from datetime import date
 from django.test import TestCase
 from django.core.exceptions import ValidationError
 from django.core.files.uploadedfile import SimpleUploadedFile
-from expenditure.models import Transaction, Category
+from expenditure.models import Transaction, Category,User
+from decimal import *
 
 class TestTransactionModel(TestCase):
 
     def setUp(self):
         self.category = Category.objects.create(
-            name = 'test_category'
+            user = User.objects.create(
+                email='johndoe@email.com',
+                first_name='John',
+                last_name='Doe'
+            ),
+            name = 'test_category',
+            limit = Decimal('50.00')
         )
         self.transaction = Transaction.objects.create(
             title = 'req_trans',
             date = date.today(),
-            amount = 30.00,
+            amount = Decimal('30.00'),
             category = self.category,
         )
         self.image = SimpleUploadedFile('reciept.jpg', b'blablabla')
