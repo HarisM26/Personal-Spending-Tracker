@@ -22,7 +22,6 @@ body {
 
 .card h1 {
   text-align: center;
-  /* text-transform: uppercase; */
   font-size: 38px;
   padding: 10px 25px;
 }
@@ -39,8 +38,4 @@ body {
   display: inline-block;
   font-weight: 900;
   margin: auto;
-}
-
-.card btn {
-  border: 1px solid black;
 }

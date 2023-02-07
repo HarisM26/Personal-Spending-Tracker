@@ -3,11 +3,21 @@
 
 
 <div class="card">
-    <div class="text-center">
+    <div>
         <h1>Profile</h1>
     </div>
-    <p>Page is under construction</p>
+    <div card-body text-start text-left bottom-align-text>
+        <p>
+            Name: {{ user.first_name }} {{ user.last_name }} <br><br>
+            Username: {{ user.username }}<br><br>
+            Email: {{ user.email }} <br><br>
+
+        </p>
+    </div>
 
 </div>
 
 {% endblock %}
+
+
+<!-- {{ user.email }} -->
