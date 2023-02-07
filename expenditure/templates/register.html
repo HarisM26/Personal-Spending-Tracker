@@ -2,12 +2,18 @@
 {% block content %}
 
 <div class="card">
-    <h1>Register</h1>
-    <form action="{% url 'register' %}" method="post">
-        {% csrf_token %}
-        {% include 'partials/bootstrap_form.html' with form=form %}
-        <input type="submit" value="Register" class="btn btn-info">
-    </form>
+    <h1>Get Started</h1>
+    <div class="card-body">
+        <div class="col-sm-12 col-md-6 offset-md-3">
+            <div class="card-text text-start">
+                <form action="{% url 'register' %}" method="post">
+                    {% csrf_token %}
+                    {% include 'partials/bootstrap_form.html' with form=form %}
+                    <input type="submit" value="Register" class="btn btn-info">
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
     
 {% endblock %}
