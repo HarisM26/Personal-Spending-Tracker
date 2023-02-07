@@ -25,16 +25,19 @@ class Limit(models.Model):
 
   def update_status(self):
     used_percent = self.get_percentage_of_limit_used()
-    if used_percent >= 1:
+    if used_percent >= 1.0:
       self.status = 'reached'
-    if used_percent >= 0.9:
+    elif used_percent >= 0.9:
       self.status = 'approaching'
     else:
       self.status ='not reached'
-    self.save()
   
   def get_percentage_of_limit_used(self):
     return self.spent_amount/self.limit_amount
+
+  def save(self, *args, **kwargs):
+    self.update_status()
+    super(Limit, self).save(*args, **kwargs)
 
 
   
