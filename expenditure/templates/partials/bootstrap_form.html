@@ -11,9 +11,11 @@
     {% else %}
       {% render_field field class="form-control" %}
     {% endif %}
+    {% if field.is_valid%}
     <div class="valid-feedback">
       Looks good!
     </div>
+    {% endif %}
     <div class="invalid-feedback">
       {{ field.errors }}
     </div>

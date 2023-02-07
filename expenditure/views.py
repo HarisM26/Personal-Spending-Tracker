@@ -5,6 +5,9 @@ from django.contrib.auth import authenticate, login, logout
 from datetime import datetime
 from django.http import HttpResponse, HttpResponseRedirect
 from .news_api import all_articles
+from django.core.files.storage import FileSystemStorage
+from django.urls import reverse
+from .models import *
 
 
 def home(request):
@@ -67,18 +70,17 @@ def all_categories(request):
         }
     return render(request, 'all_categories.html',context)
 
-
-def register(request):
+def sign_up(request):
     if request.method == 'POST':
         # request.POST contains dictionary with all of the data
-        form = RegisterForm(request.POST)
+        form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
             return redirect('feed')
     else:
-        form = RegisterForm()
-    return render(request, 'register.html', {'form': form})
+        form = SignUpForm()
+    return render(request, 'sign_up.html', {'form': form})
 
 def create_category(request):
     current_user = request.user
@@ -113,10 +115,11 @@ def create_category(request):
 def log_in(request):
     if request.method == 'POST':
         form = LogInForm(request.POST)
+
         if form.is_valid():
-            username = form.cleaned_data.get('username')
+            email = form.cleaned_data.get('email')
             password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
+            user = authenticate(email=email, password=password)
             if user is not None:
                 login(request, user)
                 return redirect('feed')
@@ -133,5 +136,28 @@ def log_out(request):
 
 def news_page(request):
     articles = all_articles['articles']
-    return render(request, 'news_page.html',{'articles':articles})
+    return render(request, 'news_page.html',{'articles':articles})   
 
+def add_transaction(request,request_id):
+    category = Category.objects.get(id=request_id)
+    if request.method == 'POST':
+        create_transaction_form = TransactionForm(request.POST, request.FILES)
+        if create_transaction_form.is_valid():
+            transaction = create_transaction_form.save(commit=False)
+            transaction.category = category
+            transaction.save()
+            return HttpResponseRedirect(reverse('all_categories'))
+    else:
+        create_transaction_form = TransactionForm()   
+    context = {
+        'request_id': request_id,
+        'create_transaction_form': create_transaction_form,
+    }
+    return render(request, 'add_transaction.html', context)
+
+def list_transactions(request):
+    transactions = Transaction.objects.all()
+    context = {
+        'transactions': transactions,
+    }
+    return render(request, 'transactions.html', context=context)

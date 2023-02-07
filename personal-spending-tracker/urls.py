@@ -15,13 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls.static import static
+from django.conf import settings
 from expenditure import views
 #import notifications.urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
-    path('register/',views.register,name='register'),
+    path('sign_up/',views.sign_up,name='sign_up'),
     path('log_in/', views.log_in, name='log_in'),
     path('feed/',views.feed, name='feed'),
     path('log_out/',views.log_out, name='log_out'),
@@ -33,4 +35,6 @@ urlpatterns = [
     path('create_category/',views.create_category,name='create_category'),
     path('all_categories/', views.all_categories, name='all_categories'),
     path('notification_page/<int:id>',views.mark_as_read, name='mark_as_read'),
-]
+    path('transactions/', views.list_transactions, name='list_transactions'),
+    path('transactions/add/<int:request_id>/', views.add_transaction, name='add_transaction'),
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %} 
+<title>Logout • VMT</title>
+<div class="welcome_text" >
+    <h1>Logout</h1>
+        <div class="welcome_paragraph">
+          <form action="{% url 'log_out' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+        </div>
+
+    </div>
+{% endblock content %}

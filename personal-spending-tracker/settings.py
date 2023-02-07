@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 import os
 from django.contrib.messages import constants as message_constants
+from django.conf.locale.es import formats as es_formats
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     'bootstrap5',
     'fontawesomefree',
     'newsapi',
+    'bootstrap_datepicker_plus',
 ]
 
 MIDDLEWARE = [
@@ -122,6 +124,11 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
+
+
+STATIC_URL = 'static/'
+MEDIA_ROOT = BASE_DIR / 'uploads/'
+MEDIA_URL = 'uploads/'
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
