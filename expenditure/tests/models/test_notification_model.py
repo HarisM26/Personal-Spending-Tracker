@@ -1,12 +1,18 @@
 from django.test import TestCase
 from datetime import datetime
 from django.core.exceptions import ValidationError
-from expenditure.models import Notification
+from expenditure.models import Notification,User
 
 class NotificationModelTest(TestCase):
 
   def setUp(self):
     self.notification = Notification.objects.create(
+    user_receiver = User.objects.create_user(
+      username = '@jdoe',
+      first_name = 'John',
+      last_name = 'Doe',
+      email = 'johndoe@email.com'
+    ),
     title = 'Approaching limit!',
     message = 'You are close to your set limit. Consider reducing your spending from now onwards',
     status = 'unread',
@@ -16,6 +22,12 @@ class NotificationModelTest(TestCase):
   
   def create_other_notification(self):
     notification = Notification.objects.create(
+      user_receiver = User.objects.create_user(
+      username = '@janedoe',
+      first_name = 'Jane',
+      last_name = 'Doe',
+      email = 'janetdoe@email.com'
+    ),
     title = 'Approaching limit!',
     message = 'You are close to your set limit. Consider reducing your spending from now onwards',
     status = 'unread',
