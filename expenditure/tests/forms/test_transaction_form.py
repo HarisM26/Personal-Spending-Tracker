@@ -52,6 +52,11 @@ class TransactionFormTestCase(TestCase):
         form = TransactionForm(data=self.form_input)
         self.assertFalse(form.is_valid())
 
+    def test_form_rejects_incorrect_date(self):
+        self.form_input['date'] = date.today() + timedelta(days=10)
+        form = TransactionForm(data=self.form_input)
+        self.assertFalse(form.is_valid())
+
     def test_form_accepts_notes(self):
         self.form_input['notes'] = 'some notes'
         form = TransactionForm(data=self.form_input)
@@ -67,4 +72,3 @@ class TransactionFormTestCase(TestCase):
         form = TransactionForm(data=self.form_input)
         self.assertTrue(form.is_valid())
 
-    

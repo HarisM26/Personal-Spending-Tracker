@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, timedelta
 from django.test import TestCase
 from django.core.exceptions import ValidationError
 from django.core.files.uploadedfile import SimpleUploadedFile
@@ -45,6 +45,10 @@ class TestTransactionModel(TestCase):
     
     def test_rejects_blank_category(self):
         self.transaction.category = None 
+        self.assert_transaction_is_invalid()
+    
+    def test_rejects_incorrect_date(self):
+        self.transaction.date = date.today() + timedelta(days=10)
         self.assert_transaction_is_invalid()
     
     def test_automated_creation_date(self):

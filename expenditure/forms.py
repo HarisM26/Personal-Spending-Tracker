@@ -1,12 +1,21 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.core.validators import RegexValidator
+from datetime import datetime, date
 from .models import User, Transaction
+from .helpers import not_future
 
 class TransactionForm(forms.ModelForm):
     class Meta:
         model = Transaction
-        fields = '__all__'
+        fields = ('title', 'date', 'amount', 'notes', 'is_income', 'reciept', 'category')
+
+    def clean_transaction_availability(self):
+        transaction_date = self.cleaned_data.get('date')
+        current_date = date.today()
+        if transaction_date > current_date:
+            self.add_error('date', 'The date of your transaction cannot be in the future')
+        return transaction_date    
 
 class LogInForm(forms.Form):
     email = forms.CharField(label='email')
