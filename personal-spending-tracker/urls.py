@@ -33,4 +33,8 @@ urlpatterns = [
     path('create_category/',views.create_category,name='create_category'),
     path('all_categories/', views.all_categories, name='all_categories'),
     path('notification_page/<int:id>',views.mark_as_read, name='mark_as_read'),
+    path('add_friend/',views.add_friend,name='add_friend'),
+    path('leaderboard/',views.leaderboard,name='leaderboard'),
+    path('profile/',views.profile,name='profile'),
+    path('reports/',views.reports,name='reports')
 ]

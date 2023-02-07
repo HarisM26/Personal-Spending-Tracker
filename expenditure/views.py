@@ -135,3 +135,14 @@ def news_page(request):
     articles = all_articles['articles']
     return render(request, 'news_page.html',{'articles':articles})
 
+def add_friend(request):
+    return render(request, 'add_friend.html')
+
+def leaderboard(request):
+    return render(request, 'leaderboard.html')
+
+def profile(request):
+    return render(request, 'profile.html')
+
+def reports(request):
+    return render(request, 'reports.html')
