@@ -7,7 +7,6 @@ channels==4.0.0
 constantly==15.1.0
 coverage==7.0.5
 cryptography==39.0.0
-daphne==4.0.0
 Django==4.1.5
 Faker==16.4.0
 hyperlink==21.0.0
