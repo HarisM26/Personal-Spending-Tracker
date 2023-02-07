@@ -32,6 +32,25 @@ class LimitModelTest(TestCase):
         self.limit.spent_amount = 1000
         self.limit.save()
         self.assertEqual(self.limit.status,'reached')
+    
+    def test_calculate_limit_not_reached(self):
+        self.limit.spent_amount = 899
+        self.limit.save()
+        self.assertEqual(self.limit.status, 'not reached')
 
-
+    def test_get_percentage_of_limit_used(self):
+        self.limit.spent_amount = 1000
+        self.assertEqual(self.limit.get_percentage_of_limit_used(), 1.0)
+        self.limit.spent_amount = 900
+        self.assertEqual(self.limit.get_percentage_of_limit_used(), 0.9)
+        self.limit.spent_amount = 899
+        self.assertEqual(self.limit.get_percentage_of_limit_used(), 0.899)
+        self.limit.spent_amount = 1001
+        self.assertEqual(self.limit.get_percentage_of_limit_used(), 1.001)
+        self.limit.spent_amount = 999
+        self.assertEqual(self.limit.get_percentage_of_limit_used(), 0.999)
+        self.limit.spent_amount = 0
+        self.assertEqual(self.limit.get_percentage_of_limit_used(), 0.0)
+        self.limit.spent_amount = -1000
+        self.assertEqual(self.limit.get_percentage_of_limit_used(), -1)
 
