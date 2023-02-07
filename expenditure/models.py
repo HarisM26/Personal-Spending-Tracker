@@ -5,6 +5,7 @@ from django.contrib.auth.models import AbstractBaseUser, UserManager, Permission
 from django.contrib.auth.base_user import BaseUserManager
 from django.utils.translation import gettext_lazy as _
 from datetime import datetime
+from .helpers import not_future
 
 
 class UserManager(BaseUserManager):
@@ -110,7 +111,7 @@ class Category(models.Model):
 
 class Transaction(models.Model):
     title = models.CharField(max_length=200)
-    date = models.DateField()
+    date = models.DateField(validators=[not_future])
     amount = models.DecimalField(max_digits=20, decimal_places=2)
     notes = models.TextField(blank=True)
     is_income = models.BooleanField(default=False)
