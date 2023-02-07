@@ -31,12 +31,7 @@ class Notification(models.Model):
     def __str__(self):
         return self.message
 
-class Transaction(models.model):
-
-  def __str__(self):
-    return "Transaction"
-
-class Limit(models.model):
+class Limit(models.Model):
 
   def __str__(self):
     return "Limit"
