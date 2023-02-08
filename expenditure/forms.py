@@ -2,8 +2,10 @@ from django import forms
 from expenditure.models import *
 from django.contrib.auth.forms import UserCreationForm
 from django.core.validators import RegexValidator
-from .models import User, Transaction
 from bootstrap_datepicker_plus.widgets import DatePickerInput
+from datetime import datetime, date
+from .models import User, Transaction
+from .helpers import not_future
 
 class TransactionForm(forms.ModelForm):
     class Meta:
@@ -12,6 +14,12 @@ class TransactionForm(forms.ModelForm):
         exclude = ('category',)
         widgets = {'date': DatePickerInput(options={"format": "DD/MM/YYYY"})}
 
+    def clean_transaction_date(self):
+        transaction_date = self.cleaned_data.get('date')
+        current_date = date.today()
+        if transaction_date > current_date:
+            self.add_error('date', 'The date of your transaction cannot be in the future')
+        return transaction_date  
 
 class CategoryForm(forms.ModelForm):
     class Meta:
