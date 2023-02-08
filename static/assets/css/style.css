@@ -1,3 +1,10 @@
+@import "toggle_button.css";
+
+#toggle_notification {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 13px;
+}
 /* *{
   margin: 0;
   padding: 0;

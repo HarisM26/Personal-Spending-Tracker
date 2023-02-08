@@ -161,3 +161,6 @@ def list_transactions(request):
         'transactions': transactions,
     }
     return render(request, 'transactions.html', context=context)
+
+def view_settings(request):
+    return render(request,'settings.html')

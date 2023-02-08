@@ -35,6 +35,7 @@ urlpatterns = [
     path('create_category/',views.create_category,name='create_category'),
     path('all_categories/', views.all_categories, name='all_categories'),
     path('notification_page/<int:id>',views.mark_as_read, name='mark_as_read'),
+    path('settings/',views.view_settings,name='settings'),
     path('transactions/', views.list_transactions, name='list_transactions'),
     path('transactions/add/<int:request_id>/', views.add_transaction, name='add_transaction'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
