@@ -62,6 +62,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     
   is_active = models.BooleanField(default=True)
 
+  TOGGLE_CHOICE=[('ON',('ON')),('OFF',('OFF'))]
+  toggle_notification = models.CharField(max_length=3,choices=TOGGLE_CHOICE,default='ON')
+
     
   
   USERNAME_FIELD = 'email'

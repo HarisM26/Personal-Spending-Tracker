@@ -61,7 +61,6 @@ $ python3 manage.py test
 ## References
 
 CODE
-https://uiverse.io/TimTrayler/quiet-swan-35 (css toggle button)
 
 IMAGES
 

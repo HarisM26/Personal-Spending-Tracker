@@ -8,12 +8,9 @@
   <h3>Notification setting</h3>
   <div id="toggle_notification">
     Toggle Notification
-    <label class="switch">
-      <input type="checkbox">
-      <span class="slider"></span>
-    </label>
+     <button class="toggle_button"><a id="toggle_anchor" href="{% url 'toggle_notification' %}"> {{ toggle }} </a> </button> 
+
   </div>
-  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit ex, amet laborum dolor doloremque eum animi numquam repellat quas veritatis qui, sequi perspiciatis cupiditate aperiam. Reiciendis deserunt eaque nobis repellat.</p>
 </section>
 
 {% endblock %}

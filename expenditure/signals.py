@@ -6,25 +6,22 @@ from decimal import *
 @receiver(post_save,sender=Transaction)
 def transaction_post_save_handler(instance,created,*args,**kwargs):
   current_user = instance.category.user
-  if created:
+  if created and current_user.toggle_notification == 'ON':
     all_transactions = Transaction.objects.filter(category = instance.category)
     sum = 0
     for transaction in all_transactions:
       sum+=transaction.amount
 
     if sum >= (instance.category.limit*Decimal('0.90')) and sum < instance.category.limit :
-      notification = create_notification(current_user,instance.category.limit,sum)
-      print(notification.message)
+      notification = create_notification(current_user,instance.category.name,instance.category.limit,sum)
     elif sum >= (instance.category.limit*Decimal('0.90')):
-      notification = create_notification(current_user,instance.category.limit,sum)
-      print(notification.message)
+      notification = create_notification(current_user,instance.category.name,instance.category.limit,sum)
 
-#to do add category_name
-def create_notification(user,category_limit,sum):
+def create_notification(user,category_name,category_limit,sum):
   if sum >= (category_limit*Decimal('0.90')) and sum < category_limit:
-    current_message = 'You are close to your limit. Please consider reducing your spending'
+    current_message = f'{category_name} category close to its limit. Please consider reducing your spending'
   else:
-    current_message = 'You have reached your limit!'
+    current_message = f'{category_name} category has reached its limit!'
   
   notification = Notification.objects.create(
     user_receiver = user,

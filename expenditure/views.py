@@ -9,7 +9,6 @@ from django.core.files.storage import FileSystemStorage
 from django.urls import reverse
 from .models import *
 
-
 def home(request):
     return render(request, 'home.html')
 
@@ -21,6 +20,7 @@ def features(request):
 
 def contact(request):
     return render(request, 'contact.html')
+
 
 def get_unread_nofications(user):
     return Notification.objects.filter(user_receiver = user,status = 'unread').count()
@@ -163,4 +163,17 @@ def list_transactions(request):
     return render(request, 'transactions.html', context=context)
 
 def view_settings(request):
-    return render(request,'settings.html')
+    current_user = request.user
+    toggle = current_user.toggle_notification
+    return render(request,'settings.html',{'toggle':toggle})
+
+def toggle_notification(request):
+    current_user = request.user
+    if current_user.toggle_notification == 'ON':
+        current_user.toggle_notification='OFF'
+        current_user.save()
+    else:
+        current_user.toggle_notification='ON'
+        current_user.save()
+    return redirect('settings')
+    

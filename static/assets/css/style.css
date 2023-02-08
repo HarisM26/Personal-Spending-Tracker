@@ -1,8 +1,14 @@
 @import "toggle_button.css";
 
+h3 {
+  margin-top: 15px;
+}
 #toggle_notification {
+  font-weight: 600;
   display: flex;
+  align-items: center;
   justify-content: space-between;
+  justify-items: center;
   padding: 5px 13px;
 }
 /* *{
