@@ -1,0 +1,19 @@
+Weekly report:
+
+Category Report:
+ - Total spending for Category
+ - Percentage of limit used (for visualisation)
+ - Available for savings/investments
+ - Expenses sorted by size
+ - Comparison of budget, limit used and total spending compared to previous week
+
+ Overall Report:
+ - Total spending
+ - Percentage of total budget used
+ - Total savings
+ - Number of categories where limit was achieved
+ - Comparison of all of the above to previous week
+ - List of categories with percentage of budget used compared to previous week.
+
+ 
+ 
