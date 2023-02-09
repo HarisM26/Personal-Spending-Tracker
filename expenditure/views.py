@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect, get_object_or_404
 from .forms import *
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -139,25 +139,40 @@ def news_page(request):
     return render(request, 'news_page.html',{'articles':articles})   
 
 def add_transaction(request,request_id):
-    category = Category.objects.get(id=request_id)
+    category = get_object_or_404(Category, id=request_id)
+
+    if category.is_income:
+        create_transaction_form = IncomingForm
+    else:
+        create_transaction_form = SpendingForm
+
     if request.method == 'POST':
-        create_transaction_form = TransactionForm(request.POST, request.FILES)
+        updated_request = request.POST.copy()
+        updated_request.update({'category': category.pk})
+        create_transaction_form = create_transaction_form(updated_request, request.FILES)
         if create_transaction_form.is_valid():
-            transaction = create_transaction_form.save(commit=False)
-            transaction.category = category
-            transaction.save()
+            create_transaction_form.save(commit=True)
             return HttpResponseRedirect(reverse('all_categories'))
     else:
-        create_transaction_form = TransactionForm()   
+        create_transaction_form = create_transaction_form()   
+    
     context = {
         'request_id': request_id,
         'create_transaction_form': create_transaction_form,
     }
+
     return render(request, 'add_transaction.html', context)
 
-def list_transactions(request):
-    transactions = Transaction.objects.all()
+def list_spendings(request):
+    spendings = Transaction.spendings.all()
     context = {
-        'transactions': transactions,
+        'spendings': spendings,
     }
     return render(request, 'transactions.html', context=context)
+
+def list_incomings(request):
+    incomings = Transaction.incomings.all()
+    context = {
+        'incomings': incomings,
+    }
+    return render(request, 'incomings.html', context=context)

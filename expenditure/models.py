@@ -93,6 +93,8 @@ class Category(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     limit = models.DecimalField(max_digits= 10, decimal_places=2, verbose_name= 'category Limit')
+    is_income = models.BooleanField(default=False)
+
     #slug = models.SlugField()
     #parent = models.ForeignKey('self',blank=True, null=True ,related_name='children')
     def __str__(self):
@@ -109,18 +111,63 @@ class Category(models.Model):
         verbose_name_plural = "categories"    
         """ 
 
+class SpendingManager(models.Manager):
+    def get_query_set(self):
+      return super(SpendingManager, self).get_query_set().filter(
+        category__is_income=False,
+      )
+
+class IncomingManager(models.Manager):
+    def get_query_set(self):
+      return super(IncomingManager, self).get_query_set().filter(
+        category__is_income=True,
+      )
+
+class TransactionManager(models.Manager):
+    def get_query_set(self):
+      return super(TransactionManager, self).get_query_set()
+
 class Transaction(models.Model):
     title = models.CharField(max_length=200)
     date = models.DateField(validators=[not_future])
     amount = models.DecimalField(max_digits=20, decimal_places=2)
     notes = models.TextField(blank=True)
-    is_income = models.BooleanField(default=False)
-    reciept = models.ImageField(upload_to='', blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
+    reciept = models.ImageField(upload_to='', blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
+    
+    objects = TransactionManager()
+    spendings = SpendingManager()
+    incomings = IncomingManager()
 
+    class Meta:
+      ordering = ['-date',]
+    
     def __str__(self):
         return 'desc: '+ self.title + ' -> $ ' + str(self.amount)
 
-    class Meta:
-        ordering = ['-date',]
+
+
+# class Transaction(models.Model):
+#     title = models.CharField(max_length=200)
+#     date = models.DateField(validators=[not_future])
+#     amount = models.DecimalField(max_digits=20, decimal_places=2)
+#     notes = models.TextField(blank=True)
+#     created = models.DateTimeField(auto_now_add=True)
+#     category = models.ForeignKey(Category, on_delete=models.PROTECT)
+
+#     class Meta:
+#       abstract = True,
+#       ordering = ['-date',]
+    
+# class Spending(Transaction):
+#     reciept = models.ImageField(upload_to='', blank=True, null=True)
+
+#     def __str__(self):
+#         return 'Spending desc: '+ self.title + ' -> $ ' + str(self.amount)
+
+# class Incoming(Transaction):
+#     def __str__(self):
+#       return 'Incoming desc: '+ self.title + ' -> $ ' + str(self.amount)
+
+

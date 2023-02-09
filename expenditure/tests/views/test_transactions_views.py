@@ -13,16 +13,36 @@ class TransactionViews(TestCase):
             user = User.objects.create(
                 email='johndoe@email.com',
                 first_name='John',
-                last_name='Doe'
+                last_name='Doe',
             ),
             name = 'test_category',
-            limit = Decimal('50.00')
+            limit = Decimal('50.00'),
+            is_income=False,
         )
+
+        self.category_2 = Category.objects.create(
+            user = User.objects.create(
+                email='johndoe2@email.com',
+                first_name='John',
+                last_name='Doe',
+            ),
+            name = 'test2_category',
+            limit = Decimal('50.00'),
+            is_income=True,
+        )
+
         self.transaction = Transaction.objects.create(
             title = 'req_trans',
             date = date.today(),
             amount = 30.00,
             category = self.category,
+        )
+
+        self.transaction_incoming = Transaction.objects.create(
+            title = 'req_incomeing_trans',
+            date = date.today(),
+            amount = 30.00,
+            category = self.category_2,
         )
 
         self.transaction_input = {
@@ -32,23 +52,35 @@ class TransactionViews(TestCase):
             'category': self.category.id,
         }
 
+        self.incoming_transaction_input = {
+            'title': 'incoming_transaction_test',
+            'date': date.today(),
+            'amount': 60.00,
+            'category': self.category_2.id,
+        }
+
         self.image = SimpleUploadedFile('reciept.jpg', b'blablabla', content_type='image/jpeg')
 
         self.url_list_transactions = reverse('list_transactions')
+        self.url_list_incomings = reverse('list_incomings')
         self.url_add_transaction = reverse('add_transaction',args=[self.category.id])
 
     def test_transaction_urls(self):
         self.assertEqual(self.url_list_transactions,'/transactions/')
+        self.assertEqual(self.url_list_incomings,'/transactions/income/')
         self.assertEqual(self.url_add_transaction,f'/transactions/add/{self.category.id}/')
     
     def test_transaction_urls_are_accessible(self):
         response_list_transactions = self.client.get(self.url_list_transactions)
+        response_list_incomings = self.client.get(self.url_list_incomings)
         response_add_transaction = self.client.get(self.url_add_transaction)
 
         self.assertEqual(response_list_transactions.status_code, 200)
+        self.assertEqual(response_list_incomings.status_code, 200)
         self.assertEqual(response_add_transaction.status_code, 200)
 
         self.assertIn('transactions.html', (t.name for t in response_list_transactions.templates))
+        self.assertIn('incomings.html', (t.name for t in response_list_incomings.templates))
         self.assertIn('add_transaction.html', (t.name for t in response_add_transaction.templates))
     
     def test_add_transaction(self):
@@ -63,9 +95,21 @@ class TransactionViews(TestCase):
         self.assertEqual(transaction.date, self.transaction_input['date'])
         self.assertEqual(transaction.amount, self.transaction_input['amount'])
         self.assertEqual(transaction.category.id, self.transaction_input['category'])
-        self.assertFalse(transaction.is_income)
         #self.assertRedirects(response, response_url, status_code=302, target_status_code=200)<!-- tried to fix back doesnt seem to work -->
     
+    def test_add_incoming_transaction(self):
+        before_count = Transaction.objects.all().count()
+        response = self.client.post(self.url_add_transaction, self.incoming_transaction_input)
+        transaction = Transaction.objects.latest('created')
+        after_count = Transaction.objects.all().count()
+        response_url = reverse('all_categories')
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(after_count, before_count+1)
+        self.assertEqual(transaction.title, self.incoming_transaction_input['title'])
+        self.assertEqual(transaction.date, self.incoming_transaction_input['date'])
+        self.assertEqual(transaction.amount, self.incoming_transaction_input['amount'])
+        #self.assertEqual(transaction.category.pk, self.incoming_transaction_input['category'])
+
     # def test_add_transaction(self):
     #     before_count = Transaction.objects.all().count()
     #     self.transaction_input['title'] = ''
