@@ -1,15 +1,11 @@
-/*
-$(document).ready(function(){
-    $("#").click(function(){
-      $(".transaction_list").toggle();
-    });
-  });
 
-const change_button_text = () =>
-{
-    const toggle_button = document.getElementById('my-btn');
-    if (toggle_button.innerText=="ON") toggle_button.innerText = "OFF";
-    else toggle_button.innerText = "ON";
+/*tree view*/
+var toggler = document.getElementsByClassName("caret");
+var i;
+
+for (i = 0; i < toggler.length; i++) {
+  toggler[i].addEventListener("click", function() {
+    this.parentElement.querySelector(".nested").classList.toggle("active");
+    this.classList.toggle("caret-down");
+  });
 }
-const toggle_button = document.getElementById('my-btn');
-toggle_button.addEventListener('click',change_button_text) */
