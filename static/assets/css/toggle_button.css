@@ -11,7 +11,7 @@
   font-family: "Damion", cursive;
   border: none;
   font-size: 16px;
-  color: rgb(161, 161, 161);
+  color: rgb(18, 158, 5);
   transition: 500ms;
 }
 
@@ -24,8 +24,9 @@
 
 #toggle_anchor {
   text-decoration: none;
-  color: grey;
+  color: none;
 }
+
 #toggle_anchor:hover {
   color: white;
 }

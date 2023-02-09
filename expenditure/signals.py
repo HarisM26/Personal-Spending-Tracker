@@ -14,9 +14,11 @@ def transaction_post_save_handler(instance,created,*args,**kwargs):
 
     if sum >= (instance.category.limit*Decimal('0.90')) and sum < instance.category.limit :
       notification = create_notification(current_user,instance.category.name,instance.category.limit,sum)
+      notification.save()
     elif sum >= (instance.category.limit*Decimal('0.90')):
       notification = create_notification(current_user,instance.category.name,instance.category.limit,sum)
-
+      notification.save()
+      
 def create_notification(user,category_name,category_limit,sum):
   if sum >= (category_limit*Decimal('0.90')) and sum < category_limit:
     current_message = f'{category_name} category close to its limit. Please consider reducing your spending'

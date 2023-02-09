@@ -15,7 +15,11 @@
       </a>
       <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
         {% for notification in latest_notifications%}
-          <li><a class="dropdown-item" href="{% url 'mark_as_read' notification.id %}">{{ notification.title }}</a></li>
+        {% if notification.status == 'unread'%}
+          <li><a class="dropdown-item" href="{% url 'mark_as_read' notification.id %}"><strong>{{ notification.title }}</strong></a></li>
+        {% else %}
+        <li><a class="dropdown-item" href="{% url 'mark_as_read' notification.id %}">{{ notification.title }}</a></li>
+        {% endif%}
         {% endfor%}
         <li><hr class="dropdown-divider"></li>
         <li><a class="dropdown-item" href="{% url 'notification_page' %}">See all notifications</a></li>
