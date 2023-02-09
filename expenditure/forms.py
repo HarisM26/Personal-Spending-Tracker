@@ -42,7 +42,7 @@ class IncomingForm(forms.ModelForm):
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
-        fields = ('name','limit')
+        fields = ('name','limit', 'is_income')
 
 class LogInForm(forms.Form):
     email = forms.CharField(label='Email')

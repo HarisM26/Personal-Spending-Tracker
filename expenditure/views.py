@@ -94,7 +94,8 @@ def create_category(request):
             if form.is_valid():
                 name=form.cleaned_data.get('name')
                 limit=form.cleaned_data.get('limit')
-                category = Category.objects.create(user=current_user,name=name,limit=limit)
+                is_income=form.cleaned_data.get('is_income')
+                category = Category.objects.create(user=current_user,name=name,limit=limit, is_income=is_income)
                 messages.add_message(request, messages.SUCCESS,
                              "Category created!")
                 return redirect('create_category')
