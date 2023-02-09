@@ -6,6 +6,7 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.utils.translation import gettext_lazy as _
 from datetime import datetime
 from .helpers import not_future
+from decimal import Decimal
 
 
 class UserManager(BaseUserManager):
@@ -36,9 +37,6 @@ class UserManager(BaseUserManager):
           raise ValueError(_("Superuser must have is_superuser=True."))
       return self.create_user(email, password, **extra_fields)
 
-    
-
-
 
 class User(AbstractBaseUser, PermissionsMixin):
   email = models.EmailField(_("email address"),
@@ -47,7 +45,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         blank=False,
     )
 
-  
   first_name = models.CharField(
     max_length=30,
     blank=True,
@@ -65,17 +62,47 @@ class User(AbstractBaseUser, PermissionsMixin):
   TOGGLE_CHOICE=[('ON',('ON')),('OFF',('OFF'))]
   toggle_notification = models.CharField(max_length=3,choices=TOGGLE_CHOICE,default='ON')
 
-    
-  
   USERNAME_FIELD = 'email'
   REQUIRED_FIELDS = []
 
   objects =  UserManager()
   
-
 def __str__(self):
   return self.email
 
+class Limit(models.Model):
+  LIMIT_STATUS=[('reached',('reached')),('not reached',('not reached')), ('approaching',('approaching'))]
+  #TIME_LIMIT_TYPE=[('weekly',('weekly')),('monthly',('monthly')),('yearly',('yearly'))]
+
+  limit_amount = models.DecimalField(max_digits=10,decimal_places=2)
+  remaining_amount = models.DecimalField(max_digits=10,decimal_places=2, default= 0.00)
+  status = models.CharField(max_length=50, choices=LIMIT_STATUS, default='not reached')
+  #time_limit_type = models.CharField(max_length=50, choices=TIME_LIMIT_TYPE, default='weekly')
+  start_date = models.DateField()
+  end_date = models.DateField()
+ 
+  def __str__(self):
+    return str(self.limit_amount)
+
+  @property
+  def calc_90_percent_of_limit(self):
+    return Decimal(self.limit_amount)*Decimal('0.90')
+
+  #def update_status(self):
+    #used_percent = self.get_percentage_of_limit_used()
+    #if used_percent >= 1.0:
+      #self.status = 'reached'
+    #elif used_percent >= 0.9:
+      #self.status = 'approaching'
+    #else:
+      #self.status ='not reached'
+  
+  #def get_percentage_of_limit_used(self):
+    #return self.spent_amount/self.limit_amount
+
+  #def save(self, *args, **kwargs):
+    #self.update_status()
+    #super(Limit, self).save(*args, **kwargs)
     
 class Notification(models.Model):
     STATUS_CHOICE=[('unread',('unread')),('read',('read'))]
@@ -95,7 +122,7 @@ class Notification(models.Model):
 class Category(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
-    limit = models.DecimalField(max_digits= 10, decimal_places=2, verbose_name= 'category Limit')
+    limit = models.OneToOneField(Limit, on_delete=models.CASCADE)
     #slug = models.SlugField()
     #parent = models.ForeignKey('self',blank=True, null=True ,related_name='children')
     def __str__(self):
@@ -115,7 +142,7 @@ class Category(models.Model):
 class Transaction(models.Model):
     title = models.CharField(max_length=200)
     date = models.DateField(validators=[not_future])
-    amount = models.DecimalField(max_digits=20, decimal_places=2)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
     notes = models.TextField(blank=True)
     is_income = models.BooleanField(default=False)
     reciept = models.ImageField(upload_to='', blank=True, null=True)
@@ -127,3 +154,8 @@ class Transaction(models.Model):
 
     class Meta:
         ordering = ['-date',]
+
+
+
+
+  

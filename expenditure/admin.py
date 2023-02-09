@@ -4,6 +4,7 @@ from django.contrib.auth.admin import UserAdmin
 from .forms import SignUpForm
 
 # Register your models here.
+admin.site.register(Limit)
 class CategoryAdmin(admin.ModelAdmin):
   list_display = ('name','limit')
 admin.site.register(Category,CategoryAdmin)
@@ -30,7 +31,7 @@ class CustomUserAdmin(UserAdmin):
         (None, {
             "classes": ("wide",),
             "fields": (
-                "email", "password1", "password2", "is_staff",
+                "email","password", "is_staff",
                 "is_active", "groups", "user_permissions"
             )}
         ),

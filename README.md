@@ -61,7 +61,9 @@ $ python3 manage.py test
 ## References
 
 CODE
-https://www.w3schools.com/howto/howto_js_treeview.asp
+
+- https://www.w3schools.com/howto/howto_js_treeview.asp
+- https://django-betterforms.readthedocs.io/en/latest/multiform.html#working-with-createview
 
 IMAGES
 

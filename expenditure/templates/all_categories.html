@@ -9,7 +9,7 @@
     <ul id="myUL">
       <li class="category_list"> 
         <span class="caret"><b>{{ category.name }} </b></span><br>
-        Limit&#58; &#163;<i>{{ category.limit }}</i>
+        Limit&#58; &#163;<i>{{ category.limit.limit_amount }}</i>
         <span>
           <a href="{% url 'add_transaction' category.id %}"> Add transaction </a>
         </span>

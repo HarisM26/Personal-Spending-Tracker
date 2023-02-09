@@ -6,6 +6,7 @@ from bootstrap_datepicker_plus.widgets import DatePickerInput
 from datetime import datetime, date
 from .models import User, Transaction
 from .helpers import not_future
+from betterforms.multiform import MultiModelForm
 
 class TransactionForm(forms.ModelForm):
     class Meta:
@@ -24,7 +25,36 @@ class TransactionForm(forms.ModelForm):
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
-        fields = ('name','limit')
+        fields = ('name',)
+
+class LimitForm(forms.ModelForm):
+    class Meta:
+        model = Limit
+        fields = '__all__'
+        exclude = ('remaining_amount','status')
+        widgets = {
+            'start_date': DatePickerInput(options={"format": "DD/MM/YYYY"}),
+            'end_date': DatePickerInput(options={"format": "DD/MM/YYYY"})
+            }
+
+class CategoryCreationMultiForm(MultiModelForm):
+    form_classes = {
+        'category': CategoryForm,
+        'limit': LimitForm
+    }
+
+    #def save(self, commit=True):
+    #    objects = super(CategoryCreationMultiForm,self).save(commit=False)
+    #    
+    #    if commit:
+    #        limit=objects['limit']
+    #        limit.remaining_amount = limit.limit_amount
+    #        limit.save()
+    #        category=objects['category']      
+    #        category.limit = limit
+    #        category.save()
+#
+    #    return objects
 
 class LogInForm(forms.Form):
     email = forms.CharField(label='Email')

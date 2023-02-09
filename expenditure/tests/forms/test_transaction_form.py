@@ -1,9 +1,9 @@
-from datetime import date, timedelta
+from datetime import date, timedelta,datetime
 from django import forms
 from django.test import TestCase
 from django.core.files.uploadedfile import SimpleUploadedFile
 from expenditure.forms import TransactionForm
-from expenditure.models import Transaction, Category,User
+from expenditure.models import Transaction, Category,User,Limit
 from decimal import Decimal
 
 class TransactionFormTestCase(TestCase):
@@ -16,7 +16,11 @@ class TransactionFormTestCase(TestCase):
                 last_name='Doe'
             ),
             name = 'test_category',
-            limit = Decimal('50.00')
+            limit = Limit.objects.create(
+                limit_amount='10.00',
+                start_date=date.today(),
+                end_date=datetime.now() + timedelta(days=7)
+            )
         )
 
         self.form_input = {

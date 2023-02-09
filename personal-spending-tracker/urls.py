@@ -18,6 +18,7 @@ from django.urls import path
 from django.conf.urls.static import static
 from django.conf import settings
 from expenditure import views
+
 #import notifications.urls
 
 urlpatterns = [
@@ -32,7 +33,7 @@ urlpatterns = [
     path('contact/',views.contact, name='contact'),
     path('news_page/',views.news_page, name='news_page'),
     path('notification_page/',views.notification_page, name='notification_page'),
-    path('create_category/',views.create_category,name='create_category'),
+    path('create_category/',views.CategoryView.as_view(),name='create_category'),
     path('all_categories/', views.all_categories, name='all_categories'),
     path('notification_page/<int:id>',views.mark_as_read, name='mark_as_read'),
     path('settings/',views.view_settings,name='settings'),
