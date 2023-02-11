@@ -1,0 +1,51 @@
+<div class="sidebar">
+    <div class="menu_opener">
+        <i class="bx bx-menu" id="btn"></i>
+    </div>
+
+    <ul class="nav-list">
+        <li>
+            <a href="{% url 'feed' %}">
+            <i class="bx bx-grid-alt"></i>
+            <span class="link_name">Dashboard</span>
+            <span class="tooltip">Dashboard</span>
+        </li>
+
+        <li>
+            <a href="{% url 'all_categories' %}">   
+            <i class="bx bx-money"></i>
+            <span class="link_name">Spending</span>
+            <span class="tooltip">Spending</span>
+        </li>
+
+        <li>
+            <a href="{% url 'feed' %}">  <!---   income to be decided -->
+            <i class="bx bx-wallet"></i>
+            <span class="link_name">Income</span>
+            <span class="tooltip">Income</span>
+        </li>
+
+        <li>
+            <a href="{% url 'reports' %}">
+            <i class="bx bx-pie-chart-alt-2"></i>
+            <span class="link_name">Reports</span>
+            <span class="tooltip">Reports</span>
+        </li>
+
+        <li>
+            <a href="{% url 'add_friend' %}">
+            <i class="bx bx-user-pin"></i>
+            <span class="link_name">Friends</span>
+            <span class="tooltip">Friends</span>
+        </li>
+
+        <li>
+            <a href="{% url 'leaderboard' %}">
+            <i class="bx bx-trophy"></i>
+            <span class="link_name">Leaderboard</span>
+            <span class="tooltip">Leaderboard</span>
+        </li>
+
+
+    </ul>
+</div>
