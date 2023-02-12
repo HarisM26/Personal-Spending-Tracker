@@ -2,13 +2,14 @@ from django.shortcuts import render,redirect, get_object_or_404
 from .forms import *
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from datetime import datetime
+from datetime import datetime, date, timedelta
 from django.http import HttpResponse, HttpResponseRedirect
 from .news_api import all_articles
 from django.core.files.storage import FileSystemStorage
 from django.urls import reverse
 from .models import *
-
+from django.db.models import Sum
+from django.db.models.functions import TruncMonth
 
 def home(request):
     return render(request, 'home.html')
@@ -177,3 +178,34 @@ def list_incomings(request):
         'incomings': incomings,
     }
     return render(request, 'incomings.html', context=context)
+
+def get_total_transactions_by_date(request, from_date, to_date):
+    return Transaction.spendings.filter(
+        date__gte=from_date,
+        date__lte=to_date,
+        category__user=request.user
+    ).annotate(month=TruncMonth("date")).values("month").annotate(total=Sum("amount")).values("month", "total")
+
+def view_report(request):
+    from_date = date(date.today().year-1, date.today().month, 1)
+    to_date = date.today()
+
+    if request.method == "POST":
+        form = DateReportForm(request.POST)
+        if form.is_valid():
+            from_date = form.cleaned_data.get("from_date")
+            to_date = form.cleaned_data.get("to_date")
+    else:
+        form = DateReportForm(initial={
+            "from_date": from_date,
+            "to_date": to_date
+        })
+    
+    transactions = get_total_transactions_by_date(request, from_date, to_date)
+
+    context = {
+        "form": form,
+        "transactions": transactions,
+    }
+    return render(request, 'report.html', context=context)
+

@@ -38,4 +38,5 @@ urlpatterns = [
     path('transactions/', views.list_spendings, name='list_transactions'),
     path('transactions/income/', views.list_incomings, name='list_incomings'),
     path('transactions/add/<int:request_id>/', views.add_transaction, name='add_transaction'),
+    path('report/', views.view_report, name='report'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

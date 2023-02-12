@@ -75,3 +75,8 @@ class SignUpForm(forms.ModelForm):
             password=self.cleaned_data.get('new_password'),
         )
         return self.user
+
+class DateReportForm(forms.Form):
+    from_date = forms.DateField(label="from", validators=[not_future], widget=DatePickerInput(options={"format": "DD/MM/YYYY"}))
+    to_date = forms.DateField(label="to", validators=[not_future], widget=DatePickerInput(options={"format": "DD/MM/YYYY"}))
+
