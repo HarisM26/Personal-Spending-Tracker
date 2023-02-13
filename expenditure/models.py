@@ -61,7 +61,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
   @property
   def user_id(self):
-    self.id + self.first_name
+    str(self.id) + self.first_name
     
 
 
@@ -80,6 +80,23 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 def __str__(self):
   return self.email
+
+
+class Profile(models.Model):
+  user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+  def __str__(self):
+    return self.user.email
+  
+  def __str__(self):
+    return self.user.first_name
+  
+  def __str__(self):
+    return self.user.last_name
+  
+  #def __str__(self):
+   # return self.user.user_id
+
 
     
    

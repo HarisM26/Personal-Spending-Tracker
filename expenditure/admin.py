@@ -3,7 +3,7 @@ from django.contrib.auth.admin import UserAdmin
 
 from .forms import SignUpForm
 from .models import User
-
+from .models import Profile
 
 class CustomUserAdmin(UserAdmin):
     add_form = SignUpForm
@@ -28,4 +28,5 @@ class CustomUserAdmin(UserAdmin):
 
 
 admin.site.register(User, CustomUserAdmin)
+admin.site.register(Profile)
 # Register your models here.
