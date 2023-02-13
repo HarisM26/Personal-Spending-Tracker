@@ -1,0 +1,16 @@
+{% extends 'base_content.html' %}
+
+{% block content %}
+
+<h1> Settings </h1>
+
+<section>
+  <h3>Notification setting</h3>
+  <div id="toggle_notification">
+    Toggle Notification
+     <button class="toggle_button"><a id="toggle_anchor" href="{% url 'toggle_notification' %}"> {{ toggle }} </a> </button> 
+
+  </div>
+</section>
+
+{% endblock %}

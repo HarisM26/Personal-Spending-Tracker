@@ -2,19 +2,23 @@
 
 {% block content %}
 
-<div class="container vh-100">
-  <div class="row h-100">
-      <div class="col-12 my-auto">
-          <div class="cover-card">
-              <h1>Create Category</h1>
-              <form action="{% url 'create_category' %}" method="post">
-                  {% csrf_token %}
-                  {% include 'partials/bootstrap_form.html' with form=form %}
-              <input type="submit" value="Create category" class="btn btn-100">
-              </form>
-          </div>
-      </div>
+{{ form.media }}
+<div class="card">
+    <h1>Create A Category</h1>
+    <div class="card-body">
+        <div class="col-sm-12 col-md-6 offset-md-3">
+            <div class="card-text text-start">
+                <form action="{% url 'create_category' %}" method="post">
+                    {% csrf_token %}
+                    {% include 'partials/bootstrap_form.html' with form=form %}
+                    <input type="submit" value="Create Category" class="btn btn-info">
+                </form>
+            </div>
+        </div>
+    </div>
   </div>
-</div>
+
+
+
 
 {% endblock %}

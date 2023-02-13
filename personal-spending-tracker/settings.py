@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'fontawesomefree',
     'newsapi',
     'bootstrap_datepicker_plus',
+    'betterforms',
 ]
 
 MIDDLEWARE = [

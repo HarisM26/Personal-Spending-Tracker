@@ -1,8 +1,8 @@
-from datetime import date
+from datetime import date, timedelta,datetime
 from django.test import TestCase
 from django.core.exceptions import ValidationError
 from django.core.files.uploadedfile import SimpleUploadedFile
-from expenditure.models import Transaction, Category,User
+from expenditure.models import Transaction, Category,User,Limit
 from decimal import *
 
 class TestTransactionModel(TestCase):
@@ -15,7 +15,11 @@ class TestTransactionModel(TestCase):
                 last_name='Doe'
             ),
             name = 'test_category',
-            limit = Decimal('50.00')
+            limit = Limit.objects.create(
+                limit_amount='10.00',
+                start_date=date.today(),
+                end_date=datetime.now() + timedelta(days=7)
+            )
         )
         self.transaction = Transaction.objects.create(
             title = 'req_trans',
@@ -52,6 +56,10 @@ class TestTransactionModel(TestCase):
     
     def test_rejects_blank_category(self):
         self.transaction.category = None 
+        self.assert_transaction_is_invalid()
+    
+    def test_rejects_incorrect_date(self):
+        self.transaction.date = date.today() + timedelta(days=10)
         self.assert_transaction_is_invalid()
     
     def test_automated_creation_date(self):

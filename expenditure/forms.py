@@ -2,8 +2,11 @@ from django import forms
 from expenditure.models import *
 from django.contrib.auth.forms import UserCreationForm
 from django.core.validators import RegexValidator
-from .models import User, Transaction
 from bootstrap_datepicker_plus.widgets import DatePickerInput
+from datetime import datetime, date
+from .models import User, Transaction
+from .helpers import not_future
+from betterforms.multiform import MultiModelForm
 
 class TransactionForm(forms.ModelForm):
     class Meta:
@@ -12,13 +15,46 @@ class TransactionForm(forms.ModelForm):
         exclude = ('category',)
         widgets = {'date': DatePickerInput(options={"format": "DD/MM/YYYY"})}
 
+    def clean_transaction_date(self):
+        transaction_date = self.cleaned_data.get('date')
+        current_date = date.today()
+        if transaction_date > current_date:
+            self.add_error('date', 'The date of your transaction cannot be in the future')
+        return transaction_date  
 
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
-        fields = ('name','is_income')
+        fields = ('name',)
 
-    limit = forms.DecimalField(label='Spending Limit')
+class LimitForm(forms.ModelForm):
+    class Meta:
+        model = Limit
+        fields = '__all__'
+        exclude = ('remaining_amount','status')
+        widgets = {
+            'start_date': DatePickerInput(options={"format": "DD/MM/YYYY"}),
+            'end_date': DatePickerInput(options={"format": "DD/MM/YYYY"})
+            }
+
+class CategoryCreationMultiForm(MultiModelForm):
+    form_classes = {
+        'category': CategoryForm,
+        'limit': LimitForm
+    }
+
+    #def save(self, commit=True):
+    #    objects = super(CategoryCreationMultiForm,self).save(commit=False)
+    #    
+    #    if commit:
+    #        limit=objects['limit']
+    #        limit.remaining_amount = limit.limit_amount
+    #        limit.save()
+    #        category=objects['category']      
+    #        category.limit = limit
+    #        category.save()
+#
+    #    return objects
 
 class LogInForm(forms.Form):
     email = forms.CharField(label='Email')

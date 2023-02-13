@@ -1,9 +1,9 @@
-from datetime import date, timedelta
+from datetime import date, timedelta,datetime
 from django import forms
 from django.test import TestCase
 from django.core.files.uploadedfile import SimpleUploadedFile
 from expenditure.forms import TransactionForm
-from expenditure.models import Transaction, Category, Limit, User
+from expenditure.models import Transaction, Category,User,Limit
 from decimal import Decimal
 
 class TransactionFormTestCase(TestCase):
@@ -15,8 +15,12 @@ class TransactionFormTestCase(TestCase):
                 last_name = 'Doe',
                 email = 'johndoe@email.com'
             ),
-            name = "CategoryName",
-            category_limit = Limit.objects.create(limit_amount=Decimal('1000.00'),spent_amount=Decimal('0.00'))
+            name = 'test_category',
+            limit = Limit.objects.create(
+                limit_amount='10.00',
+                start_date=date.today(),
+                end_date=datetime.now() + timedelta(days=7)
+            )
         )
 
         self.form_input = {
@@ -53,6 +57,11 @@ class TransactionFormTestCase(TestCase):
         form = TransactionForm(data=self.form_input)
         self.assertFalse(form.is_valid())
 
+    def test_form_rejects_incorrect_date(self):
+        self.form_input['date'] = date.today() + timedelta(days=10)
+        form = TransactionForm(data=self.form_input)
+        self.assertFalse(form.is_valid())
+
     def test_form_accepts_notes(self):
         self.form_input['notes'] = 'some notes'
         form = TransactionForm(data=self.form_input)
@@ -68,4 +77,3 @@ class TransactionFormTestCase(TestCase):
         form = TransactionForm(data=self.form_input)
         self.assertTrue(form.is_valid())
 
-    

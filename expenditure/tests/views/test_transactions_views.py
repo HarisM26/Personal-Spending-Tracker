@@ -1,8 +1,8 @@
-from datetime import date
+from datetime import date,timedelta,datetime
 from django.test import TestCase
 from django.urls import reverse
 from django.core.files.uploadedfile import SimpleUploadedFile
-from expenditure.models import Transaction, Category, Limit, User
+from expenditure.models import Transaction, Category,User,Limit
 from decimal import Decimal
 
 class TransactionViews(TestCase):
@@ -14,8 +14,12 @@ class TransactionViews(TestCase):
                 last_name = 'Doe',
                 email = 'johndoe@email.com'
             ),
-            name = "CategoryName",
-            category_limit = Limit.objects.create(limit_amount=Decimal('1000.00'),spent_amount=Decimal('0.00'))
+            name = 'test_category',
+            limit = Limit.objects.create(
+                limit_amount='10.00',
+                start_date=date.today(),
+                end_date=datetime.now() + timedelta(days=7)
+            )
         )
         
         self.transaction = Transaction.objects.create(

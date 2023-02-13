@@ -6,25 +6,25 @@ from decimal import *
 @receiver(post_save,sender=Transaction)
 def transaction_post_save_handler(instance,created,*args,**kwargs):
   current_user = instance.category.user
-  if created:
+  if created and current_user.toggle_notification == 'ON':
     all_transactions = Transaction.objects.filter(category = instance.category)
-    sum = 0
+    total = Decimal('0.00')
     for transaction in all_transactions:
-      sum+=transaction.amount
+      total+=transaction.amount
 
-    if sum >= (instance.category.limit.getLimitAmount()*Decimal('0.90')) and sum < instance.category.limit.getLimitAmount() :
-      notification = create_notification(current_user,instance.category.limit,sum)
-      print(notification.message)
-    elif sum >= (instance.category.limit.getLimitAmount()*Decimal('0.90')):
-      notification = create_notification(current_user,instance.category.limit,sum)
-      print(notification.message)
-
-#to do add category_name
-def create_notification(user,category_limit,sum):
-  if sum >= (category_limit*Decimal('0.90')) and sum < category_limit:
-    current_message = 'You are close to your limit. Please consider reducing your spending'
+    if total >= (instance.category.limit.calc_90_percent_of_limit) and \
+              total < Decimal(instance.category.limit.limit_amount) :
+      notification = create_notification(current_user,instance.category.name,instance.category.limit,total)
+      notification.save()
+    elif total >= (instance.category.limit.calc_90_percent_of_limit):
+      notification = create_notification(current_user,instance.category.name,instance.category.limit,total)
+      notification.save()
+      
+def create_notification(user,category_name,category_limit_obj,total):
+  if total >= (category_limit_obj.calc_90_percent_of_limit) and total < Decimal(category_limit_obj.limit_amount):
+    current_message = f'{category_name} category close to its limit. Please consider reducing your spending'
   else:
-    current_message = 'You have reached your limit!'
+    current_message = f'{category_name} category has reached its limit!'
   
   notification = Notification.objects.create(
     user_receiver = user,

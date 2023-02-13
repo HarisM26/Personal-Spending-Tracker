@@ -1,29 +1,19 @@
-{% extends 'base.html' %}
-{% block body %}
+{% extends 'base_content.html' %}
+{% block content %}
 
-<div id="cover-image">
-    <div class="header">
-        <div class="container">
-            <nav class="nav">
-                <a type="button" href='{% url "home" %}' class="btn btn-500"> Home </a>
-            </nav>
-        </div>
-    </div>
-    <div class="container vh-100">
-        <div class="row h-100">
-            <div class="col-12 my-auto">
-                <div class="cover-card">
-                    <h1>Register</h1>
-                    <p>Create an Account</p>
-                    <form action="{% url 'sign_up' %}" method="post">
-                        {% csrf_token %}
-                        {% include 'partials/bootstrap_form.html' with form=form %}
-                    <input type="submit" value="Register" class="btn btn-100">
-                    </form>
-                </div>
+<div class="card">
+    <h1>Get Started</h1>
+    <div class="card-body">
+        <div class="col-sm-12 col-md-6 offset-md-3">
+            <div class="card-text text-start">
+                <form action="{% url 'sign_up' %}" method="post">
+                    {% csrf_token %}
+                    {% include 'partials/bootstrap_form.html' with form=form %}
+                    <input type="submit" value="Register" class="btn btn-info">
+                </form>
             </div>
         </div>
     </div>
 </div>
-        
+    
 {% endblock %}
