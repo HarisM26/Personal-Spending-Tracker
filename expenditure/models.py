@@ -113,7 +113,7 @@ class Limit(models.Model):
   TIME_LIMIT_TYPE=[('weekly',('weekly')),('monthly',('monthly')),('yearly',('yearly'))]
 
   # To access limit using category object, just do category.limit and vice versa
-  category = models.OneToOneField(Category, null=True, blank=True)
+  category = models.OneToOneField(Category, null=True, blank=True, on_delete=models.PROTECT)
   limit_amount = models.DecimalField(max_digits=10,decimal_places=2)
   # Fields with default values
   spent_amount = models.DecimalField(max_digits=10,decimal_places=2, default=Decimal('0.00'))
@@ -183,7 +183,6 @@ class Transaction(models.Model):
     date = models.DateField()
     amount = models.DecimalField(max_digits=20, decimal_places=2)
     notes = models.TextField(blank=True)
-    is_income = models.BooleanField(default=False)
     reciept = models.ImageField(upload_to='', blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     category = models.ForeignKey(Category, related_name="transactions", on_delete=models.PROTECT)
