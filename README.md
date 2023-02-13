@@ -32,32 +32,34 @@ The deployed version of the application can be found at \_\_\_
 ## Installation instructions
 
 To install the software and use it in your local development environment, you must first set up and activate a local development environment. From the root of the project:
-
+```
 $ virtualenv venv
 $ source venv/bin/activate
+```
 
 Install all required packages:
-
+```
 $ pip3 install -r requirements.txt
-
+```
 Get key for API:
-visit https://newsapi.org/
-Sign up to obtain a key
-Create a file in your root folder(usually where manage.py is located) and name it '.env'
-In your .env file, type: NEWS_API_KEY = add your key here(no quotes)
-
+```
+- visit https://newsapi.org/
+- Sign up to obtain a key
+- Create a file in your root folder(usually where manage.py is located) and name it '.env'
+- In your .env file, type: NEWS_API_KEY = add your key here(no quotes)
+```
 Migrate the database:
-
+```
 $ python3 manage.py migrate
-
+```
 Seed the development database with:
-
+```
 $ python3 manage.py seed
-
+```
 Run all tests with:
-
+```
 $ python3 manage.py test
-
+```
 ## References
 
 CODE
