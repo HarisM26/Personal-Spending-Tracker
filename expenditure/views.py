@@ -113,7 +113,7 @@ def sign_up(request):
 #    }
 #    return render(request, 'create_category.html', context)
 
-class CategoryView(LoginRequiredMixin,CreateView):
+class CreateCategoryView(LoginRequiredMixin,CreateView):
     template_name = "create_category.html"
     form_class = CategoryCreationMultiForm
     #success_url = reverse_lazy('create_category')
@@ -130,7 +130,7 @@ class CategoryView(LoginRequiredMixin,CreateView):
                                 "Category created!")
         return redirect('create_category')
 
-    def form_valid(self, form):
+    def form_invalid(self, form):
         messages.add_message(self.request, messages.ERROR,
                                 "Your input is invalid!, try again")
         return redirect('create_category')

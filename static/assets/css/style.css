@@ -1,5 +1,41 @@
 @import "toggle_button.css";
 
+body {
+  background-image: radial-gradient(
+    circle,
+    hsl(220, 57%, 91%),
+    hsl(220, 55%, 96%)
+  );
+  padding: 1rem;
+}
+/* === New Page CSS ===*/
+#news-card {
+  padding: 0em 1em;
+  margin: 1em 0em;
+  display: flex;
+}
+#news-card-img-div {
+  height: 80px;
+  width: 80px;
+  border-radius: 10px;
+  padding: 0.5em 1em;
+}
+#news-card-img {
+  height: 80px;
+  width: 80px;
+  object-fit: cover;
+  border-radius: 40px;
+}
+@media (min-width: 576px) {
+  #news-card,
+  .card-section {
+    max-width: 900px;
+  }
+  .card-section {
+    margin: auto;
+  }
+  /* ========================*/
+}
 h3 {
   margin-top: 15px;
 }

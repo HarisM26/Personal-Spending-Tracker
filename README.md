@@ -66,6 +66,7 @@ CODE
 - https://django-betterforms.readthedocs.io/en/latest/multiform.html#working-with-createview
 
 IMAGES
+https://pixabay.com/photos/money-coin-finance-currency-cash-1715383/
 
 TEMPLATES
 
