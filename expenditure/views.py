@@ -10,6 +10,7 @@ from django.urls import reverse
 from .models import *
 from django.db.models import Sum
 from django.db.models.functions import TruncMonth
+from decimal import *
 
 def home(request):
     return render(request, 'home.html')
@@ -94,9 +95,11 @@ def create_category(request):
             form = CategoryForm(request.POST)
             if form.is_valid():
                 name=form.cleaned_data.get('name')
-                limit=form.cleaned_data.get('limit')
                 is_income=form.cleaned_data.get('is_income')
-                category = Category.objects.create(user=current_user,name=name,limit=limit, is_income=is_income)
+                limit=form.cleaned_data.get('limit')
+                category = Category.objects.create(user=current_user,name=name,is_income=is_income)
+                # Create an instance of Limit that corresponds to the category
+                category.createLimit(category, limit)
                 messages.add_message(request, messages.SUCCESS,
                              "Category created!")
                 return redirect('create_category')
@@ -112,6 +115,33 @@ def create_category(request):
         'unread_status_count': unread_status_count,
     }
     return render(request, 'create_category.html', context)
+
+def edit_category(request, request_id):
+    current_user = request.user
+    category = Category.objects.get(id=request_id)
+    limit = category.limit
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            form = CategoryEditForm(request.POST)
+            if form.is_valid():
+                name = form.cleaned_data.get('name')
+                is_income = form.cleaned_data.get('is_income')
+                limit = form.cleaned_data.get('limit')
+                category.name = name
+                category.is_income = is_income
+                limit.limit_amount = limit
+                category.save()
+                limit.save()
+                messages.add_message(request, messages.SUCCESS, "Category Edit Saved!")
+                return redirect('all_categories')
+            messages.add_message(request, messages.ERROR, "The credentials provided were invalid!")
+        else:
+            redirect('log_in')
+    else:
+        form = CategoryEditForm()
+        context = {'form':form}
+        return render(request, 'edit_category.html', context)
+
 
 
 def log_in(request):
@@ -142,6 +172,7 @@ def news_page(request):
 
 def add_transaction(request,request_id):
     category = get_object_or_404(Category, id=request_id)
+    category_limit = category.limit
 
     if category.is_income:
         create_transaction_form = IncomingForm
@@ -153,7 +184,11 @@ def add_transaction(request,request_id):
         updated_request.update({'category': category.pk})
         create_transaction_form = create_transaction_form(updated_request, request.FILES)
         if create_transaction_form.is_valid():
-            create_transaction_form.save(commit=True)
+            transaction = create_transaction_form.save(commit=False)
+            transaction.category = category
+            category_limit.addSpentAmount(transaction.amount)
+            category_limit.save()
+            transaction.save()
             return HttpResponseRedirect(reverse('all_categories'))
     else:
         create_transaction_form = create_transaction_form()   

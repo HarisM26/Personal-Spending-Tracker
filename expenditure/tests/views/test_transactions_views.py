@@ -2,13 +2,12 @@ from datetime import date
 from django.test import TestCase
 from django.urls import reverse
 from django.core.files.uploadedfile import SimpleUploadedFile
-from expenditure.models import Transaction, Category,User
+from expenditure.models import Transaction, Category, Limit, User
 from decimal import Decimal
 
 class TransactionViews(TestCase):
 
     def setUp(self):
-    
         self.category = Category.objects.create(
             user = User.objects.create(
                 email='johndoe@email.com',
@@ -16,7 +15,7 @@ class TransactionViews(TestCase):
                 last_name='Doe',
             ),
             name = 'test_category',
-            limit = Decimal('50.00'),
+            limit = Limit.objects.create(limit_amount=Decimal('1000.00'),spent_amount=Decimal('0.00')),
             is_income=False,
         )
 
@@ -27,14 +26,14 @@ class TransactionViews(TestCase):
                 last_name='Doe',
             ),
             name = 'test2_category',
-            limit = Decimal('50.00'),
+            limit = Limit.objects.create(limit_amount=Decimal('1000.00'),spent_amount=Decimal('0.00')),
             is_income=True,
         )
-
+        
         self.transaction = Transaction.objects.create(
             title = 'req_trans',
             date = date.today(),
-            amount = 30.00,
+            amount = Decimal('30.00'),
             category = self.category,
         )
 
@@ -48,7 +47,7 @@ class TransactionViews(TestCase):
         self.transaction_input = {
             'title': 'transaction_test',
             'date': date.today(),
-            'amount': 80.00,
+            'amount': Decimal('80.00'),
             'category': self.category.id,
         }
 

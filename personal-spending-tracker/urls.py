@@ -33,6 +33,7 @@ urlpatterns = [
     path('news_page/',views.news_page, name='news_page'),
     path('notification_page/',views.notification_page, name='notification_page'),
     path('create_category/',views.create_category,name='create_category'),
+    path('edit_category/<pk>', views.edit_category, name='edit_category'),
     path('all_categories/', views.all_categories, name='all_categories'),
     path('notification_page/<int:id>',views.mark_as_read, name='mark_as_read'),
     path('transactions/', views.list_spendings, name='list_transactions'),

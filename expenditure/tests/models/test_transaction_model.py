@@ -2,7 +2,7 @@ from datetime import date, timedelta
 from django.test import TestCase
 from django.core.exceptions import ValidationError
 from django.core.files.uploadedfile import SimpleUploadedFile
-from expenditure.models import Transaction, Category, User
+from expenditure.models import Transaction, Category, User, Limit
 from decimal import *
 
 class TestTransactionModel(TestCase):
@@ -15,7 +15,7 @@ class TestTransactionModel(TestCase):
                 last_name='Doe'
             ),
             name = 'test_category',
-            limit = Decimal('50.00'),
+            limit = Limit.objects.create(limit_amount=Decimal('1000.00'),spent_amount=Decimal('0.00')),
             is_income=False,
         )
 

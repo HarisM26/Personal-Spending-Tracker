@@ -3,7 +3,7 @@ from django import forms
 from django.test import TestCase
 from django.core.files.uploadedfile import SimpleUploadedFile
 from expenditure.forms import SpendingForm, IncomingForm
-from expenditure.models import Transaction, Category, User
+from expenditure.models import Transaction, Category, User, Limit
 from decimal import Decimal
 
 class TransactionFormTestCase(TestCase):
@@ -16,7 +16,7 @@ class TransactionFormTestCase(TestCase):
                 last_name='Doe',
             ),
             name = 'test_category',
-            limit = Decimal('50.00'),
+            limit = Limit.objects.create(limit_amount=Decimal('1000.00'),spent_amount=Decimal('0.00')),
             is_income=False,
         )
 
@@ -27,7 +27,7 @@ class TransactionFormTestCase(TestCase):
                 last_name='Doe',
             ),
             name = 'test2_category',
-            limit = Decimal('50.00'),
+            limit = Limit.objects.create(limit_amount=Decimal('1000.00'),spent_amount=Decimal('0.00')),
             is_income=True,
         )
 
