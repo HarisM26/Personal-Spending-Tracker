@@ -2,9 +2,13 @@
 {% load custom_tags %}
 {% block content %}
 
-<h1> CATEGORIES </h1>
 
-<div>
+
+<div class="card">
+  <h1> SPENDING </h1>
+  <div id="create-transaction-div">
+    <a class="btn btn-info" href="{% url 'create_category'%}">Create new category</a>
+  </div>
   {% for category in categories %}
     <ul id="myUL">
       <li class="category_list"> 

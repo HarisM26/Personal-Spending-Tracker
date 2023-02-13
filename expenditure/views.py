@@ -59,7 +59,7 @@ def mark_as_read(request,id):
    notification.save()
    return redirect('notification_page') 
 
-def all_categories(request):
+def spending(request):
     current_user = request.user
     categories = Category.objects.filter(user = current_user)
     notifications = get_user_notifications(current_user)
@@ -70,7 +70,7 @@ def all_categories(request):
         'categories':categories,
         'unread_status_count': unread_status_count,
         }
-    return render(request, 'all_categories.html',context)
+    return render(request, 'spending.html',context)
 
 def sign_up(request):
     if request.method == 'POST':
@@ -151,7 +151,7 @@ def add_transaction(request,request_id):
             transaction = create_transaction_form.save(commit=False)
             transaction.category = category
             transaction.save()
-            return HttpResponseRedirect(reverse('all_categories'))
+            return HttpResponseRedirect(reverse('spending'))
     else:
         create_transaction_form = TransactionForm()   
     context = {
