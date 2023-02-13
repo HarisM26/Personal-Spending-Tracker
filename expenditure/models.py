@@ -91,67 +91,12 @@ class Notification(models.Model):
 
 
 class Category(models.Model):
-
-  '''
-  user = models.ForeignKey(User, on_delete=models.CASCADE)
-  name = models.CharField(max_length=50)
-  # Each category has one spending limit, and that spending limit belongs to one category
-  category_limit = models.OneToOneField(Limit, on_delete=models.CASCADE)
-    
-  # Set the spending limit for this category
-  def setLimitAmount(self, limitAmount):
-    if (limitAmount >= 0):
-      self.category_limit.limit_amount = limitAmount
-    else:
-      return -1
-
-  # Set spent amount in category_limit to spentAmount
-  def setSpentAmount(self, spentAmount):
-    if(spentAmount >= 0):
-      self.category_limit.spent_amount = spentAmount
-      self.updateLimitStatus()
-    else:
-      return -1
-
-  # Add spent amount in catogery_limit by spentAmount
-  def addSpentAmount(self, spentAmount):
-    if(spentAmount >= 0):
-      self.category_limit.spent_amount += spentAmount
-      self.updateLimitStatus()
-    else:
-      return -1
-
-  # Subtract spent amount in catogery_limit by spentAmount
-  def subtractSpentAmount(self, spentAmount):
-    if(spentAmount >= 0):
-      self.category_limit.spent_amount -= spentAmount
-      self.updateLimitStatus()
-    else:
-      return -1
-
-  # Returns one of: reached, not reached or approaching 
-  def getLimitStatus(self):
-    return self.category_limit.status
-
-  # Return the currently set limit amount
-  def getLimitAmount(self):
-    return self.category_limit.limit_amount
-
-  # Return the amount spent from category_limit
-  def getSpentAmount(self):
-    return self.category_limit.spent_amount
-
-  def updateLimitStatus(self):
-    self.category_limit.update_status()
-
-  def __str__(self):
-    return self.name
-  '''
   user = models.ForeignKey(User, on_delete=models.CASCADE)
   name = models.CharField(max_length=50)
   is_income = models.BooleanField(default=False)
 
-  def createLimit(self, category, limit_amount, **kwargs):
+  # Used to create and save new instance of limit associated with this category
+  def createLimit(category, limit_amount, **kwargs):
     Limit.objects.create(
       category=category,
       limit_amount=limit_amount,
@@ -167,6 +112,7 @@ class Limit(models.Model):
   LIMIT_STATUS=[('reached',('reached')),('not reached',('not reached')), ('approaching',('approaching'))]
   TIME_LIMIT_TYPE=[('weekly',('weekly')),('monthly',('monthly')),('yearly',('yearly'))]
 
+  # To access limit using category object, just do category.limit and vice versa
   category = models.OneToOneField(Category, null=True, blank=True, on_delete=models.CASCADE)
   limit_amount = models.DecimalField(max_digits=10,decimal_places=2)
   # Fields with default values
@@ -175,9 +121,6 @@ class Limit(models.Model):
   time_limit_type = models.CharField(max_length=50, choices=TIME_LIMIT_TYPE, default='weekly')
   start_date = models.DateField(default=date.today)
   end_date = models.DateField(default=date.today() + timedelta(weeks=1))
-
-  def create(limitAmount, **kwargs):
-    return Limit(limit_amount=limitAmount, **kwargs)
 
   def update_status(self):
     used_percent = self.get_percentage_of_limit_used()
@@ -234,28 +177,6 @@ class Limit(models.Model):
     self.update_status()
     super(Limit, self).save(*args, **kwargs)
 
-
-'''
-class Category(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=50)
-    limit = models.DecimalField(max_digits= 10, decimal_places=2, verbose_name= 'category Limit')
-    #slug = models.SlugField()
-    #parent = models.ForeignKey('self',blank=True, null=True ,related_name='children')
-    def __str__(self):
-        return self.name
-    """
-    class Meta:
-        #enforcing that there can not be two categories under a parent with same slug
-        
-        # __str__ method elaborated later in post.  use __unicode__ in place of
-        
-        # __str__ if you are using python 2
-
-        unique_together = ('slug', 'parent',)    
-        verbose_name_plural = "categories"    
-        """ 
-'''
 
 class Transaction(models.Model):
     title = models.CharField(max_length=200)

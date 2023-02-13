@@ -4,6 +4,8 @@ from django.contrib.auth.admin import UserAdmin
 from .forms import SignUpForm
 
 # Register your models here.
+
+# This is for showing limit fields in line with category fields on admin page
 class LimitInline(admin.StackedInline):
   model = Limit
   extra = 0

@@ -44,10 +44,3 @@ class CategoryFormTestCase(TestCase):
         self.form_input['limit'] = ''
         form = CategoryForm(data=self.form_input)
         self.assertFalse(form.is_valid())
-
-    '''
-    def test_form_accepts_is_income(self):
-        self.form_input['is_income'] = True
-        form = CategoryForm(data=self.form_input)
-        self.assertTrue(form.is_valid())
-    '''
