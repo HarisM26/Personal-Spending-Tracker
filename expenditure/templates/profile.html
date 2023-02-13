@@ -1,0 +1,24 @@
+{% extends 'base_content.html' %}
+{% block content %}
+
+
+<div class="card">
+    <div>
+        <h1>Profile</h1>
+    </div>
+    <div class="card-body">
+        <p class="card-text text-start">
+            <br>
+            Name: {{ user.first_name }} {{ user.last_name }} <br><br>
+            Username: {{ user.username }}<br><br>
+            Email: {{ user.email }} <br><br>
+
+        </p>
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+<!-- {{ user.email }} -->

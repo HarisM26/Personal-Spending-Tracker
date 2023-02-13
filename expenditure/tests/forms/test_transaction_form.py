@@ -1,4 +1,4 @@
-from datetime import date, timedelta
+from datetime import date, timedelta,datetime
 from django import forms
 from django.test import TestCase
 from django.core.files.uploadedfile import SimpleUploadedFile
@@ -16,8 +16,12 @@ class TransactionFormTestCase(TestCase):
                 last_name='Doe',
             ),
             name = 'test_category',
-            limit = Limit.objects.create(limit_amount=Decimal('1000.00'),spent_amount=Decimal('0.00')),
             is_income=False,
+            limit = Limit.objects.create(
+                limit_amount=Decimal('10.00'),
+                start_date=date.today(),
+                end_date=datetime.now() + timedelta(days=7)
+            )
         )
 
         self.category_2 = Category.objects.create(
@@ -27,8 +31,12 @@ class TransactionFormTestCase(TestCase):
                 last_name='Doe',
             ),
             name = 'test2_category',
-            limit = Limit.objects.create(limit_amount=Decimal('1000.00'),spent_amount=Decimal('0.00')),
             is_income=True,
+            limit = Limit.objects.create(
+                limit_amount=Decimal('10.00'),
+                start_date=date.today(),
+                end_date=datetime.now() + timedelta(days=7)
+            )
         )
 
         self.form_input = {

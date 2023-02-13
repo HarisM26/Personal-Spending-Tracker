@@ -7,6 +7,7 @@ from django.utils.translation import gettext_lazy as _
 from .helpers import not_future
 from datetime import datetime, date, timedelta
 from decimal import Decimal
+from django.core.validators import MinValueValidator
 
 
 class UserManager(BaseUserManager):
@@ -37,7 +38,6 @@ class UserManager(BaseUserManager):
           raise ValueError(_("Superuser must have is_superuser=True."))
       return self.create_user(email, password, **extra_fields)
 
-    
 class User(AbstractBaseUser, PermissionsMixin):
   email = models.EmailField(_("email address"),
         unique=True,
@@ -45,7 +45,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         blank=False,
     )
 
-  
   first_name = models.CharField(
     max_length=30,
     blank=True,
@@ -60,17 +59,58 @@ class User(AbstractBaseUser, PermissionsMixin):
     
   is_active = models.BooleanField(default=True)
 
-    
-  
+  TOGGLE_CHOICE=[('ON',('ON')),('OFF',('OFF'))]
+  toggle_notification = models.CharField(max_length=3,choices=TOGGLE_CHOICE,default='ON')
+
   USERNAME_FIELD = 'email'
   REQUIRED_FIELDS = []
 
   objects =  UserManager()
   
-
 def __str__(self):
   return self.email
 
+class Limit(models.Model):
+  LIMIT_STATUS=[('reached',('reached')),('not reached',('not reached')), ('approaching',('approaching'))]
+  #TIME_LIMIT_TYPE=[('weekly',('weekly')),('monthly',('monthly')),('yearly',('yearly'))]
+
+  limit_amount = models.DecimalField(max_digits=10,decimal_places=2,null=False, validators=[MinValueValidator(Decimal('0.01'))])
+  remaining_amount = models.DecimalField(max_digits=10,decimal_places=2, default= 0.00)
+  status = models.CharField(max_length=50, choices=LIMIT_STATUS, default='not reached')
+  #time_limit_type = models.CharField(max_length=50, choices=TIME_LIMIT_TYPE, default='weekly')
+  start_date = models.DateField()
+  end_date = models.DateField()
+ 
+  def __str__(self):
+    return str(self.limit_amount)
+
+  @property
+  def calc_90_percent_of_limit(self):
+    return Decimal(self.limit_amount)*Decimal('0.90')
+  
+  # Add spent amount in limit by spentAmount
+  # def addSpentAmount(self, spentAmount):
+  #   if(spentAmount >= 0):
+  #     self.spent_amount += spentAmount
+  #     self.save()
+  #   else:
+  #     return -1
+
+  #def update_status(self):
+    #used_percent = self.get_percentage_of_limit_used()
+    #if used_percent >= 1.0:
+      #self.status = 'reached'
+    #elif used_percent >= 0.9:
+      #self.status = 'approaching'
+    #else:
+      #self.status ='not reached'
+  
+  #def get_percentage_of_limit_used(self):
+    #return self.spent_amount/self.limit_amount
+
+  #def save(self, *args, **kwargs):
+    #self.update_status()
+    #super(Limit, self).save(*args, **kwargs)
     
 class Notification(models.Model):
     STATUS_CHOICE=[('unread',('unread')),('read',('read'))]
@@ -88,80 +128,87 @@ class Notification(models.Model):
         return self.message
 
     
-class Limit(models.Model):
-  LIMIT_STATUS=[('reached',('reached')),('not reached',('not reached')), ('approaching',('approaching'))]
-  TIME_LIMIT_TYPE=[('weekly',('weekly')),('monthly',('monthly')),('yearly',('yearly'))]
+# class Limit(models.Model):
+#   LIMIT_STATUS=[('reached',('reached')),('not reached',('not reached')), ('approaching',('approaching'))]
+#   TIME_LIMIT_TYPE=[('weekly',('weekly')),('monthly',('monthly')),('yearly',('yearly'))]
 
-  # To access limit using category object, just do category.limit and vice versa
-  limit_amount = models.DecimalField(max_digits=10,decimal_places=2)
-  # Fields with default values
-  spent_amount = models.DecimalField(max_digits=10,decimal_places=2, default=Decimal('0.00'))
-  status = models.CharField(max_length=50, choices=LIMIT_STATUS, default='not reached')
-  time_limit_type = models.CharField(max_length=50, choices=TIME_LIMIT_TYPE, default='weekly')
-  start_date = models.DateField(default=date.today)
-  end_date = models.DateField(default=date.today() + timedelta(weeks=1))
+#   # To access limit using category object, just do category.limit and vice versa
+#   limit_amount = models.DecimalField(max_digits=10,decimal_places=2)
+#   # Fields with default values
+#   spent_amount = models.DecimalField(max_digits=10,decimal_places=2, default=Decimal('0.00'))
+#   status = models.CharField(max_length=50, choices=LIMIT_STATUS, default='not reached')
+#   time_limit_type = models.CharField(max_length=50, choices=TIME_LIMIT_TYPE, default='weekly')
+#   start_date = models.DateField(default=date.today)
+#   end_date = models.DateField(default=date.today() + timedelta(weeks=1))
 
-  def update_status(self):
-    used_percent = self.get_percentage_of_limit_used()
-    if used_percent >= 1.0:
-      self.status = 'reached'
-    elif used_percent >= 0.9:
-      self.status = 'approaching'
-    else:
-      self.status ='not reached'
+#   def update_status(self):
+#     used_percent = self.get_percentage_of_limit_used()
+#     if used_percent >= 1.0:
+#       self.status = 'reached'
+#     elif used_percent >= 0.9:
+#       self.status = 'approaching'
+#     else:
+#       self.status ='not reached'
   
-  def get_percentage_of_limit_used(self):
-    return self.spent_amount/self.limit_amount
+#   def __str__(self):
+#     return str(self.limit_amount)
 
-  # Return the amount spent from limit
-  def getSpentAmount(self):
-    return self.spent_amount
+#   @property
+#   def calc_90_percent_of_limit(self):
+#     return Decimal(self.limit_amount)*Decimal('0.90')
 
-  # Return the currently set limit amount
-  def getLimitAmount(self):
-    return self.limit_amount
+  
+#   def get_percentage_of_limit_used(self):
+#     return self.spent_amount/self.limit_amount
 
-  # Set the spending limit
-  def setLimitAmount(self, limitAmount):
-    if (limitAmount >= 0):
-      self.limit_amount = limitAmount
-    else:
-      return -1
+#   # Return the amount spent from limit
+#   def getSpentAmount(self):
+#     return self.spent_amount
 
-  # Set spent amount in limit to spentAmount
-  def setSpentAmount(self, spentAmount):
-    if(spentAmount >= 0):
-      self.spent_amount = spentAmount
-      self.save()
-    else:
-      return -1
+#   # Return the currently set limit amount
+#   def getLimitAmount(self):
+#     return self.limit_amount
 
-  # Subtract spent amount in limit by spentAmount
-  def subtractSpentAmount(self, spentAmount):
-    if(spentAmount >= 0):
-      self.spent_amount -= spentAmount
-      self.save()
-    else:
-      return -1
+#   # Set the spending limit
+#   def setLimitAmount(self, limitAmount):
+#     if (limitAmount >= 0):
+#       self.limit_amount = limitAmount
+#     else:
+#       return -1
 
-  # Add spent amount in limit by spentAmount
-  def addSpentAmount(self, spentAmount):
-    if(spentAmount >= 0):
-      self.spent_amount += spentAmount
-      self.save()
-    else:
-      return -1
+#   # Set spent amount in limit to spentAmount
+#   def setSpentAmount(self, spentAmount):
+#     if(spentAmount >= 0):
+#       self.spent_amount = spentAmount
+#       self.save()
+#     else:
+#       return -1
 
-  def save(self, *args, **kwargs):
-    self.update_status()
-    super(Limit, self).save(*args, **kwargs)
+#   # Subtract spent amount in limit by spentAmount
+#   def subtractSpentAmount(self, spentAmount):
+#     if(spentAmount >= 0):
+#       self.spent_amount -= spentAmount
+#       self.save()
+#     else:
+#       return -1
+
+#   # Add spent amount in limit by spentAmount
+#   def addSpentAmount(self, spentAmount):
+#     if(spentAmount >= 0):
+#       self.spent_amount += spentAmount
+#       self.save()
+#     else:
+#       return -1
+
+#   def save(self, *args, **kwargs):
+#     self.update_status()
+#     super(Limit, self).save(*args, **kwargs)
 
 class Category(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
-    limit = models.OneToOneField(Limit, null=True, blank=True, on_delete=models.CASCADE)
     is_income = models.BooleanField(default=False)
-
+    limit = models.OneToOneField(Limit, on_delete=models.CASCADE)
     #slug = models.SlugField()
     #parent = models.ForeignKey('self',blank=True, null=True ,related_name='children')
     def __str__(self):
@@ -174,6 +221,7 @@ class Category(models.Model):
         limit_amount=limit_amount,
         **kwargs
       )
+
 
 # To get the outgoing transactions do: Category.spendings
 class SpendingManager(models.Manager):
@@ -197,7 +245,7 @@ class TransactionManager(models.Manager):
 class Transaction(models.Model):
     title = models.CharField(max_length=200)
     date = models.DateField(validators=[not_future])
-    amount = models.DecimalField(max_digits=20, decimal_places=2)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
     notes = models.TextField(blank=True)
     created = models.DateTimeField(auto_now_add=True)
     reciept = models.ImageField(upload_to='', blank=True, null=True)
@@ -212,7 +260,6 @@ class Transaction(models.Model):
     
     def __str__(self):
         return 'desc: '+ self.title + ' -> $ ' + str(self.amount)
-
 
 
 # class Transaction(models.Model):
@@ -236,5 +283,3 @@ class Transaction(models.Model):
 # class Incoming(Transaction):
 #     def __str__(self):
 #       return 'Incoming desc: '+ self.title + ' -> $ ' + str(self.amount)
-
-

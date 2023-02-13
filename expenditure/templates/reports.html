@@ -1,0 +1,33 @@
+{% extends 'base_content.html' %}
+{% block content %}
+
+
+<div class="card">
+    <div class="text-center">
+        <h1>Reports</h1>
+    </div>
+    <div class="input">
+        <label for="category">Category:</label>
+        <select name="category" id="category">
+          <option value="Overall">Overall</option>
+          <option value="Rent">Rent</option>
+          <option value="Billing">Billing</option>
+          <option value="Shopping">Shopping</option>
+        </select> 
+
+
+        <label for="inputDate" class="col-sm-1">Start Date:</label>
+        <input type="date" id="start" name="start_date">  
+
+        <label for="outputDate" class="col-sm-1">End Date:</label>
+        <input type="date" id="start" name="end_date"> 
+
+        <input type="submit" value="Create Report" class="btn btn-dark">
+        
+        
+    </div>
+    <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+</div>
+
+
+{% endblock %}

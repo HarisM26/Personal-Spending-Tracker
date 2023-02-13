@@ -6,11 +6,13 @@ from datetime import datetime, date, timedelta
 from django.http import HttpResponse, HttpResponseRedirect
 from .news_api import all_articles
 from django.core.files.storage import FileSystemStorage
-from django.urls import reverse
+from django.urls import reverse,reverse_lazy
 from .models import *
 from django.db.models import Sum
 from django.db.models.functions import TruncMonth
 from decimal import *
+from django.views.generic import CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 def home(request):
     return render(request, 'home.html')
@@ -23,6 +25,7 @@ def features(request):
 
 def contact(request):
     return render(request, 'contact.html')
+
 
 def get_unread_nofications(user):
     return Notification.objects.filter(user_receiver = user,status = 'unread').count()
@@ -59,7 +62,7 @@ def mark_as_read(request,id):
    notification.save()
    return redirect('notification_page') 
 
-def all_categories(request):
+def spending(request):
     current_user = request.user
     categories = Category.objects.filter(user = current_user)
     notifications = get_user_notifications(current_user)
@@ -70,7 +73,7 @@ def all_categories(request):
         'categories':categories,
         'unread_status_count': unread_status_count,
         }
-    return render(request, 'all_categories.html',context)
+    return render(request, 'spending.html',context)
 
 def sign_up(request):
     if request.method == 'POST':
@@ -84,66 +87,65 @@ def sign_up(request):
         form = SignUpForm()
     return render(request, 'sign_up.html', {'form': form})
 
-def create_category(request):
-    current_user = request.user
-    notifications = get_user_notifications(current_user)
-    latest_notifications = notifications[0:3]
-    unread_status_count = get_unread_nofications(current_user)
-    if request.method == 'POST':
-        # request.POST contains dictionary with all of the data
-        if request.user.is_authenticated:
-            form = CategoryForm(request.POST)
-            if form.is_valid():
-                name=form.cleaned_data.get('name')
-                is_income=form.cleaned_data.get('is_income')
-                limit=form.cleaned_data.get('limit')
-                category = Category.objects.create(user=current_user,name=name,is_income=is_income)
-                # Create an instance of Limit that corresponds to the category
-                category.createLimit(category, limit)
-                messages.add_message(request, messages.SUCCESS,
-                             "Category created!")
-                return redirect('create_category')
-            messages.add_message(request, messages.ERROR,
-                             "The credentials provided were invalid!")
-        else:
-            return redirect('log_in')
-    else:
-        form = CategoryForm()
-    context = {
-        'form': form,
-        'latest_notifications': latest_notifications,
-        'unread_status_count': unread_status_count,
-    }
-    return render(request, 'create_category.html', context)
+# def edit_category(request, request_id):
+#     current_user = request.user
+#     category = Category.objects.get(id=request_id)
+#     limit = category.limit
+#     if request.method == 'POST':
+#         if request.user.is_authenticated:
+#             form = CategoryEditForm(request.POST)
+#             if form.is_valid():
+#                 name = form.cleaned_data.get('name')
+#                 is_income = form.cleaned_data.get('is_income')
+#                 limit = form.cleaned_data.get('limit')
+#                 category.name = name
+#                 category.is_income = is_income
+#                 limit.limit_amount = limit
+#                 category.save()
+#                 limit.save()
+#                 messages.add_message(request, messages.SUCCESS, "Category Edit Saved!")
+#                 return redirect('all_categories')
+#             messages.add_message(request, messages.ERROR, "The credentials provided were invalid!")
+#         else:
+#             redirect('log_in')
+#     else:
+#         form = CategoryEditForm()
+#         context = {'form':form}
+#         return render(request, 'edit_category.html', context)
 
-def edit_category(request, request_id):
-    current_user = request.user
-    category = Category.objects.get(id=request_id)
-    limit = category.limit
-    if request.method == 'POST':
-        if request.user.is_authenticated:
-            form = CategoryEditForm(request.POST)
-            if form.is_valid():
-                name = form.cleaned_data.get('name')
-                is_income = form.cleaned_data.get('is_income')
-                limit = form.cleaned_data.get('limit')
-                category.name = name
-                category.is_income = is_income
-                limit.limit_amount = limit
-                category.save()
-                limit.save()
-                messages.add_message(request, messages.SUCCESS, "Category Edit Saved!")
-                return redirect('all_categories')
-            messages.add_message(request, messages.ERROR, "The credentials provided were invalid!")
-        else:
-            redirect('log_in')
-    else:
-        form = CategoryEditForm()
-        context = {'form':form}
-        return render(request, 'edit_category.html', context)
+class CreateCategoryView(LoginRequiredMixin,CreateView):
+    template_name = "create_category.html"
+    form_class = CategoryCreationMultiForm
+    #success_url = reverse_lazy('create_category')
 
+    def form_valid(self, form):
+        limit = form['limit'].save(commit=False)
+        limit.remaining_amount = limit.limit_amount
+        limit.save()
+        category = form['category'].save(commit=False)
+        category.user = self.request.user
+        category.limit = limit
+        category.save()
+        messages.add_message(self.request, messages.SUCCESS,
+                                "Category created!")
+        return redirect('create_category')
 
-
+    def form_invalid(self, form):
+        messages.add_message(self.request, messages.ERROR,
+                                "Your input is invalid!, try again")
+        return redirect('create_category')
+    
+    def creation_view(self):
+        current_user = self.request.user
+        notifications = get_user_notifications(current_user)
+        latest_notifications = notifications[0:3]
+        unread_status_count = get_unread_nofications(current_user)
+        context = {
+            'latest_notifications': latest_notifications,
+            'unread_status_count': unread_status_count,
+        }
+        return context
+    
 def log_in(request):
     if request.method == 'POST':
         form = LogInForm(request.POST)
@@ -184,12 +186,13 @@ def add_transaction(request,request_id):
         updated_request.update({'category': category.pk})
         create_transaction_form = create_transaction_form(updated_request, request.FILES)
         if create_transaction_form.is_valid():
-            transaction = create_transaction_form.save(commit=False)
-            transaction.category = category
-            category_limit.addSpentAmount(transaction.amount)
-            category_limit.save()
-            transaction.save()
-            return HttpResponseRedirect(reverse('all_categories'))
+            # transaction = create_transaction_form.save(commit=False)
+            # transaction.category = category
+            # category_limit.addSpentAmount(transaction.amount)
+            # category_limit.save()
+            # transaction.save()
+            transaction = create_transaction_form.save()
+            return HttpResponseRedirect(reverse('spending'))
     else:
         create_transaction_form = create_transaction_form()   
     
@@ -199,13 +202,6 @@ def add_transaction(request,request_id):
     }
 
     return render(request, 'add_transaction.html', context)
-
-def list_spendings(request):
-    spendings = Transaction.spendings.all()
-    context = {
-        'spendings': spendings,
-    }
-    return render(request, 'transactions.html', context=context)
 
 def list_incomings(request):
     incomings = Transaction.incomings.all()
@@ -244,3 +240,29 @@ def view_report(request):
     }
     return render(request, 'report.html', context=context)
 
+def view_settings(request):
+    current_user = request.user
+    toggle = current_user.toggle_notification
+    return render(request,'settings.html',{'toggle':toggle})
+
+def toggle_notification(request):
+    current_user = request.user
+    if current_user.toggle_notification == 'ON':
+        current_user.toggle_notification='OFF'
+        current_user.save()
+    else:
+        current_user.toggle_notification='ON'
+        current_user.save()
+    return redirect('settings')
+    
+def add_friend(request):
+    return render(request, 'add_friend.html')
+
+def leaderboard(request):
+    return render(request, 'leaderboard.html')
+
+def profile(request):
+    return render(request, 'profile.html')
+
+def reports(request):
+    return render(request, 'reports.html')
