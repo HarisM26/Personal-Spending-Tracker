@@ -113,7 +113,7 @@ class Limit(models.Model):
   TIME_LIMIT_TYPE=[('weekly',('weekly')),('monthly',('monthly')),('yearly',('yearly'))]
 
   # To access limit using category object, just do category.limit and vice versa
-  category = models.OneToOneField(Category, null=True, blank=True, on_delete=models.CASCADE)
+  category = models.OneToOneField(Category, null=True, blank=True)
   limit_amount = models.DecimalField(max_digits=10,decimal_places=2)
   # Fields with default values
   spent_amount = models.DecimalField(max_digits=10,decimal_places=2, default=Decimal('0.00'))
