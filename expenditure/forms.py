@@ -8,24 +8,45 @@ from .models import User, Transaction
 from .helpers import not_future
 from betterforms.multiform import MultiModelForm
 
-class TransactionForm(forms.ModelForm):
+class SpendingForm(forms.ModelForm):
     class Meta:
         model = Transaction
         fields = '__all__'
-        exclude = ('category',)
-        widgets = {'date': DatePickerInput(options={"format": "DD/MM/YYYY"})}
+        widgets = {
+            'date': DatePickerInput(options={"format": "DD/MM/YYYY"}),
+            'category': forms.HiddenInput(),
+            }
 
-    def clean_transaction_date(self):
-        transaction_date = self.cleaned_data.get('date')
-        current_date = date.today()
-        if transaction_date > current_date:
-            self.add_error('date', 'The date of your transaction cannot be in the future')
-        return transaction_date  
+    # def clean_spending_date(self):
+    #     spending_date = self.cleaned_data.get('date')
+    #     current_date = date.today()
+    #     if spending_date > current_date:
+    #         self.add_error('date', 'The date of your outgoing outgoing transaction cannot be in the future')
+    #     return spending_date
+
+class IncomingForm(forms.ModelForm):
+    class Meta:
+        model = Transaction
+        fields = '__all__'
+        exclude = ('reciept',)
+        widgets = {
+            'date': DatePickerInput(options={"format": "DD/MM/YYYY"}),
+            'category': forms.HiddenInput(),
+            }
+
+    # def clean_incoming_date(self):
+    #     incoming_date = self.cleaned_data.get('date')
+    #     current_date = date.today()
+    #     if incoming_date > current_date:
+    #         self.add_error('date', 'The date of your incoming transaction cannot be in the future')
+    #     return incoming_date    
 
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
-        fields = ('name',)
+        fields = ('name','is_income')
+
+    #limit = forms.DecimalField(label='Spending Limit')
 
 class LimitForm(forms.ModelForm):
     class Meta:
@@ -87,3 +108,8 @@ class SignUpForm(forms.ModelForm):
             password=self.cleaned_data.get('new_password'),
         )
         return self.user
+
+class DateReportForm(forms.Form):
+    from_date = forms.DateField(label="from", validators=[not_future], widget=DatePickerInput(options={"format": "DD/MM/YYYY"}))
+    to_date = forms.DateField(label="to", validators=[not_future], widget=DatePickerInput(options={"format": "DD/MM/YYYY"}))
+

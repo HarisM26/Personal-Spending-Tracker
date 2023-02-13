@@ -135,8 +135,14 @@ ul,
   font-weight: 900;
   margin: auto;
 }
-
-/*============= SideBar ============= */
+/*Navbar*/
+#navbar-user-first-name {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/*================================================*/
+/* SideBar */
 
 :root {
   --color-default: #03045e;
@@ -300,6 +306,7 @@ ul,
   border: none;
   box-shadow: 2px 2px 5px rgba(32, 78, 119, 0.899);
 }
+/*============================================================*/
 
 /* Spending Category*/
 #spending-categories-detail-div,

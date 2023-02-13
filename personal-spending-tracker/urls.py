@@ -38,11 +38,12 @@ urlpatterns = [
     path('notification_page/<int:id>',views.mark_as_read, name='mark_as_read'),
     path('settings/',views.view_settings,name='settings'),
     path('settings/toggle_notification',views.toggle_notification,name='toggle_notification'),
-    path('transactions/', views.list_transactions, name='list_transactions'),
+    #path('transactions/', views.list_transactions, name='list_transactions'),
     path('transactions/add/<int:request_id>/', views.add_transaction, name='add_transaction'),
+    path('transactions/income/', views.list_incomings, name='list_incomings'),
     path('add_friend/',views.add_friend,name='add_friend'),
     path('leaderboard/',views.leaderboard,name='leaderboard'),
     path('profile/',views.profile,name='profile'),
-    path('reports/',views.reports,name='reports'),
+    path('reports/',views.view_report,name='reports'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     

@@ -1,13 +1,16 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect, get_object_or_404
 from .forms import *
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from datetime import datetime
+from datetime import datetime, date, timedelta
 from django.http import HttpResponse, HttpResponseRedirect
 from .news_api import all_articles
 from django.core.files.storage import FileSystemStorage
 from django.urls import reverse,reverse_lazy
 from .models import *
+from django.db.models import Sum
+from django.db.models.functions import TruncMonth
+from decimal import *
 from django.views.generic import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -84,6 +87,32 @@ def sign_up(request):
         form = SignUpForm()
     return render(request, 'sign_up.html', {'form': form})
 
+# def edit_category(request, request_id):
+#     current_user = request.user
+#     category = Category.objects.get(id=request_id)
+#     limit = category.limit
+#     if request.method == 'POST':
+#         if request.user.is_authenticated:
+#             form = CategoryEditForm(request.POST)
+#             if form.is_valid():
+#                 name = form.cleaned_data.get('name')
+#                 is_income = form.cleaned_data.get('is_income')
+#                 limit = form.cleaned_data.get('limit')
+#                 category.name = name
+#                 category.is_income = is_income
+#                 limit.limit_amount = limit
+#                 category.save()
+#                 limit.save()
+#                 messages.add_message(request, messages.SUCCESS, "Category Edit Saved!")
+#                 return redirect('all_categories')
+#             messages.add_message(request, messages.ERROR, "The credentials provided were invalid!")
+#         else:
+#             redirect('log_in')
+#     else:
+#         form = CategoryEditForm()
+#         context = {'form':form}
+#         return render(request, 'edit_category.html', context)
+
 class CreateCategoryView(LoginRequiredMixin,CreateView):
     template_name = "create_category.html"
     form_class = CategoryCreationMultiForm
@@ -144,28 +173,72 @@ def news_page(request):
     return render(request, 'news_page.html',{'articles':articles})   
 
 def add_transaction(request,request_id):
-    category = Category.objects.get(id=request_id)
+    category = get_object_or_404(Category, id=request_id)
+    category_limit = category.limit
+
+    if category.is_income:
+        create_transaction_form = IncomingForm
+    else:
+        create_transaction_form = SpendingForm
+
     if request.method == 'POST':
-        create_transaction_form = TransactionForm(request.POST, request.FILES)
+        updated_request = request.POST.copy()
+        updated_request.update({'category': category.pk})
+        create_transaction_form = create_transaction_form(updated_request, request.FILES)
         if create_transaction_form.is_valid():
-            transaction = create_transaction_form.save(commit=False)
-            transaction.category = category
-            transaction.save()
+            # transaction = create_transaction_form.save(commit=False)
+            # transaction.category = category
+            # category_limit.addSpentAmount(transaction.amount)
+            # category_limit.save()
+            # transaction.save()
+            transaction = create_transaction_form.save()
             return HttpResponseRedirect(reverse('spending'))
     else:
-        create_transaction_form = TransactionForm()   
+        create_transaction_form = create_transaction_form()   
+    
     context = {
         'request_id': request_id,
         'create_transaction_form': create_transaction_form,
     }
+
     return render(request, 'add_transaction.html', context)
 
-def list_transactions(request):
-    transactions = Transaction.objects.all()
+def list_incomings(request):
+    incomings = Transaction.incomings.all()
     context = {
-        'transactions': transactions,
+        'incomings': incomings,
     }
-    return render(request, 'transactions.html', context=context)
+    return render(request, 'incomings.html', context=context)
+
+def get_total_transactions_by_date(request, from_date, to_date):
+    return Transaction.spendings.filter(
+        date__gte=from_date,
+        date__lte=to_date,
+        category__user=request.user
+    ).annotate(month=TruncMonth("date")).values("month").annotate(total=Sum("amount")).values("month", "total")
+
+def view_report(request):
+    from_date = date(date.today().year-1, date.today().month, 1)
+    to_date = date.today()
+
+    if request.method == "POST":
+        form = DateReportForm(request.POST)
+        if form.is_valid():
+            from_date = form.cleaned_data.get("from_date")
+            to_date = form.cleaned_data.get("to_date")
+    else:
+        form = DateReportForm(initial={
+            "from_date": from_date,
+            "to_date": to_date
+        })
+    
+    transactions = get_total_transactions_by_date(request, from_date, to_date)
+
+    context = {
+        "form": form,
+        "transactions": transactions,
+    }
+    return render(request, 'report.html', context=context)
 
 def view_settings(request):
     current_user = request.user
