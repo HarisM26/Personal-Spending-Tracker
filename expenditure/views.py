@@ -84,35 +84,6 @@ def sign_up(request):
         form = SignUpForm()
     return render(request, 'sign_up.html', {'form': form})
 
-#def create_category(request):
-#    current_user = request.user
-#    notifications = get_user_notifications(current_user)
-#    latest_notifications = notifications[0:3]
-#    unread_status_count = get_unread_nofications(current_user)
-#    if request.method == 'POST':
-#        # request.POST contains dictionary with all of the data
-#        if request.user.is_authenticated:
-#            form = CategoryForm(request.POST)
-#            if form.is_valid():
-#                name=form.cleaned_data.get('name')
-#                limit=form.cleaned_data.get('limit')
-#                category = Category.objects.create(user=current_user,name=name,limit=limit)
-#                messages.add_message(request, messages.SUCCESS,
-#                             "Category created!")
-#                return redirect('create_category')
-#            messages.add_message(request, messages.ERROR,
-#                             "The credentials provided were invalid!")
-#        else:
-#            return redirect('log_in')
-#    else:
-#        form = CategoryForm()
-#    context = {
-#        'form': form,
-#        'latest_notifications': latest_notifications,
-#        'unread_status_count': unread_status_count,
-#    }
-#    return render(request, 'create_category.html', context)
-
 class CreateCategoryView(LoginRequiredMixin,CreateView):
     template_name = "create_category.html"
     form_class = CategoryCreationMultiForm
@@ -146,29 +117,6 @@ class CreateCategoryView(LoginRequiredMixin,CreateView):
         }
         return context
     
-    #    if request.method == 'POST':
-    #        # request.POST contains dictionary with all of the data
-    #        if request.user.is_authenticated:
-    #            form = self.form_class
-    #            form.cleaned_data['user']=current_user
-    #            
-    #            if form.is_valid():
-    #                form.save()
-    #                #name=form.cleaned_data.get('name')
-    #                #limit=form.cleaned_data.get('limit')
-    #                #category = Category.objects.create(user=current_user,name=name,limit=limit)
-    #                messages.add_message(request, messages.SUCCESS,
-    #                             "Category created!")
-    #                return redirect('create_category')
-    #            messages.add_message(request, messages.ERROR,
-    #                             "You provided invalid input!")
-    #        else:
-    #            return redirect('log_in')
-    #    else:
-    #        form = CategoryForm()
-    #    
-    #    return render(request, 'create_category.html', context)
-
 def log_in(request):
     if request.method == 'POST':
         form = LogInForm(request.POST)
@@ -234,3 +182,14 @@ def toggle_notification(request):
         current_user.save()
     return redirect('settings')
     
+def add_friend(request):
+    return render(request, 'add_friend.html')
+
+def leaderboard(request):
+    return render(request, 'leaderboard.html')
+
+def profile(request):
+    return render(request, 'profile.html')
+
+def reports(request):
+    return render(request, 'reports.html')

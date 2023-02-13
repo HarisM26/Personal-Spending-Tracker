@@ -1,40 +1,37 @@
-<div class="collapse navbar-collapse" id="navbarSupportedContent">
-  <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-  </ul>
-  <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-    <li>
-      <a href= "{% url 'all_categories' %}"> view all categories </a>
-    </li>
-    <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="fa-regular fa-bell">
-          {% if unread_status_count > 0 %}
-            <span class="badge rounded-pill bg-danger"> &#160; </span>
-          {% endif %}
-        </i> 
-      </a>
-      <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-        {% for notification in latest_notifications%}
-        {% if notification.status == 'unread'%}
-          <li><a class="dropdown-item" href="{% url 'mark_as_read' notification.id %}"><strong>{{ notification.title }}</strong></a></li>
-        {% else %}
-        <li><a class="dropdown-item" href="{% url 'mark_as_read' notification.id %}">{{ notification.title }}</a></li>
-        {% endif%}
-        {% endfor%}
-        <li><hr class="dropdown-divider"></li>
-        <li><a class="dropdown-item" href="{% url 'notification_page' %}">See all notifications</a></li>
-      </ul>
-    </li>
-    <li class="nav-item dropdown">
-      <a class="nav-link" href="#" id="user-account-dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        <span class="bi-person-circle"></span>
-      </a>
-      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="user-account-dropdown" id="profile_list">
-        <li><a class="dropdown-item" href="#">My Profile</a></li>
-        <li><a class="dropdown-item" href="{% url 'settings' %}">Settings</a></li>
-        <li><hr class="dropdown-divider"></li>
-        <li><a class="dropdown-item" href="{% url 'log_out' %}">Log out</a></li>
-      </ul>
-    </li>
-  </ul>
-</div>
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fa-regular fa-bell">
+            {% if unread_status_count > 0 %}
+              <span class="badge rounded-pill bg-danger"> &#160; </span>
+            {% endif %}
+          </i> 
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          {% for notification in latest_notifications%}
+          {% if notification.status == 'unread'%}
+            <li><a class="dropdown-item" href="{% url 'mark_as_read' notification.id %}"><strong>{{ notification.title }}</strong></a></li>
+          {% else %}
+          <li><a class="dropdown-item" href="{% url 'mark_as_read' notification.id %}">{{ notification.title }}</a></li>
+          {% endif%}
+          {% endfor%}
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="{% url 'notification_page' %}">See all notifications</a></li>
+        </ul>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link" href="#" id="user-account-dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <span class="bi-person-circle"></span>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="user-account-dropdown" id="profile_list">
+          <li><a class="dropdown-item" href="#">My Profile</a></li>
+          <li><a class="dropdown-item" href="{% url 'settings' %}">Settings</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="{% url 'log_out' %}">Log out</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</nav>
