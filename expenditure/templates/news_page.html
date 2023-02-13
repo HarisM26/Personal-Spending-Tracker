@@ -15,7 +15,7 @@
     <!--get source which is a dict and pass it as a value -->
     <p class="card-text">Source &#160; {{ article|get_article_dict_element:"source"|get_article_dict_element:"Name" }}</p>
     <p class="card-text"><small class="text-muted">Published on {{ article|get_article_dict_element:"publishedAt"|convert_date}}</small></p>
-    <a href="{{ article|get_article_dict_element:'url' }}" target="_blank" class="btn btn-primary">View article</a>
+    <a href="{{ article|get_article_dict_element:'url' }}" target="_blank" class="btn btn-info">View article</a>
   </div>
 </div>
 {% endfor %}

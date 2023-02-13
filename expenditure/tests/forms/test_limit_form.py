@@ -2,6 +2,7 @@ from django.test import TestCase
 from django import forms
 from expenditure.forms import LimitForm
 from expenditure.models import Limit
+from django.core.exceptions import ValidationError
 
 
 class LimitFormTestCase(TestCase):
@@ -15,7 +16,8 @@ class LimitFormTestCase(TestCase):
         }
 
     def assert_limitform_is_valid(self):
-        self.assertTrue(is_valid())
+        form = LimitForm(data=self.form_input)
+        self.assertTrue(form.is_valid())
 
     def assert_limitform_is_invalid(self):
         with self.assertRaises(ValidationError):

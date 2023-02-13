@@ -145,7 +145,6 @@ class Transaction(models.Model):
     date = models.DateField(validators=[not_future])
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     notes = models.TextField(blank=True)
-    is_income = models.BooleanField(default=False)
     reciept = models.ImageField(upload_to='', blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     category = models.ForeignKey(Category, on_delete=models.PROTECT)

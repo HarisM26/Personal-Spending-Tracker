@@ -67,9 +67,6 @@ class TestTransactionModel(TestCase):
         self.assertEqual(date.today().year, self.transaction.created.year)
         self.assertEqual(date.today().month, self.transaction.created.month)
         self.assertEqual(date.today().day, self.transaction.created.day)
-    
-    def test_default_is_income_false(self):
-        self.assertFalse(self.transaction.is_income)
 
     def test_unrequired_notes(self):
         self.transaction.notes = 'some notes' 

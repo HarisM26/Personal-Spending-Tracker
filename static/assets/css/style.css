@@ -14,6 +14,7 @@ body {
   background-position: center center;
   position: relative;
   font-family: "Lato", sans-serif;
+  color: var(--color-dark);
 }
 /* === New Page CSS ===*/
 #news-card {
@@ -63,6 +64,7 @@ h3 {
 #create-transaction-div {
   display: flex;
   justify-content: right;
+  margin-bottom: 20px;
 }
 /* tree view */
 ul,
@@ -137,18 +139,19 @@ ul,
 /*============= SideBar ============= */
 
 :root {
-  --color-default: #004f83;
+  --color-default: #03045e;
+  --color-dark: #02033e;
   --color-second: #0067ac;
-  --color-white: #fff;
+  --color-white: #ffffff;
   --color-body: #e4e9f7;
-  --color-light: #e0e0e0;
+  --color-light: #caf0f8;
 }
 
 .sidebar {
   width: 78px;
   padding: 6px 13px;
   z-index: 99;
-  background-color: #004f83;
+  background-color: var(--color-default);
   transition: all 0.5s ease;
   position: fixed;
   margin: auto;
@@ -289,3 +292,28 @@ ul,
   font-size: 18px;
   border-radius: 5px;
 }
+
+.btn,
+.btn-info {
+  background-color: var(--color-default);
+  color: #fff;
+  border: none;
+  box-shadow: 2px 2px 5px rgba(32, 78, 119, 0.899);
+}
+
+/* Spending Category*/
+#spending-categories-detail-div,
+#total-transaction,
+.transaction_list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#category-name-tag {
+  float: left;
+}
+
+.category_list {
+  margin-top: 5px;
+}
+/*================================*/

@@ -11,7 +11,7 @@
                   <form action="{% url 'add_transaction' request_id %}" method="post">
                       {% csrf_token %}
                       {% include 'partials/bootstrap_form.html' with form=create_transaction_form %}
-                  <input type="submit" value="Add transaction" class="btn btn-100">
+                  <input type="submit" value="Add transaction" class="btn btn-info">
                   </form>
               </div>
           </div>
