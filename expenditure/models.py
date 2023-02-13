@@ -4,15 +4,10 @@ from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractBaseUser, UserManager, PermissionsMixin
 from django.contrib.auth.base_user import BaseUserManager
 from django.utils.translation import gettext_lazy as _
-<<<<<<< HEAD
-from datetime import datetime, date, timedelta
-from decimal import Decimal
-=======
 from datetime import datetime
 from .helpers import not_future
 from decimal import Decimal
 from django.core.validators import MinValueValidator
->>>>>>> notification
 
 
 class UserManager(BaseUserManager):
@@ -73,6 +68,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
   objects =  UserManager()
   
+
 def __str__(self):
   return self.email
 
@@ -81,112 +77,18 @@ class Limit(models.Model):
   #TIME_LIMIT_TYPE=[('weekly',('weekly')),('monthly',('monthly')),('yearly',('yearly'))]
 
   limit_amount = models.DecimalField(max_digits=10,decimal_places=2,null=False, validators=[MinValueValidator(Decimal('0.01'))])
-  remaining_amount = models.DecimalField(max_digits=10,decimal_places=2, default= 0.00)
+  remaining_amount = models.DecimalField(max_digits=10,decimal_places=2, default=Decimal('0.00'))
   status = models.CharField(max_length=50, choices=LIMIT_STATUS, default='not reached')
   #time_limit_type = models.CharField(max_length=50, choices=TIME_LIMIT_TYPE, default='weekly')
-  start_date = models.DateField()
-  end_date = models.DateField()
- 
-  def __str__(self):
-    return str(self.limit_amount)
-
-  @property
-  def calc_90_percent_of_limit(self):
-    return Decimal(self.limit_amount)*Decimal('0.90')
-
-  #def update_status(self):
-    #used_percent = self.get_percentage_of_limit_used()
-    #if used_percent >= 1.0:
-      #self.status = 'reached'
-    #elif used_percent >= 0.9:
-      #self.status = 'approaching'
-    #else:
-      #self.status ='not reached'
-  
-  #def get_percentage_of_limit_used(self):
-    #return self.spent_amount/self.limit_amount
-
-  #def save(self, *args, **kwargs):
-    #self.update_status()
-    #super(Limit, self).save(*args, **kwargs)
-    
-class Notification(models.Model):
-    STATUS_CHOICE=[('unread',('unread')),('read',('read'))]
-    user_receiver = models.ForeignKey(User,on_delete=models.CASCADE)
-    title = models.CharField(max_length=300)
-    message = models.CharField(max_length = 1200)
-    status = models.CharField(max_length=6,choices=STATUS_CHOICE,default= 'unread')
-    time_created = models.TimeField(auto_now_add=True)
-    date_created = models.DateField(auto_now_add=True)
-
-    class Meta:
-        ordering = ['-date_created','-time_created']
-    
-    def __str__(self):
-        return self.message
-
-<<<<<<< HEAD
-=======
-class Category(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=50)
-    limit = models.OneToOneField(Limit, on_delete=models.CASCADE)
-    #slug = models.SlugField()
-    #parent = models.ForeignKey('self',blank=True, null=True ,related_name='children')
-    def __str__(self):
-        return self.name
-    """
-    class Meta:
-        #enforcing that there can not be two categories under a parent with same slug
-        
-        # __str__ method elaborated later in post.  use __unicode__ in place of
-        
-        # __str__ if you are using python 2
->>>>>>> notification
-
-class Category(models.Model):
-  user = models.ForeignKey(User, on_delete=models.CASCADE)
-  name = models.CharField(max_length=50)
-  is_income = models.BooleanField(default=False)
-
-  # Used to create and save new instance of limit associated with this category
-  def createLimit(category, limit_amount, **kwargs):
-    Limit.objects.create(
-      category=category,
-      limit_amount=limit_amount,
-      **kwargs
-    )
-
-  def __str__(self):
-    return self.name
-
-
-    
-class Limit(models.Model):
-  LIMIT_STATUS=[('reached',('reached')),('not reached',('not reached')), ('approaching',('approaching'))]
-  TIME_LIMIT_TYPE=[('weekly',('weekly')),('monthly',('monthly')),('yearly',('yearly'))]
-
-  # To access limit using category object, just do category.limit and vice versa
-  category = models.OneToOneField(Category, null=True, blank=True, on_delete=models.CASCADE)
-  limit_amount = models.DecimalField(max_digits=10,decimal_places=2)
-  # Fields with default values
-  spent_amount = models.DecimalField(max_digits=10,decimal_places=2, default=Decimal('0.00'))
-  status = models.CharField(max_length=50, choices=LIMIT_STATUS, default='not reached')
-  time_limit_type = models.CharField(max_length=50, choices=TIME_LIMIT_TYPE, default='weekly')
   start_date = models.DateField(default=date.today)
   end_date = models.DateField(default=date.today() + timedelta(weeks=1))
-
-  def update_status(self):
-    used_percent = self.get_percentage_of_limit_used()
-    if used_percent >= 1.0:
-      self.status = 'reached'
-    elif used_percent >= 0.9:
-      self.status = 'approaching'
-    else:
-      self.status ='not reached'
   
   def get_percentage_of_limit_used(self):
     return self.spent_amount/self.limit_amount
+  
+  @property
+  def calc_90_percent_of_limit(self):
+    return Decimal(self.limit_amount)*Decimal('0.90')
 
   # Return the amount spent from limit
   def getSpentAmount(self):
@@ -201,7 +103,7 @@ class Limit(models.Model):
     if (limitAmount >= 0):
       self.limit_amount = limitAmount
     else:
-      return -1
+      return -1 
 
   # Set spent amount in limit to spentAmount
   def setSpentAmount(self, spentAmount):
@@ -227,17 +129,46 @@ class Limit(models.Model):
     else:
       return -1
 
-  def save(self, *args, **kwargs):
-    self.update_status()
-    super(Limit, self).save(*args, **kwargs)
+    
+class Notification(models.Model):
+    STATUS_CHOICE=[('unread',('unread')),('read',('read'))]
+    user_receiver = models.ForeignKey(User,on_delete=models.CASCADE)
+    title = models.CharField(max_length=300)
+    message = models.CharField(max_length = 1200)
+    status = models.CharField(max_length=6,choices=STATUS_CHOICE,default= 'unread')
+    time_created = models.TimeField(auto_now_add=True)
+    date_created = models.DateField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-date_created','-time_created']
+    
+    def __str__(self):
+        return self.message
+
+
+class Category(models.Model):
+  user = models.ForeignKey(User, on_delete=models.CASCADE)
+  name = models.CharField(max_length=50)
+  is_income = models.BooleanField(default=False)
+  limit = models.OneToOneField(Limit, on_delete=models.CASCADE)
+
+  # Used to create and save new instance of limit associated with this category
+  def createLimit(category, limit_amount, **kwargs):
+    Limit.objects.create(
+      category=category,
+      limit_amount=limit_amount,
+      **kwargs
+    )
+
+  def __str__(self):
+    return self.name
 
 
 class Transaction(models.Model):
     title = models.CharField(max_length=200)
-    date = models.DateField(validators=[not_future])
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    date = models.DateField()
+    amount = models.DecimalField(max_digits=20, decimal_places=2)
     notes = models.TextField(blank=True)
-    is_income = models.BooleanField(default=False)
     reciept = models.ImageField(upload_to='', blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     category = models.ForeignKey(Category, related_name="transactions", on_delete=models.PROTECT)
@@ -247,8 +178,3 @@ class Transaction(models.Model):
 
     class Meta:
         ordering = ['-date',]
-
-
-
-
-  

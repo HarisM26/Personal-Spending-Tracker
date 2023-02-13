@@ -8,13 +8,8 @@ from .news_api import all_articles
 from django.core.files.storage import FileSystemStorage
 from django.urls import reverse,reverse_lazy
 from .models import *
-<<<<<<< HEAD
-from decimal import *
-
-=======
 from django.views.generic import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
->>>>>>> notification
 
 def home(request):
     return render(request, 'home.html')
@@ -89,7 +84,6 @@ def sign_up(request):
         form = SignUpForm()
     return render(request, 'sign_up.html', {'form': form})
 
-<<<<<<< HEAD
 def edit_category(request, request_id):
     current_user = request.user
     category = Category.objects.get(id=request_id)
@@ -117,7 +111,6 @@ def edit_category(request, request_id):
         return render(request, 'edit_category.html', context)
 
 
-=======
 class CreateCategoryView(LoginRequiredMixin,CreateView):
     template_name = "create_category.html"
     form_class = CategoryCreationMultiForm
@@ -134,7 +127,6 @@ class CreateCategoryView(LoginRequiredMixin,CreateView):
         messages.add_message(self.request, messages.SUCCESS,
                                 "Category created!")
         return redirect('create_category')
->>>>>>> notification
 
     def form_invalid(self, form):
         messages.add_message(self.request, messages.ERROR,
