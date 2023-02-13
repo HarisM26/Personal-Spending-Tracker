@@ -20,6 +20,7 @@ def get_transaction_total(iterable):
 def get_article_dict_element(dict, key):
   return dict[f'{key}']
 
+#change date format to eg. 01 January, 2000
 @register.filter
 def convert_date(date):
   dt = datetime.strptime(date,'%Y-%m-%dT%H:%M:%SZ')
