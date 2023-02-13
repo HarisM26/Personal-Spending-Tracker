@@ -8,6 +8,7 @@ from .news_api import all_articles
 from django.core.files.storage import FileSystemStorage
 from django.urls import reverse
 from .models import *
+from decimal import *
 
 
 def home(request):
@@ -93,8 +94,11 @@ def create_category(request):
             form = CategoryForm(request.POST)
             if form.is_valid():
                 name=form.cleaned_data.get('name')
+                is_income=form.cleaned_data.get('is_income')
                 limit=form.cleaned_data.get('limit')
-                category = Category.objects.create(user=current_user,name=name,limit=limit)
+                category = Category.objects.create(user=current_user,name=name,is_income=is_income)
+                # Create an instance of Limit that corresponds to the category
+                category.createLimit(category, limit)
                 messages.add_message(request, messages.SUCCESS,
                              "Category created!")
                 return redirect('create_category')
@@ -110,6 +114,33 @@ def create_category(request):
         'unread_status_count': unread_status_count,
     }
     return render(request, 'create_category.html', context)
+
+def edit_category(request, request_id):
+    current_user = request.user
+    category = Category.objects.get(id=request_id)
+    limit = category.limit
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            form = CategoryEditForm(request.POST)
+            if form.is_valid():
+                name = form.cleaned_data.get('name')
+                is_income = form.cleaned_data.get('is_income')
+                limit = form.cleaned_data.get('limit')
+                category.name = name
+                category.is_income = is_income
+                limit.limit_amount = limit
+                category.save()
+                limit.save()
+                messages.add_message(request, messages.SUCCESS, "Category Edit Saved!")
+                return redirect('all_categories')
+            messages.add_message(request, messages.ERROR, "The credentials provided were invalid!")
+        else:
+            redirect('log_in')
+    else:
+        form = CategoryEditForm()
+        context = {'form':form}
+        return render(request, 'edit_category.html', context)
+
 
 
 def log_in(request):
@@ -140,11 +171,14 @@ def news_page(request):
 
 def add_transaction(request,request_id):
     category = Category.objects.get(id=request_id)
+    category_limit = category.limit
     if request.method == 'POST':
         create_transaction_form = TransactionForm(request.POST, request.FILES)
         if create_transaction_form.is_valid():
             transaction = create_transaction_form.save(commit=False)
             transaction.category = category
+            category_limit.addSpentAmount(transaction.amount)
+            category_limit.save()
             transaction.save()
             return HttpResponseRedirect(reverse('all_categories'))
     else:

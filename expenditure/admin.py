@@ -4,8 +4,13 @@ from django.contrib.auth.admin import UserAdmin
 from .forms import SignUpForm
 
 # Register your models here.
+class LimitInline(admin.StackedInline):
+  model = Limit
+  extra = 0
+  
 class CategoryAdmin(admin.ModelAdmin):
-  list_display = ('name','limit')
+  list_display = ('name','is_income')
+  inlines = [LimitInline]
 admin.site.register(Category,CategoryAdmin)
 
 class TransactionAdmin(admin.ModelAdmin):

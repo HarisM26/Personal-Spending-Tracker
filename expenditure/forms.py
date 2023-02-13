@@ -16,7 +16,9 @@ class TransactionForm(forms.ModelForm):
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
-        fields = ('name','limit')
+        fields = ('name','is_income')
+
+    limit = forms.DecimalField(label='Spending Limit')
 
 class LogInForm(forms.Form):
     email = forms.CharField(label='Email')

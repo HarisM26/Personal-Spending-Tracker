@@ -12,10 +12,10 @@ def transaction_post_save_handler(instance,created,*args,**kwargs):
     for transaction in all_transactions:
       sum+=transaction.amount
 
-    if sum >= (instance.category.limit*Decimal('0.90')) and sum < instance.category.limit :
+    if sum >= (instance.category.limit.getLimitAmount()*Decimal('0.90')) and sum < instance.category.limit.getLimitAmount() :
       notification = create_notification(current_user,instance.category.limit,sum)
       print(notification.message)
-    elif sum >= (instance.category.limit*Decimal('0.90')):
+    elif sum >= (instance.category.limit.getLimitAmount()*Decimal('0.90')):
       notification = create_notification(current_user,instance.category.limit,sum)
       print(notification.message)
 
