@@ -115,7 +115,7 @@ class Limit(models.Model):
 
   # To access limit using category object, just do category.limit and vice versa
   category = models.OneToOneField(Category, null=True, blank=True, on_delete=models.PROTECT)
-  limit_amount = models.DecimalField(max_digits=10,decimal_places=2)
+  limit_amount = models.DecimalField(max_digits=10,decimal_places=2, validators=[MinValueValidator(Decimal('0.01'))])
   # Fields with default values
   spent_amount = models.DecimalField(max_digits=10,decimal_places=2, default=Decimal('0.00'))
   status = models.CharField(max_length=50, choices=LIMIT_STATUS, default='not reached')
