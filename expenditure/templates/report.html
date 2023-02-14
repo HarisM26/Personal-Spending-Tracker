@@ -12,7 +12,7 @@
                 <form action="" method="post">
                     {% csrf_token %}
                     {% include 'partials/bootstrap_form.html' with form=form %}
-                <input type="submit" value="Get report" class="btn btn-primary btn-100">
+                <input id="get-report-btn" type="submit" value="Get report" class="btn btn-primary btn-100">
                 </form>
                 {% for transaction in transactions %}
                   <li>{{transaction.month}} &#187;&#187;&#187; <span> &#45; &#163;{{transaction.total}} </span></li>

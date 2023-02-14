@@ -141,6 +141,14 @@ ul,
   justify-content: center;
   align-items: center;
 }
+.fa-bell,
+.bi-person-circle {
+  color: var(--color-dark);
+}
+.bg-danger {
+  width: 0.5px;
+  height: 0.5px;
+}
 /*================================================*/
 /* SideBar */
 
@@ -324,3 +332,9 @@ ul,
   margin-top: 5px;
 }
 /*================================*/
+
+/*Reports*/
+#bar-chart-container {
+  margin-top: 30px;
+}
+/*==============================*/

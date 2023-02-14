@@ -107,8 +107,6 @@ class Profile(models.Model):
   
   #def __str__(self):
    # return self.user.user_id
-
-
     
 class Notification(models.Model):
     STATUS_CHOICE=[('unread',('unread')),('read',('read'))]
