@@ -2,11 +2,13 @@
 
 {% block content %}
 
-<div class="card">
-    <div class="text-center">
-        <h1>Feed</h1>
+<section class="content-section">
+    <div class="text">Dashboard</div>
+    <div class="main-card">
+        <p>Welcome {name} to VMT</p>
+        <div id="bar-chart-container">
+            <canvas id="monthly-chart"> </canvas>
+        </div>
     </div>
-    <p><a href='{% url "create_category" %}'>Create category</a></p>
-
-</div>
+</section>
 {% endblock %}

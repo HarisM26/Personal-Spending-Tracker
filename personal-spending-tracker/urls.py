@@ -15,13 +15,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls.static import static
+from django.conf import settings
 from expenditure import views
+
 #import notifications.urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
-    path('register/',views.register,name='register'),
+    path('sign_up/',views.sign_up,name='sign_up'),
     path('log_in/', views.log_in, name='log_in'),
     path('feed/',views.feed, name='feed'),
     path('log_out/',views.log_out, name='log_out'),
@@ -30,11 +33,17 @@ urlpatterns = [
     path('contact/',views.contact, name='contact'),
     path('news_page/',views.news_page, name='news_page'),
     path('notification_page/',views.notification_page, name='notification_page'),
-    path('create_category/',views.create_category,name='create_category'),
-    path('all_categories/', views.all_categories, name='all_categories'),
+    path('create_category/',views.CreateCategoryView.as_view(),name='create_category'),
+    path('spending/', views.spending, name='spending'),
     path('notification_page/<int:id>',views.mark_as_read, name='mark_as_read'),
+    path('settings/',views.view_settings,name='settings'),
+    path('settings/toggle_notification',views.toggle_notification,name='toggle_notification'),
+    #path('transactions/', views.list_transactions, name='list_transactions'),
+    path('transactions/add/<int:request_id>/', views.add_transaction, name='add_transaction'),
+    path('transactions/income/', views.list_incomings, name='list_incomings'),
     path('add_friend/',views.add_friend,name='add_friend'),
     path('leaderboard/',views.leaderboard,name='leaderboard'),
     path('profile/',views.profile,name='profile'),
-    path('reports/',views.reports,name='reports')
-]
+    path('reports/',views.view_report,name='reports'),
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    
