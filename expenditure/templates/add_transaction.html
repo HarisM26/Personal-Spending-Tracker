@@ -9,8 +9,8 @@
     <div class="main-card">
         <form action="{% url 'add_transaction' request_id %}" method="post">
             {% csrf_token %}
-            {% include 'partials/bootstrap_form.html' with form=form %}
-            <input type="submit" value="Add Transaction" class="btn btn-info">
+            {% include 'partials/bootstrap_form.html' with form=create_transaction_form %}
+            <input type="submit" value="Add transaction" class="btn btn-info">
         </form>
     </div>
 </section>

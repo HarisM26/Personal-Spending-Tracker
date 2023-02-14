@@ -16,7 +16,12 @@ body {
   font-family: "Lato", sans-serif;
   color: var(--color-dark);
 }
-/* === New Page CSS ===*/
+/* === News Page CSS ===*/
+.news-title{
+  text-align: center;
+  color: black;
+}
+
 #news-card {
   padding: 0em 1em;
   margin: 1em 0em;
@@ -38,6 +43,7 @@ body {
   #news-card,
   .card-section {
     max-width: 900px;
+    left: 0%;
   }
   .card-section {
     margin: auto;
@@ -149,6 +155,7 @@ ul,
   padding: 40px 40px;
   position: relative;
   background-color: white;
+  right: 0%;
 }
 
 .main-card h1 {
