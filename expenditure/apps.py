@@ -1,9 +1,8 @@
 from django.apps import AppConfig
 
-
 class ExpenditureConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'expenditure'
+    name = 'expenditure' 
     
     def ready(self):
         from . import signals
