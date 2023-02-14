@@ -64,18 +64,6 @@ class CategoryCreationMultiForm(MultiModelForm):
         'limit': LimitForm
     }
 
-    #def save(self, commit=True):
-    #    objects = super(CategoryCreationMultiForm,self).save(commit=False)
-    #    
-    #    if commit:
-    #        limit=objects['limit']
-    #        limit.remaining_amount = limit.limit_amount
-    #        limit.save()
-    #        category=objects['category']      
-    #        category.limit = limit
-    #        category.save()
-#
-    #    return objects
 
 class LogInForm(forms.Form):
     email = forms.CharField(label='Email')

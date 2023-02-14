@@ -45,6 +45,8 @@ class CustomUserAdmin(UserAdmin):
     search_fields = ("email",)
     ordering = ("email",)
 
+
 admin.site.register(User, CustomUserAdmin)
+admin.site.register(Profile)
 # Register your models here.
 

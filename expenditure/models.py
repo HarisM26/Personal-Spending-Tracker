@@ -47,13 +47,13 @@ class User(AbstractBaseUser, PermissionsMixin):
 
   first_name = models.CharField(
     max_length=30,
-    blank=True,
     )
 
   last_name = models.CharField(
     max_length=150,
-    blank=True,
     )
+
+  id = models.AutoField(primary_key=True) 
 
   is_staff = models.BooleanField(default=False)
     
@@ -67,8 +67,12 @@ class User(AbstractBaseUser, PermissionsMixin):
 
   objects =  UserManager()
   
-def __str__(self):
-  return self.email
+  def __str__(self):   
+    return self.email
+
+  @property 
+  def user_id(self):
+    str(self.id) + self.first_name
 
 class Limit(models.Model):
   LIMIT_STATUS=[('reached',('reached')),('not reached',('not reached')), ('approaching',('approaching'))]
@@ -88,6 +92,23 @@ class Limit(models.Model):
   def calc_90_percent_of_limit(self):
     return Decimal(self.limit_amount)*Decimal('0.90')
   
+
+class Profile(models.Model):
+  user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+  def __str__(self):
+    return self.user.email
+  
+  def __str__(self):
+    return self.user.first_name
+  
+  def __str__(self):
+    return self.user.last_name
+  
+  #def __str__(self):
+   # return self.user.user_id
+
+
     
 class Notification(models.Model):
     STATUS_CHOICE=[('unread',('unread')),('read',('read'))]
