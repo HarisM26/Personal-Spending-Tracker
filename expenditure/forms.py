@@ -43,6 +43,12 @@ class CategoryCreationMultiForm(MultiModelForm):
         'limit': LimitForm
     }
 
+class CategoryEditMultiForm(MultiModelForm):
+    form_classes = {
+        'category': CategoryForm,
+        'limit': LimitForm
+    }
+
     #def save(self, commit=True):
     #    objects = super(CategoryCreationMultiForm,self).save(commit=False)
     #    

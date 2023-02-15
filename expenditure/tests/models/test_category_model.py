@@ -1,8 +1,8 @@
 from django.test import TestCase
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.core.exceptions import ValidationError
 from expenditure.models import Category,Limit,User
-from decimal import *
+from decimal import Decimal
 
 class CategoryModelTest(TestCase):
 
@@ -14,7 +14,13 @@ class CategoryModelTest(TestCase):
                 email = 'johndoe@email.com'
             ),
             name = "CategoryName",
-            is_income = False
+            is_income = False,
+            limit = Limit.objects.create(
+                limit_amount= Decimal('1000.00'),
+                remaining_amount = Decimal('1000.00'),
+                start_date=datetime.date(datetime.now()),
+                end_date=datetime.date(datetime.now()) + timedelta(days=7)
+            )
         )
 
     def assert_category_is_valid(self):

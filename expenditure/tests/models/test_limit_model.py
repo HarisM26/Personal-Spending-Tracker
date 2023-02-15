@@ -2,6 +2,7 @@ from django.test import TestCase
 from expenditure.models import Limit
 from django.core.exceptions import ValidationError
 from datetime import timedelta,datetime
+from decimal import Decimal
 
 
 
@@ -35,23 +36,23 @@ class LimitModelTest(TestCase):
         self.assert_limit_is_valid()
 
     def test_limit_amount_cannot_be_negative(self):
-        self.limit.limit_amount = -1000.00
+        self.limit.limit_amount = Decimal('-1000.00')
         self.assert_limit_is_invalid()
     
     def test_limit_amount_cannot_be_zero(self):
-        self.limit.limit_amount = 0.00
+        self.limit.limit_amount = Decimal('0.00')
         self.assert_limit_is_invalid()
     
     def test_limit_amount_cannot_have_more_than_2_decimal_places(self):
-        self.limit.limit_amount = 1000.001
+        self.limit.limit_amount = Decimal('1000.001')
         self.assert_limit_is_invalid()
     
     def test_limit_amount_can_have_10_digits(self):
-        self.limit.limit_amount = 12345678.91
+        self.limit.limit_amount = Decimal('12345678.91')
         self.assert_limit_is_valid()
 
     def test_limit_amount_cannot_have_more_than_10_digits(self):
-        self.limit.limit_amount = 123456789.00
+        self.limit.limit_amount = Decimal('123456789.00')
         self.assert_limit_is_invalid()
     
     def test_limit_amount_cannot_be_null(self):
@@ -59,19 +60,19 @@ class LimitModelTest(TestCase):
         self.assert_limit_is_invalid()
 
     def test_remaining_amount_cannot_have_more_than_2_decimal_places(self):
-        self.limit.remaining_amount = 1000.001
+        self.limit.remaining_amount = Decimal('1000.001')
         self.assert_limit_is_invalid()
     
     def test_remaining_amount_can_have_10_digits(self):
-        self.limit.remaining_amount = 12345678.91
+        self.limit.remaining_amount = Decimal('12345678.91')
         self.assert_limit_is_valid()
     
     def test_remaining_amount_cannot_have_more_than_10_digits(self):
-        self.limit.remaining_amount = 123456789.00
+        self.limit.remaining_amount = Decimal('123456789.00')
         self.assert_limit_is_invalid()
     
     def test_remaining_amount_is_zero_by_default(self):
-        self.assertEqual(self.limit.remaining_amount, 0.00)
+        self.assertEqual(self.limit.remaining_amount, Decimal('0.00'))
     
     def test_status_is_not_reached_by_default(self):
         self.assertEqual(self.limit.status, 'not reached')

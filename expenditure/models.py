@@ -80,8 +80,8 @@ class Limit(models.Model):
   remaining_amount = models.DecimalField(max_digits=10,decimal_places=2, default=Decimal('0.00'))
   status = models.CharField(max_length=50, choices=LIMIT_STATUS, default='not reached')
   #time_limit_type = models.CharField(max_length=50, choices=TIME_LIMIT_TYPE, default='weekly')
-  start_date = models.DateField(default=date.today)
-  end_date = models.DateField(default=date.today() + timedelta(weeks=1))
+  start_date = models.DateField()
+  end_date = models.DateField()
   
   def get_percentage_of_limit_used(self):
     return self.spent_amount/self.limit_amount
@@ -90,44 +90,22 @@ class Limit(models.Model):
   def calc_90_percent_of_limit(self):
     return Decimal(self.limit_amount)*Decimal('0.90')
 
-  # Return the amount spent from limit
-  def getSpentAmount(self):
-    return self.spent_amount
-
   # Return the currently set limit amount
   def getLimitAmount(self):
     return self.limit_amount
 
   # Set the spending limit
   def setLimitAmount(self, limitAmount):
-    if (limitAmount >= 0):
+    if (limitAmount >= Decimal('0.00')):
       self.limit_amount = limitAmount
     else:
       return -1 
-
-  # Set spent amount in limit to spentAmount
-  def setSpentAmount(self, spentAmount):
-    if(spentAmount >= 0):
-      self.spent_amount = spentAmount
-      self.save()
-    else:
-      return -1
-
-  # Subtract spent amount in limit by spentAmount
-  def subtractSpentAmount(self, spentAmount):
-    if(spentAmount >= 0):
-      self.spent_amount -= spentAmount
-      self.save()
-    else:
-      return -1
-
-  # Add spent amount in limit by spentAmount
-  def addSpentAmount(self, spentAmount):
-    if(spentAmount >= 0):
-      self.spent_amount += spentAmount
-      self.save()
-    else:
-      return -1
+    
+  def addTransaction(self, spentAmount):
+     if(spentAmount >= Decimal('0.00')):
+        self.remaining_amount -= spentAmount
+     else:
+        return -1
 
     
 class Notification(models.Model):
@@ -152,13 +130,12 @@ class Category(models.Model):
   is_income = models.BooleanField(default=False)
   limit = models.OneToOneField(Limit, on_delete=models.CASCADE)
 
-  # Used to create and save new instance of limit associated with this category
-  def createLimit(category, limit_amount, **kwargs):
-    Limit.objects.create(
-      category=category,
-      limit_amount=limit_amount,
-      **kwargs
-    )
+  # Reduce the remaining amount left of the spending limit
+  def addTransaction(self, spentAmount):
+     if(spentAmount >= Decimal('0.00')):
+        self.limit.addTransaction(spentAmount)
+     else:
+        -1
 
   def __str__(self):
     return self.name
@@ -166,7 +143,7 @@ class Category(models.Model):
 
 class Transaction(models.Model):
     title = models.CharField(max_length=200)
-    date = models.DateField()
+    date = models.DateField(validators=[not_future])
     amount = models.DecimalField(max_digits=20, decimal_places=2)
     notes = models.TextField(blank=True)
     reciept = models.ImageField(upload_to='', blank=True, null=True)

@@ -8,7 +8,7 @@ from .news_api import all_articles
 from django.core.files.storage import FileSystemStorage
 from django.urls import reverse,reverse_lazy
 from .models import *
-from django.views.generic import CreateView
+from django.views.generic import CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 def home(request):
@@ -84,32 +84,23 @@ def sign_up(request):
         form = SignUpForm()
     return render(request, 'sign_up.html', {'form': form})
 
-def edit_category(request, request_id):
-    current_user = request.user
-    category = Category.objects.get(id=request_id)
-    limit = category.limit
-    if request.method == 'POST':
-        if request.user.is_authenticated:
-            form = CategoryEditForm(request.POST)
-            if form.is_valid():
-                name = form.cleaned_data.get('name')
-                is_income = form.cleaned_data.get('is_income')
-                limit = form.cleaned_data.get('limit')
-                category.name = name
-                category.is_income = is_income
-                limit.limit_amount = limit
-                category.save()
-                limit.save()
-                messages.add_message(request, messages.SUCCESS, "Category Edit Saved!")
-                return redirect('all_categories')
-            messages.add_message(request, messages.ERROR, "The credentials provided were invalid!")
-        else:
-            redirect('log_in')
-    else:
-        form = CategoryEditForm()
-        context = {'form':form}
-        return render(request, 'edit_category.html', context)
 
+class EditCategoryView(LoginRequiredMixin,UpdateView):
+    model = Category
+    form_class = CategoryEditMultiForm
+    template_name = "edit_category.html"
+    success_url = reverse_lazy('all_categories')
+
+    # Returns the keyword arguments for instantiating the form
+    # Overriding to add category and limit to kwargs before form is created
+    def get_form_kwargs(self):
+        kwargs = super(EditCategoryView, self).get_form_kwargs()
+        kwargs.update(instance={
+            'category': self.object,
+            'limit': self.object.limit,
+        })
+        return kwargs
+        
 
 class CreateCategoryView(LoginRequiredMixin,CreateView):
     template_name = "create_category.html"
@@ -172,14 +163,14 @@ def news_page(request):
 
 def add_transaction(request,request_id):
     category = Category.objects.get(id=request_id)
-    category_limit = category.limit
     if request.method == 'POST':
         create_transaction_form = TransactionForm(request.POST, request.FILES)
         if create_transaction_form.is_valid():
             transaction = create_transaction_form.save(commit=False)
             transaction.category = category
-            category_limit.addSpentAmount(transaction.amount)
-            category_limit.save()
+            category.addTransaction(transaction.amount)
+            category.limit.save()
+            category.save()
             transaction.save()
             return HttpResponseRedirect(reverse('all_categories'))
     else:
