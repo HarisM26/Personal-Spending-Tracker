@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractBaseUser, UserManager, PermissionsMixin
 from django.contrib.auth.base_user import BaseUserManager
 from django.utils.translation import gettext_lazy as _
-from datetime import datetime
 from .helpers import not_future
+from datetime import datetime, date, timedelta
 from decimal import Decimal
 from django.core.validators import MinValueValidator
 
@@ -38,7 +38,6 @@ class UserManager(BaseUserManager):
           raise ValueError(_("Superuser must have is_superuser=True."))
       return self.create_user(email, password, **extra_fields)
 
-
 class User(AbstractBaseUser, PermissionsMixin):
   email = models.EmailField(_("email address"),
         unique=True,
@@ -48,13 +47,13 @@ class User(AbstractBaseUser, PermissionsMixin):
 
   first_name = models.CharField(
     max_length=30,
-    blank=True,
     )
 
   last_name = models.CharField(
     max_length=150,
-    blank=True,
     )
+
+  id = models.AutoField(primary_key=True) 
 
   is_staff = models.BooleanField(default=False)
     
@@ -68,9 +67,12 @@ class User(AbstractBaseUser, PermissionsMixin):
 
   objects =  UserManager()
   
+  def __str__(self):   
+    return self.email
 
-def __str__(self):
-  return self.email
+  @property 
+  def user_id(self):
+    str(self.id) + self.first_name
 
 class Limit(models.Model):
   LIMIT_STATUS=[('reached',('reached')),('not reached',('not reached')), ('approaching',('approaching'))]
@@ -89,8 +91,6 @@ class Limit(models.Model):
   @property
   def calc_90_percent_of_limit(self):
     return Decimal(self.limit_amount)*Decimal('0.90')
-
-  # Return the currently set limit amount
   def getLimitAmount(self):
     return self.limit_amount
 
@@ -107,7 +107,17 @@ class Limit(models.Model):
      else:
         return -1
 
-    
+
+class Profile(models.Model):
+  user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+  def __str__(self):
+    return self.user.email
+  
+  def __str__(self):
+    return self.user.first_name
+
+
 class Notification(models.Model):
     STATUS_CHOICE=[('unread',('unread')),('read',('read'))]
     user_receiver = models.ForeignKey(User,on_delete=models.CASCADE)
@@ -123,22 +133,43 @@ class Notification(models.Model):
     def __str__(self):
         return self.message
 
-
+<<<<<<<<< Temporary merge branch 1
+=========
 class Category(models.Model):
   user = models.ForeignKey(User, on_delete=models.CASCADE)
   name = models.CharField(max_length=50)
-  is_income = models.BooleanField(default=False)
   limit = models.OneToOneField(Limit, on_delete=models.CASCADE)
-
-  # Reduce the remaining amount left of the spending limit
+    
+    # Reduce the remaining amount left of the spending limit
   def addTransaction(self, spentAmount):
-     if(spentAmount >= Decimal('0.00')):
-        self.limit.addTransaction(spentAmount)
-     else:
-        -1
+    if(spentAmount >= Decimal('0.00')):
+       self.limit.addTransaction(spentAmount)
+    else:
+      -1
 
   def __str__(self):
     return self.name
+
+
+# To get the outgoing transactions do: Category.spendings
+class SpendingManager(models.Manager):
+    def get_query_set(self):
+      return super(SpendingManager, self).get_query_set().filter(
+        category__is_income=False,
+      )
+
+# To get the incoming transactions do: Category.incomings
+class IncomingManager(models.Manager):
+    def get_query_set(self):
+      return super(IncomingManager, self).get_query_set().filter(
+        category__is_income=True,
+      )
+
+# To get all transactions do: Category.objects
+class TransactionManager(models.Manager):
+    def get_query_set(self):
+      return super(TransactionManager, self).get_query_set()
+
 
 
 class Transaction(models.Model):
@@ -149,9 +180,20 @@ class Transaction(models.Model):
     reciept = models.ImageField(upload_to='', blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
     category = models.ForeignKey(Category, related_name="transactions", on_delete=models.PROTECT)
+    
+    objects = TransactionManager()
+    spendings = SpendingManager()
+    incomings = IncomingManager()
 
+    class Meta:
+      ordering = ['-date',]
+    
     def __str__(self):
         return 'desc: '+ self.title + ' -> $ ' + str(self.amount)
 
     class Meta:
         ordering = ['-date',]
+
+
+
+  

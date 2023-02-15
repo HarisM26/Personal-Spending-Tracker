@@ -1,14 +1,17 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect, get_object_or_404
 from .forms import *
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from datetime import datetime
+from datetime import datetime, date, timedelta
 from django.http import HttpResponse, HttpResponseRedirect
 from .news_api import all_articles
 from django.core.files.storage import FileSystemStorage
 from django.urls import reverse,reverse_lazy
 from .models import *
-from django.views.generic import CreateView, UpdateView
+from django.db.models import Sum
+from django.db.models.functions import TruncMonth
+from decimal import *
+from django.views.generic import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 def home(request):
@@ -59,7 +62,7 @@ def mark_as_read(request,id):
    notification.save()
    return redirect('notification_page') 
 
-def all_categories(request):
+def spending(request):
     current_user = request.user
     categories = Category.objects.filter(user = current_user)
     notifications = get_user_notifications(current_user)
@@ -70,7 +73,7 @@ def all_categories(request):
         'categories':categories,
         'unread_status_count': unread_status_count,
         }
-    return render(request, 'all_categories.html',context)
+    return render(request, 'spending.html',context)
 
 def sign_up(request):
     if request.method == 'POST':
@@ -162,31 +165,72 @@ def news_page(request):
     return render(request, 'news_page.html',{'articles':articles})   
 
 def add_transaction(request,request_id):
-    category = Category.objects.get(id=request_id)
+    category = get_object_or_404(Category, id=request_id)
+    category_limit = category.limit
+
+    if category.is_income:
+        create_transaction_form = IncomingForm
+    else:
+        create_transaction_form = SpendingForm
+
     if request.method == 'POST':
-        create_transaction_form = TransactionForm(request.POST, request.FILES)
+        updated_request = request.POST.copy()
+        updated_request.update({'category': category.pk})
+        create_transaction_form = create_transaction_form(updated_request, request.FILES)
         if create_transaction_form.is_valid():
             transaction = create_transaction_form.save(commit=False)
             transaction.category = category
-            category.addTransaction(transaction.amount)
-            category.limit.save()
-            category.save()
+            category_limit.addTransaction(transaction.amount)
+            category_limit.save()
             transaction.save()
-            return HttpResponseRedirect(reverse('all_categories'))
+            transaction = create_transaction_form.save()
+            return HttpResponseRedirect(reverse('spending'))
     else:
-        create_transaction_form = TransactionForm()   
+        create_transaction_form = create_transaction_form()   
+    
     context = {
         'request_id': request_id,
         'create_transaction_form': create_transaction_form,
     }
+
     return render(request, 'add_transaction.html', context)
 
-def list_transactions(request):
-    transactions = Transaction.objects.all()
+def list_incomings(request):
+    incomings = Transaction.incomings.all()
     context = {
-        'transactions': transactions,
+        'incomings': incomings,
     }
-    return render(request, 'transactions.html', context=context)
+    return render(request, 'incomings.html', context=context)
+
+def get_total_transactions_by_date(request, from_date, to_date):
+    return Transaction.spendings.filter(
+        date__gte=from_date,
+        date__lte=to_date,
+        category__user=request.user
+    ).annotate(month=TruncMonth("date")).values("month").annotate(total=Sum("amount")).values("month", "total")
+
+def view_report(request):
+    from_date = date(date.today().year-1, date.today().month, 1)
+    to_date = date.today()
+
+    if request.method == "POST":
+        form = DateReportForm(request.POST)
+        if form.is_valid():
+            from_date = form.cleaned_data.get("from_date")
+            to_date = form.cleaned_data.get("to_date")
+    else:
+        form = DateReportForm(initial={
+            "from_date": from_date,
+            "to_date": to_date
+        })
+    
+    transactions = get_total_transactions_by_date(request, from_date, to_date)
+
+    context = {
+        "form": form,
+        "transactions": transactions,
+    }
+    return render(request, 'report.html', context=context)
 
 def view_settings(request):
     current_user = request.user

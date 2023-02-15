@@ -2,6 +2,8 @@ from django.test import TestCase
 from django import forms
 from expenditure.forms import LimitForm
 from expenditure.models import Limit
+from django.core.exceptions import ValidationError
+from decimal import Decimal
 
 
 class LimitFormTestCase(TestCase):
@@ -15,10 +17,10 @@ class LimitFormTestCase(TestCase):
         }
 
     def assert_limitform_is_valid(self):
-        self.assertTrue(is_valid())
+        self.assertTrue(self.form_input.is_valid())
 
     def assert_limitform_is_invalid(self):
-        with self.assertRaises(ValidationError):
+        with self.assertRaises(self.ValidationError):
             self.limit.full_clean()
     
     def test_form_has_necessary_fields(self):
@@ -50,17 +52,17 @@ class LimitFormTestCase(TestCase):
         self.assertFalse(form.is_valid())
     
     def test_form_rejects_limit_amount_with_more_than_10_digits(self):
-        self.form_input['limit_amount'] = 123456789.10
+        self.form_input['limit_amount'] = Decimal("123456789.10")
         form = LimitForm(data=self.form_input)
         self.assertFalse(form.is_valid())
     
     def test_form_accepts_limit_amount_with_10_digits(self):
-        self.form_input['limit_amount'] = 12345678.90
+        self.form_input['limit_amount'] = Decimal('12345678.10')
         form = LimitForm(data=self.form_input)
         self.assertTrue(form.is_valid())
     
     def test_form_rejects_limit_amount_with_more_than_2_decimal_places(self):
-        self.form_input['limit_amount'] = 123.123
+        self.form_input['limit_amount'] = Decimal("123.123")
         form = LimitForm(data=self.form_input)
         self.assertFalse(form.is_valid())
     

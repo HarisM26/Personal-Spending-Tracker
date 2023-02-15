@@ -4,9 +4,15 @@ from django.contrib.auth.admin import UserAdmin
 from .forms import SignUpForm
 
 # Register your models here.
+
+# class LimitAdmin(admin.ModelAdmin):
+#     list_display = ('limit_amount', 'spent_amount', 'start_date', 'end_date')
+# admin.site.register(Limit,LimitAdmin)
+
 admin.site.register(Limit)
+
 class CategoryAdmin(admin.ModelAdmin):
-  list_display = ('name','is_income')
+  list_display = ('name','is_income', Limit)
 admin.site.register(Category,CategoryAdmin)
 
 class TransactionAdmin(admin.ModelAdmin):
@@ -39,6 +45,8 @@ class CustomUserAdmin(UserAdmin):
     search_fields = ("email",)
     ordering = ("email",)
 
+
 admin.site.register(User, CustomUserAdmin)
+admin.site.register(Profile)
 # Register your models here.
 

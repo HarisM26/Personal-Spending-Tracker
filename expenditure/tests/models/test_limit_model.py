@@ -27,7 +27,7 @@ class LimitModelTest(TestCase):
     
     def test_setLimitAmount_assigns_valid_limit(self):
         self.limit.setLimitAmount(-1)
-        if (self.limit.getLimitAmount() >= 0):
+        if (self.limit.getLimitAmount() >= Decimal('0.00')):
             self.assert_limit_is_valid()
         else:
             self.assert_limit_is_invalid()
