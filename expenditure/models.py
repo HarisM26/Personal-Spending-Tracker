@@ -74,6 +74,15 @@ class User(AbstractBaseUser, PermissionsMixin):
   def user_id(self):
     str(self.id) + self.first_name
 
+class Profile(models.Model):
+  user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+  def __str__(self):
+    return self.user.email
+  
+  def __str__(self):
+    return self.user.first_name
+
 class Limit(models.Model):
   LIMIT_STATUS=[('reached',('reached')),('not reached',('not reached')), ('approaching',('approaching'))]
   #TIME_LIMIT_TYPE=[('weekly',('weekly')),('monthly',('monthly')),('yearly',('yearly'))]
@@ -107,17 +116,6 @@ class Limit(models.Model):
      else:
         return -1
 
-
-class Profile(models.Model):
-  user = models.OneToOneField(User, on_delete=models.CASCADE)
-
-  def __str__(self):
-    return self.user.email
-  
-  def __str__(self):
-    return self.user.first_name
-
-
 class Notification(models.Model):
     STATUS_CHOICE=[('unread',('unread')),('read',('read'))]
     user_receiver = models.ForeignKey(User,on_delete=models.CASCADE)
@@ -133,8 +131,7 @@ class Notification(models.Model):
     def __str__(self):
         return self.message
 
-<<<<<<<<< Temporary merge branch 1
-=========
+
 class Category(models.Model):
   user = models.ForeignKey(User, on_delete=models.CASCADE)
   name = models.CharField(max_length=50)
