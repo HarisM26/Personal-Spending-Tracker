@@ -2,30 +2,34 @@ from django.shortcuts import render,redirect, get_object_or_404
 from .forms import *
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from datetime import datetime, date, timedelta
-from django.http import HttpResponse, HttpResponseRedirect
+from datetime import date
+from django.http import HttpResponseRedirect
 from .news_api import all_articles
-from django.core.files.storage import FileSystemStorage
-from django.urls import reverse,reverse_lazy
+from django.urls import reverse
 from .models import *
 from django.db.models import Sum
 from django.db.models.functions import TruncMonth
 from decimal import *
 from django.views.generic import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from .helpers import login_prohibited
+from django.contrib.auth.decorators import login_required
 
+@login_prohibited
 def home(request):
     return render(request, 'home.html')
 
+@login_prohibited
 def about(request):
     return render(request, 'about.html')
 
+@login_prohibited
 def features(request):
     return render(request, 'features.html')
 
+@login_prohibited
 def contact(request):
     return render(request, 'contact.html')
-
 
 def get_unread_nofications(user):
     return Notification.objects.filter(user_receiver = user,status = 'unread').count()
@@ -33,6 +37,7 @@ def get_unread_nofications(user):
 def get_user_notifications(user):
     return Notification.objects.filter(user_receiver = user)
 
+@login_required
 def feed(request):
     current_user = request.user
     unread_status_count = get_unread_nofications(current_user)
@@ -44,6 +49,7 @@ def feed(request):
     }
     return render(request, 'feed.html', context)
 
+@login_required
 def notification_page(request):
     current_user = request.user
     notifications = get_user_notifications(current_user)
@@ -56,12 +62,14 @@ def notification_page(request):
     }
     return render(request, 'notification_page.html',context)
 
+@login_required
 def mark_as_read(request,id):
    notification = Notification.objects.get(id=id)
    notification.status = 'read'
    notification.save()
    return redirect('notification_page') 
 
+@login_required
 def spending(request):
     current_user = request.user
     categories = Category.objects.filter(user = current_user)
@@ -75,6 +83,7 @@ def spending(request):
         }
     return render(request, 'spending.html',context)
 
+@login_prohibited
 def sign_up(request):
     if request.method == 'POST':
         # request.POST contains dictionary with all of the data
@@ -87,36 +96,9 @@ def sign_up(request):
         form = SignUpForm()
     return render(request, 'sign_up.html', {'form': form})
 
-# def edit_category(request, request_id):
-#     current_user = request.user
-#     category = Category.objects.get(id=request_id)
-#     limit = category.limit
-#     if request.method == 'POST':
-#         if request.user.is_authenticated:
-#             form = CategoryEditForm(request.POST)
-#             if form.is_valid():
-#                 name = form.cleaned_data.get('name')
-#                 is_income = form.cleaned_data.get('is_income')
-#                 limit = form.cleaned_data.get('limit')
-#                 category.name = name
-#                 category.is_income = is_income
-#                 limit.limit_amount = limit
-#                 category.save()
-#                 limit.save()
-#                 messages.add_message(request, messages.SUCCESS, "Category Edit Saved!")
-#                 return redirect('all_categories')
-#             messages.add_message(request, messages.ERROR, "The credentials provided were invalid!")
-#         else:
-#             redirect('log_in')
-#     else:
-#         form = CategoryEditForm()
-#         context = {'form':form}
-#         return render(request, 'edit_category.html', context)
-
 class CreateCategoryView(LoginRequiredMixin,CreateView):
     template_name = "create_category.html"
     form_class = CategoryCreationMultiForm
-    #success_url = reverse_lazy('create_category')
 
     def form_valid(self, form):
         limit = form['limit'].save(commit=False)
@@ -145,7 +127,8 @@ class CreateCategoryView(LoginRequiredMixin,CreateView):
             'unread_status_count': unread_status_count,
         }
         return context
-    
+
+@login_prohibited   
 def log_in(request):
     if request.method == 'POST':
         form = LogInForm(request.POST)
@@ -167,11 +150,13 @@ def log_in(request):
 def log_out(request):
     logout(request)
     return redirect('home')
-
+    
+@login_prohibited
 def news_page(request):
     articles = all_articles['articles']
     return render(request, 'news_page.html',{'articles':articles})   
 
+@login_required
 def add_transaction(request,request_id):
     category = get_object_or_404(Category, id=request_id)
     category_limit = category.limit
@@ -186,11 +171,6 @@ def add_transaction(request,request_id):
         updated_request.update({'category': category.pk})
         create_transaction_form = create_transaction_form(updated_request, request.FILES)
         if create_transaction_form.is_valid():
-            # transaction = create_transaction_form.save(commit=False)
-            # transaction.category = category
-            # category_limit.addSpentAmount(transaction.amount)
-            # category_limit.save()
-            # transaction.save()
             transaction = create_transaction_form.save()
             return HttpResponseRedirect(reverse('spending'))
     else:
@@ -203,6 +183,7 @@ def add_transaction(request,request_id):
 
     return render(request, 'add_transaction.html', context)
 
+@login_required
 def list_incomings(request):
     incomings = Transaction.incomings.all()
     context = {
@@ -217,6 +198,7 @@ def get_total_transactions_by_date(request, from_date, to_date):
         category__user=request.user
     ).annotate(month=TruncMonth("date")).values("month").annotate(total=Sum("amount")).values("month", "total")
 
+@login_required
 def view_report(request):
     from_date = date(date.today().year-1, date.today().month, 1)
     to_date = date.today()
@@ -240,11 +222,13 @@ def view_report(request):
     }
     return render(request, 'report.html', context=context)
 
+@login_required
 def view_settings(request):
     current_user = request.user
     toggle = current_user.toggle_notification
     return render(request,'settings.html',{'toggle':toggle})
 
+@login_required
 def toggle_notification(request):
     current_user = request.user
     if current_user.toggle_notification == 'ON':
@@ -254,15 +238,19 @@ def toggle_notification(request):
         current_user.toggle_notification='ON'
         current_user.save()
     return redirect('settings')
-    
+
+@login_required   
 def add_friend(request):
     return render(request, 'add_friend.html')
 
+@login_required
 def leaderboard(request):
     return render(request, 'leaderboard.html')
 
+@login_required
 def profile(request):
     return render(request, 'profile.html')
 
+@login_required
 def reports(request):
     return render(request, 'reports.html')

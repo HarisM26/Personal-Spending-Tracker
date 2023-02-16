@@ -5,13 +5,12 @@ from expenditure.models import Notification,User
 
 class NotificationModelTest(TestCase):
 
+  fixtures = ['expenditure/tests/fixtures/default_user.json',
+              'expenditure/tests/fixtures/other_users.json']
+
   def setUp(self):
     self.notification = Notification.objects.create(
-    user_receiver = User.objects.create(
-      first_name = 'John',
-      last_name = 'Doe',
-      email = 'johndoe@email.com'
-    ),
+    user_receiver = User.objects.get(email='johndoe@example.com'),
     title = 'Approaching limit!',
     message = 'You are close to your set limit. Consider reducing your spending from now onwards',
     status = 'unread',
@@ -21,11 +20,7 @@ class NotificationModelTest(TestCase):
   
   def create_other_notification(self):
     notification = Notification.objects.create(
-      user_receiver = User.objects.create(
-      first_name = 'Jane',
-      last_name = 'Doe',
-      email = 'janetdoe@email.com'
-    ),
+      user_receiver = User.objects.get(email='janedoe@example.com'),
     title = 'Approaching limit!',
     message = 'You are close to your set limit. Consider reducing your spending from now onwards',
     status = 'unread',
