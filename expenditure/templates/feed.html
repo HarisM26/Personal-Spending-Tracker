@@ -3,8 +3,15 @@
 {% block content %}
 
 <section class="content-section">
-    <h1>Dashboard</h1>
-    <h6> <a href="{% url 'feed' %}">Home</a> / Dashboard<h6>
+    <div>
+        <h1>Dashboard</h1>
+    </div>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active"> <a href="{% url 'feed' %}">Home</a></li>
+            <li class="breadcrumb-item"> <a>Dashboard</a></li>
+        </ol>
+    </nav>
     <div class="main-card">
         <p>Welcome {name} to VMT</p>
         <div id="bar-chart-container">
