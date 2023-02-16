@@ -3,13 +3,18 @@
 {% block content %}
 
 
-<div class="card">
-  <h1> Settings </h1>
-  <h3 id="notification-settings">Notification setting</h3>
-  <div id="toggle_notification">
-    Toggle Notification
-     <button class="btn btn-info"><a id="toggle_anchor" href="{% url 'toggle_notification' %}"> {{ toggle }} </a> </button> 
+
+<section class="content-section">
+  <h1>Settings</h1>
+  <h6> <a href="{% url 'feed' %}">Home</a> / Settings<h6>
+  <div class="main-card">
+    <h3 id="notification-settings">Notification setting</h3>
+    <div id="toggle_notification">
+      Toggle Notification
+       <button class="btn btn-info"><a id="toggle_anchor" href="{% url 'toggle_notification' %}"> {{ toggle }} </a> </button> 
+    </div>
+      
   </div>
-</div>
+</section>
 
 {% endblock %}

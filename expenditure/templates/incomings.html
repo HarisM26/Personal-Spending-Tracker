@@ -1,0 +1,53 @@
+{% extends 'base_content.html' %}
+{% load custom_tags %}
+{% block content %}
+
+<section class="content-section">
+  <h1>Income</h1>
+  <h6> <a href="{% url 'feed' %}">Home</a> / Income<h6>
+  <div class="main-card">
+  <div id="create-transaction-div">
+    <a class="btn btn-info" href="{% url 'create_category'%}">Create new category</a>
+  </div>
+  {% for category in categories %}
+    <div >
+      <ul id="myUL">
+        <li class="category_list"> 
+      
+          <span id="category-name-tag" class="caret"><b>{{ category.name }} </b></span><br>
+        
+          <div id="spending-categories-detail-div">
+          <div>
+          Limit&#58; &#163;<i>{{ category.limit.limit_amount }}</i>
+        </div>
+          <span>
+            <a class="btn btn-info" href="{% url 'add_transaction' category.id %}"> Add transaction </a>
+          </span>
+          </div>
+          <hr>
+          <ul class="nested">
+            {% with transactions=category|get_transactions %}
+            {% for transaction in transactions %}
+            <li class="transaction_list">
+              <div>{{transaction.date}}</div>
+              <div>{{transaction.title}}</div>
+              <div>&#163;{{transaction.amount}}</div> 
+            </li>
+            {% endfor %}
+            <hr>
+            <div id="total-transaction">
+               <div>Total transactions</div> 
+               <div>&#163; {{transactions|get_transaction_total}}</div>
+            </div>
+            {% endwith %}
+            <li><hr></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  {% endfor %} 
+</div>
+
+</section>
+
+{% endblock %}

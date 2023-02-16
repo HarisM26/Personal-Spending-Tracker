@@ -6,13 +6,11 @@ from decimal import *
 
 class CategoryModelTest(TestCase):
 
+    fixtures = ['expenditure/tests/fixtures/default_user.json']
+
     def setUp(self):
         self.category = Category.objects.create(
-            user = User.objects.create(
-                first_name = 'John',
-                last_name = 'Doe',
-                email = 'johndoe@email.com'
-            ),
+            user = User.objects.get(email='johndoe@example.com'),
             name = "CategoryName",
             is_income = False,
             limit = Limit.objects.create(

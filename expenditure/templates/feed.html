@@ -2,13 +2,21 @@
 
 {% block content %}
 
-<div class="card">
-    <div class="text-center">
-        <h1>Feed</h1>
+<section class="content-section">
+    <div>
+        <h1>Dashboard</h1>
     </div>
-    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Reprehenderit corporis eligendi possimus quis sunt numquam, maxime ipsam tempora. Sed, voluptate similique. Distinctio harum tenetur eos magnam fugiat fugit nisi dignissimos!</p>
-    <div id="bar-chart-container">
-        <canvas id="monthly-chart"> </canvas>
-      </div>
-</div>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active"> <a href="{% url 'feed' %}">Home</a> / Dashboard<li>
+        </ol>
+    </nav>
+    
+    <div class="main-card">
+        <p>Welcome {name} to VMT</p>
+        <div id="bar-chart-container">
+            <canvas id="monthly-chart"> </canvas>
+        </div>
+    </div>
+</section>
 {% endblock %}

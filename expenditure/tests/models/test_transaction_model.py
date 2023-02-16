@@ -7,13 +7,11 @@ from decimal import *
 
 class TestTransactionModel(TestCase):
 
+    fixtures = ['expenditure/tests/fixtures/default_user.json']
+
     def setUp(self):
         self.category = Category.objects.create(
-            user = User.objects.create(
-                email='johndoe@email.com',
-                first_name='John',
-                last_name='Doe'
-            ),
+            user = User.objects.get(email='johndoe@example.com'),
             name = 'test_category',
             is_income=False,
             limit = Limit.objects.create(

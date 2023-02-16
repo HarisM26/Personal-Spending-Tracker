@@ -44,7 +44,7 @@ class IncomingForm(forms.ModelForm):
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
-        fields = ('name','is_income')
+        fields = ('name',)
 
     #limit = forms.DecimalField(label='Spending Limit')
 
@@ -52,12 +52,8 @@ class LimitForm(forms.ModelForm):
     class Meta:
         model = Limit
         fields = '__all__'
-        exclude = ('remaining_amount','status')
-        widgets = {
-            'start_date': DatePickerInput(options={"format": "DD/MM/YYYY"}),
-            'end_date': DatePickerInput(options={"format": "DD/MM/YYYY"})
-            }
-
+        exclude = ('remaining_amount','status','end_date')
+    
 class CategoryCreationMultiForm(MultiModelForm):
     form_classes = {
         'category': CategoryForm,

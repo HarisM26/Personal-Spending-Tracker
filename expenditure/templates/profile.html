@@ -1,12 +1,12 @@
+
 {% extends 'base_content.html' %}
 {% block content %}
 
 
-<div class="card">
-    <div>
-        <h1>Profile</h1>
-    </div>
-    <div class="card-body">
+<section class="content-section">
+    <h1>Leaderboard</h1>
+    <h6> <a href="{% url 'feed' %}">Home</a> / Leaderboard<h6>
+    <div class="main-card">
         <p class="card-text text-start">
             <br>
             Name: {{ user.first_name }} {{ user.last_name }} <br><br>
@@ -14,11 +14,8 @@
             Email: {{ user.email }} <br><br>
 
         </p>
+        
     </div>
-
-</div>
+</section>
 
 {% endblock %}
-
-
-<!-- {{ user.email }} -->
