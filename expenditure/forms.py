@@ -46,7 +46,6 @@ class CategoryForm(forms.ModelForm):
         model = Category
         fields = ('name',)
 
-    #limit = forms.DecimalField(label='Spending Limit')
 
 class LimitForm(forms.ModelForm):
     class Meta:

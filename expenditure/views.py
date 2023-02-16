@@ -72,7 +72,7 @@ def mark_as_read(request,id):
 @login_required
 def spending(request):
     current_user = request.user
-    categories = Category.objects.filter(user = current_user)
+    categories = Category.objects.filter(user = current_user,is_income = False)
     notifications = get_user_notifications(current_user)
     latest_notifications = notifications[0:3]
     unread_status_count = get_unread_nofications(current_user)
@@ -82,6 +82,20 @@ def spending(request):
         'unread_status_count': unread_status_count,
         }
     return render(request, 'spending.html',context)
+
+@login_required
+def incoming(request):
+    current_user = request.user
+    categories = Category.objects.filter(user = current_user,is_income = True)
+    notifications = get_user_notifications(current_user)
+    latest_notifications = notifications[0:3]
+    unread_status_count = get_unread_nofications(current_user)
+    context = {
+        'latest_notifications': latest_notifications,
+        'categories':categories,
+        'unread_status_count': unread_status_count,
+        }
+    return render(request, 'incomings.html',context)
 
 @login_prohibited
 def sign_up(request):
@@ -96,7 +110,7 @@ def sign_up(request):
         form = SignUpForm()
     return render(request, 'sign_up.html', {'form': form})
 
-class CreateCategoryView(LoginRequiredMixin,CreateView):
+class CreateSpendingCategoryView(LoginRequiredMixin,CreateView):
     template_name = "create_category.html"
     form_class = CategoryCreationMultiForm
 
@@ -137,6 +151,32 @@ class CreateCategoryView(LoginRequiredMixin,CreateView):
             return datetime.date(datetime.now()) + timedelta(days=27)
         else:
             return datetime.date(datetime.now()) + timedelta(days=364)
+
+@login_required
+def create_incoming_category(request):
+    current_user = request.user
+    notifications = get_user_notifications(current_user)
+    latest_notifications = notifications[0:3]
+    unread_status_count = get_unread_nofications(current_user)
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            name=form.cleaned_data.get('name')
+            incoming_category = Category.objects.create(user=current_user,name=name,is_income=True)
+            messages.add_message(request, messages.SUCCESS,
+                             "Category created!")
+            return redirect('create_incoming_category')
+        messages.add_message(request, messages.ERROR,
+                             "The credentials provided were invalid!")
+    else:
+        form = CategoryForm()
+
+    context = {
+        'form': form,
+        'latest_notifications': latest_notifications,
+        'unread_status_count': unread_status_count,
+    }
+    return render(request, 'create_incoming_category.html', context)
 
 @login_prohibited   
 def log_in(request):
@@ -182,7 +222,9 @@ def add_transaction(request,request_id):
         create_transaction_form = create_transaction_form(updated_request, request.FILES)
         if create_transaction_form.is_valid():
             transaction = create_transaction_form.save()
-            return HttpResponseRedirect(reverse('spending'))
+            messages.add_message(request, messages.SUCCESS,
+                             "Transaction created!")
+            return HttpResponseRedirect(reverse('add_transaction',args=[f'{category.id}']))
     else:
         create_transaction_form = create_transaction_form()   
     

@@ -76,11 +76,9 @@ class TransactionViews(TestCase):
         #response_list_spendings = self.client.get(self.url_list_spendings)
         #response_list_incomings = self.client.get(self.url_list_incomings)
         #response_add_transaction = self.client.get(self.url_add_transaction)
-
         #self.assertEqual(response_list_spendings.status_code, 302,200)
         #self.assertEqual(response_list_incomings.status_code, 302,200)
         #self.assertEqual(response_add_transaction.status_code, 302,200)
-
         #print(f'<<========== {response_list_spendings.templates}======>>')
         #self.assertIn('spending.html', (t.name for t in response_list_spendings.templates))
         #self.assertIn('incomings.html', (t.name for t in response_list_incomings.templates))

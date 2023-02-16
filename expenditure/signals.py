@@ -7,7 +7,7 @@ from expenditure.helpers import create_notification
 @receiver(post_save,sender=Transaction)
 def transaction_post_save_handler(instance,created,*args,**kwargs):
   current_user = instance.category.user
-  if created and current_user.toggle_notification == 'ON':
+  if created and current_user.toggle_notification == 'ON' and instance.category.limit != None:
     all_transactions = Transaction.objects.filter(category = instance.category)
     total = Decimal('0.00')
     for transaction in all_transactions:

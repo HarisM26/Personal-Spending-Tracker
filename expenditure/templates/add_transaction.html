@@ -5,7 +5,7 @@
 {{ create_transaction_form.media }}
 <section class="content-section">
     <h1>Add Transaction</h1>
-    <h6> <a href="{% url 'feed' %}">Home</a> / <a href="{% url 'spending' %}">Spending</a> / Add Transaction<h6>
+    <h6> <a href="{% url 'feed' %}">Home</a> <!---<a href="{% url 'spending' %}">Spending</a>--> / Add Transaction<h6>
     <div class="main-card">
         <form action="{% url 'add_transaction' request_id %}" method="post">
             {% csrf_token %}

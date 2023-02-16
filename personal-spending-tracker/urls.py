@@ -33,7 +33,8 @@ urlpatterns = [
     path('contact/',views.contact, name='contact'),
     path('news_page/',views.news_page, name='news_page'),
     path('notification_page/',views.notification_page, name='notification_page'),
-    path('create_category/',views.CreateCategoryView.as_view(),name='create_category'),
+    path('create_category/',views.CreateSpendingCategoryView.as_view(),name='create_category'),
+    path('create_incoming_category/',views.create_incoming_category,name='create_incoming_category'),
     path('spending/', views.spending, name='spending'),
     path('notification_page/<int:id>',views.mark_as_read, name='mark_as_read'),
     path('settings/',views.view_settings,name='settings'),
@@ -45,5 +46,6 @@ urlpatterns = [
     path('leaderboard/',views.leaderboard,name='leaderboard'),
     path('profile/',views.profile,name='profile'),
     path('reports/',views.view_report,name='reports'),
+    path('incomings/',views.incoming ,name='incomings'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     

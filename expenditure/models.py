@@ -128,7 +128,7 @@ class Category(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     is_income = models.BooleanField(default=False)
-    limit = models.OneToOneField(Limit, on_delete=models.CASCADE)
+    limit = models.OneToOneField(Limit, on_delete=models.CASCADE, null=True)
     #slug = models.SlugField()
     #parent = models.ForeignKey('self',blank=True, null=True ,related_name='children')
     def __str__(self):
