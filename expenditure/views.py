@@ -103,6 +103,7 @@ class CreateCategoryView(LoginRequiredMixin,CreateView):
     def form_valid(self, form):
         limit = form['limit'].save(commit=False)
         limit.remaining_amount = limit.limit_amount
+        limit.end_date = self.get_end_date(limit.time_limit_type)
         limit.save()
         category = form['category'].save(commit=False)
         category.user = self.request.user
@@ -117,6 +118,7 @@ class CreateCategoryView(LoginRequiredMixin,CreateView):
                                 "Your input is invalid!, try again")
         return redirect('create_category')
     
+    #doesnt work at the moment
     def creation_view(self):
         current_user = self.request.user
         notifications = get_user_notifications(current_user)
@@ -127,6 +129,14 @@ class CreateCategoryView(LoginRequiredMixin,CreateView):
             'unread_status_count': unread_status_count,
         }
         return context
+    
+    def get_end_date(self,limit_type):
+        if limit_type == 'weekly':
+            return datetime.date(datetime.now()) + timedelta(days=6)
+        elif limit_type == 'monthly':
+            return datetime.date(datetime.now()) + timedelta(days=27)
+        else:
+            return datetime.date(datetime.now()) + timedelta(days=364)
 
 @login_prohibited   
 def log_in(request):

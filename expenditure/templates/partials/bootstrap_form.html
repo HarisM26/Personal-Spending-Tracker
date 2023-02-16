@@ -11,6 +11,7 @@
     {% else %}
       {% render_field field class=" form-control" %}
     {% endif %}
+    <!--<input type="{{field.field.widget.input_type}}" class="form-check-input" placeholder="Test"> -->
     {% if field.is_valid%}
     <div class="valid-feedback">
       Looks good!

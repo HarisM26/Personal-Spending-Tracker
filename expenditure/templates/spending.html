@@ -2,10 +2,10 @@
 {% load custom_tags %}
 {% block content %}
 
-
-
-<div class="card">
-  <h1> SPENDING </h1>
+<section class="content-section">
+  <h1>Spending</h1>
+  <h6> <a href="{% url 'feed' %}">Home</a> / Spending<h6>
+  <div class="main-card">
   <div id="create-transaction-div">
     <a class="btn btn-info" href="{% url 'create_category'%}">Create new category</a>
   </div>
@@ -48,6 +48,6 @@
   {% endfor %} 
 </div>
 
-</div>
+</section>
 
 {% endblock %}

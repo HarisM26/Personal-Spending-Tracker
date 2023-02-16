@@ -77,13 +77,13 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class Limit(models.Model):
   LIMIT_STATUS=[('reached',('reached')),('not reached',('not reached')), ('approaching',('approaching'))]
-  #TIME_LIMIT_TYPE=[('weekly',('weekly')),('monthly',('monthly')),('yearly',('yearly'))]
+  TIME_LIMIT_TYPE=[('weekly',('weekly')),('monthly',('monthly')),('yearly',('yearly'))]
 
   limit_amount = models.DecimalField(max_digits=10,decimal_places=2,null=False, validators=[MinValueValidator(Decimal('0.01'))])
   remaining_amount = models.DecimalField(max_digits=10,decimal_places=2, default= 0.00)
   status = models.CharField(max_length=50, choices=LIMIT_STATUS, default='not reached')
-  #time_limit_type = models.CharField(max_length=50, choices=TIME_LIMIT_TYPE, default='weekly')
-  start_date = models.DateField()
+  time_limit_type = models.CharField(max_length=7, choices=TIME_LIMIT_TYPE, default='weekly')
+  start_date = models.DateField(auto_now_add=datetime.date(datetime.now()))
   end_date = models.DateField()
  
   def __str__(self):
@@ -134,16 +134,8 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-    # Used to create and save new instance of limit associated with this category
-    def createLimit(category, limit_amount, **kwargs):
-      Limit.objects.create(
-        category=category,
-        limit_amount=limit_amount,
-        **kwargs
-      )
 
-
-# To get the outgoing transactions do: Category.spendings
+ #To get the outgoing transactions do: Category.spendings
 class SpendingManager(models.Manager):
     def get_query_set(self):
       return super(SpendingManager, self).get_query_set().filter(
@@ -156,7 +148,7 @@ class IncomingManager(models.Manager):
       return super(IncomingManager, self).get_query_set().filter(
         category__is_income=True,
       )
-
+    
 # To get all transactions do: Category.objects
 class TransactionManager(models.Manager):
     def get_query_set(self):
