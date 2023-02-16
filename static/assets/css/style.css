@@ -156,6 +156,9 @@ ul,
   position: relative;
   background-color: white;
   right: 0%;
+  margin-right: 30px;
+  margin-left: 30px;
+  list-style: none
   
 }
 

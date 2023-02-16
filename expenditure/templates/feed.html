@@ -2,6 +2,7 @@
 
 {% block content %}
 
+
 <section class="content-section">
     <div>
         <h1>Dashboard</h1>
@@ -12,11 +13,41 @@
             <li class="breadcrumb-item"> <a>Dashboard</a></li>
         </ol>
     </nav>
-    <div class="main-card">
-        <p>Welcome {name} to VMT</p>
-        <div id="bar-chart-container">
-            <canvas id="monthly-chart"> </canvas>
-        </div>
-    </div>
+ 
+        <section class="section dashboard">
+            <div class="row">
+                <div class="col-lg-9">
+                    <div class="row">
+                        <div class="main-card">
+                            <div id="bar-chart-container">
+                                <canvas id="monthly-chart"> </canvas>
+                            </div>   
+                        </div>                     
+                    </div>
+                </div>
+        
+                
+                <div class="col-lg-3">
+                    <div class="row">
+                        <div class="card">
+                            <h3>News</h3>
+                            <ol>
+                                <li>A</li>
+                                <li>B</li>
+                                <li>B</li>
+                                <li>C</li>
+                                <li>A</li>
+                                <li>D</li>
+                                <li>A</li>
+                                <li>A</li>
+
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+        </section>
+
 </section>
 {% endblock %}
