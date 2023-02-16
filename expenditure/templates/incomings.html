@@ -3,8 +3,15 @@
 {% block content %}
 
 <section class="content-section">
-  <h1>Income</h1>
-  <h6> <a href="{% url 'feed' %}">Home</a> / Income<h6>
+  <div>
+    <h1>Dashboard</h1>
+  </div>
+  <nav>
+      <ol class="breadcrumb">
+          <li class="breadcrumb-item active"> <a href="{% url 'feed' %}">Home</a></li>
+          <li class="breadcrumb-item"> <a>Incomings</a></li>
+      </ol>
+  </nav>
   <div class="main-card">
   <div id="create-transaction-div">
     <a class="btn btn-info" href="{% url 'create_category'%}">Create new category</a>

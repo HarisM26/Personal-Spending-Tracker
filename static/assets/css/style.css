@@ -1,13 +1,5 @@
 @import "toggle_button.css";
 
-:root {
-  --color-default: #03045e;
-  --color-dark: #02033e;
-  --color-second: #0067ac;
-  --color-white: #ffffff;
-  --color-body: #e4e9f7;
-  --color-light: #caf0f8;
-}
 
 body {
   background-image: radial-gradient(
@@ -27,8 +19,9 @@ body {
 }
 
 /* === News Page CSS ===*/
-.news-title {
+.news-title{
   text-align: center;
+  color: black;
 }
 
 #news-card {
@@ -159,10 +152,14 @@ ul,
   /* text-align: center; */
   opacity: 0.9;
   height: auto;
-  padding: 40px 40px;
+  padding: 40px 40px 40px 40px;
   position: relative;
   background-color: white;
   right: 0%;
+  margin-right: 30px;
+  margin-left: 30px;
+  list-style: none
+  
 }
 
 .main-card h1 {
@@ -193,6 +190,15 @@ ul,
 /*================================================*/
 
 /* SideBar */
+
+:root {
+  --color-default: #03045e;
+  --color-dark: #02033e;
+  --color-second: #0067ac;
+  --color-white: #ffffff;
+  --color-body: #e4e9f7;
+  --color-light: #caf0f8;
+}
 
 .sidebar {
   width: 78px;
@@ -397,6 +403,12 @@ ul,
 
 .content-section h1 {
   font-size: 30px;
+  color:black;
+}
+
+.content-section h3{
+  font-size: 30px;
+  color:gray;
 }
 
 .content-section h6 {
@@ -404,12 +416,12 @@ ul,
   color: gray;
 }
 .content-section a:link {
-  color: black;
+  color: gray;
   text-decoration: none;
 }
 
 .content-section a:visited {
-  color: black;
+  color: gray;
   text-decoration: none;
 }
 
@@ -417,3 +429,7 @@ ul,
   color: #0067ac;
   text-decoration: none;
 }
+
+.breadcrumb > .inactive a{
+  color: white;
+  }

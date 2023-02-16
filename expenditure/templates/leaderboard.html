@@ -3,8 +3,15 @@
 
 
 <section class="content-section">
-    <h1>Leaderboard</h1>
-    <h6> <a href="{% url 'feed' %}">Home</a> / Leaderboard<h6>
+    <div>
+        <h1>Leaderboard</h1>
+    </div>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active"> <a href="{% url 'feed' %}">Home</a></li>
+            <li class="breadcrumb-item"> <a>Leaderboard</a></li>
+        </ol>
+    </nav>
     <div class="main-card">
         <p>Welcome To Leaderboard Section</p>
         

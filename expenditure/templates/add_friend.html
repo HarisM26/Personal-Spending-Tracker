@@ -3,8 +3,15 @@
 
 
 <section class="content-section">
-    <h1>Friends</h1>
-    <h6> <a href="{% url 'feed' %}">Home</a> / Friends<h6>
+    <div>
+        <h1>Friends</h1>
+    </div>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active"> <a href="{% url 'feed' %}">Home</a></li>
+            <li class="breadcrumb-item"> <a>Friends</a></li>
+        </ol>
+    </nav>
     <div class="main-card">
         <p>Welcome To Friends Section</p>
         

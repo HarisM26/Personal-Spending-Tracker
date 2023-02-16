@@ -4,8 +4,16 @@
 
 {{ form.media }}
 <section class="content-section">
-    <h1>Create a Category</h1>
-    <h6> <a href="{% url 'feed' %}">Home</a> / <a href="{% url 'spending' %}">Spending</a> / Create Category<h6>
+    <div>
+        <h1>Create Category</h1>
+    </div>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active"> <a href="{% url 'feed' %}">Home</a></li>
+            <li class="breadcrumb-item active"> <a href="{% url 'spending' %}">Spending</a></li>
+            <li class="breadcrumb-item"> <a>Create Category</a></li>
+        </ol>
+    </nav>
     <div class="main-card">
         <form action="{% url 'create_category' %}" method="post">
             {% csrf_token %}
