@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from .forms import LogInForm, SignUpForm
+from .forms import LogInForm, SignUpForm, UpdateUserForm
 from .models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -19,9 +19,20 @@ def contact(request):
 def features(request):
     return render(request, 'features.html')
 
-@login_required
+
 def profile(request):
-    return render(request, 'profile.html')
+    if request.method == 'POST':
+        user_form = UpdateUserForm(request.POST, instance=request.user)
+
+        if user_form.is_valid():
+            user_form.save()
+            messages.success(request, 'Your profile is updated successfully')
+            return redirect('user_profile')
+
+    else:
+        user_form = UpdateUserForm(instance=request.user)
+    
+    return render(request, 'profile.html', {'user_form': user_form})
 
 
 def log_out(request):
@@ -58,6 +69,6 @@ def sign_up(request):
             return redirect('home')
     else:
         form = SignUpForm()
-    return render(request, 'sign_up.html' , {'form': form})
+        return render(request, 'sign_up.html' , {'form': form})
 
 

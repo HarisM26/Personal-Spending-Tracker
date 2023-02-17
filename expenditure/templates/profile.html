@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %} 
+<title>Profile • VMT</title>
+   <div class="welcome_text">
+       <h1>This is the profile page for {{user.first_name}} </h1>
+            <div class="welcome_paragraph">
+                <form action="{% url 'user_profile' %}" method="post">
+                    {% csrf_token %}
+                    <label class="small mb-1">Email:</label>
+                        {{ user_form.email }}
+                        <br>
+                    <label class="small mb-1">First Name:</label>
+                        {{ user_form.first_name }}
+                        <br>
+                    <label class="small mb-1">Last Name:</label>
+                        {{ user_form.last_name }}
+                        <br>
+                    
+                    <a href="#">Change Password</a>
+                    <br> <br>
+                    <button type="submit" class="btn btn-dark btn-lg">Save Changes</button>
+                    <button type="reset" class="btn btn-dark btn-lg">Reset</button>
+                </form>
+            </div>
+        </div>
+{% endblock content %}

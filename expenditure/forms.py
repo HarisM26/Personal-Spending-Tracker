@@ -1,5 +1,6 @@
 from django import forms
-from .models import User
+from django.contrib.auth.models import User
+from .models import Profile
 from django.contrib.auth.forms import UserCreationForm
 from django.core.validators import RegexValidator
 
@@ -25,3 +26,20 @@ class SignUpForm(UserCreationForm):
             
         )
         return user
+
+
+class UpdateUserForm(forms.ModelForm):
+    email = forms.EmailField(required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    first_name = forms.CharField(max_length=100, label='first_name', widget=forms.TextInput(attrs={'class': 'form-control'}))
+    last_name = forms.CharField(max_length=100, label='last_name', widget=forms.TextInput(attrs={'class': 'form-control'}))
+
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']
+
+    
+    
+    
+
+    
+
