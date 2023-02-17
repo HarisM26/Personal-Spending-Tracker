@@ -8,6 +8,7 @@ from .helpers import not_future
 from datetime import datetime, date, timedelta
 from decimal import Decimal
 from django.core.validators import MinValueValidator
+from django.urls import reverse
 
 
 class UserManager(BaseUserManager):
@@ -224,23 +225,23 @@ class Category(models.Model):
 
 
 # To get the outgoing transactions do: Category.spendings
-class SpendingManager(models.Manager):
-    def get_query_set(self):
-      return super(SpendingManager, self).get_query_set().filter(
-        category__is_income=False,
-      )
+# class SpendingManager(models.Manager):
+#     def get_query_set(self):
+#       return super(SpendingManager, self).get_query_set().filter(
+#         category__is_income=False,
+#       )
 
-# To get the incoming transactions do: Category.incomings
-class IncomingManager(models.Manager):
-    def get_query_set(self):
-      return super(IncomingManager, self).get_query_set().filter(
-        category__is_income=True,
-      )
+# # To get the incoming transactions do: Category.incomings
+# class IncomingManager(models.Manager):
+#     def get_query_set(self):
+#       return super(IncomingManager, self).get_query_set().filter(
+#         category__is_income=True,
+#       )
 
-# To get all transactions do: Category.objects
-class TransactionManager(models.Manager):
-    def get_query_set(self):
-      return super(TransactionManager, self).get_query_set()
+# # To get all transactions do: Category.objects
+# class TransactionManager(models.Manager):
+#     def get_query_set(self):
+#       return super(TransactionManager, self).get_query_set()
 
 class Transaction(models.Model):
     title = models.CharField(max_length=200)
@@ -251,15 +252,19 @@ class Transaction(models.Model):
     reciept = models.ImageField(upload_to='', blank=True, null=True)
     category = models.ForeignKey(Category, related_name="transactions", on_delete=models.PROTECT)
     
-    objects = TransactionManager()
-    spendings = SpendingManager()
-    incomings = IncomingManager()
+    # objects = TransactionManager()
+    # spendings = SpendingManager()
+    # incomings = IncomingManager()
 
     class Meta:
       ordering = ['-date',]
     
     def __str__(self):
         return 'desc: '+ self.title + ' -> $ ' + str(self.amount)
+    
+    def get_absolute_url(self):
+        return reverse('transaction', kwargs={'id':self.pk})
+
 
 
 # class Transaction(models.Model):

@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect, get_object_or_404
 from .forms import *
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from datetime import datetime, date, timedelta
 from django.http import HttpResponse, HttpResponseRedirect
 from .news_api import all_articles
@@ -62,6 +63,7 @@ def mark_as_read(request,id):
    notification.save()
    return redirect('notification_page') 
 
+@login_required
 def spending(request):
     current_user = request.user
     categories = Category.objects.filter(user = current_user)
@@ -172,9 +174,10 @@ def news_page(request):
     articles = all_articles['articles']
     return render(request, 'news_page.html',{'articles':articles})   
 
+@login_required
 def add_transaction(request,request_id):
     category = get_object_or_404(Category, id=request_id)
-    category_limit = category.limit
+    #category_limit = category.limit
 
     if category.is_income:
         create_transaction_form = IncomingForm
@@ -184,14 +187,14 @@ def add_transaction(request,request_id):
     if request.method == 'POST':
         updated_request = request.POST.copy()
         updated_request.update({'category': category.pk})
-        create_transaction_form = create_transaction_form(updated_request, request.FILES)
+        create_transaction_form = create_transaction_form(data=updated_request, files=request.FILES)
         if create_transaction_form.is_valid():
             # transaction = create_transaction_form.save(commit=False)
             # transaction.category = category
             # category_limit.addSpentAmount(transaction.amount)
             # category_limit.save()
             # transaction.save()
-            transaction = create_transaction_form.save()
+            create_transaction_form.save()
             return HttpResponseRedirect(reverse('spending'))
     else:
         create_transaction_form = create_transaction_form()   
@@ -203,20 +206,32 @@ def add_transaction(request,request_id):
 
     return render(request, 'add_transaction.html', context)
 
+@login_required
+def view_transaction(request, id):
+    transaction = get_object_or_404(Transaction, id=id)
+    context = {
+        'transaction': transaction,
+    }
+
+    return render(request, 'transaction.html', context=context)
+
+@login_required
 def list_incomings(request):
-    incomings = Transaction.incomings.all()
+    incomings = Transaction.objects.filter(category__is_income=True)
     context = {
         'incomings': incomings,
     }
     return render(request, 'incomings.html', context=context)
 
-def get_total_transactions_by_date(request, from_date, to_date):
-    return Transaction.spendings.filter(
+def get_total_transactions_by_date(user, from_date, to_date):
+    return Transaction.objects.filter(
         date__gte=from_date,
         date__lte=to_date,
-        category__user=request.user
+        category__is_income=False,
+        category__user=user
     ).annotate(month=TruncMonth("date")).values("month").annotate(total=Sum("amount")).values("month", "total")
 
+@login_required
 def view_report(request):
     from_date = date(date.today().year-1, date.today().month, 1)
     to_date = date.today()
@@ -232,7 +247,7 @@ def view_report(request):
             "to_date": to_date
         })
     
-    transactions = get_total_transactions_by_date(request, from_date, to_date)
+    transactions = get_total_transactions_by_date(request.user, from_date, to_date)
 
     context = {
         "form": form,

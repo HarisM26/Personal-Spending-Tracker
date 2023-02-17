@@ -12,6 +12,7 @@ class SpendingForm(forms.ModelForm):
     class Meta:
         model = Transaction
         fields = '__all__'
+        #exclude = ('category',)
         widgets = {
             'date': DatePickerInput(options={"format": "DD/MM/YYYY"}),
             'category': forms.HiddenInput(),
@@ -28,7 +29,7 @@ class IncomingForm(forms.ModelForm):
     class Meta:
         model = Transaction
         fields = '__all__'
-        exclude = ('reciept',)
+        exclude = ('reciept', 'category',)
         widgets = {
             'date': DatePickerInput(options={"format": "DD/MM/YYYY"}),
             'category': forms.HiddenInput(),

@@ -2,6 +2,7 @@ from datetime import date, timedelta,datetime
 from django.test import TestCase
 from django.core.exceptions import ValidationError
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.urls import reverse
 from expenditure.models import Transaction, Category, User, Limit
 from decimal import *
 
@@ -100,6 +101,13 @@ class TestTransactionModel(TestCase):
     def test_unrequired_reciept(self):
         self.transaction.reciept = self.image
         self.assert_transaction_is_valid()
+
+    def test_str(self):
+        self.assertEqual(str(self.transaction), f'desc: '+ self.transaction.title + ' -> $ ' + str(self.transaction.amount))
+    
+    def test_get_absolute_url(self):
+        response_url = reverse('transaction', kwargs={'id': self.transaction.pk})
+        self.assertEqual(self.transaction.get_absolute_url(), response_url)
 
 
     # def assert_spending_is_valid(self):

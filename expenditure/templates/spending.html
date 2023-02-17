@@ -7,7 +7,7 @@
 <div class="card">
   <h1> SPENDING </h1>
   <div id="create-transaction-div">
-    <a class="btn btn-info" href="{% url 'create_category'%}">Create new category</a>
+    <a class="btn btn-info" href="{% url 'create_category' %}">Create new category</a>
   </div>
   {% for category in categories %}
     <ul id="myUL">
@@ -21,7 +21,7 @@
         <ul class="nested">
           {% with transactions=category|get_transactions %}
           {% for transaction in transactions %}
-          <li class="transaction_list">{{transaction.title}} &#187;&#187;&#187; <span> &#45; &#163;{{transaction.amount}} </span></li>
+          <li class="transaction_list"><a href="{{ transaction.get_absolute_url }}">{{transaction.title}}</a> &#187;&#187;&#187; <span> &#45; &#163;{{transaction.amount}} </span></li>
           {% endfor %}
           <div> Total transactions &#58; &#163; {{transactions|get_transaction_total}}</div>
           {% endwith %}

@@ -4,16 +4,20 @@ from django.urls import reverse
 from django.core.files.uploadedfile import SimpleUploadedFile
 from expenditure.models import Transaction, Category, Limit, User
 from decimal import Decimal
+from expenditure.forms import IncomingForm, SpendingForm
 
 class TransactionViews(TestCase):
 
     def setUp(self):
-        self.category = Category.objects.create(
-            user = User.objects.create(
+        self.user = User.objects.create_user(
                 email='johndoe@email.com',
                 first_name='John',
                 last_name='Doe',
-            ),
+                password='1jk4uvdI0O',
+            )
+        
+        self.category = Category.objects.create(
+            user = self.user,
             name = 'test_category',
             is_income=False,
             limit = Limit.objects.create(
@@ -24,11 +28,7 @@ class TransactionViews(TestCase):
         )
 
         self.category_2 = Category.objects.create(
-            user = User.objects.create(
-                email='johndoe2@email.com',
-                first_name='John',
-                last_name='Doe',
-            ),
+            user = self.user,
             name = 'test2_category',
             is_income=True,
             limit = Limit.objects.create(
@@ -71,26 +71,37 @@ class TransactionViews(TestCase):
         self.url_list_spendings = reverse('spending')
         self.url_list_incomings = reverse('list_incomings')
         self.url_add_transaction = reverse('add_transaction',args=[self.category.id])
+        self.url_transaction = reverse('transaction', kwargs={'id': self.transaction.pk})
 
     def test_transaction_urls(self):
         self.assertEqual(self.url_list_spendings,'/spending/')
         self.assertEqual(self.url_list_incomings,'/transactions/income/')
         self.assertEqual(self.url_add_transaction,f'/transactions/add/{self.category.id}/')
+        self.assertEqual(self.url_transaction,f'/transactions/{self.transaction.pk}/')
     
     def test_transaction_urls_are_accessible(self):
-        #response_list_spendings = self.client.get(self.url_list_spendings)
+        self.client.login(email='johndoe@email.com', password='1jk4uvdI0O')
+        response_list_spendings = self.client.get(self.url_list_spendings)
         response_list_incomings = self.client.get(self.url_list_incomings)
         response_add_transaction = self.client.get(self.url_add_transaction)
+        response_transaction = self.client.get(self.url_transaction)
 
-        #self.assertEqual(response_list_spendings.status_code, 200)
+        self.assertEqual(response_list_spendings.status_code, 200)
         self.assertEqual(response_list_incomings.status_code, 200)
         self.assertEqual(response_add_transaction.status_code, 200)
+        self.assertEqual(response_transaction.status_code, 200)
 
-        #self.assertIn('spending.html', (t.name for t in response_list_spendings.templates))
+        self.assertIn('spending.html', (t.name for t in response_list_spendings.templates))
         self.assertIn('incomings.html', (t.name for t in response_list_incomings.templates))
         self.assertIn('add_transaction.html', (t.name for t in response_add_transaction.templates))
+        self.assertIn('transaction.html', (t.name for t in response_transaction.templates))
     
     def test_add_transaction(self):
+        self.client.login(email='johndoe@email.com', password='1jk4uvdI0O')
+        response = self.client.get(f'/transactions/add/{self.transaction.category.pk}/')
+        form = response.context['create_transaction_form']
+        self.assertTrue(isinstance(form, SpendingForm))
+        self.assertFalse(form.is_bound)
         before_count = Transaction.objects.all().count()
         response = self.client.post(self.url_add_transaction, self.transaction_input)
         transaction = Transaction.objects.latest('created')
@@ -105,6 +116,11 @@ class TransactionViews(TestCase):
         #self.assertRedirects(response, response_url, status_code=302, target_status_code=200)<!-- tried to fix back doesnt seem to work -->
     
     def test_add_incoming_transaction(self):
+        self.client.login(email='johndoe@email.com', password='1jk4uvdI0O')
+        response = self.client.get(f'/transactions/add/{self.transaction_incoming.category.pk}/')
+        form = response.context['create_transaction_form']
+        self.assertTrue(isinstance(form, IncomingForm))
+        self.assertFalse(form.is_bound)
         before_count = Transaction.objects.all().count()
         response = self.client.post(self.url_add_transaction, self.incoming_transaction_input)
         transaction = Transaction.objects.latest('created')

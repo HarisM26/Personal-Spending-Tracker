@@ -41,6 +41,7 @@ urlpatterns = [
     #path('transactions/', views.list_transactions, name='list_transactions'),
     path('transactions/add/<int:request_id>/', views.add_transaction, name='add_transaction'),
     path('transactions/income/', views.list_incomings, name='list_incomings'),
+    path('transactions/<int:id>/', views.view_transaction, name='transaction'),
     path('add_friend/',views.add_friend,name='add_friend'),
     path('leaderboard/',views.leaderboard,name='leaderboard'),
     path('profile/',views.profile,name='profile'),

@@ -8,9 +8,9 @@
           <div class="col-12 my-auto">
               <div class="cover-card">
                   <h1>Add Transaction</h1>
-                  <form action="{% url 'add_transaction' request_id %}" method="post">
+                  <form action="{% url 'add_transaction' request_id %}" method="post" enctype="multipart/form-data">
                       {% csrf_token %}
-                      {% include 'partials/bootstrap_form.html' with form=create_transaction_form %}
+                      {% include 'partials/bootstrap_form.html' with form=create_transaction_form.visible_fields %}
                   <input type="submit" value="Add transaction" class="btn btn-100">
                   </form>
               </div>
