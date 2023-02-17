@@ -348,7 +348,12 @@ ul,
   box-shadow: 2px 2px 5px rgba(32, 78, 119, 0.899);
 }
 /*============================================================*/
-
+/*Income Page*/
+#add-transaction-btn {
+  display: flex;
+  justify-content: right;
+}
+/*============================================*/
 /* Spending Category*/
 #spending-categories-detail-div,
 #total-transaction,

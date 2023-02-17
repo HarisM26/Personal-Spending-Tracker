@@ -13,16 +13,9 @@
     <div >
       <ul id="myUL">
         <li class="category_list"> 
-      
           <span id="category-name-tag" class="caret"><b>{{ category.name }} </b></span><br>
-        
-          <div id="spending-categories-detail-div">
-          <div>
-          Limit&#58; &#163;<i>{{ category.limit.limit_amount }}</i>
-        </div>
-          <span>
-            <a class="btn btn-info" href="{% url 'add_transaction' category.id %}"> Add transaction </a>
-          </span>
+          <div id="add-transaction-btn">
+            <a  class="btn btn-info" href="{% url 'add_transaction' category.id %}"> Add transaction </a>
           </div>
           <hr>
           <ul class="nested">

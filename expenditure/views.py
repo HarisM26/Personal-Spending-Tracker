@@ -306,3 +306,29 @@ def profile(request):
 @login_required
 def reports(request):
     return render(request, 'reports.html')
+
+
+def try_rorm(request):
+    current_user = request.user
+    notifications = get_user_notifications(current_user)
+    latest_notifications = notifications[0:3]
+    unread_status_count = get_unread_nofications(current_user)
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            name=form.cleaned_data.get('name')
+            incoming_category = Category.objects.create(user=current_user,name=name,is_income=True)
+            messages.add_message(request, messages.SUCCESS,
+                             "Category created!")
+            return redirect('create_incoming_category')
+        messages.add_message(request, messages.ERROR,
+                             "The credentials provided were invalid!")
+    else:
+        form = CategoryForm()
+
+    context = {
+        'form': form,
+        'latest_notifications': latest_notifications,
+        'unread_status_count': unread_status_count,
+    }
+    return render(request, 'profile.html', context)

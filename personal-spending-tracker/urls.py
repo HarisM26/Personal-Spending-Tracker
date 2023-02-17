@@ -45,6 +45,7 @@ urlpatterns = [
     path('add_friend/',views.add_friend,name='add_friend'),
     path('leaderboard/',views.leaderboard,name='leaderboard'),
     path('profile/',views.profile,name='profile'),
+    path('profile/edit',views.try_rorm,name='edit_profile'),
     path('reports/',views.view_report,name='reports'),
     path('incomings/',views.incoming ,name='incomings'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
