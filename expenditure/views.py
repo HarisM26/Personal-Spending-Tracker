@@ -2,6 +2,7 @@ from django.shortcuts import redirect, render
 from .forms import LogInForm, SignUpForm
 from .models import User
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 
@@ -17,6 +18,11 @@ def contact(request):
 
 def features(request):
     return render(request, 'features.html')
+
+@login_required
+def profile(request):
+    return render(request, 'profile.html')
+
 
 def log_out(request):
     logout(request)
