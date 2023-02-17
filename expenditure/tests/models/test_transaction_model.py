@@ -50,7 +50,7 @@ class TestTransactionModel(TestCase):
         #     amount = Decimal('30.00'),
         #     category = self.other_category,
         # )
-        self.image = SimpleUploadedFile('reciept.jpg', b'blablabla')
+        self.image = SimpleUploadedFile('receipt.jpg', b'blablabla')
     
     def assert_transaction_is_valid(self):
         try:
@@ -95,8 +95,8 @@ class TestTransactionModel(TestCase):
         self.transaction.notes = 'some notes' 
         self.assert_transaction_is_valid()
     
-    def test_unrequired_reciept(self):
-        self.transaction.reciept = self.image
+    def test_unrequired_receipt(self):
+        self.transaction.receipt = self.image
         self.assert_transaction_is_valid()
 
 
@@ -186,6 +186,6 @@ class TestTransactionModel(TestCase):
     #     self.incoming.notes = 'some notes' 
     #     self.assert_incoming_is_valid()
     
-    # def test_unrequired_reciept(self):
-    #     self.spending.reciept = self.image
+    # def test_unrequired_receipt(self):
+    #     self.spending.receipt = self.image
     #     self.assert_spending_is_valid()

@@ -13,7 +13,7 @@
                 <th>title</th>
                 <th>date</th>
                 <th>amount</th>
-                <th>reciept</th>
+                <th>receipt</th>
                 <th>category</th>
             </tr>
         </thead>
@@ -23,8 +23,8 @@
                     <td>{{ transaction.title }}</td>
                     <td>{{ transaction.date }}</td>
                     <td>{{ transaction.amount }}</td>
-                    {% if transaction.reciept %}
-                        <td><img src="{{ transaction.reciept.url }}" width="100" alt=""></td>
+                    {% if transaction.receipt %}
+                        <td><img src="{{ transaction.receipt.url }}" width="100" alt=""></td>
                     {% else %}
                         <td></td>
                     {% endif %}

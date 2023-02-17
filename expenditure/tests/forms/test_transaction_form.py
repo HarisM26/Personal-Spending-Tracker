@@ -53,7 +53,7 @@ class TransactionFormTestCase(TestCase):
             'category': self.category_2.pk,
         }
         
-        self.image = SimpleUploadedFile('reciept.jpg', b'blablabla')
+        self.image = SimpleUploadedFile('receipt.jpg', b'blablabla')
 
     def test_form_contains_required_fields(self):
         form = SpendingForm()
@@ -125,12 +125,12 @@ class TransactionFormTestCase(TestCase):
         form = IncomingForm(data=self.incoming_form_input)
         self.assertTrue(form.is_valid())
     
-    def test_form_accepts_reciept(self):
-        self.form_input['reciept'] = self.image
+    def test_form_accepts_receipt(self):
+        self.form_input['receipt'] = self.image
         form = SpendingForm(data=self.form_input)
         self.assertTrue(form.is_valid())
     
-    # def test_form_rejects_reciept(self):
-    #     self.incoming_form_input['reciept'] = self.image
+    # def test_form_rejects_receipt(self):
+    #     self.incoming_form_input['receipt'] = self.image
     #     form = IncomingForm(data=self.incoming_form_input)
     #     self.assertFalse(form.is_valid())

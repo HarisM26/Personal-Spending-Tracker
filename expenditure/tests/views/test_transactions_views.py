@@ -57,11 +57,11 @@ class TransactionViews(TestCase):
         self.incoming_transaction_input = {
             'title': 'incoming_transaction_test',
             'date': date.today(),
-            'amount': 60.00,
+            'amount': Decimal('60.00'),
             'category': self.category_2.id,
         }
 
-        self.image = SimpleUploadedFile('reciept.jpg', b'blablabla', content_type='image/jpeg')
+        self.image = SimpleUploadedFile('receipt.jpg', b'blablabla', content_type='image/jpeg')
 
         self.url_list_spendings = reverse('spending')
         self.url_list_incomings = reverse('list_incomings')
