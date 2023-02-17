@@ -101,7 +101,7 @@ class EditCategoryView(LoginRequiredMixin,UpdateView):
     model = Category
     form_class = CategoryEditMultiForm
     template_name = "edit_category.html"
-    success_url = reverse_lazy('spending')
+    success_url = reverse_lazy('all_categories')
 
     # Returns the keyword arguments for instantiating the form
     # Overriding to add category and limit to kwargs before form is created

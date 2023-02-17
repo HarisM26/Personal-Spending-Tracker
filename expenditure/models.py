@@ -168,6 +168,14 @@ class Category(models.Model):
   def __str__(self):
     return self.name
 
+    # Used to create and save new instance of limit associated with this category
+    def createLimit(category, limit_amount, **kwargs):
+      Limit.objects.create(
+        category=category,
+        limit_amount=limit_amount,
+        **kwargs
+      )
+
 
 # To get the outgoing transactions do: Category.spendings
 class SpendingManager(models.Manager):

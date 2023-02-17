@@ -57,7 +57,7 @@ class TransactionViews(TestCase):
         self.incoming_transaction_input = {
             'title': 'incoming_transaction_test',
             'date': date.today(),
-            'amount': Decimal('60.00'),
+            'amount': 60.00,
             'category': self.category_2.id,
         }
 
