@@ -6,6 +6,7 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.utils.translation import gettext_lazy as _
 
 
+
 class UserManager(BaseUserManager):
 
     use_in_migrations = True
@@ -61,7 +62,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
   @property
   def user_id(self):
-    str(self.id) + self.first_name
+    return str(self.first_name + str(self.id))
     
 
 
@@ -86,7 +87,7 @@ class Profile(models.Model):
   user = models.OneToOneField(User, on_delete=models.CASCADE)
 
   def __str__(self):
-    return self.user.email
+    return self.user.email 
   
  # def __str__(self):
     #return self.user.first_name
