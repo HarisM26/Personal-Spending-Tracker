@@ -83,24 +83,6 @@ class Profile(models.Model):
   
   def __str__(self):
     return self.user.first_name
-
-class Limit(models.Model):
-  LIMIT_STATUS=[('reached',('reached')),('not reached',('not reached')), ('approaching',('approaching'))]
-  TIME_LIMIT_TYPE=[('weekly',('weekly')),('monthly',('monthly')),('yearly',('yearly'))]
-
-  limit_amount = models.DecimalField(max_digits=10,decimal_places=2,null=False, validators=[MinValueValidator(Decimal('0.01'))])
-  remaining_amount = models.DecimalField(max_digits=10,decimal_places=2, default= 0.00)
-  status = models.CharField(max_length=50, choices=LIMIT_STATUS, default='not reached')
-  time_limit_type = models.CharField(max_length=7, choices=TIME_LIMIT_TYPE, default='weekly')
-  start_date = models.DateField(auto_now_add=datetime.date(datetime.now()))
-  end_date = models.DateField()
- 
-  def __str__(self):
-    return str(self.limit_amount)
-
-  @property
-  def calc_90_percent_of_limit(self):
-    return Decimal(self.limit_amount)*Decimal('0.90')
   
 
 class Profile(models.Model):
