@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from expenditure import views
+from expenditure.views import ChangePasswordView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,4 +28,5 @@ urlpatterns = [
     path('log_in/', views.log_in, name='log_in'),
     path('log_out/', views.log_out, name='log_out'),
     path('profile/', views.profile, name='user_profile'),
+    path('password-change/', ChangePasswordView.as_view(), name='password_change')
 ]

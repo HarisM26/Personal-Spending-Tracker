@@ -89,14 +89,7 @@ class Profile(models.Model):
   def __str__(self):
     return self.user.email 
   
- # def __str__(self):
-    #return self.user.first_name
-  
-  #def __str__(self):
-    #return self.user.last_name
-  
-  #def __str__(self):
-   # return self.user.user_id
+ 
 
 
     

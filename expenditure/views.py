@@ -4,6 +4,9 @@ from .models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.urls import reverse_lazy
+from django.contrib.auth.views import PasswordChangeView
+from django.contrib.messages.views import SuccessMessageMixin
 
 
 
@@ -19,7 +22,7 @@ def contact(request):
 def features(request):
     return render(request, 'features.html')
 
-
+@login_required
 def profile(request):
     if request.method == 'POST':
         user_form = UpdateUserForm(request.POST, instance=request.user)
@@ -72,3 +75,7 @@ def sign_up(request):
         return render(request, 'sign_up.html' , {'form': form})
 
 
+class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
+    template_name = 'change_password.html'
+    success_message = 'Successfully changed password'
+    success_url = reverse_lazy("user_profile")
