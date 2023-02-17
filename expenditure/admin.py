@@ -2,13 +2,16 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 from .forms import SignUpForm
-from .models import User
 from .models import Profile
+#from expenditure.models import User
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 class CustomUserAdmin(UserAdmin):
     add_form = SignUpForm
     model = User
-    list_display = ("user_id","id","first_name", "last_name", "email", "is_staff", "is_active",)
+    list_display = ("user_id","first_name", "last_name", "email", "is_staff", "is_active",)
     list_filter = ("email", "is_staff", "is_active",)
     fieldsets = (
         (None, {"fields": ("first_name", "last_name","email", "password")}),
