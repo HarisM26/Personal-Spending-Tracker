@@ -159,10 +159,13 @@ ul,
   /* text-align: center; */
   opacity: 0.9;
   height: auto;
-  padding: 40px 40px;
+  padding: 40px 40px 40px 40px;
   position: relative;
   background-color: white;
   right: 0%;
+  margin-right: 30px;
+  margin-left: 30px;
+  list-style: none;
 }
 
 .main-card h1 {
@@ -402,6 +405,12 @@ ul,
 
 .content-section h1 {
   font-size: 30px;
+  color: black;
+}
+
+.content-section h3 {
+  font-size: 30px;
+  color: gray;
 }
 
 .content-section h6 {
@@ -409,16 +418,20 @@ ul,
   color: gray;
 }
 .content-section a:link {
-  color: black;
+  color: gray;
   text-decoration: none;
 }
 
 .content-section a:visited {
-  color: black;
+  color: gray;
   text-decoration: none;
 }
 
 .content-section a:hover {
   color: #0067ac;
   text-decoration: none;
+}
+
+.breadcrumb > .inactive a {
+  color: white;
 }

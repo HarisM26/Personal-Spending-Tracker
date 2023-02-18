@@ -16,7 +16,7 @@ def not_future(val):
 
 def create_notification(user,category_name,category_limit_obj,total):
   if total >= (category_limit_obj.calc_90_percent_of_limit) and total < Decimal(category_limit_obj.limit_amount):
-    current_message = f'{category_name} category close to its limit. Please consider reducing your spending'
+    current_message = f'{category_name} category is close to its limit. Please consider reducing your spending'
   else:
     current_message = f'{category_name} category has reached its limit!'
   

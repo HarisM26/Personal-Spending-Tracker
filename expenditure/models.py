@@ -77,13 +77,13 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class Limit(models.Model):
   LIMIT_STATUS=[('reached',('reached')),('not reached',('not reached')), ('approaching',('approaching'))]
-  TIME_LIMIT_TYPE=[('weekly',('weekly')),('monthly',('monthly')),('yearly',('yearly'))]
+  TIME_LIMIT_TYPE=[('weekly',('Weekly')),('monthly',('Monthly')),('yearly',('Yearly'))]
 
   limit_amount = models.DecimalField(max_digits=10,decimal_places=2,null=False, validators=[MinValueValidator(Decimal('0.01'))])
   remaining_amount = models.DecimalField(max_digits=10,decimal_places=2, default= 0.00)
   status = models.CharField(max_length=50, choices=LIMIT_STATUS, default='not reached')
   time_limit_type = models.CharField(max_length=7, choices=TIME_LIMIT_TYPE, default='weekly')
-  start_date = models.DateField(auto_now_add=datetime.date(datetime.now()))
+  start_date = models.DateField(auto_now_add=True)
   end_date = models.DateField()
  
   def __str__(self):
@@ -115,68 +115,49 @@ class Notification(models.Model):
     title = models.CharField(max_length=300)
     message = models.CharField(max_length = 1200)
     status = models.CharField(max_length=6,choices=STATUS_CHOICE,default= 'unread')
-    time_created = models.TimeField(auto_now_add=True)
-    date_created = models.DateField(auto_now_add=True)
-
+    created = models.DateTimeField(auto_now_add=True)
+    
     class Meta:
-        ordering = ['-date_created','-time_created']
+        ordering = ['-created']
     
     def __str__(self):
         return self.message
 
-class Category(models.Model):
+class SpendingCategory(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     is_income = models.BooleanField(default=False)
-    limit = models.OneToOneField(Limit, on_delete=models.CASCADE, null=True)
+    limit = models.OneToOneField(Limit, on_delete=models.CASCADE)
     #slug = models.SlugField()
     #parent = models.ForeignKey('self',blank=True, null=True ,related_name='children')
     def __str__(self):
         return self.name
-
-
- #To get the outgoing transactions do: Category.spendings
-class SpendingManager(models.Manager):
-    def get_query_set(self):
-      return super(SpendingManager, self).get_query_set().filter(
-        category__is_income=False,
-      )
-
-# To get the incoming transactions do: Category.incomings
-class IncomingManager(models.Manager):
-    def get_query_set(self):
-      return super(IncomingManager, self).get_query_set().filter(
-        category__is_income=True,
-      )
     
-# To get all transactions do: Category.objects
-class TransactionManager(models.Manager):
-    def get_query_set(self):
-      return super(TransactionManager, self).get_query_set()
+class IncomeCategory(models.Model):
+  user = models.ForeignKey(User, on_delete=models.CASCADE)
+  name = models.CharField(max_length=50)
+
 
 class Transaction(models.Model):
     title = models.CharField(max_length=200)
     date = models.DateField(validators=[not_future])
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     notes = models.TextField(blank=True)
-    reciept = models.ImageField(upload_to='', blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
-    category = models.ForeignKey(Category, related_name="transactions", on_delete=models.PROTECT)
     
-    objects = TransactionManager()
-    spendings = SpendingManager()
-    incomings = IncomingManager()
-
     class Meta:
+      abstract=True
       ordering = ['-date',]
+
     
     def __str__(self):
-        return 'desc: '+ self.title + ' -> $ ' + str(self.amount)
-
-    class Meta:
-        ordering = ['-date',]
+        return 'desc: '+ self.title + ' ->  £' + str(self.amount)
   
+class SpendingTransaction(Transaction, models.Model):
+  spending_category=models.ForeignKey(SpendingCategory, related_name="transactions", on_delete=models.PROTECT)
+  reciept = models.ImageField(upload_to='', blank=True, null=True)
 
-
-
-  
+class IncomeTransaction(Transaction, models.Model):
+   income_category=models.ForeignKey(IncomeCategory, related_name="transactions", on_delete=models.PROTECT)
+   class Meta:
+      ordering = ['-date',]

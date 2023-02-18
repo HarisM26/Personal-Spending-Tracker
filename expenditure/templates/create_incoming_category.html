@@ -3,7 +3,13 @@
 
 <section class="content-section">
     <h1>Create a Category</h1>
-    <h6> <a href="{% url 'feed' %}">Home</a> / <a href="{% url 'incomings' %}">Incoming</a> / Create Category<h6>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active"> <a href="{% url 'feed' %}">Home</a></li>
+            <li class="breadcrumb-item active"> <a href="{% url 'incomings' %}">Incoming</a></li>
+            <li class="breadcrumb-item"> <a>Create Category</a></li>
+        </ol>
+    </nav>
     <div class="main-card">
         <form action="{% url 'create_incoming_category' %}" method="post">
             {% csrf_token %}

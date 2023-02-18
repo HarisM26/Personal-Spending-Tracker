@@ -97,8 +97,29 @@ const chartArea = document.getElementById(`${templateId}`);
   return new Chart(chartArea,config);
   }
 
-
-//const getReportBtn = document.getElementById("get-report-btn");
-//getReportBtn.addEventListener('click', generateMonthlyChart());
-
 generateMonthlyChart("monthly-chart")
+
+/*moved from script.js in css folder*/
+window.onload = function(){
+  const sidebar = document.querySelector(".sidebar");
+  const closeBtn = document.querySelector("#btn");
+  const searchBtn = document.querySelector(".bx-search")
+
+  closeBtn.addEventListener("click",function(){
+      sidebar.classList.toggle("open")
+      menuBtnChange()
+  })
+
+  searchBtn.addEventListener("click",function(){
+      sidebar.classList.toggle("open")
+      menuBtnChange()
+  })
+
+  function menuBtnChange(){
+      if(sidebar.classList.contains("open")){
+          closeBtn.classList.replace("bx-menu","bx-menu-alt-right")
+      }else{
+          closeBtn.classList.replace("bx-menu-alt-right","bx-menu")
+      }
+  }
+}

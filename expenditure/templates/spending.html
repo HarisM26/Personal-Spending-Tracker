@@ -1,14 +1,22 @@
 {% extends 'base_content.html' %}
 {% load custom_tags %}
+{% load humanize %}
 {% block content %}
 
 <section class="content-section">
-  <h1>Spending</h1>
-  <h6> <a href="{% url 'feed' %}">Home</a> / Spending<h6>
-  <div class="main-card">
+  <div>
+    <h1>Spending</h1>
+  </div>
+  <nav>
+      <ol class="breadcrumb">
+          <li class="breadcrumb-item active"> <a href="{% url 'feed' %}">Home</a></li>
+          <li class="breadcrumb-item"> <a">Spending</a></li>
+      </ol>
+  </nav>
   <div id="create-transaction-div">
     <a class="btn btn-info" href="{% url 'create_category'%}">Create new category</a>
   </div>
+  <div class="main-card">
   {% for category in categories %}
     <div >
       <ul id="myUL">
@@ -18,26 +26,26 @@
         
           <div id="spending-categories-detail-div">
           <div>
-          Limit&#58; &#163;<i>{{ category.limit.limit_amount }}</i>
+          Limit&#58; &#163;<i>{{ category.limit.limit_amount|intcomma }}</i>
         </div>
           <span>
-            <a class="btn btn-info" href="{% url 'add_transaction' category.id %}"> Add transaction </a>
+            <a class="btn btn-info" href="{% url 'add_spending_transaction' category.id %}"> Add transaction </a>
           </span>
           </div>
           <hr>
           <ul class="nested">
-            {% with transactions=category|get_transactions %}
+            {% with transactions=category|get_spending_transactions %}
             {% for transaction in transactions %}
             <li class="transaction_list">
               <div>{{transaction.date}}</div>
               <div>{{transaction.title}}</div>
-              <div>&#163;{{transaction.amount}}</div> 
+              <div>&#163;{{transaction.amount|intcomma}}</div> 
             </li>
             {% endfor %}
             <hr>
             <div id="total-transaction">
                <div>Total transactions</div> 
-               <div>&#163; {{transactions|get_transaction_total}}</div>
+               <div>&#163;{{transactions|get_transaction_total|intcomma}}</div>
             </div>
             {% endwith %}
             <li><hr></li>
@@ -46,7 +54,9 @@
       </ul>
     </div>
   {% endfor %} 
+  </div>
 </div>
+
 
 </section>
 

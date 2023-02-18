@@ -8,10 +8,11 @@ from .models import User, Transaction
 from .helpers import not_future
 from betterforms.multiform import MultiModelForm
 
-class SpendingForm(forms.ModelForm):
+class SpendingTransactionForm(forms.ModelForm):
     class Meta:
-        model = Transaction
+        model = SpendingTransaction
         fields = '__all__'
+        exclude = ('spending_category',)
         widgets = {
             'date': DatePickerInput(options={"format": "DD/MM/YYYY"}),
             'category': forms.HiddenInput(),
@@ -24,11 +25,11 @@ class SpendingForm(forms.ModelForm):
     #         self.add_error('date', 'The date of your outgoing outgoing transaction cannot be in the future')
     #     return spending_date
 
-class IncomingForm(forms.ModelForm):
+class IncomeTransactionForm(forms.ModelForm):
     class Meta:
-        model = Transaction
+        model = IncomeTransaction
         fields = '__all__'
-        exclude = ('reciept',)
+        exclude=('income_category',)
         widgets = {
             'date': DatePickerInput(options={"format": "DD/MM/YYYY"}),
             'category': forms.HiddenInput(),
@@ -40,12 +41,16 @@ class IncomingForm(forms.ModelForm):
     #     if incoming_date > current_date:
     #         self.add_error('date', 'The date of your incoming transaction cannot be in the future')
     #     return incoming_date    
-
-class CategoryForm(forms.ModelForm):
+class IncomeCategoryForm(forms.ModelForm):
     class Meta:
-        model = Category
+        model=IncomeCategory
         fields = ('name',)
 
+
+class SpendingCategoryForm(forms.ModelForm):
+    class Meta:
+        model = SpendingCategory
+        fields = ('name',)
 
 class LimitForm(forms.ModelForm):
     class Meta:
@@ -55,7 +60,7 @@ class LimitForm(forms.ModelForm):
     
 class CategoryCreationMultiForm(MultiModelForm):
     form_classes = {
-        'category': CategoryForm,
+        'category': SpendingCategoryForm,
         'limit': LimitForm
     }
 
