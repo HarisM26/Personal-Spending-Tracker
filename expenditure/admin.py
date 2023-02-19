@@ -7,11 +7,11 @@ admin.site.register(Limit)
 
 class CategoryAdmin(admin.ModelAdmin):
   list_display = ('name','is_income', Limit)
-admin.site.register(Category,CategoryAdmin)
+admin.site.register(SpendingCategory,CategoryAdmin)
 
 class TransactionAdmin(admin.ModelAdmin):
-  list_display = ('title','amount','category')
-admin.site.register(Transaction,TransactionAdmin)
+  list_display = ('title','amount','spending_category')
+admin.site.register(SpendingTransaction,TransactionAdmin)
 
 class NotificationAdmin(admin.ModelAdmin):
   list_display = ('user_receiver','message','status')

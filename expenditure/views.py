@@ -72,7 +72,7 @@ def mark_as_read(request,id):
 @login_required
 def spending(request):
     current_user = request.user
-    categories = Category.objects.filter(user = current_user)
+    categories = SpendingCategory.objects.filter(user = current_user,is_income=False)
     notifications = get_user_notifications(current_user)
     latest_notifications = notifications[0:3]
     unread_status_count = get_unread_nofications(current_user)
@@ -82,6 +82,20 @@ def spending(request):
         'unread_status_count': unread_status_count,
         }
     return render(request, 'spending.html',context)
+
+@login_required
+def incoming(request):
+    current_user = request.user
+    categories = IncomeCategory.objects.filter(user = current_user)
+    notifications = get_user_notifications(current_user)
+    latest_notifications = notifications[0:3]
+    unread_status_count = get_unread_nofications(current_user)
+    context = {
+        'latest_notifications': latest_notifications,
+        'categories':categories,
+        'unread_status_count': unread_status_count,
+        }
+    return render(request, 'incomings.html',context)
 
 @login_prohibited
 def sign_up(request):
@@ -97,8 +111,8 @@ def sign_up(request):
     return render(request, 'sign_up.html', {'form': form})
 
 
-class EditCategoryView(LoginRequiredMixin,UpdateView):
-    model = Category
+class EditSpendingCategoryView(LoginRequiredMixin,UpdateView):
+    model = SpendingCategory
     form_class = CategoryEditMultiForm
     template_name = "edit_category.html"
     success_url = reverse_lazy('spending')
@@ -106,7 +120,7 @@ class EditCategoryView(LoginRequiredMixin,UpdateView):
     # Returns the keyword arguments for instantiating the form
     # Overriding to add category and limit to kwargs before form is created
     def get_form_kwargs(self):
-        kwargs = super(EditCategoryView, self).get_form_kwargs()
+        kwargs = super(EditSpendingCategoryView, self).get_form_kwargs()
         kwargs.update(instance={
             'category': self.object,
             'limit': self.object.limit,
@@ -114,7 +128,7 @@ class EditCategoryView(LoginRequiredMixin,UpdateView):
         return kwargs
         
 
-class CreateCategoryView(LoginRequiredMixin,CreateView):
+class CreateSpendingCategoryView(LoginRequiredMixin,CreateView):
     template_name = "create_category.html"
     form_class = CategoryCreationMultiForm
 
@@ -156,6 +170,32 @@ class CreateCategoryView(LoginRequiredMixin,CreateView):
         else:
             return datetime.date(datetime.now()) + timedelta(days=364)
 
+@login_required
+def create_incoming_category(request):
+    current_user = request.user
+    notifications = get_user_notifications(current_user)
+    latest_notifications = notifications[0:3]
+    unread_status_count = get_unread_nofications(current_user)
+    if request.method == 'POST':
+        form = IncomeCategoryForm(request.POST)
+        if form.is_valid():
+            name=form.cleaned_data.get('name')
+            incoming_category = IncomeCategory.objects.create(user=current_user,name=name)
+            messages.add_message(request, messages.SUCCESS,
+                             "Category created!")
+            return redirect('create_incoming_category')
+        messages.add_message(request, messages.ERROR,
+                             "The credentials provided were invalid!")
+    else:
+        form = IncomeCategoryForm()
+
+    context = {
+        'form': form,
+        'latest_notifications': latest_notifications,
+        'unread_status_count': unread_status_count,
+    }
+    return render(request, 'create_incoming_category.html', context)
+
 @login_prohibited   
 def log_in(request):
     if request.method == 'POST':
@@ -185,36 +225,63 @@ def news_page(request):
     return render(request, 'news_page.html',{'articles':articles})   
 
 @login_required
-def add_transaction(request,request_id):
-    category = get_object_or_404(Category, id=request_id)
-    category_limit = category.limit
-
-    if category.is_income:
-        create_transaction_form = IncomingForm
-    else:
-        create_transaction_form = SpendingForm
-
+def add_spending_transaction(request,request_id):
+    category = get_object_or_404(SpendingCategory, id=request_id)
+    #category_limit = category.limit
     if request.method == 'POST':
-        updated_request = request.POST.copy()
-        updated_request.update({'category': category.pk})
-        create_transaction_form = create_transaction_form(updated_request, request.FILES)
+        create_transaction_form = SpendingTransactionForm(request.POST)
         if create_transaction_form.is_valid():
-            transaction = create_transaction_form.save(commit=False)
-            transaction.category = category
-            category_limit.addTransaction(transaction.amount)
-            category_limit.save()
+            create_transaction_form.save(commit=False)
+            title=create_transaction_form.cleaned_data.get('title')
+            date=create_transaction_form.cleaned_data.get('date')
+            amount=create_transaction_form.cleaned_data.get('amount')
+            notes=create_transaction_form.cleaned_data.get('notes')
+            reciept=create_transaction_form.cleaned_data.get('reciept')
+            transaction=SpendingTransaction.objects.create(
+                title=title,date=date,amount=amount,notes=notes,spending_category=category,reciept=reciept
+            )
             transaction.save()
-            transaction = create_transaction_form.save()
+            category.addTransaction(transaction.amount)
+            category.save()
+            messages.add_message(request, messages.SUCCESS,
+                             "Transaction created!")
             return HttpResponseRedirect(reverse('spending'))
     else:
-        create_transaction_form = create_transaction_form()   
+        create_transaction_form = SpendingTransactionForm()   
     
     context = {
         'request_id': request_id,
         'create_transaction_form': create_transaction_form,
     }
+    return render(request, 'add_spending_transaction.html', context)
 
-    return render(request, 'add_transaction.html', context)
+@login_required
+def add_income_transaction(request, request_id):
+    category = get_object_or_404(IncomeCategory, id=request_id)
+    if request.method == 'POST':
+        create_transaction_form = IncomeTransactionForm(request.POST)
+        if create_transaction_form.is_valid():
+            create_transaction_form.save(commit=False)
+            title=create_transaction_form.cleaned_data.get('title')
+            date=create_transaction_form.cleaned_data.get('date')
+            amount=create_transaction_form.cleaned_data.get('amount')
+            notes=create_transaction_form.cleaned_data.get('notes')
+            transaction=IncomeTransaction.objects.create(
+                title=title,date=date,amount=amount,notes=notes,income_category=category
+            )
+            transaction.save()
+            messages.add_message(request, messages.SUCCESS,
+                             "Transaction created!")
+            return HttpResponseRedirect(reverse('incomings'))
+    else:
+        create_transaction_form = IncomeTransactionForm()   
+    
+    context = {
+        'request_id': request_id,
+        'create_transaction_form': create_transaction_form,
+    }
+    return render(request, 'add_income_transaction.html', context)
+
 
 @login_required
 def list_incomings(request):
@@ -225,7 +292,7 @@ def list_incomings(request):
     return render(request, 'incomings.html', context=context)
 
 def get_total_transactions_by_date(request, from_date, to_date):
-    return Transaction.spendings.filter(
+    return SpendingTransaction.spendings.filter(
         date__gte=from_date,
         date__lte=to_date,
         category__user=request.user
@@ -233,25 +300,26 @@ def get_total_transactions_by_date(request, from_date, to_date):
 
 @login_required
 def view_report(request):
-    from_date = date(date.today().year-1, date.today().month, 1)
-    to_date = date.today()
+    #from_date = date(date.today().year-1, date.today().month, 1)
+    #to_date = date.today()
 
     if request.method == "POST":
         form = DateReportForm(request.POST)
         if form.is_valid():
             from_date = form.cleaned_data.get("from_date")
             to_date = form.cleaned_data.get("to_date")
-    else:
-        form = DateReportForm(initial={
-            "from_date": from_date,
-            "to_date": to_date
-        })
+    #else:
+    #    form = DateReportForm(initial={
+    #        "from_date": from_date,
+    #        "to_date": to_date
+    #    })
     
-    transactions = get_total_transactions_by_date(request, from_date, to_date)
-
+    #transactions = get_total_transactions_by_date(request, from_date, to_date)
+    else:
+        form=DateReportForm()
     context = {
         "form": form,
-        "transactions": transactions,
+        #"transactions": transactions,
     }
     return render(request, 'report.html', context=context)
 

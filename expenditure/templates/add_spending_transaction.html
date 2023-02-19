@@ -15,7 +15,7 @@
           </ol>
       </nav>
     <div class="main-card">
-        <form action="{% url 'add_transaction' request_id %}" method="post">
+        <form action="{% url 'add_spending_transaction' request_id %}" method="post">
             {% csrf_token %}
             {% include 'partials/bootstrap_form.html' with form=create_transaction_form %}
             <input type="submit" value="Add transaction" class="btn btn-info">
