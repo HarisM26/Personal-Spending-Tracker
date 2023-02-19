@@ -236,7 +236,7 @@ def add_spending_transaction(request,request_id):
             date=create_transaction_form.cleaned_data.get('date')
             amount=create_transaction_form.cleaned_data.get('amount')
             notes=create_transaction_form.cleaned_data.get('notes')
-            reciept=create_transaction_form.cleaned_data.get('reciept')
+            receipt=create_transaction_form.cleaned_data.get('reciept')
             transaction=SpendingTransaction.objects.create(
                 title=title,date=date,amount=amount,notes=notes,spending_category=category,reciept=reciept
             )

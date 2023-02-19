@@ -145,8 +145,6 @@ class IncomeCategory(models.Model):
   name = models.CharField(max_length=50)
 
 
-
-
 class Transaction(models.Model):
     title = models.CharField(max_length=200)
     date = models.DateField(validators=[not_future])
@@ -164,7 +162,7 @@ class Transaction(models.Model):
   
 class SpendingTransaction(Transaction, models.Model):
   spending_category=models.ForeignKey(SpendingCategory, related_name="transactions", on_delete=models.PROTECT)
-  reciept = models.ImageField(upload_to='', blank=True, null=True)
+  receipt = models.ImageField(upload_to='', blank=True, null=True)
 
 class IncomeTransaction(Transaction, models.Model):
    income_category=models.ForeignKey(IncomeCategory, related_name="transactions", on_delete=models.PROTECT)
