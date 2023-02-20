@@ -226,21 +226,3 @@ h3 {
 .breadcrumb > .inactive a {
   color: white;
 }
-
-.transaction-detail {
-  width: 18rem;
-  opacity: 0;
-
-  animation: fadeIn 0.3s;
-  animation-delay: 0.17s;
-  animation-fill-mode: forwards;
-  animation-timing-function: ease-in;
-}
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}

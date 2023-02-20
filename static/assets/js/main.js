@@ -55,20 +55,71 @@ window.onload = function(){
   }
 }
 
-// collection of <li> elements
+
+const transaction = {
+  date: "",
+  title: "",
+  amount: "",
+  category: "",
+  notes: "",
+  receipt: "",
+  created: ""
+}
+
+const changeInnerText = (tagId,value) => {
+  let transactionItem=document.getElementById(`${tagId}`)
+  transactionItem.innerText=value
+}
 const items = Array.from(document.getElementsByClassName("transaction_list"));
 
-// add click event listener for each collection item
 items.forEach( ( button, index ) =>
 {
     button.addEventListener("click", () =>
-    {
-        var x = document.getElementsByClassName("transaction-detail");  
-          if (x[index].hidden === true) {
-              x[index].hidden = false; 
-            } 
-          else {
-          x[index].hidden = true;
-            } 
+    {  
+      const element = items[index]
+      for (const child of element.children){
+        switch(child.id){
+          case "transaction-date":
+            transaction.date = child.textContent;
+            break;
+          case "transaction-title":
+            transaction.title = child.textContent;
+            break;
+          case "transaction-amount":
+            transaction.amount = child.textContent;
+            break;
+          case "transaction-category":
+            transaction.category = child.textContent;
+            break;
+          case "transaction-notes":
+            transaction.notes = child.textContent;
+            break;
+          case "transaction-image":
+            transaction.receipt = getFileName(child.src);
+            break;
+          case "transaction-created":
+          transaction.created = child.textContent;
+          break;
+          default:
+            break;
+        }
+      }
+      changeInnerText("transaction-title-modal",transaction.title)
+      changeInnerText("transaction-date-modal",transaction.date)
+      changeInnerText("transaction-amount-modal",transaction.amount)
+      changeInnerText("transaction-category-modal",transaction.category)
+      changeInnerText("transaction-notes-modal",transaction.notes)
+      changeInnerText("transaction-receipt-modal",transaction.receipt)
+      changeInnerText("transaction-created-modal",transaction.created)
     })
     })
+
+/** Inspiration taken from
+* https://stackoverflow.com/questions/29182283/javascript-onclick-get-image-name-without-path
+**/
+function getFileName(fullPath) {
+  var filename = fullPath.replace(/^.*[\\\/]/, '');
+  // or, try this, 
+  // var filename = fullPath.split("/").pop();
+  return filename
+}
