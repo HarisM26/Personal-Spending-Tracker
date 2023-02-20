@@ -182,20 +182,22 @@ def create_incoming_category(request):
 def log_in(request):
     if request.method == 'POST':
         form = LogInForm(request.POST)
-
+        next = request.POST.get('next') or ''
         if form.is_valid():
             email = form.cleaned_data.get('email')
             password = form.cleaned_data.get('password')
             user = authenticate(email=email, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('feed')
+                redirect_url = next or 'feed'
+                return redirect(redirect_url)
         # Add error message here
         messages.add_message(request, messages.ERROR,
                              "The credentials provided were invalid!")
     else:
-        form = LogInForm()
-    return render(request, 'log_in.html', {'form': form})
+        next = request.GET.get('next') or ''
+    form = LogInForm()
+    return render(request, 'log_in.html', {'form': form, 'next': next})
 
 def log_out(request):
     logout(request)

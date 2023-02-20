@@ -23,11 +23,12 @@
         <li class="category_list"> 
       
           <span id="category-name-tag" class="caret"><b>{{ category.name }} </b></span><br>
-        
+
           <div id="spending-categories-detail-div">
           <div>
           Limit&#58; &#163;<i>{{ category.limit.limit_amount|intcomma }}</i>
         </div>
+        <span>Amount left to spend&#58; &#163;{{ category.limit.remaining_amount|intcomma }}</span>
           <span>
             <a class="btn btn-info" href="{% url 'add_spending_transaction' category.id %}"> Add transaction </a>
           </span>
@@ -40,6 +41,14 @@
               <div>{{transaction.date}}</div>
               <div>{{transaction.title}}</div>
               <div>&#163;{{transaction.amount|intcomma}}</div> 
+              <div class="card transaction-detail" hidden>
+                <div class="card-body">
+                  <h5 class="card-title">Card title</h5>
+                  <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+                  <a href="#" class="card-link">Card link</a>
+                  <a href="#" class="card-link">Another link</a>
+                </div>
+              </div>
             </li>
             {% endfor %}
             <hr>
