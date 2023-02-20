@@ -3,17 +3,17 @@ from django.test import TestCase
 from django.urls import reverse
 from django.core.files.uploadedfile import SimpleUploadedFile
 from betterforms.multiform import MultiModelForm
-from expenditure.models import Transaction, Category, Limit, User
+from expenditure.models import Transaction, SpendingCategory, Limit, User
 from expenditure.forms import CategoryEditMultiForm
 from decimal import Decimal
 
-class EditCategoryView(TestCase):
+class EditSpendingCategoryView(TestCase):
 
     fixtures = ['expenditure/tests/fixtures/default_user.json',
               'expenditure/tests/fixtures/other_users.json']
 
     def setUp(self):
-        self.category = Category.objects.create(
+        self.category = SpendingCategory.objects.create(
             user = User.objects.get(email='johndoe@example.com'),
             name = 'test_category',
             is_income=False,
@@ -28,7 +28,7 @@ class EditCategoryView(TestCase):
         self.url_list_spendings = reverse('spending')
         self.url_edit_category = reverse('edit_category', kwargs={'pk': self.category.id})
 
-        self.category2 = Category.objects.create(
+        self.category2 = SpendingCategory.objects.create(
             user = User.objects.get(email='johndoe@example.com'),
             name = 'ChangedCategory',
             is_income=False,

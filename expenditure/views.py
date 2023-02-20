@@ -110,10 +110,13 @@ def sign_up(request):
         form = SignUpForm()
     return render(request, 'sign_up.html', {'form': form})
 
-
+# UpdateView requirements:
+# model; tell Django to update model records
+# form_class; current values of category are populated in form to show user
+# success_url; if update is successful go back to spending page
 class EditSpendingCategoryView(LoginRequiredMixin,UpdateView):
     model = SpendingCategory
-    form_class = CategoryEditMultiForm
+    form_class = SpendingCategoryEditMultiForm
     template_name = "edit_category.html"
     success_url = reverse_lazy('spending')
 
@@ -126,6 +129,13 @@ class EditSpendingCategoryView(LoginRequiredMixin,UpdateView):
             'limit': self.object.limit,
         })
         return kwargs
+    
+
+class EditIncomeCategoryView(LoginRequiredMixin, UpdateView):
+    model = IncomeCategory
+    form_class = IncomeCategoryForm
+    template_name = "edit_category.html"
+    success_url = reverse_lazy("incomings.html")
         
 
 class CreateSpendingCategoryView(LoginRequiredMixin,CreateView):
@@ -238,7 +248,7 @@ def add_spending_transaction(request,request_id):
             notes=create_transaction_form.cleaned_data.get('notes')
             receipt=create_transaction_form.cleaned_data.get('reciept')
             transaction=SpendingTransaction.objects.create(
-                title=title,date=date,amount=amount,notes=notes,spending_category=category,reciept=reciept
+                title=title,date=date,amount=amount,notes=notes,spending_category=category,reciept=receipt
             )
             transaction.save()
             category.addTransaction(transaction.amount)
