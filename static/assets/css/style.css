@@ -234,3 +234,30 @@ h3 {
 .content-section #white-text-button{
   color: white;
 }
+
+/* ================= Modals ================== */
+
+.modal-card{
+  opacity: 0.9;
+  padding: 10px 10px 10px 10px;
+  position: relative;
+  background-color: white;
+  right: 0%;
+  margin: 10px;
+  list-style: none;
+  box-shadow: 0 0 1px 2px;
+  overflow: hidden;
+  border-radius: 1px;
+}
+
+.modal-card i{
+  
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  padding-top: 2%;
+  border-radius: 50%;
+  color: black;
+  text-align: center;
+  background: gray
+}
