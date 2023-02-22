@@ -14,7 +14,7 @@
       </ol>
   </nav>
   <div id="create-transaction-div">
-    <a class="btn btn-info" href="{% url 'create_category'%}">Create new category</a>
+    <a class="btn btn-info" id="white-text-button" href="{% url 'create_category'%}">Create new category</a>
   </div>
   <div class="main-card">
   {% for category in categories %}
@@ -29,7 +29,7 @@
           Limit&#58; &#163;<i>{{ category.limit.limit_amount|intcomma }}</i>
         </div>
           <span>
-            <a class="btn btn-info" href="{% url 'add_spending_transaction' category.id %}"> Add transaction </a>
+            <a class="btn btn-info" id="white-text-button" href="{% url 'add_spending_transaction' category.id %}"> Add transaction </a>
           </span>
           </div>
           <hr>
