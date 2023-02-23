@@ -126,8 +126,7 @@ class Notification(models.Model):
 class SpendingCategory(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
-    is_income = models.BooleanField(default=False)
-    limit = models.OneToOneField(Limit, on_delete=models.CASCADE)
+    limit = models.OneToOneField(Limit, related_name='category', on_delete=models.CASCADE)
     #slug = models.SlugField()
     #parent = models.ForeignKey('self',blank=True, null=True ,related_name='children')
       # Reduce the remaining amount left of the spending limit

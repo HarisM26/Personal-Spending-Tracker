@@ -2,7 +2,7 @@ from datetime import date,timedelta,datetime
 from django.test import TestCase
 from django.urls import reverse
 from django.core.files.uploadedfile import SimpleUploadedFile
-from expenditure.models import Transaction, Category, Limit, User
+from expenditure.models import Transaction, SpendingCategory, Limit, User
 from decimal import Decimal
 
 class TransactionViews(TestCase):
@@ -11,10 +11,9 @@ class TransactionViews(TestCase):
               'expenditure/tests/fixtures/other_users.json']
 
     def setUp(self):
-        self.category = Category.objects.create(
+        self.category = SpendingCategory.objects.create(
             user = User.objects.get(email='johndoe@example.com'),
             name = 'test_category',
-            is_income=False,
             limit = Limit.objects.create(
                 limit_amount=Decimal('10.00'),
                 start_date=date.today(),
@@ -22,10 +21,9 @@ class TransactionViews(TestCase):
             )
         )
 
-        self.category_2 = Category.objects.create(
+        self.category_2 = SpendingCategory.objects.create(
             user = User.objects.get(email='janedoe@example.com'),
             name = 'test2_category',
-            is_income=True,
             limit = Limit.objects.create(
                 limit_amount=Decimal('10.00'),
                 start_date=date.today(),
@@ -64,7 +62,7 @@ class TransactionViews(TestCase):
         self.image = SimpleUploadedFile('receipt.jpg', b'blablabla', content_type='image/jpeg')
 
         self.url_list_spendings = reverse('spending')
-        self.url_list_incomings = reverse('list_incomings')
+        self.url_list_incomings = reverse('incomings')
         self.url_add_transaction = reverse('add_transaction',args=[self.category.id])
 
     def test_transaction_urls(self):

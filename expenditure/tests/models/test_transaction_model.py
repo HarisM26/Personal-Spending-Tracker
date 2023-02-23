@@ -2,7 +2,7 @@ from datetime import date, timedelta,datetime
 from django.test import TestCase
 from django.core.exceptions import ValidationError
 from django.core.files.uploadedfile import SimpleUploadedFile
-from expenditure.models import Transaction, Category, User, Limit
+from expenditure.models import Transaction, SpendingCategory, User, Limit
 from decimal import *
 
 class TestTransactionModel(TestCase):
@@ -10,10 +10,9 @@ class TestTransactionModel(TestCase):
     fixtures = ['expenditure/tests/fixtures/default_user.json']
 
     def setUp(self):
-        self.category = Category.objects.create(
+        self.category = SpendingCategory.objects.create(
             user = User.objects.get(email='johndoe@example.com'),
             name = 'test_category',
-            is_income=False,
             limit = Limit.objects.create(
                 limit_amount=Decimal('10.00'),
                 start_date=date.today(),

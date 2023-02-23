@@ -72,7 +72,7 @@ def mark_as_read(request,id):
 @login_required
 def spending(request):
     current_user = request.user
-    categories = SpendingCategory.objects.filter(user = current_user,is_income=False)
+    categories = SpendingCategory.objects.filter(user = current_user)
     notifications = get_user_notifications(current_user)
     latest_notifications = notifications[0:3]
     unread_status_count = get_unread_nofications(current_user)
@@ -117,7 +117,7 @@ def sign_up(request):
 class EditSpendingCategoryView(LoginRequiredMixin,UpdateView):
     model = SpendingCategory
     form_class = SpendingCategoryEditMultiForm
-    template_name = "edit_category.html"
+    template_name = "edit_spending_category.html"
     success_url = reverse_lazy('spending')
 
     # Returns the keyword arguments for instantiating the form
@@ -129,13 +129,14 @@ class EditSpendingCategoryView(LoginRequiredMixin,UpdateView):
             'limit': self.object.limit,
         })
         return kwargs
+
     
 
 class EditIncomeCategoryView(LoginRequiredMixin, UpdateView):
     model = IncomeCategory
     form_class = IncomeCategoryForm
-    template_name = "edit_category.html"
-    success_url = reverse_lazy("incomings.html")
+    template_name = "edit_income_category.html"
+    success_url = reverse_lazy("incomings")
         
 
 class CreateSpendingCategoryView(LoginRequiredMixin,CreateView):
@@ -246,9 +247,9 @@ def add_spending_transaction(request,request_id):
             date=create_transaction_form.cleaned_data.get('date')
             amount=create_transaction_form.cleaned_data.get('amount')
             notes=create_transaction_form.cleaned_data.get('notes')
-            receipt=create_transaction_form.cleaned_data.get('reciept')
+            receipt=create_transaction_form.cleaned_data.get('receipt')
             transaction=SpendingTransaction.objects.create(
-                title=title,date=date,amount=amount,notes=notes,spending_category=category,reciept=receipt
+                title=title,date=date,amount=amount,notes=notes,spending_category=category,receipt=receipt
             )
             transaction.save()
             category.addTransaction(transaction.amount)

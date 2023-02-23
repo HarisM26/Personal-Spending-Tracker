@@ -5,9 +5,13 @@ from .forms import SignUpForm
 
 admin.site.register(Limit)
 
-class CategoryAdmin(admin.ModelAdmin):
-  list_display = ('name','is_income', Limit)
-admin.site.register(SpendingCategory,CategoryAdmin)
+class SpendingCategoryAdmin(admin.ModelAdmin):
+  list_display = ('name', Limit)
+admin.site.register(SpendingCategory,SpendingCategoryAdmin)
+
+class IncomeCategoryAdmin(admin.ModelAdmin):
+   list_display = ('name',)
+admin.site.register(IncomeCategory, IncomeCategoryAdmin)
 
 class TransactionAdmin(admin.ModelAdmin):
   list_display = ('title','amount','spending_category')

@@ -1,4 +1,4 @@
- from django import forms
+from django import forms
 from expenditure.models import *
 from django.contrib.auth.forms import UserCreationForm
 from django.core.validators import RegexValidator
