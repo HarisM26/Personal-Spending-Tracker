@@ -12,7 +12,7 @@ from django.db.models.functions import TruncMonth
 from decimal import *
 from django.views.generic import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .helpers import login_prohibited
+from .helpers import login_prohibited,get_end_date
 from django.contrib.auth.decorators import login_required
 
 @login_prohibited
@@ -117,7 +117,7 @@ class CreateSpendingCategoryView(LoginRequiredMixin,CreateView):
     def form_valid(self, form):
         limit = form['limit'].save(commit=False)
         limit.remaining_amount = limit.limit_amount
-        limit.end_date = self.get_end_date(limit.time_limit_type)
+        limit.end_date = get_end_date(limit.time_limit_type)
         limit.save()
         category = form['category'].save(commit=False)
         category.user = self.request.user
@@ -144,13 +144,6 @@ class CreateSpendingCategoryView(LoginRequiredMixin,CreateView):
         }
         return context
     
-    def get_end_date(self,limit_type):
-        if limit_type == 'weekly':
-            return datetime.date(datetime.now()) + timedelta(days=6)
-        elif limit_type == 'monthly':
-            return datetime.date(datetime.now()) + timedelta(days=27)
-        else:
-            return datetime.date(datetime.now()) + timedelta(days=364)
 
 @login_required
 def create_incoming_category(request):
@@ -220,9 +213,9 @@ def add_spending_transaction(request,request_id):
             date=create_transaction_form.cleaned_data.get('date')
             amount=create_transaction_form.cleaned_data.get('amount')
             notes=create_transaction_form.cleaned_data.get('notes')
-            reciept=create_transaction_form.cleaned_data.get('reciept')
+            receipt=create_transaction_form.cleaned_data.get('receipt')
             transaction=SpendingTransaction.objects.create(
-                title=title,date=date,amount=amount,notes=notes,spending_category=category,reciept=reciept
+                title=title,date=date,amount=amount,notes=notes,spending_category=category,receipt=receipt
             )
             transaction.save()
             messages.add_message(request, messages.SUCCESS,

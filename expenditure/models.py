@@ -8,6 +8,7 @@ from .helpers import not_future
 from datetime import datetime, date, timedelta
 from decimal import Decimal
 from django.core.validators import MinValueValidator
+from expenditure.choices import *
 
 
 class UserManager(BaseUserManager):
@@ -60,7 +61,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     
   is_active = models.BooleanField(default=True)
 
-  TOGGLE_CHOICE=[('ON',('ON')),('OFF',('OFF'))]
   toggle_notification = models.CharField(max_length=3,choices=TOGGLE_CHOICE,default='ON')
 
   USERNAME_FIELD = 'email'
@@ -76,9 +76,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     return self.first_name + str(self.id)
 
 class Limit(models.Model):
-  LIMIT_STATUS=[('reached',('reached')),('not reached',('not reached')), ('approaching',('approaching'))]
-  TIME_LIMIT_TYPE=[('weekly',('Weekly')),('monthly',('Monthly')),('yearly',('Yearly'))]
-
   limit_amount = models.DecimalField(max_digits=10,decimal_places=2,null=False, validators=[MinValueValidator(Decimal('0.01'))])
   remaining_amount = models.DecimalField(max_digits=10,decimal_places=2, default= 0.00)
   status = models.CharField(max_length=50, choices=LIMIT_STATUS, default='not reached')
@@ -110,7 +107,6 @@ class Profile(models.Model):
    # return self.user.user_id
     
 class Notification(models.Model):
-    STATUS_CHOICE=[('unread',('unread')),('read',('read'))]
     user_receiver = models.ForeignKey(User,on_delete=models.CASCADE)
     title = models.CharField(max_length=300)
     message = models.CharField(max_length = 1200)
@@ -159,5 +155,3 @@ class SpendingTransaction(Transaction, models.Model):
 
 class IncomeTransaction(Transaction, models.Model):
    income_category=models.ForeignKey(IncomeCategory, related_name="transactions", on_delete=models.PROTECT)
-   class Meta:
-      ordering = ['-date',]

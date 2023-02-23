@@ -1,6 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
-from datetime import date
+from datetime import date,datetime,timedelta
 from django.conf import settings
 from django.shortcuts import redirect
 from decimal import Decimal
@@ -34,3 +34,12 @@ def login_prohibited(view_function):
         else:
             return view_function(request)
     return modified_view_function
+
+def get_end_date(limit_type):
+  if limit_type == 'weekly':
+      return datetime.date(datetime.now()) + timedelta(days=6)
+  elif limit_type == 'monthly':
+      return datetime.date(datetime.now()) + timedelta(days=27)
+  else:
+      return datetime.date(datetime.now()) + timedelta(days=364)
+        

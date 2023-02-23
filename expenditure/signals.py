@@ -17,9 +17,15 @@ def transaction_post_save_handler(instance,created,*args,**kwargs):
               total < Decimal(instance.spending_category.limit.limit_amount) :
       notification = create_notification(current_user,instance.spending_category.name,instance.spending_category.limit,total)
       notification.save()
+      limit = instance.spending_category.limit
+      limit.status = 'approaching'
+      limit.save()
     elif total >= (instance.spending_category.limit.calc_90_percent_of_limit):
       notification = create_notification(current_user,instance.spending_category.name,instance.spending_category.limit,total)
       notification.save()  
+      limit = instance.spending_category.limit
+      limit.status = 'reached'
+      limit.save()
 
 @receiver(post_save,sender=SpendingTransaction)
 def update_remaining_amount(instance,created,*args,**kwargs):

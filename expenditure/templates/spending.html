@@ -41,7 +41,7 @@
               <div id="transaction-amount">&#163;{{transaction.amount|intcomma}}</div> 
               <div id="transaction-category" hidden>{{transaction.spending_category.name}}</div>
               <div id="transaction-notes" hidden>{{transaction.notes}}</div>
-              <img id="transaction-image" hidden src="{{transaction.receipt}}" alt="watch">
+              <img id="transaction-image" hidden src="{{transaction.receipt}}" alt="receipt">
               <div id="transaction-created" hidden>{{transaction.created}}</div>
             </li>
             {% endfor %}

@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'notifications',
     'expenditure',
     'widget_tweaks',
     'bootstrap5',
@@ -49,6 +48,7 @@ INSTALLED_APPS = [
     'newsapi',
     'bootstrap_datepicker_plus',
     'betterforms',
+    'django_apscheduler'
 ]
 
 MIDDLEWARE = [
@@ -159,4 +159,5 @@ MESSAGE_TAGS = {
     message_constants.DEBUG: 'dark',
     message_constants.ERROR: 'danger',
 }
-
+#tell Celery how to find Redis
+CELERY_BROKER_URL = 'redis://localhost:6379'
