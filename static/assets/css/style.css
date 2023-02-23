@@ -18,7 +18,7 @@ body {
     hsl(220, 57%, 91%),
     hsl(220, 55%, 96%)
   );
-  padding: 0.5rem;
+  padding: 20px;
   height: 100vh;
   min-height: 100vh;
   -webkit-background-size: cover;
@@ -92,6 +92,7 @@ h3 {
   text-align: center;
   font-size: 38px;
   padding: 10px 25px;
+  margin-bottom: 20px;
 }
 
 .card p {
@@ -248,6 +249,7 @@ h3 {
   box-shadow: 0 0 1px 2px;
   overflow: hidden;
   border-radius: 1px;
+  vertical-align: middle;
 }
 
 .modal-card i{
@@ -258,6 +260,17 @@ h3 {
   padding-top: 2%;
   border-radius: 50%;
   color: black;
-  text-align: center;
   background: gray
+}
+
+.modal-text{
+  padding-top: 2%;
+  width: 50px;
+  color: rgb(39, 39, 39);
+  display: inline;
+  
+}
+
+.modal-text span{
+  color: black;
 }
