@@ -63,12 +63,14 @@ const transaction = {
   category: "",
   notes: "",
   receipt: "",
-  created: ""
+  created: "",
 }
 
 const changeInnerText = (tagId,value) => {
   let transactionItem=document.getElementById(`${tagId}`)
+  if(transactionItem !== null){
   transactionItem.innerText=value
+  }
 }
 const items = Array.from(document.getElementsByClassName("transaction_list"));
 
