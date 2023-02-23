@@ -160,10 +160,10 @@ class Transaction(models.Model):
         return 'desc: '+ self.title + ' ->  £' + str(self.amount)
   
 class SpendingTransaction(Transaction, models.Model):
-  spending_category=models.ForeignKey(SpendingCategory, related_name="transactions", on_delete=models.PROTECT)
+  spending_category=models.ForeignKey(SpendingCategory, related_name="transactions", null=True, on_delete=models.SET_NULL)
   receipt = models.ImageField(upload_to='', blank=True, null=True)
 
 class IncomeTransaction(Transaction, models.Model):
-   income_category=models.ForeignKey(IncomeCategory, related_name="transactions", on_delete=models.PROTECT)
+   income_category=models.ForeignKey(IncomeCategory, related_name="transactions", null=True, on_delete=models.SET_NULL)
    class Meta:
       ordering = ['-date',]

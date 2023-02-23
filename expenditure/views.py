@@ -10,7 +10,7 @@ from .models import *
 from django.db.models import Sum
 from django.db.models.functions import TruncMonth
 from decimal import *
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .helpers import login_prohibited
 from django.contrib.auth.decorators import login_required
@@ -109,6 +109,16 @@ def sign_up(request):
     else:
         form = SignUpForm()
     return render(request, 'sign_up.html', {'form': form})
+
+class DeleteSpendingCategoryView(LoginRequiredMixin, DeleteView):
+    model = SpendingCategory
+    template_name = "delete_spending_category.html"
+    success_url = reverse_lazy('spending')
+
+class DeleteIncomeCategoryView(LoginRequiredMixin, DeleteView):
+    model = IncomeCategory
+    template_name = "delete_income_category.html"
+    success_url = reverse_lazy('incomings')
 
 # UpdateView requirements:
 # model; tell Django to update model records

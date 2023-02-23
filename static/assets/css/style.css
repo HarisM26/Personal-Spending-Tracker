@@ -376,6 +376,12 @@ ul,
 }
 /*================================*/
 
+/*Delete Category*/ 
+#category-delete-btn {
+  display: grid;
+  justify-content: center;
+}
+
 /*Reports*/
 #bar-chart-container {
   margin-top: 30px;
