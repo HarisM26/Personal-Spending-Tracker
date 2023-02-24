@@ -3,6 +3,14 @@
 @import "treeview.css";
 @import "newspage.css";
 
+:root {
+  --color-default: #03045e;
+  --color-dark: #02033e;
+  --color-second: #0067ac;
+  --color-white: #ffffff;
+  --color-body: #e4e9f7;
+  --color-light: #caf0f8;
+}
 
 body {
   background-image: radial-gradient(
