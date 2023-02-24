@@ -1,24 +1,27 @@
 {% extends 'base_content.html' %}
 {% load custom_tags%}
 {% block content %}
-<div>
+
+<div class="news-title">
   <h1>News And Updates</h1>
 </div>
 <section class="card-section">
 {% for article in articles %}
-<div id="news-card" class="card">
+<div id="news-card" class="main-card">
   <div id="news-card-img-div">
-    <img id="news-card-img" src="/static/images/coins.jpg">
+    <img id="news-card-img" src="/static/images/pound.jpg">
   </div>
   <div id="news-card-body-div" class="card-body">
     <h5 class="card-title">{{ article|get_article_dict_element:"title" }}</h5>
     <!--get source which is a dict and pass it as a value -->
-    <p class="card-text">Source &#160; {{ article|get_article_dict_element:"source"|get_article_dict_element:"Name" }}</p>
+    <p class="card-text">Source&#58;  &#160; {{ article|get_article_dict_element:"source"|get_article_dict_element:"Name" }}</p>
     <p class="card-text"><small class="text-muted">Published on {{ article|get_article_dict_element:"publishedAt"|convert_date}}</small></p>
-    <a href="{{ article|get_article_dict_element:'url' }}" target="_blank" class="btn btn-primary">View article</a>
+    <a href="{{ article|get_article_dict_element:'url' }}" target="_blank" class="btn btn-info">View article</a>
   </div>
 </div>
 {% endfor %}
 </section>
+
+
 {% endblock %}
 <!---->

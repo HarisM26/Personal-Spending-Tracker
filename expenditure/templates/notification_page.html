@@ -1,21 +1,31 @@
 {% extends 'base_content.html' %}
 {% block content %}
-
-
-
-<div class="card">
-  <h1> Notifications </h1>
+{% load humanize %}
+<section class="content-section">
   <div>
-    {% for notification in notifications%}
-    <li> 
-      <span><b>{{ notification.title }} </b></span><br>
-      <i>{{ notification.message }}</i> <br>
-      <span>{{ notification.time_created }}</span>
-      <span>{{ notification.date_created }}</span>
-      <span>{{ notification.status }}</span>
-      <li><hr ></li>
-    </li>
-    {% endfor %}
+    <h1>Notification</h1>
   </div>
-</div>
+  <nav>
+      <ol class="breadcrumb">
+          <li class="breadcrumb-item active"> <a href="{% url 'feed' %}">Home</a></li>
+          <li class="breadcrumb-item"> <a">Notification</a></li>
+      </ol>
+  </nav>
+  <div class="main-card">
+    <div>
+      {% for notification in notifications%}
+      <li> 
+        <span><b>{{ notification.title }} </b></span><br>
+        <i>{{ notification.message }}</i> <br>
+        <span>{{ notification.created|naturaltime}}</span>
+        <span>{{ notification.status }}</span>
+        <li><hr ></li>
+      </li>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+
+
 {% endblock %}

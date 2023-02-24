@@ -1,0 +1,54 @@
+{% extends 'base_content.html' %}
+{% load custom_tags %}
+{% load humanize %}
+{% block content %}
+
+<section class="content-section">
+  <div>
+    <h1>Dashboard</h1>
+  </div>
+  <nav>
+      <ol class="breadcrumb">
+          <li class="breadcrumb-item active"> <a href="{% url 'feed' %}">Home</a></li>
+          <li class="breadcrumb-item"> <a>Incomings</a></li>
+      </ol>
+  </nav>
+  <div class="main-card">
+  <div id="create-transaction-div">
+    <a class="btn btn-info" href="{% url 'create_incoming_category'%}">Create new category</a>
+  </div>
+  {% for category in categories %}
+    <div >
+      <ul id="myUL">
+        <li class="category_list"> 
+          <span id="category-name-tag" class="caret"><b>{{ category.name }} </b></span><br>
+          <div id="add-transaction-btn">
+            <a  class="btn btn-info" href="{% url 'add_income_transaction' category.id %}"> Add transaction </a>
+          </div>
+          <hr>
+          <ul class="nested">
+            {% with transactions=category|get_income_transactions %}
+            {% for transaction in transactions %}
+            <li class="transaction_list">
+              <div>{{transaction.date}}</div>
+              <div>{{transaction.title}}</div>
+              <div>&#163;{{transaction.amount|intcomma}}</div> 
+            </li>
+            {% endfor %}
+            <hr>
+            <div id="total-transaction">
+               <div>Total transactions</div> 
+               <div>&#163;{{transactions|get_transaction_total|intcomma}}</div>
+            </div>
+            {% endwith %}
+            <li><hr></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  {% endfor %} 
+</div>
+
+</section>
+
+{% endblock %}

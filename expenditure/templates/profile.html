@@ -1,12 +1,17 @@
+
 {% extends 'base_content.html' %}
 {% block content %}
-
-
-<div class="card">
+<section class="content-section">
     <div>
         <h1>Profile</h1>
-    </div>
-    <div class="card-body">
+      </div>
+      <nav>
+          <ol class="breadcrumb">
+              <li class="breadcrumb-item active"> <a href="{% url 'feed' %}">Home</a></li>
+              <li class="breadcrumb-item"> <a">Profile</a></li>
+          </ol>
+      </nav>
+    <div class="main-card">
         <p class="card-text text-start">
             <br>
             Name: {{ user.first_name }} {{ user.last_name }} <br><br>
@@ -14,11 +19,7 @@
             Email: {{ user.email }} <br><br>
 
         </p>
+        
     </div>
-
-</div>
-
-{% endblock %}
-
-
-<!-- {{ user.email }} -->
+</section>
+{%endblock%}

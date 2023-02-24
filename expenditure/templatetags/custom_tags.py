@@ -1,12 +1,17 @@
-from expenditure.models import Transaction
+from expenditure.models import SpendingTransaction,IncomeTransaction
 from django import template
 from datetime import datetime
 
 register = template.Library()
 
 @register.filter
-def get_transactions(category):
-  transactions = Transaction.objects.filter(category=category)
+def get_spending_transactions(category):
+  transactions = SpendingTransaction.objects.filter(spending_category=category)
+  return transactions
+
+@register.filter
+def get_income_transactions(category):
+  transactions = IncomeTransaction.objects.filter(income_category=category)
   return transactions
 
 @register.filter

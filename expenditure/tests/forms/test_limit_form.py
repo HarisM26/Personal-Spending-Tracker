@@ -1,7 +1,11 @@
 from django.test import TestCase
 from django import forms
 from expenditure.forms import LimitForm
+from expenditure.models import Limit
+from django.core.exceptions import ValidationError
 from decimal import Decimal
+from datetime import datetime, timedelta
+
 
 
 class LimitFormTestCase(TestCase):
@@ -10,8 +14,7 @@ class LimitFormTestCase(TestCase):
     def setUp(self):
         self.form_input = {
             'limit_amount': 1000,
-            'start_date': '2020-01-01',
-            'end_date': '2020-01-02',
+            'time_limit_type':'weekly',
         }
 
     def assert_limitform_is_valid(self):
@@ -24,15 +27,12 @@ class LimitFormTestCase(TestCase):
     def test_form_has_necessary_fields(self):
         form = LimitForm()
         self.assertIn('limit_amount', form.fields)
-        self.assertIn('start_date', form.fields)
-        self.assertIn('end_date', form.fields)
+        self.assertIn('time_limit_type', form.fields)
         self.assertIsInstance(form.fields['limit_amount'], forms.DecimalField)
-        self.assertIsInstance(form.fields['start_date'], forms.DateField)
-        self.assertIsInstance(form.fields['end_date'], forms.DateField)
     
-    # def test_form_is_valid(self):
-    #     form = LimitForm(data=self.form_input)
-    #     self.assertTrue(form.is_valid())
+    def test_form_is_valid(self):
+        form = LimitForm(data=self.form_input)
+        self.assertTrue(form.is_valid())
     
     def test_form_uses_form_validation(self):
         self.form_input['limit_amount'] = 0
@@ -54,10 +54,10 @@ class LimitFormTestCase(TestCase):
         form = LimitForm(data=self.form_input)
         self.assertFalse(form.is_valid())
     
-    # def test_form_accepts_limit_amount_with_10_digits(self):
-    #     self.form_input['limit_amount'] = Decimal('123456789.10')
-    #     form = LimitForm(data=self.form_input)
-    #     self.assertTrue(form.is_valid())
+    def test_form_accepts_limit_amount_with_10_digits(self):
+        self.form_input['limit_amount'] = Decimal('12345678.10')
+        form = LimitForm(data=self.form_input)
+        self.assertTrue(form.is_valid())
     
     def test_form_rejects_limit_amount_with_more_than_2_decimal_places(self):
         self.form_input['limit_amount'] = Decimal("123.123")

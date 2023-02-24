@@ -4,15 +4,14 @@ from django.contrib.auth.forms import UserCreationForm
 from django.core.validators import RegexValidator
 from bootstrap_datepicker_plus.widgets import DatePickerInput
 from datetime import datetime, date
-from .models import User, Transaction
 from .helpers import not_future
 from betterforms.multiform import MultiModelForm
 
-class SpendingForm(forms.ModelForm):
+class SpendingTransactionForm(forms.ModelForm):
     class Meta:
-        model = Transaction
+        model = SpendingTransaction
         fields = '__all__'
-        #exclude = ('category',)
+        exclude = ('spending_category',)
         widgets = {
             'date': DatePickerInput(options={"format": "DD/MM/YYYY"}),
             'category': forms.HiddenInput(),
@@ -25,11 +24,11 @@ class SpendingForm(forms.ModelForm):
     #         self.add_error('date', 'The date of your outgoing outgoing transaction cannot be in the future')
     #     return spending_date
 
-class IncomingForm(forms.ModelForm):
+class IncomeTransactionForm(forms.ModelForm):
     class Meta:
-        model = Transaction
+        model = IncomeTransaction
         fields = '__all__'
-        exclude = ('reciept', 'category',)
+        exclude=('income_category',)
         widgets = {
             'date': DatePickerInput(options={"format": "DD/MM/YYYY"}),
             'category': forms.HiddenInput(),
@@ -41,42 +40,29 @@ class IncomingForm(forms.ModelForm):
     #     if incoming_date > current_date:
     #         self.add_error('date', 'The date of your incoming transaction cannot be in the future')
     #     return incoming_date    
-
-class CategoryForm(forms.ModelForm):
+class IncomeCategoryForm(forms.ModelForm):
     class Meta:
-        model = Category
-        fields = ('name','is_income')
+        model=IncomeCategory
+        fields = ('name',)
 
-    #limit = forms.DecimalField(label='Spending Limit')
+
+class SpendingCategoryForm(forms.ModelForm):
+    class Meta:
+        model = SpendingCategory
+        fields = ('name',)
 
 class LimitForm(forms.ModelForm):
     class Meta:
         model = Limit
         fields = '__all__'
-        exclude = ('remaining_amount','status')
-        widgets = {
-            'start_date': DatePickerInput(options={"format": "DD/MM/YYYY"}),
-            'end_date': DatePickerInput(options={"format": "DD/MM/YYYY"})
-            }
-
+        exclude = ('remaining_amount','status','end_date')
+    
 class CategoryCreationMultiForm(MultiModelForm):
     form_classes = {
-        'category': CategoryForm,
+        'category': SpendingCategoryForm,
         'limit': LimitForm
     }
 
-    #def save(self, commit=True):
-    #    objects = super(CategoryCreationMultiForm,self).save(commit=False)
-    #    
-    #    if commit:
-    #        limit=objects['limit']
-    #        limit.remaining_amount = limit.limit_amount
-    #        limit.save()
-    #        category=objects['category']      
-    #        category.limit = limit
-    #        category.save()
-#
-    #    return objects
 
 class LogInForm(forms.Form):
     email = forms.CharField(label='Email')

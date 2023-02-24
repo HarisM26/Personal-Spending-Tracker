@@ -2,11 +2,52 @@
 
 {% block content %}
 
-<div class="card">
-    <div class="text-center">
-        <h1>Feed</h1>
-    </div>
-    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Reprehenderit corporis eligendi possimus quis sunt numquam, maxime ipsam tempora. Sed, voluptate similique. Distinctio harum tenetur eos magnam fugiat fugit nisi dignissimos!</p>
 
-</div>
+<section class="content-section">
+    <div>
+        <h1>Dashboard</h1>
+    </div>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active"> <a href="{% url 'feed' %}">Home</a></li>
+            <li class="breadcrumb-item"> <a>Dashboard</a></li>
+        </ol>
+    </nav>
+ 
+        <section class="section dashboard">
+            <div class="row">
+                <div class="col-lg-9">
+                    <div class="row">
+                        <div class="main-card">
+                            <div id="bar-chart-container">
+                                <canvas id="monthly-chart"> </canvas>
+                            </div>   
+                        </div>                     
+                    </div>
+                </div>
+        
+                
+                <div class="col-lg-3">
+                    <div class="row">
+                        <div class="card">
+                            <h3>News</h3>
+                            <ol>
+                                <li>A</li>
+                                <li>B</li>
+                                <li>B</li>
+                                <li>C</li>
+                                <li>A</li>
+                                <li>D</li>
+                                <li>A</li>
+                                <li>A</li>
+
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+        </section>
+
+</section>
 {% endblock %}

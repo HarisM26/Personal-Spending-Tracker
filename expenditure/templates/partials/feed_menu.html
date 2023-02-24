@@ -2,10 +2,10 @@
   <div class="container-fluid">
     <ul class="navbar-nav ml-auto">
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-          <i class="fa-regular fa-bell">
+        <a class="nav-link dropdown-toggle position-relative" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fa-regular fa-bell fa-lg">
             {% if unread_status_count > 0 %}
-              <span class="badge rounded-pill bg-danger"> &#160; </span>
+              <span class="position-absolute top-1 start-50 translate-middle p-1 bg-danger rounded-circle"> </span>
             {% endif %}
           </i> 
         </a>
@@ -23,14 +23,17 @@
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link" href="#" id="user-account-dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-          <span class="bi-person-circle"></span>
+          <span class="bi-person-circle fa-lg"></span>
         </a>
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="user-account-dropdown" id="profile_list">
-          <li><a class="dropdown-item" href="#">My Profile</a></li>
+          <li><a class="dropdown-item" href="{% url 'profile' %}">My Profile</a></li>
           <li><a class="dropdown-item" href="{% url 'settings' %}">Settings</a></li>
           <li><hr class="dropdown-divider"></li>
           <li><a class="dropdown-item" href="{% url 'log_out' %}">Log out</a></li>
         </ul>
+      </li>
+      <li id="navbar-user-first-name">
+        {{request.user.first_name}}
       </li>
     </ul>
   </div>
