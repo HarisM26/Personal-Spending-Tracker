@@ -136,6 +136,10 @@ class SpendingCategory(models.Model):
       else:
         -1
 
+    def delete(self, *args, **kwargs):
+       self.limit.delete()
+       return super(SpendingCategory, self).delete(*args, **kwargs)
+
     def __str__(self):
         return self.name
 

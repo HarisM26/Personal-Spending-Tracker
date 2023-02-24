@@ -33,7 +33,3 @@ class EditIncomeCategoryViewTestCase(TestCase):
         self.assertEqual(income_category.name, self.edited_form['name'])
         response_url = reverse('incomings')
         self.assertRedirects(response, response_url, status_code=302, target_status_code=200)
-
-
-
-
