@@ -36,7 +36,9 @@ def login_prohibited(view_function):
     return modified_view_function
 
 def get_end_date(limit_type):
-  if limit_type == 'weekly':
+  if limit_type == 'daily':
+     return datetime.date(datetime.now())
+  elif limit_type == 'weekly':
       return datetime.date(datetime.now()) + timedelta(days=6)
   elif limit_type == 'monthly':
       return datetime.date(datetime.now()) + timedelta(days=27)

@@ -8,7 +8,8 @@ from expenditure.helpers import create_notification
 def transaction_post_save_handler(instance,created,*args,**kwargs):
   current_user = instance.spending_category.user
   if created and current_user.toggle_notification == 'ON':
-    all_transactions = SpendingTransaction.objects.filter(spending_category = instance.spending_category)
+    #filter current transactions in particular category
+    all_transactions = SpendingTransaction.objects.filter(spending_category = instance.spending_category, is_current=True)
     total = Decimal('0.00')
     for transaction in all_transactions:
       total+=transaction.amount

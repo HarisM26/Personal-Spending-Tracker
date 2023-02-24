@@ -16,11 +16,20 @@ def refresh_time_limit():
     expired_limits = expenditure.models.Limit.objects.filter(end_date = datetime.date(datetime.now())-timedelta(days=1))
 
     for limit in expired_limits:
+      category = expenditure.models.SpendingCategory.objects.get(limit = limit)
+      transactions = expenditure.models.SpendingTransaction.objects.filter(spending_category=category)
+      
+      for transaction in transactions:
+          transaction.is_current = False
+          transaction.save()
+
       limit.remaining_amount = limit.limit_amount
       limit.status = 'not reached'
       limit.start_date = datetime.date(datetime.now())
       limit.end_date = get_end_date(limit.time_limit_type)
       limit.save()
+    #TO DO: add notification about refresh
+    
 
 # The `close_old_connections` decorator ensures that database connections, that have become
 # unusable or are obsolete, are closed before and after your job has run. You should use it

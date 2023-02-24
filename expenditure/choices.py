@@ -6,6 +6,7 @@ LIMIT_STATUS=[
     ]
 
 TIME_LIMIT_TYPE=[
+    ('daily',('Daily')),
     ('weekly',('Weekly')),
     ('monthly',('Monthly')),
     ('yearly',('Yearly'))

@@ -206,7 +206,7 @@ def add_spending_transaction(request,request_id):
     category = get_object_or_404(SpendingCategory, id=request_id)
     #category_limit = category.limit
     if request.method == 'POST':
-        create_transaction_form = SpendingTransactionForm(request.POST)
+        create_transaction_form = SpendingTransactionForm(request.POST,request.FILES)
         if create_transaction_form.is_valid():
             create_transaction_form.save(commit=False)
             title=create_transaction_form.cleaned_data.get('title')
