@@ -29,8 +29,8 @@
         <span>Amount left to spend&#58; &#163;{{ category.limit.remaining_amount|intcomma }}</span>
           <span>
             <a class="btn btn-info" id="white-text-button" href="{% url 'add_spending_transaction' category.id %}"> Add transaction </a>
-            <a class="btn btn-info" href="{% url 'edit_spending_category' category.id %}"> ✏️ </a>
-            <a class="btn btn-info" href="{% url 'delete_spending_category' category.id %}"> ❌ </a>
+            <a class="btn btn-info" href="{% url 'edit_spending_category' category.id %}" data-bs-toggle="tooltip" title="Edit category"> ✏️ </a>
+            <a class="btn btn-info" href="{% url 'delete_spending_category' category.id %}" data-bs-toggle="tooltip" title="Delete category"> <i class="fa-solid fa-trash-can" style="color: red"></i> </a>
           </span>
           </div>
           <hr>
