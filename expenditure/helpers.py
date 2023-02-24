@@ -45,3 +45,8 @@ def get_end_date(limit_type):
   else:
       return datetime.date(datetime.now()) + timedelta(days=364)
         
+def get_unread_nofications(user):
+    return expenditure.models.Notification.objects.filter(user_receiver = user,status = 'unread').count()
+
+def get_user_notifications(user):
+    return expenditure.models.Notification.objects.filter(user_receiver = user)

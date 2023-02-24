@@ -12,7 +12,7 @@ class SpendingTransactionForm(forms.ModelForm):
     class Meta:
         model = SpendingTransaction
         fields = '__all__'
-        exclude = ('spending_category',)
+        exclude = ('spending_category','is_current',)
         widgets = {
             'date': DatePickerInput(options={"format": "DD/MM/YYYY"}),
             'category': forms.HiddenInput(),

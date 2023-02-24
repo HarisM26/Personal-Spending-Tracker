@@ -12,7 +12,7 @@ from django.db.models.functions import TruncMonth
 from decimal import *
 from django.views.generic import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .helpers import login_prohibited,get_end_date
+from .helpers import *
 from django.contrib.auth.decorators import login_required
 
 @login_prohibited
@@ -31,21 +31,19 @@ def features(request):
 def contact(request):
     return render(request, 'contact.html')
 
-def get_unread_nofications(user):
-    return Notification.objects.filter(user_receiver = user,status = 'unread').count()
-
-def get_user_notifications(user):
-    return Notification.objects.filter(user_receiver = user)
-
 @login_required
 def feed(request):
     current_user = request.user
     unread_status_count = get_unread_nofications(current_user)
     notifications = get_user_notifications(current_user)
+    articles = all_articles['articles']
+    articles = articles[0:4]
+
     latest_notifications = notifications[0:3]
     context = {
         'latest_notifications': latest_notifications,
         'unread_status_count': unread_status_count,
+        'articles':articles,
     }
     return render(request, 'feed.html', context)
 

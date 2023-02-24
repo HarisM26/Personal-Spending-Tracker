@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'newsapi',
     'bootstrap_datepicker_plus',
     'betterforms',
-    'django_apscheduler'
+    'django_apscheduler',
 ]
 
 MIDDLEWARE = [

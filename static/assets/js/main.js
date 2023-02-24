@@ -120,12 +120,3 @@ items.forEach( ( button, index ) =>
     })
     })
 
-/** Inspiration taken from
-* https://stackoverflow.com/questions/29182283/javascript-onclick-get-image-name-without-path
-**/
-function getFileName(fullPath) {
-  var filename = fullPath.replace(/^.*[\\\/]/, '');
-  // or, try this, 
-  // var filename = fullPath.split("/").pop();
-  return filename
-}

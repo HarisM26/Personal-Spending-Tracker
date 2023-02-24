@@ -14,16 +14,16 @@
       </ol>
   </nav>
   <div class="main-card">
-  <div id="create-transaction-div">
-    <a class="btn btn-info" href="{% url 'create_incoming_category'%}">Create new category</a>
-  </div>
+    <div id="create-transaction-div">
+      <a class="btn btn-info" id="white-text-button" href="{% url 'create_incoming_category'%}">Create new category</a>
+    </div>
   {% for category in categories %}
     <div >
       <ul id="myUL">
         <li class="category_list"> 
           <span id="category-name-tag" class="caret"><b>{{ category.name }} </b></span><br>
           <div id="add-transaction-btn">
-            <a  class="btn btn-info" href="{% url 'add_income_transaction' category.id %}"> Add transaction </a>
+            <a class="btn btn-info" id="white-text-button" href="{% url 'add_income_transaction' category.id %}"> Add transaction </a>
           </div>
           <hr>
           <ul class="nested">

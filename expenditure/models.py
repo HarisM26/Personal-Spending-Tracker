@@ -153,5 +153,6 @@ class SpendingTransaction(Transaction, models.Model):
   spending_category=models.ForeignKey(SpendingCategory, related_name="transactions", on_delete=models.PROTECT)
   receipt = models.ImageField(upload_to='images/', blank=True, null=True)
   is_current = models.BooleanField(default=True)
+  
 class IncomeTransaction(Transaction, models.Model):
    income_category=models.ForeignKey(IncomeCategory, related_name="transactions", on_delete=models.PROTECT)

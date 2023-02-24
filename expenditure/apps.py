@@ -7,4 +7,7 @@ class ExpenditureConfig(AppConfig):
     def ready(self):
         from . import signals
         from expenditure.scheduler import scheduler
-        scheduler.handle()
+        """ uncomment the code below to start scheduler upon running server
+            NB: comment out before running initial migration
+        """
+        #scheduler.start()
