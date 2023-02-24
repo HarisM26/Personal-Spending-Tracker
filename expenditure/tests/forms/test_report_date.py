@@ -2,33 +2,31 @@ from datetime import date, timedelta,datetime
 from django import forms
 from django.test import TestCase
 from expenditure.forms import DateReportForm
-from expenditure.models import Transaction, Category, User, Limit
+from expenditure.models import SpendingTransaction, SpendingCategory, User, Limit
 from decimal import Decimal
 
 class DateFormTestCase(TestCase):
 
+    fixtures = ['expenditure/tests/fixtures/default_user.json',
+              'expenditure/tests/fixtures/other_users.json']
+
     def setUp(self):
-        self.user = User.objects.create_user(
-                email='johndoe@email.com',
-                first_name='John',
-                last_name='Doe',
-                password='1jk4uvdI0O',
-            )
-        self.category = Category.objects.create(
-            user=self.user,
+
+        self.category = SpendingCategory.objects.create(
+            user=User.objects.get(email='johndoe@example.com'),
             name = 'test_category',
-            is_income=False,
+            #is_income=False,
             limit = Limit.objects.create(
                 limit_amount=Decimal('10.00'),
                 start_date=date.today(),
                 end_date=datetime.now() + timedelta(days=7)
             )
         )
-        self.transaction = Transaction.objects.create(
+        self.transaction = SpendingTransaction.objects.create(
             title = 'req_trans',
             date = date.today(),
             amount = Decimal('30.00'),
-            category = self.category,
+            spending_category = self.category,
         )
 
         self.form_input = {

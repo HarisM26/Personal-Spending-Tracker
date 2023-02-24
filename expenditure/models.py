@@ -127,7 +127,7 @@ class Notification(models.Model):
 class SpendingCategory(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
-    is_income = models.BooleanField(default=False)
+    #is_income = models.BooleanField(default=False)
     limit = models.OneToOneField(Limit, on_delete=models.CASCADE)
     #slug = models.SlugField()
     #parent = models.ForeignKey('self',blank=True, null=True ,related_name='children')
@@ -154,14 +154,14 @@ class Transaction(models.Model):
     def __str__(self):
         return 'desc: '+ self.title + ' ->  £' + str(self.amount)
   
-class SpendingTransaction(Transaction, models.Model):
+class SpendingTransaction(Transaction):
   spending_category=models.ForeignKey(SpendingCategory, related_name="transactions", on_delete=models.PROTECT)
-  receipt = models.ImageField(upload_to='', blank=True, null=True)
+  reciept = models.ImageField(upload_to='', blank=True, null=True)
 
-def get_absolute_url(self):
-        return reverse('transaction', kwargs={'id':self.pk})
+  def get_absolute_url(self):
+    return reverse('transaction', kwargs={'id':self.pk})
 
-class IncomeTransaction(Transaction, models.Model):
+class IncomeTransaction(Transaction):
    income_category=models.ForeignKey(IncomeCategory, related_name="transactions", on_delete=models.PROTECT)
-   class Meta:
-      ordering = ['-date',]
+  #  class Meta:
+  #     ordering = ['-date',]
