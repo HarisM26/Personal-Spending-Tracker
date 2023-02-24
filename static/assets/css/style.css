@@ -2,6 +2,7 @@
 @import "navbar.css";
 @import "treeview.css";
 @import "newspage.css";
+@import "landingpage.css";
 
 :root {
   --color-default: #03045e;
@@ -12,22 +13,6 @@
   --color-light: #caf0f8;
 }
 
-body {
-  background-image: radial-gradient(
-    circle,
-    hsl(220, 57%, 91%),
-    hsl(220, 55%, 96%)
-  );
-  padding: 20px;
-  height: 100vh;
-  min-height: 100vh;
-  -webkit-background-size: cover;
-  background-size: cover;
-  background-position: center center;
-  position: relative;
-  font-family: "Lato", sans-serif;
-  color: var(--color-dark);
-}
 
 h3 {
   margin-top: 15px;
@@ -188,6 +173,7 @@ h3 {
   width: calc(100% - 78px);
   transition: all 0.5s ease;
   z-index: 2;
+  margin: 20px;
 }
 
 .content-section .text {
@@ -195,7 +181,7 @@ h3 {
   color: var(--color-default);
   font-size: 25px;
   font-weight: 500;
-  margin: 18px;
+  
 }
 
 .sidebar.open ~ .content-section {
@@ -206,20 +192,24 @@ h3 {
 .content-section h1 {
   font-size: 30px;
   color: black;
+  margin: 20px;
 }
 
 .content-section h3 {
   font-size: 30px;
   color: gray;
+  margin: 20px;
 }
 
 .content-section h6 {
   font-size: 15px;
   color: gray;
+  margin: 20px;
 }
 .content-section a:link {
   color: white;
   text-decoration: none;
+  margin-left: 20px;
 }
 
 .content-section a:visited {
@@ -234,6 +224,7 @@ h3 {
 
 .content-section #white-text-button{
   color: white;
+  
 }
 
 /* ================= Modals ================== */

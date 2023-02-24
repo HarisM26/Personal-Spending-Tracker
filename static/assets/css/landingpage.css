@@ -1,0 +1,64 @@
+
+header{
+	width:100vw;
+	height: 100vh;
+	background: url(/static/images/bkg2.jpg);
+	background-size: cover;
+	background-position: bottom;
+	font-family: "Lato", sans-serif;
+	display:flex;
+	align-items: flex-end;
+	justify-content: center;
+  }
+
+.header-content{
+	margin-bottom: 600px;
+	color: whitesmoke;
+	text-align: center;
+}
+
+.header-content h1{
+	font-size: 7vmin;
+}
+
+.header-content h3{
+	font-size: 2vmin;
+}
+
+.line{
+	width: 200px;
+	height:4px;
+	background: #fc036b;
+	margin: 10px auto;
+	border-radius: 5px;
+}
+
+.about{
+	height: 80%;
+	margin: 80px auto;
+	text-align: center;
+}
+
+.about-content{
+	height: 50%;
+	padding: 50px;
+	color: white;
+}
+
+.about-content h1{
+	text-align: center;
+	font-size: 4vmin;
+	color: violet;
+}
+
+.about-content h4 {
+	font-size: 3vmin;
+	color: blueviolet;
+	margin: 20px auto;
+}
+
+.about-content p{
+	color:gray;
+	font-size: 20px;
+	padding: 0px 40px;
+}
