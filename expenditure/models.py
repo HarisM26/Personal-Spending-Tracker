@@ -8,6 +8,7 @@ from .helpers import not_future
 from datetime import datetime, date, timedelta
 from decimal import Decimal
 from django.core.validators import MinValueValidator
+from expenditure.choices import *
 
 
 class UserManager(BaseUserManager):
@@ -60,7 +61,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     
   is_active = models.BooleanField(default=True)
 
-  TOGGLE_CHOICE=[('ON',('ON')),('OFF',('OFF'))]
   toggle_notification = models.CharField(max_length=3,choices=TOGGLE_CHOICE,default='ON')
 
   USERNAME_FIELD = 'email'
@@ -84,11 +84,11 @@ class Profile(models.Model):
   
   def __str__(self):
     return self.user.first_name
+  
+  def __str__(self):
+    return self.user.last_name
 
 class Limit(models.Model):
-  LIMIT_STATUS=[('reached',('reached')),('not reached',('not reached')), ('approaching',('approaching'))]
-  TIME_LIMIT_TYPE=[('weekly',('Weekly')),('monthly',('Monthly')),('yearly',('Yearly'))]
-
   limit_amount = models.DecimalField(max_digits=10,decimal_places=2,null=False, validators=[MinValueValidator(Decimal('0.01'))])
   remaining_amount = models.DecimalField(max_digits=10,decimal_places=2, default=Decimal('0.00'))
   status = models.CharField(max_length=50, choices=LIMIT_STATUS, default='not reached')
@@ -110,7 +110,6 @@ class Limit(models.Model):
         return -1
 
 class Notification(models.Model):
-    STATUS_CHOICE=[('unread',('unread')),('read',('read'))]
     user_receiver = models.ForeignKey(User,on_delete=models.CASCADE)
     title = models.CharField(max_length=300)
     message = models.CharField(max_length = 1200)
@@ -166,8 +165,7 @@ class Transaction(models.Model):
 class SpendingTransaction(Transaction, models.Model):
   spending_category=models.ForeignKey(SpendingCategory, related_name="transactions", null=True, on_delete=models.SET_NULL)
   receipt = models.ImageField(upload_to='', blank=True, null=True)
+  is_current = models.BooleanField(default=True)
 
 class IncomeTransaction(Transaction, models.Model):
    income_category=models.ForeignKey(IncomeCategory, related_name="transactions", null=True, on_delete=models.SET_NULL)
-   class Meta:
-      ordering = ['-date',]

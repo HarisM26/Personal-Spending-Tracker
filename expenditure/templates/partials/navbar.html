@@ -1,5 +1,6 @@
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-3" id="navbar">
+  
   <div class="container">
     <!-- If logged in , home button should take me to feed-->
       {% if user.is_authenticated %}
@@ -15,9 +16,6 @@
       </span> Void Money Tracker
       </a>
     {% endif %}
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-
-    </button>
 
     {% if user.is_authenticated %}
       {% include 'partials/feed_menu.html' %}

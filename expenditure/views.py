@@ -12,7 +12,7 @@ from django.db.models.functions import TruncMonth
 from decimal import *
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .helpers import login_prohibited
+from .helpers import *
 from django.contrib.auth.decorators import login_required
 
 @login_prohibited
@@ -31,21 +31,19 @@ def features(request):
 def contact(request):
     return render(request, 'contact.html')
 
-def get_unread_nofications(user):
-    return Notification.objects.filter(user_receiver = user,status = 'unread').count()
-
-def get_user_notifications(user):
-    return Notification.objects.filter(user_receiver = user)
-
 @login_required
 def feed(request):
     current_user = request.user
     unread_status_count = get_unread_nofications(current_user)
     notifications = get_user_notifications(current_user)
+    articles = all_articles['articles']
+    articles = articles[0:4]
+
     latest_notifications = notifications[0:3]
     context = {
         'latest_notifications': latest_notifications,
         'unread_status_count': unread_status_count,
+        'articles':articles,
     }
     return render(request, 'feed.html', context)
 
@@ -156,7 +154,7 @@ class CreateSpendingCategoryView(LoginRequiredMixin,CreateView):
     def form_valid(self, form):
         limit = form['limit'].save(commit=False)
         limit.remaining_amount = limit.limit_amount
-        limit.end_date = self.get_end_date(limit.time_limit_type)
+        limit.end_date = get_end_date(limit.time_limit_type)
         limit.save()
         category = form['category'].save(commit=False)
         category.user = self.request.user
@@ -183,13 +181,6 @@ class CreateSpendingCategoryView(LoginRequiredMixin,CreateView):
         }
         return context
     
-    def get_end_date(self,limit_type):
-        if limit_type == 'weekly':
-            return datetime.date(datetime.now()) + timedelta(days=6)
-        elif limit_type == 'monthly':
-            return datetime.date(datetime.now()) + timedelta(days=27)
-        else:
-            return datetime.date(datetime.now()) + timedelta(days=364)
 
 @login_required
 def create_incoming_category(request):
@@ -221,20 +212,22 @@ def create_incoming_category(request):
 def log_in(request):
     if request.method == 'POST':
         form = LogInForm(request.POST)
-
+        next = request.POST.get('next') or ''
         if form.is_valid():
             email = form.cleaned_data.get('email')
             password = form.cleaned_data.get('password')
             user = authenticate(email=email, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('feed')
+                redirect_url = next or 'feed'
+                return redirect(redirect_url)
         # Add error message here
         messages.add_message(request, messages.ERROR,
                              "The credentials provided were invalid!")
     else:
-        form = LogInForm()
-    return render(request, 'log_in.html', {'form': form})
+        next = request.GET.get('next') or ''
+    form = LogInForm()
+    return render(request, 'log_in.html', {'form': form, 'next': next})
 
 def log_out(request):
     logout(request)
@@ -250,7 +243,7 @@ def add_spending_transaction(request,request_id):
     category = get_object_or_404(SpendingCategory, id=request_id)
     #category_limit = category.limit
     if request.method == 'POST':
-        create_transaction_form = SpendingTransactionForm(request.POST)
+        create_transaction_form = SpendingTransactionForm(request.POST,request.FILES)
         if create_transaction_form.is_valid():
             create_transaction_form.save(commit=False)
             title=create_transaction_form.cleaned_data.get('title')

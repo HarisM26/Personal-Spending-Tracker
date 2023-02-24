@@ -14,22 +14,21 @@
       </ol>
   </nav>
   <div id="create-transaction-div">
-    <a class="btn btn-info" href="{% url 'create_category'%}">Create new category</a>
+    <a class="btn btn-info" id="white-text-button" href="{% url 'create_category'%}">Create new category</a>
   </div>
   <div class="main-card">
   {% for category in categories %}
     <div >
       <ul id="myUL">
         <li class="category_list"> 
-      
           <span id="category-name-tag" class="caret"><b>{{ category.name }} </b></span><br>
-        
           <div id="spending-categories-detail-div">
           <div>
           Limit&#58; &#163;<i>{{ category.limit.limit_amount|intcomma }}</i>
         </div>
+        <span>Amount left to spend&#58; &#163;{{ category.limit.remaining_amount|intcomma }}</span>
           <span>
-            <a class="btn btn-info" href="{% url 'add_spending_transaction' category.id %}"> Add transaction </a>
+            <a class="btn btn-info" id="white-text-button" href="{% url 'add_spending_transaction' category.id %}"> Add transaction </a>
             <a class="btn btn-info" href="{% url 'edit_spending_category' category.id %}"> ✏️ </a>
             <a class="btn btn-info" href="{% url 'delete_spending_category' category.id %}"> ❌ </a>
           </span>
@@ -38,10 +37,16 @@
           <ul class="nested">
             {% with transactions=category|get_spending_transactions %}
             {% for transaction in transactions %}
-            <li class="transaction_list">
-              <div>{{transaction.date}}</div>
-              <div>{{transaction.title}}</div>
-              <div>&#163;{{transaction.amount|intcomma}}</div> 
+            <li class="transaction_list" data-bs-toggle="modal" data-bs-target="#transaction-detail-modal">
+              <div id="transaction-date">{{transaction.date}}</div>
+              <div id="transaction-title">{{transaction.title}}</div>
+              <div id="transaction-amount">&#163;{{transaction.amount|intcomma}}</div> 
+              <div id="transaction-category" hidden>{{transaction.spending_category.name}}</div>
+              <div id="transaction-notes" hidden>{{transaction.notes}}</div>
+              {%if transaction.receipt%}
+              <img id="transaction-image" hidden src="{{transaction.receipt.url}}" alt="receipt">
+              {%endif%}
+              <div id="transaction-created" hidden>{{transaction.created}}</div>
             </li>
             {% endfor %}
             <hr>
@@ -58,8 +63,77 @@
   {% endfor %} 
   </div>
 </div>
-
-
 </section>
+
+<!-- Modal -->
+<div class="modal" id="transaction-detail-modal" tabindex="-1" aria-labelledby="transaction-modal-label" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="transaction-modal-label" >Transaction Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-card">
+          <i class="fa-regular fa-heading fa-2x"></i> 
+          <div class="modal-text">
+          Title:
+            <span id="transaction-title-modal"></span>
+          </div>
+        </div>
+        
+        <div class="modal-card">
+          <i class="fa-regular fa-calendar-days fa-2x"></i> 
+          <div class="modal-text">
+          Date:
+            <span id="transaction-date-modal"></span>
+          </div>
+        </div>
+
+        <div class="modal-card">
+          <i class="fa-regular fa-money-bill fa-2x"></i> 
+          <div class="modal-text">
+          Amount:
+            <span id="transaction-amount-modal"></span>
+          </div>
+        </div>
+
+
+        <div class="modal-card">
+          <i class="fa-regular fa-group-arrows-rotate fa-2x"></i> 
+          <div class="modal-text">
+          Category:
+            <span id="transaction-category-modal"></span>
+          </div>
+        </div>
+
+        <div class="modal-card">
+          <i class="fa-regular fa-note-sticky fa-2x"></i> 
+          <div class="modal-text">
+          Notes:
+            <span id="transaction-notes-modal"></span>
+          </div>
+        </div>
+
+        <div class="modal-card">
+          <div>
+            <i class="fa-regular fa-receipt fa-2x"></i> Receipt
+            <img id="transaction-receipt-modal" alt="receipt">
+          </div>
+        </div>
+        <hr>
+        <div class="text-muted">
+          Created
+          <span id="transaction-created-modal"></span>
+        </div>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      
+      </div>
+    </div>
+  </div>
+</div>
 
 {% endblock %}

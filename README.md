@@ -56,6 +56,10 @@ Get key for API:
 Migrate the database:
 
 ```
+$ python3 manage.py makemigrations
+```
+
+```
 $ python3 manage.py migrate
 ```
 
@@ -69,6 +73,17 @@ Run all tests with:
 
 ```
 $ python3 manage.py test
+```
+
+Run server:
+
+```
+Note: Before running server, check apps.py file and uncomment the code below to start scheduler
+- scheduler.handle()
+```
+
+```
+$ python3 manage.py runserver
 ```
 
 ## References

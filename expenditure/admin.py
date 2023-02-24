@@ -3,6 +3,7 @@ from .models import *
 from django.contrib.auth.admin import UserAdmin
 from .forms import SignUpForm
 
+
 admin.site.register(Limit)
 
 class SpendingCategoryAdmin(admin.ModelAdmin):

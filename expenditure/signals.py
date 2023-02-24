@@ -8,7 +8,8 @@ from expenditure.helpers import create_notification
 def transaction_post_save_handler(instance,created,*args,**kwargs):
   current_user = instance.spending_category.user
   if created and current_user.toggle_notification == 'ON':
-    all_transactions = SpendingTransaction.objects.filter(spending_category = instance.spending_category)
+    #filter current transactions in particular category
+    all_transactions = SpendingTransaction.objects.filter(spending_category = instance.spending_category, is_current=True)
     total = Decimal('0.00')
     for transaction in all_transactions:
       total+=transaction.amount
@@ -17,9 +18,15 @@ def transaction_post_save_handler(instance,created,*args,**kwargs):
               total < Decimal(instance.spending_category.limit.limit_amount) :
       notification = create_notification(current_user,instance.spending_category.name,instance.spending_category.limit,total)
       notification.save()
+      limit = instance.spending_category.limit
+      limit.status = 'approaching'
+      limit.save()
     elif total >= (instance.spending_category.limit.calc_90_percent_of_limit):
       notification = create_notification(current_user,instance.spending_category.name,instance.spending_category.limit,total)
       notification.save()  
+      limit = instance.spending_category.limit
+      limit.status = 'reached'
+      limit.save()
 
 @receiver(post_save,sender=SpendingTransaction)
 def update_remaining_amount(instance,created,*args,**kwargs):

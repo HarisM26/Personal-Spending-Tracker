@@ -1,0 +1,17 @@
+/*Authenticated user Navbar*/
+#navbar-user-first-name {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.fa-bell,
+.bi-person-circle {
+  color: var(--color-dark);
+}
+.bg-danger {
+  width: 0.5px;
+  height: 0.5px;
+}
+
+
+/*================================================*/
