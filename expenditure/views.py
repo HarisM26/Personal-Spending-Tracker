@@ -15,6 +15,7 @@ from django.views.generic import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .helpers import login_prohibited
 from django.contrib.auth.decorators import login_required
+import expenditure.report_methods as rm
 
 @login_prohibited
 def home(request):
@@ -73,7 +74,7 @@ def mark_as_read(request,id):
 @login_required
 def spending(request):
     current_user = request.user
-    categories = SpendingCategory.objects.filter(user = current_user,is_income=False)
+    categories = SpendingCategory.objects.filter(user = current_user)
     notifications = get_user_notifications(current_user)
     latest_notifications = notifications[0:3]
     unread_status_count = get_unread_nofications(current_user)
@@ -232,7 +233,7 @@ def add_spending_transaction(request,request_id):
     category = get_object_or_404(SpendingCategory, id=request_id)
     #category_limit = category.limit
     if request.method == 'POST':
-        create_transaction_form = SpendingTransactionForm(request.POST)
+        create_transaction_form = SpendingTransactionForm(data=request.POST, files=request.FILES)
         if create_transaction_form.is_valid():
             create_transaction_form.save(commit=False)
             title=create_transaction_form.cleaned_data.get('title')
@@ -247,6 +248,14 @@ def add_spending_transaction(request,request_id):
             messages.add_message(request, messages.SUCCESS,
                              "Transaction created!")
             return HttpResponseRedirect(reverse('spending'))
+    else:
+        create_transaction_form = SpendingTransactionForm()   
+    
+    context = {
+        'request_id': request_id,
+        'create_transaction_form': create_transaction_form,
+    }
+    return render(request, 'add_spending_transaction.html', context)
 
 @login_required
 def add_income_transaction(request, request_id):
@@ -278,7 +287,7 @@ def add_income_transaction(request, request_id):
 
 @login_required
 def view_transaction(request, id):
-    transaction = get_object_or_404(Transaction, id=id)
+    transaction = get_object_or_404(SpendingTransaction, id=id)
     context = {
         'transaction': transaction,
     }
@@ -287,19 +296,11 @@ def view_transaction(request, id):
 
 @login_required
 def list_incomings(request):
-    incomings = Transaction.objects.filter(category__is_income=True)
+    incomings = IncomeTransaction.objects.all()
     context = {
         'incomings': incomings,
     }
     return render(request, 'incomings.html', context=context)
-
-def get_total_transactions_by_date(user, from_date, to_date):
-    return SpendingTransaction.objects.filter(
-        date__gte=from_date,
-        date__lte=to_date,
-        category__is_income=False,
-        category__user=user
-    ).annotate(month=TruncMonth("date")).values("month").annotate(total=Sum("amount")).values("month", "total")
 
 @login_required
 def view_report(request):
@@ -317,11 +318,20 @@ def view_report(request):
            "to_date": to_date
        })
     
-    transactions = get_total_transactions_by_date(request.user, from_date, to_date)
+    transactions = rm.get_total_transactions_by_date(request.user, from_date, to_date)
+    largest_category = rm.get_the_category_with_the_largest_total_spending(request.user, from_date, to_date)
+    close_categories = rm.get_list_of_categories_close_or_over_the_limit(request.user, from_date, to_date)
+    list_of_categories_and_transactions = rm.get_list_of_transactions_in_category(request.user, from_date, to_date)
+    print(close_categories)
+    print(largest_category)
 
+    #print(test)
     context = {
         "form": form,
         "transactions": transactions,
+        "close_categories": close_categories,
+        'largest_category': largest_category,
+        'list_of_categories_and_transactions': list_of_categories_and_transactions,
     }
     return render(request, 'report.html', context=context)
 
