@@ -45,7 +45,7 @@
             <hr>
             <div id="total-transaction">
                <div>Total transactions</div> 
-               <div>&#163;{{transactions|get_transaction_total|intcomma}}</div>
+               <div>&#163;{{transactions|get_income_transaction_total|intcomma}}</div>
             </div>
             {% endwith %}
             <li><hr></li>
@@ -56,7 +56,6 @@
   {% endfor %} 
 </div>
 </section>
-<!-- Modal -->
 <!-- Modal -->
 <div class="modal fade" id="transaction-detail-modal" tabindex="-1" aria-labelledby="transaction-modal-label" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">

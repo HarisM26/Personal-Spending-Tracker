@@ -71,7 +71,7 @@ const changeInnerText = (tagId,value) => {
   if(transactionItem !== null && transactionItem.tagName !== 'IMG'){
   transactionItem.innerText=value
   }
-  else if(transactionItem.tagName === 'IMG'){
+  else if(transactionItem !== null && transactionItem.tagName === 'IMG'){
   transactionItem.src = value
   }
 }
