@@ -52,29 +52,30 @@
         <h1>News</h1>
         <div class="line"></div>
         <div class="news-area">
-            <div class="swiper mySwiper">
-                
-                <div class="swiper-wrapper">
-                    {% for article in articles %}
-                    <div class="card swiper-slide" >
-                        <div class="news-details">
-                            <h5 class="news-title">{{ article|get_article_dict_element:"title" }}</h5>
-                            <p class="news-source">Source&#58;  &#160; {{ article|get_article_dict_element:"source"|get_article_dict_element:"Name" }}</p>
-                            <p class="news-published"><small class="text-muted">Published on {{ article|get_article_dict_element:"publishedAt"|convert_date}}</small></p>
-                            <a href="{{ article|get_article_dict_element:'url' }}" target="_blank" class="btn btn-info">View article</a>
+            <div class="container swiper">
+                <div class="slide-container">
+                    <div class="card-wrapper swiper-wrapper">
+                        {% for article in articles %}
+                        <div class="card swiper-slide" >
+                            <div class="news-details">
+                                <h5 class="news-title">{{ article|get_article_dict_element:"title" }}</h5>
+                                <p class="news-source">Source&#58;  &#160; {{ article|get_article_dict_element:"source"|get_article_dict_element:"Name" }}</p>
+                                <p class="news-published"><small class="text-muted">Published on {{ article|get_article_dict_element:"publishedAt"|convert_date}}</small></p>
+                                <a href="{{ article|get_article_dict_element:'url' }}" target="_blank" class="btn btn-info">View article</a>
+                            </div>
                         </div>
+                        {% endfor %}  
                     </div>
-                    {% endfor %}
+                </div>
                 <div class="swiper-button-next"></div>
-                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-prev "></div>
                 <div class="swiper-pagination"></div>
-                
-            </div>
+              </div>
             
         </div>
     </div>
         
-
+    
         
     </div>
 </section>
