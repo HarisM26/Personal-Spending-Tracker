@@ -46,7 +46,6 @@ class IncomeCategoryForm(forms.ModelForm):
         model=IncomeCategory
         fields = ('name',)
 
-
 class SpendingCategoryForm(forms.ModelForm):
     class Meta:
         model = SpendingCategory
@@ -64,6 +63,11 @@ class CategoryCreationMultiForm(MultiModelForm):
         'limit': LimitForm
     }
 
+class SpendingCategoryEditMultiForm(MultiModelForm):
+    form_classes = {
+        'category': SpendingCategoryForm,
+        'limit': LimitForm
+    }
 
 class LogInForm(forms.Form):
     email = forms.CharField(label='Email')

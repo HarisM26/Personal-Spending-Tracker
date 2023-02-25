@@ -1,0 +1,43 @@
+{% extends 'base_content.html' %}
+{% load custom_tags %}
+{% load humanize %}
+{% block content %}
+
+<section class="content-section">
+    <div>
+    <h1>Income</h1>
+    </div>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active"> <a href="{% url 'feed' %}">Home</a></li>
+            <li class="breadcrumb-item active"> <a href="{% url 'incomings' %}">Income</a></li>
+            <li class="breadcrumb-item"> <a">Delete Category</a></li>
+        </ol>
+    </nav>
+
+    <div class="card">
+        <h1>Are you sure you want to delete this category?</h1>
+        <span><b>Category Name: {{ object.name }} </b></span><br>
+        <div class="card-body">
+            <div class="col-sm-12 col-md-6 offset-md-3">
+                <div class="card-text text-start">
+                    <form action="{% url 'delete_income_category' object.id %}" method="post">
+                        {% csrf_token %}
+                        {% include 'partials/bootstrap_form.html' with form=form %}
+                        <span id="category-delete-btn">
+                            <span>
+                                <input type="submit" value="Delete Income Category" class="btn btn-info">
+                                <a class="btn btn-info" href="{% url 'incomings' %}"> No, go back </a>   
+                            </span>
+                        </span>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</section>
+
+{% endblock %}

@@ -5,12 +5,12 @@ from django.contrib.auth import authenticate, login, logout
 from datetime import date
 from django.http import HttpResponseRedirect
 from .news_api import all_articles
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from .models import *
 from django.db.models import Sum
 from django.db.models.functions import TruncMonth
 from decimal import *
-from django.views.generic import CreateView
+from django.views.generic import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .helpers import *
 from django.contrib.auth.decorators import login_required
@@ -70,7 +70,7 @@ def mark_as_read(request,id):
 @login_required
 def spending(request):
     current_user = request.user
-    categories = SpendingCategory.objects.filter(user = current_user,is_income=False)
+    categories = SpendingCategory.objects.filter(user = current_user)
     notifications = get_user_notifications(current_user)
     latest_notifications = notifications[0:3]
     unread_status_count = get_unread_nofications(current_user)
@@ -107,6 +107,45 @@ def sign_up(request):
     else:
         form = SignUpForm()
     return render(request, 'sign_up.html', {'form': form})
+
+class DeleteSpendingCategoryView(LoginRequiredMixin, DeleteView):
+    model = SpendingCategory
+    template_name = "delete_spending_category.html"
+    success_url = reverse_lazy('spending')
+
+class DeleteIncomeCategoryView(LoginRequiredMixin, DeleteView):
+    model = IncomeCategory
+    template_name = "delete_income_category.html"
+    success_url = reverse_lazy('incomings')
+
+# UpdateView requirements:
+# model; tell Django to update model records
+# form_class; current values of category are populated in form to show user
+# success_url; if update is successful go back to spending page
+class EditSpendingCategoryView(LoginRequiredMixin,UpdateView):
+    model = SpendingCategory
+    form_class = SpendingCategoryEditMultiForm
+    template_name = "edit_spending_category.html"
+    success_url = reverse_lazy('spending')
+
+    # Returns the keyword arguments for instantiating the form
+    # Overriding to add category and limit to kwargs before form is created
+    def get_form_kwargs(self):
+        kwargs = super(EditSpendingCategoryView, self).get_form_kwargs()
+        kwargs.update(instance={
+            'category': self.object,
+            'limit': self.object.limit,
+        })
+        return kwargs
+
+    
+
+class EditIncomeCategoryView(LoginRequiredMixin, UpdateView):
+    model = IncomeCategory
+    form_class = IncomeCategoryForm
+    template_name = "edit_income_category.html"
+    success_url = reverse_lazy("incomings")
+        
 
 class CreateSpendingCategoryView(LoginRequiredMixin,CreateView):
     template_name = "create_category.html"
@@ -216,6 +255,8 @@ def add_spending_transaction(request,request_id):
                 title=title,date=date,amount=amount,notes=notes,spending_category=category,receipt=receipt
             )
             transaction.save()
+            category.addTransaction(transaction.amount)
+            category.save()
             messages.add_message(request, messages.SUCCESS,
                              "Transaction created!")
             return HttpResponseRedirect(reverse('spending'))

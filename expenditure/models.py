@@ -75,21 +75,6 @@ class User(AbstractBaseUser, PermissionsMixin):
   def user_id(self):
     return self.first_name + str(self.id)
 
-class Limit(models.Model):
-  limit_amount = models.DecimalField(max_digits=10,decimal_places=2,null=False, validators=[MinValueValidator(Decimal('0.01'))])
-  remaining_amount = models.DecimalField(max_digits=10,decimal_places=2, default= 0.00)
-  status = models.CharField(max_length=50, choices=LIMIT_STATUS, default='not reached')
-  time_limit_type = models.CharField(max_length=7, choices=TIME_LIMIT_TYPE, default='weekly')
-  start_date = models.DateField(auto_now_add=True)
-  end_date = models.DateField()
- 
-  def __str__(self):
-    return str(self.limit_amount)
-
-  @property
-  def calc_90_percent_of_limit(self):
-    return Decimal(self.limit_amount)*Decimal('0.90')
-  
 
 class Profile(models.Model):
   user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -102,10 +87,28 @@ class Profile(models.Model):
   
   def __str__(self):
     return self.user.last_name
+
+class Limit(models.Model):
+  limit_amount = models.DecimalField(max_digits=10,decimal_places=2,null=False, validators=[MinValueValidator(Decimal('0.01'))])
+  remaining_amount = models.DecimalField(max_digits=10,decimal_places=2, default=Decimal('0.00'))
+  status = models.CharField(max_length=50, choices=LIMIT_STATUS, default='not reached')
+  time_limit_type = models.CharField(max_length=7, choices=TIME_LIMIT_TYPE, default='weekly')
+  start_date = models.DateField(auto_now_add=True)
+  end_date = models.DateField()
   
-  #def __str__(self):
-   # return self.user.user_id
+  def __str__(self):
+     return str(self.limit_amount)
+
+  @property
+  def calc_90_percent_of_limit(self):
+    return Decimal(self.limit_amount)*Decimal('0.90')
     
+  def addTransaction(self, spentAmount):
+     if(spentAmount >= Decimal('0.00')):
+        self.remaining_amount -= spentAmount
+     else:
+        return -1
+
 class Notification(models.Model):
     user_receiver = models.ForeignKey(User,on_delete=models.CASCADE)
     title = models.CharField(max_length=300)
@@ -122,13 +125,23 @@ class Notification(models.Model):
 class SpendingCategory(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
-    is_income = models.BooleanField(default=False)
-    limit = models.OneToOneField(Limit, on_delete=models.CASCADE)
+    limit = models.OneToOneField(Limit, related_name='category', on_delete=models.CASCADE)
     #slug = models.SlugField()
     #parent = models.ForeignKey('self',blank=True, null=True ,related_name='children')
+      # Reduce the remaining amount left of the spending limit
+    def addTransaction(self, spentAmount):
+      if(spentAmount >= Decimal('0.00')):
+        self.limit.addTransaction(spentAmount)
+      else:
+        -1
+
+    def delete(self, *args, **kwargs):
+       self.limit.delete()
+       return super(SpendingCategory, self).delete(*args, **kwargs)
+
     def __str__(self):
         return self.name
-    
+
 class IncomeCategory(models.Model):
   user = models.ForeignKey(User, on_delete=models.CASCADE)
   name = models.CharField(max_length=50)
@@ -137,7 +150,7 @@ class IncomeCategory(models.Model):
 class Transaction(models.Model):
     title = models.CharField(max_length=200)
     date = models.DateField(validators=[not_future])
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    amount = models.DecimalField(max_digits=20, decimal_places=2)
     notes = models.TextField(blank=True)
     created = models.DateTimeField(auto_now_add=True)
     
@@ -150,9 +163,9 @@ class Transaction(models.Model):
         return 'desc: '+ self.title + ' ->  £' + str(self.amount)
   
 class SpendingTransaction(Transaction, models.Model):
-  spending_category=models.ForeignKey(SpendingCategory, related_name="transactions", on_delete=models.PROTECT)
-  receipt = models.ImageField(upload_to='images/', blank=True, null=True)
+  spending_category=models.ForeignKey(SpendingCategory, related_name="transactions", null=True, on_delete=models.SET_NULL)
+  receipt = models.ImageField(upload_to='', blank=True, null=True)
   is_current = models.BooleanField(default=True)
-  
+
 class IncomeTransaction(Transaction, models.Model):
-   income_category=models.ForeignKey(IncomeCategory, related_name="transactions", on_delete=models.PROTECT)
+   income_category=models.ForeignKey(IncomeCategory, related_name="transactions", null=True, on_delete=models.SET_NULL)

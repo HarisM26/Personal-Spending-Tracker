@@ -2,7 +2,7 @@ from datetime import date, timedelta,datetime
 from django.test import TestCase
 from django.core.exceptions import ValidationError
 from django.core.files.uploadedfile import SimpleUploadedFile
-from expenditure.models import Transaction, Category, User, Limit
+from expenditure.models import Transaction, SpendingCategory, User, Limit
 from decimal import *
 
 class TestTransactionModel(TestCase):
@@ -10,10 +10,9 @@ class TestTransactionModel(TestCase):
     fixtures = ['expenditure/tests/fixtures/default_user.json']
 
     def setUp(self):
-        self.category = Category.objects.create(
+        self.category = SpendingCategory.objects.create(
             user = User.objects.get(email='johndoe@example.com'),
             name = 'test_category',
-            is_income=False,
             limit = Limit.objects.create(
                 limit_amount=Decimal('10.00'),
                 start_date=date.today(),
@@ -50,7 +49,7 @@ class TestTransactionModel(TestCase):
         #     amount = Decimal('30.00'),
         #     category = self.other_category,
         # )
-        self.image = SimpleUploadedFile('reciept.jpg', b'blablabla')
+        self.image = SimpleUploadedFile('receipt.jpg', b'blablabla')
     
     def assert_transaction_is_valid(self):
         try:
@@ -95,8 +94,8 @@ class TestTransactionModel(TestCase):
         self.transaction.notes = 'some notes' 
         self.assert_transaction_is_valid()
     
-    def test_unrequired_reciept(self):
-        self.transaction.reciept = self.image
+    def test_unrequired_receipt(self):
+        self.transaction.receipt = self.image
         self.assert_transaction_is_valid()
 
 
@@ -186,6 +185,6 @@ class TestTransactionModel(TestCase):
     #     self.incoming.notes = 'some notes' 
     #     self.assert_incoming_is_valid()
     
-    # def test_unrequired_reciept(self):
-    #     self.spending.reciept = self.image
+    # def test_unrequired_receipt(self):
+    #     self.spending.receipt = self.image
     #     self.assert_spending_is_valid()

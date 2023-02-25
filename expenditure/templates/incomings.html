@@ -22,9 +22,13 @@
       <ul id="myUL">
         <li class="category_list"> 
           <span id="category-name-tag" class="caret"><b>{{ category.name }} </b></span><br>
-          <div id="add-transaction-btn">
-            <a class="btn btn-info" id="white-text-button" href="{% url 'add_income_transaction' category.id %}"> Add transaction </a>
-          </div>
+          <span id="add-transaction-btn">
+            <span>
+              <a class="btn btn-info" id="white-text-button" href="{% url 'add_income_transaction' category.id %}"> Add transaction </a>
+              <a class="btn btn-info" href="{% url 'edit_income_category' category.id %}" data-bs-toggle="tooltip" title="Edit category"> ✏️ </a>
+              <a class="btn btn-info" href="{% url 'delete_income_category' category.id %}" data-bs-toggle="tooltip" title="Delete category"> <i class="fa-solid fa-trash-can" style="color: red"></i> </a>
+            </span>
+          </span>
           <hr>
           <ul class="nested">
             {% with transactions=category|get_income_transactions %}
