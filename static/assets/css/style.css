@@ -62,37 +62,17 @@ h3 {
 
 /*============================================================*/
 /* Cards */
-.card {
-  top: 10%;
+/* .card {
+  border-radius: 8px;
   text-align: center;
   opacity: 0.9;
-  height: auto;
-  width: 70%;
+  height: 50vh;
+  width: 40vh;
   margin: auto;
   padding: 40px 40px;
   position: relative;
-}
+} */
 
-.card h1 {
-  text-align: center;
-  font-size: 38px;
-  padding: 10px 25px;
-  margin-bottom: 20px;
-}
-
-.card p {
-  width: 70%;
-  height: 50%;
-  top: 50%;
-  left: 50%;
-  border: 1px solid black;
-  padding: 10px 25px;
-  font-size: 14px;
-  margin-top: 20px;
-  display: inline-block;
-  font-weight: 900;
-  margin: auto;
-}
 
 /*============================================================*/
 /* After Authentication Card */

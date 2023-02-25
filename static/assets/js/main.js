@@ -123,3 +123,57 @@ function getFileName(fullPath) {
   // var filename = fullPath.split("/").pop();
   return filename
 }
+
+
+
+// var swiper = new Swiper(".mySwiper", {
+//     slidesPerView: 4,
+//     spaceBetween: 20,
+//     sliderPerGroup: 4,
+//     loop: true,
+//     centerSlide: "true",
+//     fade: "true",
+//     grabCursor: "true",
+//     pagination: {
+//       el: ".swiper-pagination",
+//       clickable: true,
+//       dynamicBullets: true,
+//     },
+//     navigation: {
+//       nextEl: ".swiper-button-next",
+//       prevEl: ".swiper-button-prev",
+//     },
+  
+//     breakpoints: {
+//       0: {
+//         slidesPerView: 1,
+//       },
+//       520: {
+//         slidesPerView: 2,
+//       },
+//       768: {
+//         slidesPerView: 3,
+//       },
+//       1000: {
+//         slidesPerView: 4,
+//       },
+//     },
+//   });
+  
+
+  var swiper = new Swiper(".mySwiper", {
+    slidesPerView: 4,
+    spaceBetween: 20,
+    sliderPerGroup: 4,
+    loop: true,
+    centerSlide: "true",
+    fade: "true",
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+  });

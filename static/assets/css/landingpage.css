@@ -33,6 +33,7 @@ header{
 	border-radius: 5px;
 }
 
+/* About */
 .about{
 	padding-top: 5vh;
 	height: 100vh;
@@ -63,12 +64,13 @@ header{
 	font-size: 20px;
 	padding: 0px 40px;
 }
+/* Contact */
 
 .contact{
 	padding-top: 5vh;
 	height: 100vh;
 	text-align: center;
-	background-color: #fc036b;
+	background-color: white;
 }
 
 .contact-content{
@@ -93,4 +95,98 @@ header{
 	color:gray;
 	font-size: 20px;
 	padding: 0px 40px;
+}
+
+/* News */
+
+.news{
+	padding-top: 5vh;
+	height: 100vh;
+	background: black;
+	
+}
+
+.news-content{
+	
+	height: 50%;
+	padding: 50px;
+	color: whitesmoke;
+}
+
+.news-content h1{
+	text-align: center;
+	font-size: 4vmin;
+	color: violet;
+}
+
+.news-area{
+	margin-top: 5vh;
+}
+
+.news-area .card {
+	margin-top: 10vh;
+	border-radius: 8px;
+	text-align: center;
+	opacity: 0.9;
+	height: 70vh;
+	width: 40vh;
+	padding: 40px 40px;
+}
+
+.news-details .news-title{
+	font-size: 30px;
+	font-weight: 500;
+	color: grey;
+}
+
+.news-details .news-source{
+	font-size: 20px;
+	font-weight: 500;
+	color: grey;
+}
+
+.news-details .news-published{
+	font-size: 10px;
+	font-weight: 500;
+}
+
+.news-area .swiper-navBtn {
+	color: #000;
+	height: 30px;
+	width: 30px;
+	font-size: 10px;
+}
+
+
+@media screen and (max-width: 768px) {
+.swiper-navBtn {
+	  display: none;
+	}
+}
+
+
+.swiper {
+	width: 90%;
+	height: 60vh;
+  }
+
+.swiper-slide {
+	text-align: center;
+	font-size: 18px;
+	background: #fff;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.swiper-slide img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.swiper {
+	margin-left: auto;
+	margin-right: auto;
 }
