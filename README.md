@@ -79,7 +79,7 @@ Run server:
 
 ```
 Note: Before running server, check apps.py file and uncomment the code below to start scheduler
-- scheduler.handle()
+- scheduler.start()
 ```
 
 ```

@@ -31,10 +31,10 @@ def transaction_post_save_handler(instance,created,*args,**kwargs):
 @receiver(post_save,sender=SpendingTransaction)
 def update_remaining_amount(instance,created,*args,**kwargs):
   if created:
-    all_transactions = SpendingTransaction.objects.filter(spending_category = instance.spending_category)
+    all_transactions = SpendingTransaction.objects.filter(spending_category = instance.spending_category, is_current=True)
     total = Decimal('0.00')
     for transaction in all_transactions:
-      total+=transaction.amount   
+        total+=transaction.amount   
 
     limit=instance.spending_category.limit
     limit.remaining_amount = limit.limit_amount-total
