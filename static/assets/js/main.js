@@ -126,9 +126,9 @@ function getFileName(fullPath) {
 
 
 var swiper = new Swiper(".slide-container", {
-  slidesPerView: 4,
-  spaceBetween: 20,
-  sliderPerGroup: 4,
+  // slidesPerView: 4,
+  // spaceBetween: 40,
+  // sliderPerGroup: 4,
   loop: true,
   centerSlide: "true",
   fade: "true",
@@ -147,14 +147,17 @@ var swiper = new Swiper(".slide-container", {
     0: {
       slidesPerView: 1,
     },
-    520: {
+    500: {
       slidesPerView: 2,
-    },
-    768: {
-      slidesPerView: 3,
+      spaceBetween: 20,
     },
     1000: {
+      slidesPerView: 3,
+      spaceBetween: 20,
+    },
+    1500: {
       slidesPerView: 4,
+      spaceBetween: 20,
     },
   },
 });

@@ -4,45 +4,36 @@
 {% block content %}
 
 
-
-<!-- <div class="card" id="landing-page">
-    <div class="text-center">
-        <h1>Welcome to VMT</h1>
-    </div>
-    <p>Welcome to Void Money Tracker. The best way to never lose track of your spending again</p>
-</div> -->
-
 <header id="home-page">
     <div class="header-content">
         <h1>Void Money Tracker</h1>
         <div class="line"></div>
         <h3>Welcome to VMT. The best way to never lose track of your spending again</h3> 
+        <div class="buttons">
+            <a href="{% url 'log_in' %}" class="btn">Login</a>
+            <a href="{% url 'sign_up' %}" class="btn">Get Started</a>
+        </div>
     </div>
 </header>
 
 <section class="about" id="about-page">
     <div class="about-content">
         
-        <h1>About Us</h1>
-        <div class="line"></div>
-        <h4>Enquires</h4>
-        <p>
-            Visit the VMT Online Help Desk for any queries you may have. 
-            For communication by phone, please call 0123 456 7890. 
-            Lines are open Monday-Friday 08:00-20:00 and Saturday-Sunday 09:00-18:00. 
-            For communication by email, please contact enquiries@vmt.org
-        </p>
-        <h4>Technical Support</h4>
-        <p>
-            Visit the VMT Help Desk for any technical challenges you may encounter. 
-            For profile challenges only, please send an email to profile.query@vmt.org. 
-            For all other challenges, please call 0987 654 3210 or send an email to technicalqueries.general@vmt.org. 
-            Lines are open Monday-Friday 08:00-20:00 and Saturday-Sunday 09:00-18:00. 
-        </p>
-        <div class="line"></div>
-        <p>
-            Find all the information you need about your VMT account here.
-        </p>
+        
+        <div class="row">
+            <div class="col">
+                <img class="about-img" src="/static/images/logo2.png">
+            </div>
+
+            <div class="col">
+                <h1>About Us</h1>
+                <div class="line"></div>
+                <h3>Use our free online money tracker to determine exactly where your money is going and how much is coming in.
+                    One of the best ways to start saving, get out of debt, or plan for retirement is to learn how to manage a budget and keep track of every penny spent.
+                    We can help with our free budget planner. </h3>
+            </div>
+        </div>
+        
     </div>
 </section>
 
@@ -56,12 +47,15 @@
                 <div class="slide-container">
                     <div class="card-wrapper swiper-wrapper">
                         {% for article in articles %}
-                        <div class="card swiper-slide" >
+                        <div class="news-card swiper-slide" >
                             <div class="news-details">
                                 <h5 class="news-title">{{ article|get_article_dict_element:"title" }}</h5>
+                                <div class="line"></div>
                                 <p class="news-source">Source&#58;  &#160; {{ article|get_article_dict_element:"source"|get_article_dict_element:"Name" }}</p>
-                                <p class="news-published"><small class="text-muted">Published on {{ article|get_article_dict_element:"publishedAt"|convert_date}}</small></p>
-                                <a href="{{ article|get_article_dict_element:'url' }}" target="_blank" class="btn btn-info">View article</a>
+                                <div class="source">
+                                    <p class="news-published"><small class="text-muted">Published on {{ article|get_article_dict_element:"publishedAt"|convert_date}}</small></p>
+                                    <a href="{{ article|get_article_dict_element:'url' }}" target="_blank" class="btn btn-info">View article</a>
+                                </div>
                             </div>
                         </div>
                         {% endfor %}  
@@ -85,20 +79,33 @@
         
         <h1>Contact</h1>
         <div class="line"></div>
-        <h4>Enquires</h4>
-        <p>
-            Visit the VMT Online Help Desk for any queries you may have. 
-            For communication by phone, please call 0123 456 7890. 
-            Lines are open Monday-Friday 08:00-20:00 and Saturday-Sunday 09:00-18:00. 
-            For communication by email, please contact enquiries@vmt.org
-        </p>
-        <h4>Technical Support</h4>
-        <p>
-            Visit the VMT Help Desk for any technical challenges you may encounter. 
-            For profile challenges only, please send an email to profile.query@vmt.org. 
-            For all other challenges, please call 0987 654 3210 or send an email to technicalqueries.general@vmt.org. 
-            Lines are open Monday-Friday 08:00-20:00 and Saturday-Sunday 09:00-18:00. 
-        </p>
+        <div class="row">
+            <div class="col">
+                <div>
+                <img class="about-img" src="/static/images/logo2.png">
+                </div>
+                <h4>Enquires</h4>
+                <p>
+                    Visit the VMT Online Help Desk for any queries you may have. 
+                    For communication by phone, please call 0123 456 7890. 
+                    Lines are open Monday-Friday 08:00-20:00 and Saturday-Sunday 09:00-18:00. 
+                    For communication by email, please contact enquiries@vmt.org
+                </p>
+            </div>
+            
+            <div class="col">
+                <h4>Technical Support</h4>
+                <p>
+                    Visit the VMT Help Desk for any technical challenges you may encounter. 
+                    For profile challenges only, please send an email to profile.query@vmt.org. 
+                    For all other challenges, please call 0987 654 3210 or send an email to technicalqueries.general@vmt.org. 
+                    Lines are open Monday-Friday 08:00-20:00 and Saturday-Sunday 09:00-18:00. 
+                </p>
+                <div>
+                    <img class="about-img" src="/static/images/logo2.png">
+                </div>
+            </div>
+        </div>    
         <div class="line"></div>
         <p>
             Find all the information you need about your VMT account here.
