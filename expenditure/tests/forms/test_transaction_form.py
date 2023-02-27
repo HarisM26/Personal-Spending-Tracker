@@ -2,20 +2,22 @@ from datetime import date, timedelta,datetime
 from django import forms
 from django.test import TestCase
 from django.core.files.uploadedfile import SimpleUploadedFile
-from expenditure.forms import SpendingTransactionForm, IncomeTransactionForm
-from expenditure.models import Transaction, SpendingCategory, User, Limit
+from expenditure.models import *
 from decimal import Decimal
+from expenditure.forms import IncomeTransactionForm, SpendingTransactionForm
+
 
 class TransactionFormTestCase(TestCase):
 
+    fixtures = ['expenditure/tests/fixtures/default_user.json',
+              'expenditure/tests/fixtures/other_users.json']
+
     def setUp(self):
+
         self.category = SpendingCategory.objects.create(
-            user = User.objects.create(
-                email='johndoe@email.com',
-                first_name='John',
-                last_name='Doe',
-            ),
+            user = User.objects.get(email='johndoe@example.com'),
             name = 'test_category',
+            #is_income=False,
             limit = Limit.objects.create(
                 limit_amount=Decimal('10.00'),
                 start_date=date.today(),
@@ -23,32 +25,23 @@ class TransactionFormTestCase(TestCase):
             )
         )
 
-        self.category_2 = SpendingCategory.objects.create(
-            user = User.objects.create(
-                email='johndoe2@email.com',
-                first_name='John',
-                last_name='Doe',
-            ),
+        self.category_2 = IncomeCategory.objects.create(
+            user = User.objects.get(email='janedoe@example.com'),
             name = 'test2_category',
-            limit = Limit.objects.create(
-                limit_amount=Decimal('10.00'),
-                start_date=date.today(),
-                end_date=datetime.now() + timedelta(days=7)
-            )
         )
 
         self.form_input = {
             'title': 'req_trans',
             'date': date.today(),
             'amount': 30.00,
-            'category': self.category.pk,
+            'spending_category': self.category.pk,
         }
 
         self.incoming_form_input = {
             'title': 'req_incoming_trans',
             'date': date.today(),
             'amount': 30.00,
-            'category': self.category_2.pk,
+            'income_category': self.category_2.pk,
         }
         
         self.image = SimpleUploadedFile('receipt.jpg', b'blablabla')

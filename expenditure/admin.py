@@ -28,13 +28,16 @@ class NotificationAdmin(admin.ModelAdmin):
   list_display = ('user_receiver','message','status')
 admin.site.register(Notification,NotificationAdmin)
 
+
+
 class CustomUserAdmin(UserAdmin):
     add_form = SignUpForm
     model = User
     list_display = ("user_id","first_name", "last_name", "email", "is_staff", "is_active",)
+
     list_filter = ("email", "is_staff", "is_active")
     fieldsets = (
-        (None, {"fields": ("email", "password")}),
+        (None, {"fields": ("first_name", "last_name","email", "password")}),
         ("Permissions", {"fields": ("is_staff", "is_active", "groups", "user_permissions")}),
     )
     add_fieldsets = (

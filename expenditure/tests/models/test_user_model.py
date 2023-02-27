@@ -14,11 +14,9 @@ class UserModelTestCase(TestCase):
     #tests for user validity
     def test_valid_user(self):
         self._assert_user_is_valid()
-    
-        
+         
     #tests for the first name
     def test_first_name_cannot_be_blank(self):
-    #change blank in user model to False
         self.user.first_name = ''
         self._assert_user_is_invalid()
         
@@ -38,8 +36,7 @@ class UserModelTestCase(TestCase):
     def test_first_name_cannot_be_over_30_characters(self):
         self.user.first_name = 'x' * 31
         self._assert_user_is_invalid() 
-        
-        
+            
     #tests for the last name
     def test_last_name_cannot_be_blank(self):
         self.user.last_name = ''
@@ -57,7 +54,6 @@ class UserModelTestCase(TestCase):
     def test_last_name_cannot_be_over_150_characters(self):
         self.user.last_name = 'x' * 151
         self._assert_user_is_invalid() 
-
 
     #tests for the email
     def test_email_cannot_be_blank(self):

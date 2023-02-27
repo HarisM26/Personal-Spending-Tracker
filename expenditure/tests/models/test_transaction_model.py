@@ -2,7 +2,8 @@ from datetime import date, timedelta,datetime
 from django.test import TestCase
 from django.core.exceptions import ValidationError
 from django.core.files.uploadedfile import SimpleUploadedFile
-from expenditure.models import Transaction, SpendingCategory, User, Limit
+from django.urls import reverse
+from expenditure.models import Transaction, SpendingTransaction, IncomeTransaction, SpendingCategory, IncomeCategory, Limit, User
 from decimal import *
 
 class TestTransactionModel(TestCase):
@@ -20,35 +21,25 @@ class TestTransactionModel(TestCase):
             )
         )
 
-        self.transaction = Transaction.objects.create(
+        self.transaction = SpendingTransaction.objects.create(
             title = 'req_transaction',
             date = date.today(),
             amount = Decimal('30.00'),
-            category = self.category,
+            spending_category = self.category,
         )
 
-        # self.other_category = Category.objects.create(
-        #     user = User.objects.create(
-        #         email='johndoe2@email.com',
-        #         first_name='John',
-        #         last_name='Doe'
-        #     ),
-        #     name = 'test2_category',
-        #     limit = Decimal('60.00')
-        # )
+        self.other_category = IncomeCategory.objects.create(
+            user = User.objects.get(email='johndoe@example.com'),
+            name = 'test2_category',
+        )
 
-        # self.spending = Spending.objects.create(
-        #     title = 'req_spending',
-        #     date = date.today(),
-        #     amount = Decimal('30.00'),
-        #     category = self.category,
-        # )
-        # self.incoming = Incoming.objects.create(
-        #     title = 'req_incoming',
-        #     date = date.today(),
-        #     amount = Decimal('30.00'),
-        #     category = self.other_category,
-        # )
+        self.incoming = IncomeTransaction.objects.create(
+            title = 'req_incoming',
+            date = date.today(),
+            amount = Decimal('30.00'),
+            income_category = self.other_category,
+        )
+
         self.image = SimpleUploadedFile('receipt.jpg', b'blablabla')
     
     def assert_transaction_is_valid(self):
@@ -77,7 +68,7 @@ class TestTransactionModel(TestCase):
         self.assert_transaction_is_invalid()
     
     def test_rejects_blank_category(self):
-        self.transaction.category = None 
+        self.transaction.spending_category = None 
         self.assert_transaction_is_invalid()
     
     def test_rejects_incorrect_date(self):
@@ -98,92 +89,55 @@ class TestTransactionModel(TestCase):
         self.transaction.receipt = self.image
         self.assert_transaction_is_valid()
 
+    def test_str(self):
+        self.assertEqual(str(self.transaction), f'desc: '+ self.transaction.title + ' ->  £' + str(self.transaction.amount))
+    
+    def test_get_absolute_url(self):
+        response_url = reverse('transaction', kwargs={'id': self.transaction.pk})
+        self.assertEqual(self.transaction.get_absolute_url(), response_url)
+    
+    def assert_incoming_is_valid(self):
+        try:
+            self.incoming.full_clean()
+        except(ValidationError):
+            self.fail("incoming should have passed")
 
-    # def assert_spending_is_valid(self):
-    #     try:
-    #         self.spending.full_clean()
-    #     except(ValidationError):
-    #         self.fail("spending should have passed")
+    def assert_incoming_is_invalid(self):
+        with self.assertRaises(ValidationError):
+            self.incoming.full_clean()
     
-    # def assert_incoming_is_valid(self):
-    #     try:
-    #         self.incoming.full_clean()
-    #     except(ValidationError):
-    #         self.fail("incoming should have passed")
+    def test_valid_incoming(self):
+        self.assert_incoming_is_valid()
+    
+    def test_incoming_rejects_blank_title(self):
+        self.incoming.title = '' 
+        self.assert_incoming_is_invalid()
+    
+    def test_incoming_rejects_blank_date(self):
+        self.incoming.date = None
+        self.assert_incoming_is_invalid()
+    
+    def test_incoming_rejects_blank_amount(self):
+        self.incoming.amount = None 
+        self.assert_incoming_is_invalid()
+    
+    def test_incoming_rejects_blank_category(self):
+        self.incoming.income_category = None 
+        self.assert_incoming_is_invalid()
+    
+    def test_incoming_rejects_incorrect_date(self):
+        self.incoming.date = date.today() + timedelta(days=10)
+        self.assert_incoming_is_invalid()
+    
+    def test_incoming_automated_creation_date(self):
+        self.assertTrue(self.incoming.created)
+        self.assertEqual(date.today().year, self.incoming.created.year)
+        self.assertEqual(date.today().month, self.incoming.created.month)
+        self.assertEqual(date.today().day, self.incoming.created.day)
 
-    # def assert_spending_is_invalid(self):
-    #     with self.assertRaises(ValidationError):
-    #         self.spending.full_clean()
-
-    # def assert_incoming_is_invalid(self):
-    #     with self.assertRaises(ValidationError):
-    #         self.incoming.full_clean()
-
-    # def test_valid_spending(self):
-    #     self.assert_spending_is_valid()
-    
-    # def test_valid_incoming(self):
-    #     self.assert_incoming_is_valid()
-
-    # def test_rejects_blank_title(self):
-    #     self.spending.title = '' 
-    #     self.assert_spending_is_invalid()
-    
-    # def test_incoming_rejects_blank_title(self):
-    #     self.incoming.title = '' 
-    #     self.assert_incoming_is_invalid()
-
-    # def test_rejects_blank_date(self):
-    #     self.spending.date = None
-    #     self.assert_spending_is_invalid()
-    
-    # def test_incoming_rejects_blank_date(self):
-    #     self.incoming.date = None
-    #     self.assert_incoming_is_invalid()
-
-    # def test_rejects_blank_amount(self):
-    #     self.spending.amount = None 
-    #     self.assert_spending_is_invalid()
-    
-    # def test_incoming_rejects_blank_amount(self):
-    #     self.incoming.amount = None 
-    #     self.assert_incoming_is_invalid()
-    
-    # def test_rejects_blank_category(self):
-    #     self.spending.category = None 
-    #     self.assert_spending_is_invalid()
-    
-    # def test_incoming_rejects_blank_category(self):
-    #     self.incoming.category = None 
-    #     self.assert_incoming_is_invalid()
-    
-    # def test_rejects_incorrect_date(self):
-    #     self.spending.date = date.today() + timedelta(days=10)
-    #     self.assert_spending_is_invalid()
-    
-    # def test_incoming_rejects_incorrect_date(self):
-    #     self.incoming.date = date.today() + timedelta(days=10)
-    #     self.assert_incoming_is_invalid()
-    
-    # def test_automated_creation_date(self):
-    #     self.assertTrue(self.spending.created)
-    #     self.assertEqual(date.today().year, self.spending.created.year)
-    #     self.assertEqual(date.today().month, self.spending.created.month)
-    #     self.assertEqual(date.today().day, self.spending.created.day)
-    
-    # def test_incoming_automated_creation_date(self):
-    #     self.assertTrue(self.incoming.created)
-    #     self.assertEqual(date.today().year, self.incoming.created.year)
-    #     self.assertEqual(date.today().month, self.incoming.created.month)
-    #     self.assertEqual(date.today().day, self.incoming.created.day)
-
-    # def test_unrequired_notes(self):
-    #     self.spending.notes = 'some notes' 
-    #     self.assert_spending_is_valid()
-    
-    # def test_incoming_unrequired_notes(self):
-    #     self.incoming.notes = 'some notes' 
-    #     self.assert_incoming_is_valid()
+    def test_incoming_unrequired_notes(self):
+        self.incoming.notes = 'some notes' 
+        self.assert_incoming_is_valid()
     
     # def test_unrequired_receipt(self):
     #     self.spending.receipt = self.image

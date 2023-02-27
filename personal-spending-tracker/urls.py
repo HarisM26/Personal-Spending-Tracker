@@ -19,8 +19,8 @@ from django.conf.urls.static import static
 from django.conf import settings
 from expenditure import views
 from expenditure.views import ChangePasswordView
-
 #import notifications.urls
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -48,6 +48,7 @@ urlpatterns = [
     path('transactions/add/<int:request_id>/', views.add_spending_transaction, name='add_spending_transaction'),
     path('transactions/add_income/<int:request_id>/',views.add_income_transaction,name='add_income_transaction'),
     path('transactions/income/', views.list_incomings, name='list_incomings'),
+    path('transactions/<int:id>/', views.view_transaction, name='transaction'),
     path('add_friend/',views.add_friend,name='add_friend'),
     path('leaderboard/',views.leaderboard,name='leaderboard'),
     path('reports/',views.view_report,name='reports'),
@@ -56,3 +57,4 @@ urlpatterns = [
     path('password-change/', ChangePasswordView.as_view(), name='password_change')
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     
+

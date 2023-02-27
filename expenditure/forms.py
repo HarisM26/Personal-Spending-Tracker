@@ -4,7 +4,6 @@ from django.contrib.auth.forms import UserCreationForm
 from django.core.validators import RegexValidator
 from bootstrap_datepicker_plus.widgets import DatePickerInput
 from datetime import datetime, date
-from .models import Transaction
 from .helpers import not_future
 from betterforms.multiform import MultiModelForm
 from django.contrib.auth import get_user_model
@@ -72,6 +71,7 @@ class SpendingCategoryEditMultiForm(MultiModelForm):
         'limit': LimitForm
     }
 
+
 class LogInForm(forms.Form):
     email = forms.CharField(label='Email')
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
@@ -118,4 +118,5 @@ class UpdateUserForm(forms.ModelForm):
 class DateReportForm(forms.Form):
     from_date = forms.DateField(label="from", validators=[not_future], widget=DatePickerInput(options={"format": "DD/MM/YYYY"}))
     to_date = forms.DateField(label="to", validators=[not_future], widget=DatePickerInput(options={"format": "DD/MM/YYYY"}))
+
 

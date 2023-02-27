@@ -1,6 +1,5 @@
 from django.db import models
 from django import forms
-from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractBaseUser, UserManager, PermissionsMixin
 from django.contrib.auth.base_user import BaseUserManager
 from django.utils.translation import gettext_lazy as _
@@ -8,7 +7,10 @@ from .helpers import not_future
 from datetime import datetime, date, timedelta
 from decimal import Decimal
 from django.core.validators import MinValueValidator
+from django.urls import reverse
 from expenditure.choices import *
+
+
 
 
 class UserManager(BaseUserManager):
@@ -55,7 +57,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     max_length=150,
     )
 
+
+
   id = models.AutoField(primary_key=True) 
+
 
   is_staff = models.BooleanField(default=False)
     
@@ -79,7 +84,7 @@ class Profile(models.Model):
   user = models.OneToOneField(User, on_delete=models.CASCADE)
 
   def __str__(self):
-    return self.user.email
+    return self.user.email 
   
   def __str__(self):
     return self.user.first_name
@@ -161,10 +166,13 @@ class Transaction(models.Model):
     def __str__(self):
         return 'desc: '+ self.title + ' ->  £' + str(self.amount)
   
-class SpendingTransaction(Transaction, models.Model):
+class SpendingTransaction(Transaction):
   spending_category=models.ForeignKey(SpendingCategory, related_name="transactions", null=True, on_delete=models.SET_NULL)
   receipt = models.ImageField(upload_to='', blank=True, null=True)
   is_current = models.BooleanField(default=True)
 
-class IncomeTransaction(Transaction, models.Model):
+  def get_absolute_url(self):
+    return reverse('transaction', kwargs={'id':self.pk})
+
+class IncomeTransaction(Transaction):
    income_category=models.ForeignKey(IncomeCategory, related_name="transactions", null=True, on_delete=models.SET_NULL)
