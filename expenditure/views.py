@@ -14,6 +14,9 @@ from django.views.generic import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .helpers import *
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import PasswordChangeView
+from django.contrib.messages.views import SuccessMessageMixin
+
 
 @login_prohibited
 def home(request):
@@ -369,3 +372,24 @@ def profile(request):
 @login_required
 def reports(request):
     return render(request, 'reports.html')
+
+@login_required
+def profile(request):
+    if request.method == 'POST':
+        user_form = UpdateUserForm(request.POST, instance=request.user)
+
+        if user_form.is_valid():
+            user_form.save()
+            messages.success(request, 'Your profile is updated successfully')
+            return redirect('user_profile')
+
+    else:
+        user_form = UpdateUserForm(instance=request.user)
+    
+    return render(request, 'profile.html', {'user_form': user_form})
+
+
+class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
+    template_name = 'change_password.html'
+    success_message = 'Successfully changed password'
+    success_url = reverse_lazy("user_profile")

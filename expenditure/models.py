@@ -1,6 +1,5 @@
 from django.db import models
 from django import forms
-from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractBaseUser, UserManager, PermissionsMixin
 from django.contrib.auth.base_user import BaseUserManager
 from django.utils.translation import gettext_lazy as _
@@ -9,6 +8,8 @@ from datetime import datetime, date, timedelta
 from decimal import Decimal
 from django.core.validators import MinValueValidator
 from expenditure.choices import *
+
+
 
 
 class UserManager(BaseUserManager):
@@ -55,7 +56,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     max_length=150,
     )
 
+
+
   id = models.AutoField(primary_key=True) 
+
 
   is_staff = models.BooleanField(default=False)
     
@@ -71,7 +75,7 @@ class User(AbstractBaseUser, PermissionsMixin):
   def __str__(self):   
     return self.email
 
-  @property 
+  @property
   def user_id(self):
     return self.first_name + str(self.id)
 
@@ -80,7 +84,7 @@ class Profile(models.Model):
   user = models.OneToOneField(User, on_delete=models.CASCADE)
 
   def __str__(self):
-    return self.user.email
+    return self.user.email 
   
   def __str__(self):
     return self.user.first_name
