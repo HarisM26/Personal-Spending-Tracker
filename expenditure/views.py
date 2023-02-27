@@ -354,10 +354,7 @@ def view_report(request):
     largest_category = rm.get_the_category_with_the_largest_total_spending(request.user, from_date, to_date)
     close_categories = rm.get_list_of_categories_close_or_over_the_limit(request.user, from_date, to_date)
     list_of_categories_and_transactions = rm.get_list_of_transactions_in_category(request.user, from_date, to_date)
-    print(close_categories)
-    print(largest_category)
-
-    #print(test)
+    
     context = {
         "form": form,
         "transactions": transactions,
