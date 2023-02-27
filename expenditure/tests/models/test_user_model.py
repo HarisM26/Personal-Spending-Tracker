@@ -93,8 +93,37 @@ class UserModelTestCase(TestCase):
         
     def test_email_must_not_contain_multiple_at_symbols(self):
         self.user.email = 'willsmith@@example.org'
-        self._assert_user_is_invalid() 	      
-    	      
+        self._assert_user_is_invalid() 	 
+        
+    def test_toggle_follow_user(self):
+        willow = User.objects.get(email='willowsmith@example.org')
+        self.assertFalse(self.user.is_following(willow))
+        self.assertFalse(willow.is_following(self.user))    
+        self.user.toggle_follow(jane)
+        self.assertTrue(self.user.is_following(willow))
+        self.assertFalse(willow.is_following(self.user))
+        self.user.toggle_follow(jane)
+        self.assertFalse(self.user.is_following(willow))
+        self.assertFalse(willow.is_following(self.user))  
+    	
+    def test_follow_counters(self):
+        willow = User.objects.get(email='willowsmith@example.org')
+        sarah = User.objects.get(email='sarahkipling@example.org')
+        sam = User.objects.get(email='samkipling@example.org')
+        self.user.toggle_follow(jane)
+        self.user.toggle_follow(sarah)
+        self.user.toggle_follow(sam)
+        willow.toggle_follow(sarah)
+        willow.toggle_follow(sam)
+        self.assertEqual(self.user.follower_count(), 0)
+        self.assertEqual(self.user.followee_count(), 3)
+        self.assertEqual(willow.follower_count(), 1)
+        self.assertEqual(willow.followee_count(), 2)
+        self.assertEqual(sarah.follower_count(), 2)
+        self.assertEqual(sarah.followee_count(), 0)
+        self.assertEqual(sam.follower_count(), 2)
+        self.assertEqual(sam.followee_count(), 0)
+    	
 
     def _assert_user_is_valid(self):
         try:
@@ -111,6 +140,24 @@ class UserModelTestCase(TestCase):
             first_name = 'Willow',
             last_name = 'Smith',
             email = 'willowsmith@example.org',
+            password='Password123'
+        )
+        return user
+        
+    def _create_third_user(self):
+        user = User.objects.create_user(
+            first_name = 'Sarah',
+            last_name = 'Kipling',
+            email = 'sarahkipling@example.org',
+            password='Password123'
+        )
+        return user
+        
+    def _create_second_user(self):
+        user = User.objects.create_user(
+            first_name = 'Sam',
+            last_name = 'Kipling',
+            email = 'samkipling@example.org',
             password='Password123'
         )
         return user

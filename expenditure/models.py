@@ -52,6 +52,10 @@ class User(AbstractBaseUser, PermissionsMixin):
   last_name = models.CharField(
     max_length=150,
     )
+    
+  followers = models.ManyToManyField(
+    'self', symmetrical=False, related_name='followees'
+    )
 
   id = models.AutoField(primary_key=True) 
 
@@ -73,6 +77,28 @@ class User(AbstractBaseUser, PermissionsMixin):
   @property 
   def user_id(self):
     str(self.id) + self.first_name
+  
+  def toggle_follow(self, followee):
+    if self.is_following(followee):
+    	self._unfollow(followee)
+    else:
+    	self._follow(followee)
+    	
+  def _follow(self, user):
+    user.followers.add(self)
+  
+  def _unfollow(self, user):
+    user.followers.remove(self)
+    
+  def is_following(self, user):
+    return user in self.followees.all()
+    
+  def follower_count(self):
+    return self.followers.count()
+    
+  def followee_count(self):
+    return self.followees.count()
+  
 
 class Limit(models.Model):
   LIMIT_STATUS=[('reached',('reached')),('not reached',('not reached')), ('approaching',('approaching'))]
