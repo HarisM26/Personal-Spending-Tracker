@@ -1,3 +1,4 @@
+
 from django.shortcuts import render,redirect, get_object_or_404
 from .forms import *
 from django.contrib import messages
@@ -266,3 +267,15 @@ def profile(request):
 
 def reports(request):
     return render(request, 'reports.html')
+   
+@login_required
+def follow_toggle(request, email):
+    current_user = request.user
+    try:
+    	followee = User.objects,get(email = email)
+    	current_user.toggle_follow(followee)
+    except ObjectDoesNotExist:
+    	return redirect('user_list')
+    else:
+    	return redirect('show_user', email=email)
+    
