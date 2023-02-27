@@ -74,11 +74,16 @@ header{
 	font-size: 4vmin;
 	color: violet;
 }
-
-.about-content h3 {
+.about-content h4 {
 	font-size: 3vmin;
-	color: black;
+	color: blueviolet;
 	margin: 20px auto;
+}
+
+.about-content p{
+	color:gray;
+	font-size: 20px;
+	padding: 0px 40px;
 }
 
 .about-content .row{
@@ -87,7 +92,12 @@ header{
 }
 
 .about-content .about-img{
-	border-radius: 30px;
+	border-radius: 10%;
+	width: 75%;
+	height: 75%;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
 }
 /* Contact */
 
@@ -95,7 +105,6 @@ header{
 	padding-top: 5vh;
 	width:100vw;
 	height: 100vh;
-	text-align: center;
 	background-color: white;
 }
 
@@ -111,22 +120,33 @@ header{
 	color: violet;
 }
 
+
 .contact-content h4 {
+	text-align: center;
 	font-size: 3vmin;
 	color: blueviolet;
 	margin: 20px auto;
 }
 
 .contact-content p{
+	text-align: center;
 	color:gray;
 	font-size: 20px;
-	padding: 0px 40px;
+	width: 30vw;
+	margin: 20px auto;
 }
 
 .contact-content .about-img{
-	border-radius: 50%;
+	border-radius: 10%;
+	width: 50%;
+	height: 50%;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
 }
-
+.contact-content .contact-end{
+	margin-top: 15vh;
+}
 /* News */
 
 .news{
@@ -203,8 +223,6 @@ header{
 	margin-left: auto;
 	margin-right: auto;
 }
-
-
 
 
 .news-area .news-card {
