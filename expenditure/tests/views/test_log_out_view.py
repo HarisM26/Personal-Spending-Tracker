@@ -13,13 +13,13 @@ class LogOutViewTestCase(TestCase, LogInTester):
             email = 'willsmith@example.org',
             password = 'Password123',
             is_active = True,
-    	)
-    	
+        )
+        
     def test_log_out_url(self):
-    	self.assertEqual(self.url,'/log_out/')
-    
+        self.assertEqual(self.url, '/log_out/')
+
     def test_get_log_out(self):
-    	self.client.login(
+        self.client.login(
             email = 'willsmith@example.org',
             password = 'Password123'
         )
