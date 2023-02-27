@@ -33,6 +33,7 @@ class TransactionViews(TestCase):
             date = date.today(),
             amount = Decimal('30.00'),
             spending_category = self.category,
+            is_current = True,
         )
 
         self.transaction_incoming = IncomeTransaction.objects.create(
@@ -47,6 +48,7 @@ class TransactionViews(TestCase):
             'date': date.today(),
             'amount': Decimal('80.00'),
             'spending_category': self.category.id,
+            'is_current': True,
         }
 
         self.incoming_transaction_input = {

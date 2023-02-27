@@ -116,8 +116,8 @@ class TransactionFormTestCase(TestCase):
         form = IncomeTransactionForm(data=self.incoming_form_input)
         self.assertTrue(form.is_valid())
     
-    def test_form_accepts_reciept(self):
-        self.form_input['reciept'] = self.image
+    def test_form_accepts_receipt(self):
+        self.form_input['receipt'] = self.image
         form = SpendingTransactionForm(data=self.form_input)
         self.assertTrue(form.is_valid())
     

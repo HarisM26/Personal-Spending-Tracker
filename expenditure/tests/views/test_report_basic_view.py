@@ -27,9 +27,10 @@ class BasicReportViews(TestCase):
             date = date.today(),
             amount = Decimal('30.00'),
             spending_category = self.category,
+            is_current = True,
         )
 
-        self.image = SimpleUploadedFile('reciept.jpg', b'blablabla', content_type='image/jpeg')
+        self.image = SimpleUploadedFile('receipt.jpg', b'blablabla', content_type='image/jpeg')
 
         self.url_reports = reverse('reports')
     

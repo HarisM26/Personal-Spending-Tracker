@@ -41,7 +41,7 @@ class TestTransactionModel(TestCase):
             income_category = self.other_category,
         )
 
-        self.image = SimpleUploadedFile('reciept.jpg', b'blablabla')
+        self.image = SimpleUploadedFile('receipt.jpg', b'blablabla')
     
     def assert_transaction_is_valid(self):
         try:

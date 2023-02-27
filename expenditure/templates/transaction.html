@@ -15,8 +15,8 @@
                 {% if transaction.notes %}
                     <p>Notes: {{ transaction.notes }}</p> 
                 {% endif %}
-                {% if transaction.reciept %}
-                    <p>Reciept: <img src="{{ transaction.reciept.url }}" width="100" alt=""></p>
+                {% if transaction.receipt %}
+                    <p>Receipt: <img src="{{ transaction.receipt.url }}" width="100" alt=""></p>
                 {% else %}
                     <td></td>
                 {% endif %}
