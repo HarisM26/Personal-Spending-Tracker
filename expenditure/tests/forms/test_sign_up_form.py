@@ -11,8 +11,8 @@ class SignUpFormTestCase(TestCase):
 		    'first_name': 'Will',
 	        'last_name': 'Smith',
 	        'email': 'willsmith@example.org',
-	        'new_password': 'Password123',
-	        'password_confirmation': 'Password123'
+	        'password1': 'Password123',
+	        'password2': 'Password123'
 		}
     
     
@@ -31,12 +31,12 @@ class SignUpFormTestCase(TestCase):
 		email_field = form.fields['email']
 		self.assertTrue(isinstance(email_field, forms.EmailField))
 		
-		self.assertIn('new_password',form.fields)
-		new_password_widget = form.fields['new_password'].widget
+		self.assertIn('password1',form.fields)
+		new_password_widget = form.fields['password1'].widget
 		self.assertTrue(isinstance(new_password_widget, forms.PasswordInput))
 		
-		self.assertIn('password_confirmation',form.fields)
-		password_confirmation_widget = form.fields['password_confirmation'].widget
+		self.assertIn('password2',form.fields)
+		password_confirmation_widget = form.fields['password2'].widget
 		self.assertTrue(isinstance(password_confirmation_widget, forms.PasswordInput))
 		
 	#test that the form uses model validation
