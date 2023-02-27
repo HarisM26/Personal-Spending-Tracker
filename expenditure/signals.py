@@ -3,6 +3,9 @@ from .models import *
 from django.dispatch import receiver
 from decimal import *
 from expenditure.helpers import create_notification
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 @receiver(post_save,sender=SpendingTransaction)
 def transaction_post_save_handler(instance,created,*args,**kwargs):

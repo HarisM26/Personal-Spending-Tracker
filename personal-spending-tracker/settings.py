@@ -161,3 +161,5 @@ MESSAGE_TAGS = {
 }
 #tell Celery how to find Redis
 CELERY_BROKER_URL = 'redis://localhost:6379'
+LOGIN_REDIRECT_URL = '/' 
+

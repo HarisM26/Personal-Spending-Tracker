@@ -71,10 +71,9 @@ class User(AbstractBaseUser, PermissionsMixin):
   def __str__(self):   
     return self.email
 
-  @property 
+  @property
   def user_id(self):
-    return self.first_name + str(self.id)
-
+    return self.first_name + str(self.id) 
 
 class Profile(models.Model):
   user = models.OneToOneField(User, on_delete=models.CASCADE)

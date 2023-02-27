@@ -13,6 +13,8 @@ from decimal import *
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .helpers import *
+from django.contrib.auth.views import PasswordChangeView
+from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.decorators import login_required
 
 @login_prohibited
@@ -181,7 +183,6 @@ class CreateSpendingCategoryView(LoginRequiredMixin,CreateView):
         }
         return context
     
-
 @login_required
 def create_incoming_category(request):
     current_user = request.user
@@ -369,3 +370,57 @@ def profile(request):
 @login_required
 def reports(request):
     return render(request, 'reports.html')
+
+@login_required
+def profile(request):
+    if request.method == 'POST':
+        user_form = UpdateUserForm(request.POST, instance=request.user)
+
+        if user_form.is_valid():
+            user_form.save()
+            messages.success(request, 'Your profile is updated successfully')
+            return redirect('user_profile')
+
+    else:
+        user_form = UpdateUserForm(instance=request.user)
+    
+    return render(request, 'profile.html', {'user_form': user_form})
+
+
+def log_in(request):
+    if request.method == 'POST':
+        form = LogInForm(request.POST)
+
+        if form.is_valid():
+            email = form.cleaned_data.get('email')
+            password = form.cleaned_data.get('password')
+            user = authenticate(email=email, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('home')
+            
+            messages.add_message(request, messages.ERROR, "The credentials provided were invalid!")
+
+    return render(request, 'log_in.html', {'form': LogInForm()})
+
+    
+
+
+
+
+def sign_up(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('home')
+    else:
+        form = SignUpForm()
+        return render(request, 'sign_up.html' , {'form': form})
+
+
+class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
+    template_name = 'change_password.html'
+    success_message = 'Successfully changed password'
+    success_url = reverse_lazy("user_profile")

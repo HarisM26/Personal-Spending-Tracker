@@ -4,9 +4,12 @@ from django.contrib.auth.forms import UserCreationForm
 from django.core.validators import RegexValidator
 from bootstrap_datepicker_plus.widgets import DatePickerInput
 from datetime import datetime, date
-from .models import User, Transaction
+from .models import Transaction
 from .helpers import not_future
 from betterforms.multiform import MultiModelForm
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 class SpendingTransactionForm(forms.ModelForm):
     class Meta:
@@ -100,6 +103,17 @@ class SignUpForm(forms.ModelForm):
             password=self.cleaned_data.get('new_password'),
         )
         return self.user
+
+
+class UpdateUserForm(forms.ModelForm):
+    email = forms.EmailField(required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    first_name = forms.CharField(max_length=100, label='first_name', widget=forms.TextInput(attrs={'class': 'form-control'}))
+    last_name = forms.CharField(max_length=100, label='last_name', widget=forms.TextInput(attrs={'class': 'form-control'}))
+
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']
+
 
 class DateReportForm(forms.Form):
     from_date = forms.DateField(label="from", validators=[not_future], widget=DatePickerInput(options={"format": "DD/MM/YYYY"}))
