@@ -1,0 +1,15 @@
+{% extends 'base_content.html' %}
+
+{% block content %}
+
+
+<div class="card">
+  <h1> Settings </h1>
+  <h3 id="notification-settings">Notification setting</h3>
+  <div id="toggle_notification">
+    Toggle Notification
+     <button class="btn btn-info"><a id="toggle_anchor" href="{% url 'toggle_notification' %}"> {{ toggle }} </a> </button> 
+  </div>
+</div>
+
+{% endblock %}

@@ -1,15 +1,19 @@
-{% extends 'base.html' %}
+{% extends 'base_content.html' %}
+{% block content %}
 
-{% block content %} 
-<title>Login • VMT</title>
-<div class="welcome_text" >
-    <h1>Login</h1>
-        <div class="welcome_paragraph">
-          <form action="{% url 'log_in' %}" method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <input type="submit" value="Log In">
-        </div>
-
-    </div>
-{% endblock content %}
+<div class="card">
+  <h1>Log In</h1>
+  <div class="card-body">
+      <div class="col-sm-12 col-md-6 offset-md-3">
+          <div class="card-text text-start">
+            <form action="{% url 'log_in' %}" method="post" >
+              {% csrf_token %}
+              <input type="hidden" name="next" value="{{ next }}">
+              {% include 'partials/bootstrap_form.html' with form=form %}
+              <input type="submit" value="Log in" class="btn btn-info">
+            </form>
+          </div>
+      </div>
+  </div>
+</div>
+{% endblock %}

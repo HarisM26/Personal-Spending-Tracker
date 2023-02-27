@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
+from django.contrib.messages import constants as message_constants
+from django.conf.locale.es import formats as es_formats
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -32,17 +34,22 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    #'notifications',
     'expenditure',
-    
-    
+    'widget_tweaks',
+    'bootstrap5',
+    'fontawesomefree',
+    'newsapi',
+    'bootstrap_datepicker_plus',
+    'betterforms',
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -120,6 +127,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
+
+STATIC_URL = 'static/'
+MEDIA_ROOT = BASE_DIR / 'uploads/'
+MEDIA_URL = 'uploads/'
+
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
@@ -134,9 +146,13 @@ STATICFILES_FINDERS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-ASGI_APPLICATION = "personal-spending-tracker.asgi.application"
-# User model for authentication purposes 
 AUTH_USER_MODEL = 'expenditure.User'
 
+
+MESSAGE_TAGS = {
+    message_constants.DEBUG: 'dark',
+    message_constants.ERROR: 'danger',
+}
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = 'log_in'
+

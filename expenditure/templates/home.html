@@ -1,13 +1,10 @@
-{% extends 'base.html' %}
 
-{% block content %} 
-<title>Home • VMT</title>
-<div class="welcome_text" >
-    <h1>Personal Spending Tracker</h1>
-        <div class="welcome_paragraph">
-            <p><a href='{% url 'sign_up' %}'>Sign Up</a></p>
-            <p><a href='{% url 'log_in' %}'>Log in</a> </p>
-        </div>
-
+{% extends 'base_content.html' %}
+{% block content %}
+<div class="card">
+    <div class="text-center">
+        <h1>Welcome to VMT</h1>
     </div>
-{% endblock content %}
+    <p>Welcome Message</p>
+</div>
+{% endblock %}

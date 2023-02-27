@@ -1,0 +1,24 @@
+{% extends 'base_content.html' %}
+
+{% block content %}
+
+{{ form.media }}
+<div class="card">
+    <h1>Create A Category</h1>
+    <div class="card-body">
+        <div class="col-sm-12 col-md-6 offset-md-3">
+            <div class="card-text text-start">
+                <form action="{% url 'create_category' %}" method="post">
+                    {% csrf_token %}
+                    {% include 'partials/bootstrap_form.html' with form=form %}
+                    <input type="submit" value="Create Category" class="btn btn-info">
+                </form>
+            </div>
+        </div>
+    </div>
+  </div>
+
+
+
+
+{% endblock %}
