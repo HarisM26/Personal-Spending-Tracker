@@ -18,6 +18,14 @@ def get_income_transactions(category):
 def get_transaction_total(iterable):
   total = 0
   for element in iterable:
+    if element.is_current:
+      total+=element.amount
+  return total
+
+@register.filter
+def get_income_transaction_total(iterable):
+  total = 0
+  for element in iterable:
     total+=element.amount
   return total
 

@@ -2,7 +2,7 @@ from datetime import date, timedelta,datetime
 from django import forms
 from django.test import TestCase
 from django.core.files.uploadedfile import SimpleUploadedFile
-from expenditure.models import Transaction, SpendingTransaction, IncomeTransaction, SpendingCategory, IncomeCategory, Limit, User
+from expenditure.models import *
 from decimal import Decimal
 from expenditure.forms import IncomeTransactionForm, SpendingTransactionForm
 
@@ -44,7 +44,7 @@ class TransactionFormTestCase(TestCase):
             'income_category': self.category_2.pk,
         }
         
-        self.image = SimpleUploadedFile('reciept.jpg', b'blablabla')
+        self.image = SimpleUploadedFile('receipt.jpg', b'blablabla')
 
     def test_form_contains_required_fields(self):
         form = SpendingTransactionForm()
@@ -121,7 +121,7 @@ class TransactionFormTestCase(TestCase):
         form = SpendingTransactionForm(data=self.form_input)
         self.assertTrue(form.is_valid())
     
-    # def test_form_rejects_reciept(self):
-    #     self.incoming_form_input['reciept'] = self.image
-    #     form = IncomingForm(data=self.incoming_form_input)
+    # def test_form_rejects_receipt(self):
+    #     self.incoming_form_input['receipt'] = self.image
+    #     form = IncomeTransactionForm(data=self.incoming_form_input)
     #     self.assertFalse(form.is_valid())

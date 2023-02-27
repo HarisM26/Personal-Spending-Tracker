@@ -56,7 +56,7 @@ class TransactionViews(TestCase):
             'income_category': self.category_2.id,
         }
 
-        self.image = SimpleUploadedFile('reciept.jpg', b'blablabla', content_type='image/jpeg')
+        self.image = SimpleUploadedFile('receipt.jpg', b'blablabla', content_type='image/jpeg')
 
         self.url_list_spendings = reverse('spending')
         self.url_list_incomings = reverse('list_incomings')

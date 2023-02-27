@@ -63,12 +63,17 @@ const transaction = {
   category: "",
   notes: "",
   receipt: "",
-  created: ""
+  created: "",
 }
 
 const changeInnerText = (tagId,value) => {
   let transactionItem=document.getElementById(`${tagId}`)
+  if(transactionItem !== null && transactionItem.tagName !== 'IMG'){
   transactionItem.innerText=value
+  }
+  else if(transactionItem !== null && transactionItem.tagName === 'IMG'){
+  transactionItem.src = value
+  }
 }
 const items = Array.from(document.getElementsByClassName("transaction_list"));
 
@@ -95,7 +100,7 @@ items.forEach( ( button, index ) =>
             transaction.notes = child.textContent;
             break;
           case "transaction-image":
-            transaction.receipt = getFileName(child.src);
+            transaction.receipt = child.src;
             break;
           case "transaction-created":
           transaction.created = child.textContent;
@@ -111,15 +116,7 @@ items.forEach( ( button, index ) =>
       changeInnerText("transaction-notes-modal",transaction.notes)
       changeInnerText("transaction-receipt-modal",transaction.receipt)
       changeInnerText("transaction-created-modal",transaction.created)
+
     })
     })
 
-/** Inspiration taken from
-* https://stackoverflow.com/questions/29182283/javascript-onclick-get-image-name-without-path
-**/
-function getFileName(fullPath) {
-  var filename = fullPath.replace(/^.*[\\\/]/, '');
-  // or, try this, 
-  // var filename = fullPath.split("/").pop();
-  return filename
-}

@@ -11,7 +11,7 @@ class SpendingTransactionForm(forms.ModelForm):
     class Meta:
         model = SpendingTransaction
         fields = '__all__'
-        exclude = ('spending_category',)
+        exclude = ('spending_category','is_current',)
         widgets = {
             'date': DatePickerInput(options={"format": "DD/MM/YYYY"}),
             'category': forms.HiddenInput(),
@@ -45,7 +45,6 @@ class IncomeCategoryForm(forms.ModelForm):
         model=IncomeCategory
         fields = ('name',)
 
-
 class SpendingCategoryForm(forms.ModelForm):
     class Meta:
         model = SpendingCategory
@@ -63,6 +62,11 @@ class CategoryCreationMultiForm(MultiModelForm):
         'limit': LimitForm
     }
 
+class SpendingCategoryEditMultiForm(MultiModelForm):
+    form_classes = {
+        'category': SpendingCategoryForm,
+        'limit': LimitForm
+    }
 
 class LogInForm(forms.Form):
     email = forms.CharField(label='Email')

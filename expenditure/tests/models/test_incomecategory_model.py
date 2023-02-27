@@ -1,23 +1,17 @@
 from django.test import TestCase
 from datetime import datetime, timedelta, date
 from django.core.exceptions import ValidationError
-from expenditure.models import Category, Limit, User
+from expenditure.models import IncomeCategory, Limit, User
 from decimal import *
 
-class CategoryModelTest(TestCase):
+class IncomeCategoryModelTest(TestCase):
 
     fixtures = ['expenditure/tests/fixtures/default_user.json']
 
     def setUp(self):
-        self.category = Category.objects.create(
+        self.category = IncomeCategory.objects.create(
             user = User.objects.get(email='johndoe@example.com'),
-            name = "CategoryName",
-            is_income = False,
-            limit = Limit.objects.create(
-                limit_amount=Decimal('10.00'),
-                start_date=date.today(),
-                end_date=datetime.now() + timedelta(days=7)
-            )
+            name = "CategoryName"
         )
 
     def assert_category_is_valid(self):
@@ -45,9 +39,7 @@ class CategoryModelTest(TestCase):
         self.category.name = 'x' * 50
         self.assert_category_is_valid()
 
-    def test_is_income_cannot_be_none(self):
-        self.category.is_income = None
-        self.assert_category_is_invalid()
+    
         
 
     

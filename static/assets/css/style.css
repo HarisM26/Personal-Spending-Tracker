@@ -18,7 +18,7 @@ body {
     hsl(220, 57%, 91%),
     hsl(220, 55%, 96%)
   );
-  padding: 1rem;
+  padding: 20px;
   height: 100vh;
   min-height: 100vh;
   -webkit-background-size: cover;
@@ -92,6 +92,7 @@ h3 {
   text-align: center;
   font-size: 38px;
   padding: 10px 25px;
+  margin-bottom: 20px;
 }
 
 .card p {
@@ -142,6 +143,13 @@ h3 {
   box-shadow: 2px 2px 5px rgba(32, 78, 119, 0.899);
 }
 
+@media (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
+}
+
+/*============================================================*/
 /*Income Page*/
 #add-transaction-btn {
   display: flex;
@@ -164,6 +172,12 @@ h3 {
   margin-top: 5px;
 }
 /*================================*/
+
+/*Delete Category*/ 
+#category-delete-btn {
+  display: grid;
+  justify-content: center;
+}
 
 /*Reports*/
 #bar-chart-container {
@@ -209,7 +223,7 @@ h3 {
   color: gray;
 }
 .content-section a:link {
-  color: gray;
+  color: white;
   text-decoration: none;
 }
 
@@ -223,6 +237,42 @@ h3 {
   text-decoration: none;
 }
 
-.breadcrumb > .inactive a {
+.content-section #white-text-button {
   color: white;
+}
+/* ================= Modals ================== */
+
+.modal-card {
+  opacity: 0.9;
+  padding: 10px 10px 10px 10px;
+  position: relative;
+  background-color: white;
+  right: 0%;
+  margin: 10px;
+  list-style: none;
+  box-shadow: 0 0 1px 2px;
+  overflow: hidden;
+  border-radius: 1px;
+  vertical-align: middle;
+}
+
+.modal-card i {
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  padding-top: 2%;
+  border-radius: 50%;
+  color: black;
+  background: gray;
+}
+
+.modal-text {
+  padding-top: 2%;
+  width: 50px;
+  color: rgb(39, 39, 39);
+  display: inline;
+}
+
+.modal-text span {
+  color: black;
 }

@@ -13,7 +13,7 @@ class LimitFormTestCase(TestCase):
 
     def setUp(self):
         self.form_input = {
-            'limit_amount': 1000,
+            'limit_amount': Decimal('1000.00'),
             'time_limit_type':'weekly',
         }
 

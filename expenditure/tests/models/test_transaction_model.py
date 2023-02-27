@@ -86,8 +86,8 @@ class TestTransactionModel(TestCase):
         self.transaction.notes = 'some notes' 
         self.assert_transaction_is_valid()
     
-    def test_unrequired_reciept(self):
-        self.transaction.reciept = self.image
+    def test_unrequired_receipt(self):
+        self.transaction.receipt = self.image
         self.assert_transaction_is_valid()
 
     def test_str(self):
@@ -140,6 +140,6 @@ class TestTransactionModel(TestCase):
         self.incoming.notes = 'some notes' 
         self.assert_incoming_is_valid()
     
-    # def test_unrequired_reciept(self):
-    #     self.spending.reciept = self.image
+    # def test_unrequired_receipt(self):
+    #     self.spending.receipt = self.image
     #     self.assert_spending_is_valid()

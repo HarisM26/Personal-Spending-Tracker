@@ -6,14 +6,14 @@ from django.contrib.auth.decorators import login_required
 from datetime import datetime, date, timedelta
 from django.http import HttpResponse, HttpResponseRedirect
 from .news_api import all_articles
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from .models import *
 from django.db.models import Sum
 from django.db.models.functions import TruncMonth
 from decimal import *
-from django.views.generic import CreateView
+from django.views.generic import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .helpers import login_prohibited
+from .helpers import *
 from django.contrib.auth.decorators import login_required
 import expenditure.report_methods as rm
 
@@ -33,21 +33,19 @@ def features(request):
 def contact(request):
     return render(request, 'contact.html')
 
-def get_unread_nofications(user):
-    return Notification.objects.filter(user_receiver = user,status = 'unread').count()
-
-def get_user_notifications(user):
-    return Notification.objects.filter(user_receiver = user)
-
 @login_required
 def feed(request):
     current_user = request.user
     unread_status_count = get_unread_nofications(current_user)
     notifications = get_user_notifications(current_user)
+    articles = all_articles['articles']
+    articles = articles[0:4]
+
     latest_notifications = notifications[0:3]
     context = {
         'latest_notifications': latest_notifications,
         'unread_status_count': unread_status_count,
+        'articles':articles,
     }
     return render(request, 'feed.html', context)
 
@@ -112,6 +110,45 @@ def sign_up(request):
         form = SignUpForm()
     return render(request, 'sign_up.html', {'form': form})
 
+class DeleteSpendingCategoryView(LoginRequiredMixin, DeleteView):
+    model = SpendingCategory
+    template_name = "delete_spending_category.html"
+    success_url = reverse_lazy('spending')
+
+class DeleteIncomeCategoryView(LoginRequiredMixin, DeleteView):
+    model = IncomeCategory
+    template_name = "delete_income_category.html"
+    success_url = reverse_lazy('incomings')
+
+# UpdateView requirements:
+# model; tell Django to update model records
+# form_class; current values of category are populated in form to show user
+# success_url; if update is successful go back to spending page
+class EditSpendingCategoryView(LoginRequiredMixin,UpdateView):
+    model = SpendingCategory
+    form_class = SpendingCategoryEditMultiForm
+    template_name = "edit_spending_category.html"
+    success_url = reverse_lazy('spending')
+
+    # Returns the keyword arguments for instantiating the form
+    # Overriding to add category and limit to kwargs before form is created
+    def get_form_kwargs(self):
+        kwargs = super(EditSpendingCategoryView, self).get_form_kwargs()
+        kwargs.update(instance={
+            'category': self.object,
+            'limit': self.object.limit,
+        })
+        return kwargs
+
+    
+
+class EditIncomeCategoryView(LoginRequiredMixin, UpdateView):
+    model = IncomeCategory
+    form_class = IncomeCategoryForm
+    template_name = "edit_income_category.html"
+    success_url = reverse_lazy("incomings")
+        
+
 class CreateSpendingCategoryView(LoginRequiredMixin,CreateView):
     template_name = "create_category.html"
     form_class = CategoryCreationMultiForm
@@ -119,7 +156,7 @@ class CreateSpendingCategoryView(LoginRequiredMixin,CreateView):
     def form_valid(self, form):
         limit = form['limit'].save(commit=False)
         limit.remaining_amount = limit.limit_amount
-        limit.end_date = self.get_end_date(limit.time_limit_type)
+        limit.end_date = get_end_date(limit.time_limit_type)
         limit.save()
         category = form['category'].save(commit=False)
         category.user = self.request.user
@@ -146,13 +183,6 @@ class CreateSpendingCategoryView(LoginRequiredMixin,CreateView):
         }
         return context
     
-    def get_end_date(self,limit_type):
-        if limit_type == 'weekly':
-            return datetime.date(datetime.now()) + timedelta(days=6)
-        elif limit_type == 'monthly':
-            return datetime.date(datetime.now()) + timedelta(days=27)
-        else:
-            return datetime.date(datetime.now()) + timedelta(days=364)
 
 @login_required
 def create_incoming_category(request):
@@ -233,18 +263,20 @@ def add_spending_transaction(request,request_id):
     category = get_object_or_404(SpendingCategory, id=request_id)
     #category_limit = category.limit
     if request.method == 'POST':
-        create_transaction_form = SpendingTransactionForm(data=request.POST, files=request.FILES)
+        create_transaction_form = SpendingTransactionForm(request.POST, request.FILES)
         if create_transaction_form.is_valid():
             create_transaction_form.save(commit=False)
             title=create_transaction_form.cleaned_data.get('title')
             date=create_transaction_form.cleaned_data.get('date')
             amount=create_transaction_form.cleaned_data.get('amount')
             notes=create_transaction_form.cleaned_data.get('notes')
-            reciept=create_transaction_form.cleaned_data.get('reciept')
+            receipt=create_transaction_form.cleaned_data.get('receipt')
             transaction=SpendingTransaction.objects.create(
-                title=title,date=date,amount=amount,notes=notes,spending_category=category,reciept=reciept
+                title=title,date=date,amount=amount,notes=notes,spending_category=category,receipt=receipt
             )
             transaction.save()
+            category.addTransaction(transaction.amount)
+            category.save()
             messages.add_message(request, messages.SUCCESS,
                              "Transaction created!")
             return HttpResponseRedirect(reverse('spending'))

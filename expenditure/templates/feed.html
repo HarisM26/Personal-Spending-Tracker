@@ -1,5 +1,5 @@
 {% extends 'base_content.html' %}
-
+{% load custom_tags %}
 {% block content %}
 
 
@@ -15,6 +15,10 @@
     </nav>
  
         <section class="section dashboard">
+            <div class="welcome-card">
+                Welcome back {{ user.first_name }}
+            </div>
+
             <div class="row">
                 <div class="col-lg-9">
                     <div class="row">
@@ -30,18 +34,15 @@
                 <div class="col-lg-3">
                     <div class="row">
                         <div class="card">
-                            <h3>News</h3>
-                            <ol>
-                                <li>A</li>
-                                <li>B</li>
-                                <li>B</li>
-                                <li>C</li>
-                                <li>A</li>
-                                <li>D</li>
-                                <li>A</li>
-                                <li>A</li>
-
-                            </ol>
+                            <h3 >News</h3>
+                            {% for article in articles %}
+                            <div id="news-card" class="modal-card">
+                              <div id="news-card-body-div" class="card-body">
+                                <h7 class="card-title">{{ article|get_article_dict_element:"title" }} </h7>
+                                <a href="{{ article|get_article_dict_element:'url' }}" target="_blank" class="btn btn-info" style="margin: 10px;">View article</a>
+                              </div>
+                            </div>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
