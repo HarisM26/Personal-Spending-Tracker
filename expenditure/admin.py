@@ -2,7 +2,9 @@ from django.contrib import admin
 from .models import *
 from django.contrib.auth.admin import UserAdmin
 from .forms import SignUpForm
-
+from django.contrib.auth import get_user_model
+from .models import Profile
+User = get_user_model()
 # Register your models here.
 
 # class LimitAdmin(admin.ModelAdmin):
@@ -27,8 +29,8 @@ admin.site.register(Notification,NotificationAdmin)
 class CustomUserAdmin(UserAdmin):
     add_form = SignUpForm
     model = User
-    list_display = ("email", "is_staff", "is_active",)
-    list_filter = ("email", "is_staff", "is_active",)
+    list_display = ("user_id","first_name", "last_name", "email", "is_staff", "is_active",)
+    list_filter = ("email", "is_staff", "is_active")
     fieldsets = (
         (None, {"fields": ("email", "password")}),
         ("Permissions", {"fields": ("is_staff", "is_active", "groups", "user_permissions")}),

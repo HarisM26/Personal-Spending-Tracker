@@ -70,9 +70,25 @@ class User(AbstractBaseUser, PermissionsMixin):
   def __str__(self):   
     return self.email
 
-  @property 
+  @property
   def user_id(self):
-    str(self.id) + self.first_name
+    return str(self.first_name + str(self.id))
+
+class Profile(models.Model):
+  user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+  def __str__(self):
+    return self.user.email
+
+
+
+
+
+
+
+
+
+
 
 class Limit(models.Model):
   LIMIT_STATUS=[('reached',('reached')),('not reached',('not reached')), ('approaching',('approaching'))]

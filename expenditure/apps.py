@@ -6,4 +6,4 @@ class ExpenditureConfig(AppConfig):
     name = 'expenditure'
     
     def ready(self):
-        from . import signals
+        import expenditure.signals 
