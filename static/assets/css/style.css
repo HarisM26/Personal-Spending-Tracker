@@ -3,6 +3,7 @@
 @import "treeview.css";
 @import "newspage.css";
 @import "landingpage.css";
+@import "signing.css";
 
 :root {
   --color-default: #03045e;
