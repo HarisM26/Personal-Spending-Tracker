@@ -22,7 +22,12 @@ from django.contrib.messages.views import SuccessMessageMixin
 
 @login_prohibited
 def home(request):
-    return render(request, 'home.html')
+    articles = all_articles['articles']
+    articles = articles[0:20]
+    context = {
+        'articles':articles,
+    }
+    return render(request, 'home.html',context)
 
 @login_prohibited
 def about(request):

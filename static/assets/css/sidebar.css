@@ -5,8 +5,9 @@
   background-color: var(--color-default);
   transition: all 0.5s ease;
   position: fixed;
-  margin: auto;
+  top:10%;
   left: 0;
+
 }
 
 .sidebar.open {

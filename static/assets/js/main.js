@@ -1,4 +1,5 @@
 import { generateMonthlyChart } from './reportcharts.js';
+import { swiper } from './swiper.js';
 
 /*tree view*/
 var toggler = document.getElementsByClassName("caret");
@@ -122,3 +123,5 @@ items.forEach( ( button, index ) =>
     })
     })
 
+// call swiper from swiper.js
+swiper
