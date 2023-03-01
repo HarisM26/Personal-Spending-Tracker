@@ -88,7 +88,7 @@ class SignUpForm(forms.ModelForm):
         new_password = self.cleaned_data.get('new_password')
         password_confirmation =self.cleaned_data.get('password_confirmation')
         if new_password != password_confirmation:
-            self.add_error('password_confirmation', 'confirmation does not match password')
+            self.add_error('password2', 'confirmation does not match password')
 
     def save(self):
         super().save(commit=False)

@@ -316,6 +316,65 @@ def add_income_transaction(request, request_id):
     }
     return render(request, 'add_income_transaction.html', context)
 
+@login_required
+def edit_spending_transaction(request, id):
+    spending_transaction = get_object_or_404(SpendingTransaction, id=id)
+    amount = spending_transaction.amount
+
+    if request.method == 'POST':
+        form = SpendingTransactionForm(request.POST, request.FILES, instance=spending_transaction)
+        # if int(request.POST.get('title', 0)) != spending_transaction.title:
+        #     form.add_error('title', 'Invalid Transaction ID: Please refresh this page.')
+        if form.is_valid():
+            form.save(commit=False)
+            if not(amount == form.cleaned_data.get('amount')):
+                spending_transaction.spending_category.limit.remaining_amount += (amount - form.cleaned_data.get('amount'))
+                spending_transaction.spending_category.limit.save()
+            form.save()
+            return HttpResponseRedirect(reverse('spending'))
+    else:
+        form = SpendingTransactionForm(instance=spending_transaction)
+    
+    context = {
+        'spending_transaction': spending_transaction,
+        'form': form,
+    }
+    return render(request, 'edit_spending_transaction.html', context=context)
+
+@login_required
+def edit_incoming_transaction(request, id):
+    income_transaction = get_object_or_404(IncomeTransaction, id=id)
+
+    if request.method == 'POST':
+        form = IncomeTransactionForm(request.POST, instance=income_transaction)
+        # if int(request.POST.get('title', 0)) != income_transaction.title:
+        #     form.add_error('title', 'Invalid Transaction ID: Please refresh this page.')
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('incomings'))
+    else:
+        form = IncomeTransactionForm(instance=income_transaction)
+    
+    context = {
+        'income_transaction': income_transaction,
+        'form': form,
+    }
+    return render(request, 'edit_income_transaction.html', context=context)
+
+@login_required
+def delete_spending_transaction(request, id):
+    spending = get_object_or_404(SpendingTransaction, id=id)
+    spending.spending_category.limit.remaining_amount += spending.amount
+    spending.spending_category.limit.save()
+    spending.delete()
+    messages.success(request, "transaction deleted successfully!")
+    return HttpResponseRedirect(reverse('spending'))
+
+@login_required
+def delete_incoming_transaction(request, id):
+    income = get_object_or_404(IncomeTransaction, id=id)
+    income.delete()
+    return HttpResponseRedirect(reverse('incomings'))
 
 @login_required
 def view_transaction(request, id):
