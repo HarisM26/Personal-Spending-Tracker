@@ -1,22 +1,42 @@
-@import "sidebar.css";
-@import "navbar.css";
 @import "treeview.css";
+@import "navbar.css";
+@import "sidebar.css";
 @import "newspage.css";
 @import "landingpage.css";
 @import "signing.css";
 
 :root {
+  /*colors*/
   --color-default: #03045e;
   --color-dark: #02033e;
   --color-second: #0067ac;
   --color-white: #ffffff;
   --color-body: #e4e9f7;
   --color-light: #caf0f8;
+
+  /*font*/
+  --main-font: "Red Hat Display";
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+/* remove every margin/padding*/
+* {
+  margin: 0;
+  padding: 0;
+  font: inherit;
+}
+body {
+  font-family: var(--main-font), "Segoe UI", Tahoma, sans-serif;
+  margin-right: 20px;
+}
 h3 {
   margin-top: 15px;
 }
+
 #toggle_notification {
   font-weight: 600;
   display: flex;
@@ -60,20 +80,6 @@ h3 {
   color: var(--color-second);
 }
 
-/*============================================================*/
-/* Cards */
-/* .card {
-  border-radius: 8px;
-  text-align: center;
-  opacity: 0.9;
-  height: 50vh;
-  width: 40vh;
-  margin: auto;
-  padding: 40px 40px;
-  position: relative;
-} */
-
-/*============================================================*/
 /* After Authentication Card */
 .main-card {
   /* text-align: center; */
@@ -105,12 +111,6 @@ h3 {
   color: #ffffff;
   border: none;
   box-shadow: 2px 2px 5px rgba(32, 78, 119, 0.899);
-}
-
-@media (max-width: 768px) {
-  .sidebar {
-    display: none;
-  }
 }
 
 /*============================================================*/
@@ -205,8 +205,12 @@ h3 {
   text-decoration: none;
 }
 
-.content-section #white-text-button {
+#white-text-button,
+#create-spending-cat-anch {
   color: white;
+}
+#create-spending-cat-anch {
+  margin-right: 30px;
 }
 /* ================= Modals ================== */
 

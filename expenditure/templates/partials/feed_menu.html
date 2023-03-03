@@ -1,15 +1,15 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
-    <ul class="navbar-nav ml-auto">
+<nav class="d-flex justify-content-center align-items-center">
+  <div class="d-flex align-items-center">
+    <ul id="auth-navbar" class="d-flex justify-content-end">
       <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle position-relative" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <a class="nav-link position-relative" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
           <i class="fa-regular fa-bell fa-lg">
             {% if unread_status_count > 0 %}
               <span class="position-absolute top-1 start-50 translate-middle p-1 bg-danger rounded-circle"> </span>
             {% endif %}
           </i> 
         </a>
-        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
           {% for notification in latest_notifications%}
           {% if notification.status == 'unread'%}
             <li><a class="dropdown-item" href="{% url 'mark_as_read' notification.id %}"><strong>{{ notification.title }}</strong></a></li>

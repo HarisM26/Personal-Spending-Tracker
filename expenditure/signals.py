@@ -9,6 +9,21 @@ User = get_user_model()
 
 
 @receiver(post_save, sender=SpendingTransaction)
+def update_remaining_amount(instance, created, *args, **kwargs):
+    # order matters- update remaining amount first
+    if created:
+        all_transactions = SpendingTransaction.objects.filter(
+            spending_category=instance.spending_category, is_current=True)
+        total = Decimal('0.00')
+        for transaction in all_transactions:
+            total += transaction.amount
+
+        limit = instance.spending_category.limit
+        limit.remaining_amount = limit.limit_amount-total
+        limit.save()
+
+
+@receiver(post_save, sender=SpendingTransaction)
 def transaction_post_save_handler(instance, created, *args, **kwargs):
     current_user = instance.spending_category.user
     if created and current_user.toggle_notification == 'ON':
@@ -34,20 +49,6 @@ def transaction_post_save_handler(instance, created, *args, **kwargs):
             limit = instance.spending_category.limit
             limit.status = 'reached'
             limit.save()
-
-
-@receiver(post_save, sender=SpendingTransaction)
-def update_remaining_amount(instance, created, *args, **kwargs):
-    if created:
-        all_transactions = SpendingTransaction.objects.filter(
-            spending_category=instance.spending_category, is_current=True)
-        total = Decimal('0.00')
-        for transaction in all_transactions:
-            total += transaction.amount
-
-        limit = instance.spending_category.limit
-        limit.remaining_amount = limit.limit_amount-total
-        limit.save()
 
 
 @receiver(post_save, sender=User)
