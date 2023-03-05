@@ -20,6 +20,18 @@
       {% include 'partials/bootstrap_form.html' with form=form %}
       <input id="get-report-btn" type="submit" value="Get report" class="btn btn-primary btn-100">
     </form>
+
+    <div class="row">
+      <div class="col-lg-9">
+          <div class="row">
+              <div class="main-card">
+                  <div id="bar-chart-container">
+                      <canvas id="monthly-chart"> </canvas>
+                  </div>   
+              </div>                     
+          </div>
+      </div>
+
     {% for transaction in transactions %}
       <li>{{transaction.month}} &#187;&#187;&#187; <span> &#163;{{transaction.total}} </span></li>
     {% endfor %}

@@ -412,11 +412,6 @@ def profile(request):
 
 
 @login_required
-def reports(request):
-    return render(request, 'reports.html')
-
-
-@login_required
 def profile(request):
     if request.method == 'POST':
         user_form = UpdateUserForm(request.POST, instance=request.user)
