@@ -43,10 +43,12 @@ urlpatterns = [
     path('transactions/add/<int:request_id>/', views.add_transaction, name='add_transaction'),
     path('transactions/income/', views.list_incomings, name='list_incomings'),
     path('add_friend/',views.add_friend,name='add_friend'),
+    path('friends/',views.friends,name='friends'),
     path('leaderboard/',views.leaderboard,name='leaderboard'),
     path('reports/',views.view_report,name='reports'),
     path('profile/', views.profile, name='user_profile'),
-    path('password-change/', ChangePasswordView.as_view(), name='password_change')
+    path('password-change/', ChangePasswordView.as_view(), name='password_change'),
+   
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     
 

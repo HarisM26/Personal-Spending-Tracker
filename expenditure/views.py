@@ -16,6 +16,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 
 
 def home(request):
@@ -79,33 +80,6 @@ def spending(request):
         }
     return render(request, 'spending.html',context)
 
-
-
-# def edit_category(request, request_id):
-#     current_user = request.user
-#     category = Category.objects.get(id=request_id)
-#     limit = category.limit
-#     if request.method == 'POST':
-#         if request.user.is_authenticated:
-#             form = CategoryEditForm(request.POST)
-#             if form.is_valid():
-#                 name = form.cleaned_data.get('name')
-#                 is_income = form.cleaned_data.get('is_income')
-#                 limit = form.cleaned_data.get('limit')
-#                 category.name = name
-#                 category.is_income = is_income
-#                 limit.limit_amount = limit
-#                 category.save()
-#                 limit.save()
-#                 messages.add_message(request, messages.SUCCESS, "Category Edit Saved!")
-#                 return redirect('all_categories')
-#             messages.add_message(request, messages.ERROR, "The credentials provided were invalid!")
-#         else:
-#             redirect('log_in')
-#     else:
-#         form = CategoryEditForm()
-#         context = {'form':form}
-#         return render(request, 'edit_category.html', context)
 
 class CreateCategoryView(LoginRequiredMixin,CreateView):
     template_name = "create_category.html"
@@ -307,7 +281,27 @@ def sign_up(request):
     else:
         form = SignUpForm()
         return render(request, 'sign_up.html' , {'form': form})
-
+                
+def friends(request):
+    if request.method == 'GET':
+        query=request.GET.get('q')
+        
+        submitbutton=request.GET.get('submit')
+        
+        if query is not None:
+            lookups=Q(first_name__icontains=query)|Q(last_name__icontains=query)|Q(email__icontains=query)
+            
+            results= User.objects.filter(lookups).distinct()
+            
+            context={'results': results, 'submitbutton': submitbutton}
+            
+            return render(request, 'friends.html', context)
+            
+        else:
+            return render(request, 'friends.html')
+            
+    else:
+            return render(request, 'friends.html')  
 
 class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
     template_name = 'change_password.html'

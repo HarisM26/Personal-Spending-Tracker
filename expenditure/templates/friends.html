@@ -1,0 +1,35 @@
+{% extends 'base_content.html' %}
+{% block content %}
+
+
+<div class="card">
+    <div class="text-center">
+        <h1>Your Friends</h1>
+    </div>
+    <p>
+    	<form action ="." method ="GET" value ="{{request.GET.q}}">
+    	Search <input type ="text" name ="q" value ="{{request.GET.q}}" placeholder="Search Users"/>
+    	<input type ="submit" name="submit" value="Search"/>
+    	</form>
+    	
+    	{% if submitbutton == 'Search' and request.GET.q != "" %}
+    	{% if results %}
+    	<h1> Here are the users for <b>{{request.GET.q}}</b></h1>
+    	<br/><br/>
+    	
+    	{% for results in results %}
+    	
+    	{{result.title}}
+    	    	
+    	{{result.content}}
+        	
+    	{% endfor %}
+    	{% else %}
+    	No user found
+    	{% endif %}
+    	{% endif %}    	
+    </p>
+
+</div>
+
+{% endblock %}
