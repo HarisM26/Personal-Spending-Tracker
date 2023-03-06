@@ -42,12 +42,12 @@ urlpatterns = [
     #path('transactions/', views.list_transactions, name='list_transactions'),
     path('transactions/add/<int:request_id>/', views.add_transaction, name='add_transaction'),
     path('transactions/income/', views.list_incomings, name='list_incomings'),
-    path('add_friend/',views.add_friend,name='add_friend'),
     path('leaderboard/',views.leaderboard,name='leaderboard'),
     path('reports/',views.view_report,name='reports'),
     path('profile/', views.profile, name='user_profile'),
     path('friends/', views.friends, name='friends'),
     path('friends/friends_profile/<int:id>', views.show_friends_profile, name='friends_profile'),
+    path('friends/follow_toggle/<int:id>', views.follow_toggle, name='follow_toggle'),
     #path('friends_profile/', views.friends_profile, name='friends_profile'),
     path('password-change/', ChangePasswordView.as_view(), name='password_change'),
    

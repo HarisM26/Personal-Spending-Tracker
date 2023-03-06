@@ -18,6 +18,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.template import loader
+from django.core.exceptions import ObjectDoesNotExist
 
 
 def home(request):
@@ -222,9 +223,6 @@ def toggle_notification(request):
         current_user.toggle_notification='ON'
         current_user.save()
     return redirect('settings')
-    
-def add_friend(request):
-    return render(request, 'add_friend.html')
 
 def leaderboard(request):
     return render(request, 'leaderboard.html')
@@ -311,11 +309,18 @@ def show_friends_profile(request, id):
         'results': results,
     }
     return HttpResponse(template.render(context, request))
+
+@login_required    
+def follow_toggle(request, id):
+    current_user = request.user
+    try:
+        followee = User.objects.get(id=id)
+        current_user.toggle_follow(followee)
+    except ObjectDoesNotExist:
+        return redirect('user_list')
+    else:
+        return redirect('friends_profile', id=id)
     
-def friends_profile(request):
-    return render(request, 'friends_profile.html')
-
-
 def log_in(request):
     if request.method == 'POST':
         form = LogInForm(request.POST)

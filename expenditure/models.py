@@ -53,8 +53,30 @@ class User(AbstractBaseUser, PermissionsMixin):
   last_name = models.CharField(
     max_length=150,
     )
-
-
+  followers = models.ManyToManyField(
+  'self', symmetrical=False, related_name='followees'
+  )
+    
+  def toggle_follow(self, followee):
+    if self.is_following(followee):
+        self._unfollow(followee)
+    else:
+        self.follow(followee)
+    
+  def _follow(self, user):
+      user.follower.add(self)
+  
+  def _unfollow(self, user):
+      user.follower.remove(self)
+    
+  def is_following(self, user):
+    return user in self.followees.all()
+      
+  def follower_count(self):
+    return 0
+    
+  def followee_count(self):
+    return 0
 
   id = models.AutoField(primary_key=True) 
 
