@@ -17,6 +17,7 @@ from django.contrib.auth.views import PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django.template import loader
 
 
 def home(request):
@@ -301,7 +302,35 @@ def friends(request):
             return render(request, 'friends.html')
             
     else:
-            return render(request, 'friends.html')  
+            return render(request, 'friends.html') 
+            
+def show_friends_profile(request, id):
+    results = User.objects.get(id = id)
+    template = loader.get_template('friends_profile.html')
+    context = {
+        'results': results,
+    }
+    return HttpResponse(template.render(context, request))
+    
+def friends_profile(request):
+    return render(request, 'friends_profile.html')
+
+
+def log_in(request):
+    if request.method == 'POST':
+        form = LogInForm(request.POST)
+
+        if form.is_valid():
+            email = form.cleaned_data.get('email')
+            password = form.cleaned_data.get('password')
+            user = authenticate(email=email, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('home')
+            
+            messages.add_message(request, messages.ERROR, "The credentials provided were invalid!")
+
+    return render(request, 'log_in.html', {'form': LogInForm()}) 
 
 class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
     template_name = 'change_password.html'

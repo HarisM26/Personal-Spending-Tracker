@@ -17,12 +17,9 @@
     	<h1> Here are the users for <b>{{request.GET.q}}</b></h1>
     	<br/><br/>
     	
-    	{% for results in results %}
+    	{% for r in results %}
+    	    <h10><a href="friends_profile/{{r.id}}">{{r.first_name}} {{r.last_name}} {{r}}</a><h10><br>
     	
-    	{{result.title}}
-    	    	
-    	{{result.content}}
-        	
     	{% endfor %}
     	{% else %}
     	No user found
