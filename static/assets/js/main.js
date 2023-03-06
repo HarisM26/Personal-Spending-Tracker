@@ -1,4 +1,5 @@
 import { generateMonthlyChart } from './reportcharts.js';
+import { swiper } from './swiper.js';
 
 /*tree view*/
 var toggler = document.getElementsByClassName("caret");
@@ -82,7 +83,8 @@ items.forEach( ( button, index ) =>
     button.addEventListener("click", () =>
     {  
       const element = items[index]
-      for (const child of element.children){
+      transaction.receipt = ""
+      for (const child of element.children){   
         switch(child.id){
           case "transaction-date":
             transaction.date = child.textContent;
@@ -100,6 +102,7 @@ items.forEach( ( button, index ) =>
             transaction.notes = child.textContent;
             break;
           case "transaction-image":
+            console.log(transaction.receipt)
             transaction.receipt = child.src;
             break;
           case "transaction-created":
@@ -120,3 +123,5 @@ items.forEach( ( button, index ) =>
     })
     })
 
+// call swiper from swiper.js
+swiper

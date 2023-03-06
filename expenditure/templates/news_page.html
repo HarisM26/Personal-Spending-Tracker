@@ -12,11 +12,15 @@
     <img id="news-card-img" src="/static/images/pound.jpg">
   </div>
   <div id="news-card-body-div" class="card-body">
-    <h5 class="card-title">{{ article|get_article_dict_element:"title" }}</h5>
+    <!-- <h5 class="card-title">{{ article|get_article_dict_element:"title" }}</h5> -->
     <!--get source which is a dict and pass it as a value -->
-    <p class="card-text">Source&#58;  &#160; {{ article|get_article_dict_element:"source"|get_article_dict_element:"Name" }}</p>
+    <!-- <p class="card-text">Source&#58;  &#160; {{ article|get_article_dict_element:"source"|get_article_dict_element:"Name" }}</p>
     <p class="card-text"><small class="text-muted">Published on {{ article|get_article_dict_element:"publishedAt"|convert_date}}</small></p>
-    <a href="{{ article|get_article_dict_element:'url' }}" target="_blank" class="btn btn-info">View article</a>
+    <a href="{{ article|get_article_dict_element:'url' }}" target="_blank" class="btn btn-info">View article</a> -->
+    <h5 class="card-title">Title</h5>
+    <p class="card-source">Source&#58;  &#160; Source</p>
+    <p class="card-published"><small class="text-muted">Published on </small></p>
+    <a href="" target="_blank" class="btn btn-info">View article</a>
   </div>
 </div>
 {% endfor %}

@@ -1,8 +1,21 @@
 /*Authenticated user Navbar*/
+#navbar-header {
+  display: inline-block;
+}
+#navbar-div-container {
+  margin: 0;
+  flex-wrap: nowrap;
+}
+#auth-navbar {
+  margin: 0px;
+}
 #navbar-user-first-name {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 0px 15px;
+  font-weight: bold;
+  font-size: large;
 }
 .fa-bell,
 .bi-person-circle {
@@ -12,6 +25,24 @@
   width: 0.5px;
   height: 0.5px;
 }
-
+@media screen and (max-width: 780px) {
+  #navbar-user-first-name {
+    visibility: collapse;
+  }
+}
+@media screen and (max-width: 450px) {
+  #app-name-text {
+    visibility: collapse;
+  }
+  #auth-navbar {
+    justify-content: flex-start !important;
+    padding: 5px;
+  }
+  #user-account-dropdown,
+  #navbarDropdownMenuLink {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}
 
 /*================================================*/

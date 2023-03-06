@@ -14,7 +14,7 @@
       </ol>
   </nav>
   <div id="create-transaction-div">
-    <a class="btn btn-info" id="white-text-button" href="{% url 'create_category'%}">Create new category</a>
+    <a class="btn btn-info" id="create-spending-cat-anch" href="{% url 'create_category'%}">Create new category</a>
   </div>
   <div class="main-card">
   {% for category in categories %}
@@ -77,25 +77,25 @@
       </div>
       <div class="modal-body">
         <div class="modal-card">
-          <i class="fa-regular fa-heading fa-2x"></i> 
-          <div class="modal-text">
+            <i class="fa-regular fa-heading fa-2x"></i> 
           Title:
+          <div class="modal-text">
             <span id="transaction-title-modal"></span>
           </div>
         </div>
         
         <div class="modal-card">
-          <i class="fa-regular fa-calendar-days fa-2x"></i> 
-          <div class="modal-text">
-          Date:
+          <i class="fa-regular fa-calendar-days fa-2x"></i>
+          Date: 
+          <div class="modal-text">  
             <span id="transaction-date-modal"></span>
           </div>
         </div>
 
         <div class="modal-card">
           <i class="fa-regular fa-money-bill fa-2x"></i> 
-          <div class="modal-text">
           Amount:
+          <div class="modal-text">
             <span id="transaction-amount-modal"></span>
           </div>
         </div>
@@ -103,23 +103,24 @@
 
         <div class="modal-card">
           <i class="fa-regular fa-group-arrows-rotate fa-2x"></i> 
-          <div class="modal-text">
           Category:
+          <div class="modal-text">
             <span id="transaction-category-modal"></span>
           </div>
         </div>
 
         <div class="modal-card">
           <i class="fa-regular fa-note-sticky fa-2x"></i> 
-          <div class="modal-text">
           Notes:
+          <div class="modal-text">
             <span id="transaction-notes-modal"></span>
           </div>
         </div>
 
         <div class="modal-card">
           <div>
-            <i class="fa-regular fa-receipt fa-2x"></i> Receipt
+            <i class="fa-regular fa-receipt fa-2x"></i> 
+            Receipt
             <img id="transaction-receipt-modal" alt="receipt">
           </div>
         </div>
@@ -137,5 +138,4 @@
     </div>
   </div>
 </div>
-
 {% endblock %}

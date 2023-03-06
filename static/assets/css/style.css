@@ -1,37 +1,42 @@
-@import "sidebar.css";
-@import "navbar.css";
 @import "treeview.css";
+@import "navbar.css";
+@import "sidebar.css";
 @import "newspage.css";
+@import "landingpage.css";
+@import "signing.css";
 
 :root {
+  /*colors*/
   --color-default: #03045e;
   --color-dark: #02033e;
   --color-second: #0067ac;
   --color-white: #ffffff;
   --color-body: #e4e9f7;
   --color-light: #caf0f8;
+
+  /*font*/
+  --main-font: "Red Hat Display";
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+/* remove every margin/padding*/
+* {
+  margin: 0;
+  padding: 0;
+  font: inherit;
+}
 body {
-  background-image: radial-gradient(
-    circle,
-    hsl(220, 57%, 91%),
-    hsl(220, 55%, 96%)
-  );
-  padding: 20px;
-  height: 100vh;
-  min-height: 100vh;
-  -webkit-background-size: cover;
-  background-size: cover;
-  background-position: center center;
-  position: relative;
-  font-family: "Lato", sans-serif;
-  color: var(--color-dark);
+  font-family: var(--main-font), "Segoe UI", Tahoma, sans-serif;
+  margin-right: 20px;
 }
-
 h3 {
   margin-top: 15px;
 }
+
 #toggle_notification {
   font-weight: 600;
   display: flex;
@@ -75,41 +80,6 @@ h3 {
   color: var(--color-second);
 }
 
-/*============================================================*/
-/* Cards */
-.card {
-  top: 10%;
-  text-align: center;
-  opacity: 0.9;
-  height: auto;
-  width: 70%;
-  margin: auto;
-  padding: 40px 40px;
-  position: relative;
-}
-
-.card h1 {
-  text-align: center;
-  font-size: 38px;
-  padding: 10px 25px;
-  margin-bottom: 20px;
-}
-
-.card p {
-  width: 70%;
-  height: 50%;
-  top: 50%;
-  left: 50%;
-  border: 1px solid black;
-  padding: 10px 25px;
-  font-size: 14px;
-  margin-top: 20px;
-  display: inline-block;
-  font-weight: 900;
-  margin: auto;
-}
-
-/*============================================================*/
 /* After Authentication Card */
 .main-card {
   /* text-align: center; */
@@ -143,12 +113,6 @@ h3 {
   box-shadow: 2px 2px 5px rgba(32, 78, 119, 0.899);
 }
 
-@media (max-width: 768px) {
-  .sidebar {
-    display: none;
-  }
-}
-
 /*============================================================*/
 /*Income Page*/
 #add-transaction-btn {
@@ -173,7 +137,7 @@ h3 {
 }
 /*================================*/
 
-/*Delete Category*/ 
+/*Delete Category*/
 #category-delete-btn {
   display: grid;
   justify-content: center;
@@ -193,6 +157,7 @@ h3 {
   width: calc(100% - 78px);
   transition: all 0.5s ease;
   z-index: 2;
+  margin: 20px;
 }
 
 .content-section .text {
@@ -200,7 +165,6 @@ h3 {
   color: var(--color-default);
   font-size: 25px;
   font-weight: 500;
-  margin: 18px;
 }
 
 .sidebar.open ~ .content-section {
@@ -211,20 +175,24 @@ h3 {
 .content-section h1 {
   font-size: 30px;
   color: black;
+  margin: 20px;
 }
 
 .content-section h3 {
   font-size: 30px;
   color: gray;
+  margin: 20px;
 }
 
 .content-section h6 {
   font-size: 15px;
   color: gray;
+  margin: 20px;
 }
 .content-section a:link {
   color: white;
   text-decoration: none;
+  margin-left: 20px;
 }
 
 .content-section a:visited {
@@ -237,23 +205,25 @@ h3 {
   text-decoration: none;
 }
 
-.content-section #white-text-button {
+#white-text-button,
+#create-spending-cat-anch {
   color: white;
+}
+#create-spending-cat-anch {
+  margin-right: 30px;
 }
 /* ================= Modals ================== */
 
 .modal-card {
   opacity: 0.9;
   padding: 10px 10px 10px 10px;
-  position: relative;
   background-color: white;
   right: 0%;
   margin: 10px;
   list-style: none;
-  box-shadow: 0 0 1px 2px;
+  box-shadow: 0px 5px 5px rgba(219, 219, 219, 0.877);
   overflow: hidden;
-  border-radius: 1px;
-  vertical-align: middle;
+  border-radius: 5px;
 }
 
 .modal-card i {
@@ -262,8 +232,8 @@ h3 {
   text-align: center;
   padding-top: 2%;
   border-radius: 50%;
-  color: black;
-  background: gray;
+  color: var(--color-dark);
+  background: rgba(240, 240, 240, 0.958);
 }
 
 .modal-text {
@@ -271,8 +241,15 @@ h3 {
   width: 50px;
   color: rgb(39, 39, 39);
   display: inline;
+  padding-left: 50px;
 }
 
 .modal-text span {
   color: black;
+}
+
+#transaction-receipt-modal {
+  width: 430px;
+  height: 500px;
+  object-fit: cover;
 }

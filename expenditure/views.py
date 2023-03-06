@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import *
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -22,15 +22,23 @@ from django.contrib.messages.views import SuccessMessageMixin
 
 @login_prohibited
 def home(request):
-    return render(request, 'home.html')
+    articles = all_articles['articles']
+    articles = articles[0:20]
+    context = {
+        'articles': articles,
+    }
+    return render(request, 'home.html', context)
+
 
 @login_prohibited
 def about(request):
     return render(request, 'about.html')
 
+
 @login_prohibited
 def features(request):
     return render(request, 'features.html')
+
 
 @login_prohibited
 def contact(request):
@@ -77,10 +85,12 @@ def feed(request):
     context = {
         'latest_notifications': latest_notifications,
         'unread_status_count': unread_status_count,
-        'articles':articles,
+        'articles': articles,
         'form': form,
     }
+    
     return render(request, 'feed.html', context)
+
 
 @login_required
 def notification_page(request):
@@ -93,42 +103,46 @@ def notification_page(request):
         'notifications': notifications,
         'unread_status_count': unread_status_count,
     }
-    return render(request, 'notification_page.html',context)
+    return render(request, 'notification_page.html', context)
+
 
 @login_required
-def mark_as_read(request,id):
-   notification = Notification.objects.get(id=id)
-   notification.status = 'read'
-   notification.save()
-   return redirect('notification_page') 
+def mark_as_read(request, id):
+    notification = Notification.objects.get(id=id)
+    notification.status = 'read'
+    notification.save()
+    return redirect('notification_page')
+
 
 @login_required
 def spending(request):
     current_user = request.user
-    categories = SpendingCategory.objects.filter(user = current_user)
+    categories = SpendingCategory.objects.filter(user=current_user)
     notifications = get_user_notifications(current_user)
     latest_notifications = notifications[0:3]
     unread_status_count = get_unread_nofications(current_user)
     context = {
         'latest_notifications': latest_notifications,
-        'categories':categories,
+        'categories': categories,
         'unread_status_count': unread_status_count,
-        }
-    return render(request, 'spending.html',context)
+    }
+    return render(request, 'spending.html', context)
+
 
 @login_required
 def incoming(request):
     current_user = request.user
-    categories = IncomeCategory.objects.filter(user = current_user)
+    categories = IncomeCategory.objects.filter(user=current_user)
     notifications = get_user_notifications(current_user)
     latest_notifications = notifications[0:3]
     unread_status_count = get_unread_nofications(current_user)
     context = {
         'latest_notifications': latest_notifications,
-        'categories':categories,
+        'categories': categories,
         'unread_status_count': unread_status_count,
-        }
-    return render(request, 'incomings.html',context)
+    }
+    return render(request, 'incomings.html', context)
+
 
 @login_prohibited
 def sign_up(request):
@@ -143,10 +157,12 @@ def sign_up(request):
         form = SignUpForm()
     return render(request, 'sign_up.html', {'form': form})
 
+
 class DeleteSpendingCategoryView(LoginRequiredMixin, DeleteView):
     model = SpendingCategory
     template_name = "delete_spending_category.html"
     success_url = reverse_lazy('spending')
+
 
 class DeleteIncomeCategoryView(LoginRequiredMixin, DeleteView):
     model = IncomeCategory
@@ -157,7 +173,9 @@ class DeleteIncomeCategoryView(LoginRequiredMixin, DeleteView):
 # model; tell Django to update model records
 # form_class; current values of category are populated in form to show user
 # success_url; if update is successful go back to spending page
-class EditSpendingCategoryView(LoginRequiredMixin,UpdateView):
+
+
+class EditSpendingCategoryView(LoginRequiredMixin, UpdateView):
     model = SpendingCategory
     form_class = SpendingCategoryEditMultiForm
     template_name = "edit_spending_category.html"
@@ -173,16 +191,15 @@ class EditSpendingCategoryView(LoginRequiredMixin,UpdateView):
         })
         return kwargs
 
-    
 
 class EditIncomeCategoryView(LoginRequiredMixin, UpdateView):
     model = IncomeCategory
     form_class = IncomeCategoryForm
     template_name = "edit_income_category.html"
     success_url = reverse_lazy("incomings")
-        
 
-class CreateSpendingCategoryView(LoginRequiredMixin,CreateView):
+
+class CreateSpendingCategoryView(LoginRequiredMixin, CreateView):
     template_name = "create_category.html"
     form_class = CategoryCreationMultiForm
 
@@ -196,15 +213,15 @@ class CreateSpendingCategoryView(LoginRequiredMixin,CreateView):
         category.limit = limit
         category.save()
         messages.add_message(self.request, messages.SUCCESS,
-                                "Category created!")
+                             "Category created!")
         return redirect('create_category')
 
     def form_invalid(self, form):
         messages.add_message(self.request, messages.ERROR,
-                                "Your input is invalid!, try again")
+                             "Your input is invalid!, try again")
         return redirect('create_category')
-    
-    #doesnt work at the moment
+
+    # doesnt work at the moment
     def creation_view(self):
         current_user = self.request.user
         notifications = get_user_notifications(current_user)
@@ -215,7 +232,7 @@ class CreateSpendingCategoryView(LoginRequiredMixin,CreateView):
             'unread_status_count': unread_status_count,
         }
         return context
-    
+
 
 @login_required
 def create_incoming_category(request):
@@ -226,10 +243,11 @@ def create_incoming_category(request):
     if request.method == 'POST':
         form = IncomeCategoryForm(request.POST)
         if form.is_valid():
-            name=form.cleaned_data.get('name')
-            incoming_category = IncomeCategory.objects.create(user=current_user,name=name)
+            name = form.cleaned_data.get('name')
+            incoming_category = IncomeCategory.objects.create(
+                user=current_user, name=name)
             messages.add_message(request, messages.SUCCESS,
-                             "Category created!")
+                                 "Category created!")
             return redirect('create_incoming_category')
         messages.add_message(request, messages.ERROR,
                              "The credentials provided were invalid!")
@@ -243,7 +261,8 @@ def create_incoming_category(request):
     }
     return render(request, 'create_incoming_category.html', context)
 
-@login_prohibited   
+
+@login_prohibited
 def log_in(request):
     if request.method == 'POST':
         form = LogInForm(request.POST)
@@ -264,63 +283,47 @@ def log_in(request):
     form = LogInForm()
     return render(request, 'log_in.html', {'form': form, 'next': next})
 
+
 def log_out(request):
     logout(request)
     return redirect('home')
-    
+
+
 @login_prohibited
 def news_page(request):
     articles = all_articles['articles']
-    return render(request, 'news_page.html',{'articles':articles})   
+    return render(request, 'news_page.html', {'articles': articles})
 
-# @login_required
-# def add_transaction(request,request_id):
-#     category = get_object_or_404(Category, id=request_id)
-#     #category_limit = category.limit
-
-#     if category.is_income:
-#         create_transaction_form = IncomingForm
-
-# >>>>>>> origin/notification
-#     else:
-#         create_transaction_form = SpendingTransactionForm()   
-    
-#     context = {
-#         'request_id': request_id,
-#         'create_transaction_form': create_transaction_form,
-#     }
-#     return render(request, 'add_spending_transaction.html', context)
 
 @login_required
-def add_spending_transaction(request,request_id):
+def add_spending_transaction(request, request_id):
     category = get_object_or_404(SpendingCategory, id=request_id)
-    #category_limit = category.limit
+    # category_limit = category.limit
     if request.method == 'POST':
-        create_transaction_form = SpendingTransactionForm(request.POST, request.FILES)
+        create_transaction_form = SpendingTransactionForm(
+            request.POST, request.FILES)
         if create_transaction_form.is_valid():
             create_transaction_form.save(commit=False)
-            title=create_transaction_form.cleaned_data.get('title')
-            date=create_transaction_form.cleaned_data.get('date')
-            amount=create_transaction_form.cleaned_data.get('amount')
-            notes=create_transaction_form.cleaned_data.get('notes')
-            receipt=create_transaction_form.cleaned_data.get('receipt')
-            transaction=SpendingTransaction.objects.create(
-                title=title,date=date,amount=amount,notes=notes,spending_category=category,receipt=receipt
+            title = create_transaction_form.cleaned_data.get('title')
+            date = create_transaction_form.cleaned_data.get('date')
+            amount = create_transaction_form.cleaned_data.get('amount')
+            notes = create_transaction_form.cleaned_data.get('notes')
+            receipt = create_transaction_form.cleaned_data.get('receipt')
+            transaction = SpendingTransaction.objects.create(
+                title=title, date=date, amount=amount, notes=notes, spending_category=category, receipt=receipt
             )
-            transaction.save()
-            category.addTransaction(transaction.amount)
-            category.save()
             messages.add_message(request, messages.SUCCESS,
-                             "Transaction created!")
+                                 "Transaction created!")
             return HttpResponseRedirect(reverse('spending'))
     else:
-        create_transaction_form = SpendingTransactionForm()   
-    
+        create_transaction_form = SpendingTransactionForm()
+
     context = {
         'request_id': request_id,
         'create_transaction_form': create_transaction_form,
     }
     return render(request, 'add_spending_transaction.html', context)
+
 
 @login_required
 def add_income_transaction(request, request_id):
@@ -329,20 +332,20 @@ def add_income_transaction(request, request_id):
         create_transaction_form = IncomeTransactionForm(request.POST)
         if create_transaction_form.is_valid():
             create_transaction_form.save(commit=False)
-            title=create_transaction_form.cleaned_data.get('title')
-            date=create_transaction_form.cleaned_data.get('date')
-            amount=create_transaction_form.cleaned_data.get('amount')
-            notes=create_transaction_form.cleaned_data.get('notes')
-            transaction=IncomeTransaction.objects.create(
-                title=title,date=date,amount=amount,notes=notes,income_category=category
+            title = create_transaction_form.cleaned_data.get('title')
+            date = create_transaction_form.cleaned_data.get('date')
+            amount = create_transaction_form.cleaned_data.get('amount')
+            notes = create_transaction_form.cleaned_data.get('notes')
+            transaction = IncomeTransaction.objects.create(
+                title=title, date=date, amount=amount, notes=notes, income_category=category
             )
             transaction.save()
             messages.add_message(request, messages.SUCCESS,
-                             "Transaction created!")
+                                 "Transaction created!")
             return HttpResponseRedirect(reverse('incomings'))
     else:
-        create_transaction_form = IncomeTransactionForm()   
-    
+        create_transaction_form = IncomeTransactionForm()
+
     context = {
         'request_id': request_id,
         'create_transaction_form': create_transaction_form,
@@ -414,6 +417,7 @@ def view_transaction(request, id):
 
     return render(request, 'transaction.html', context=context)
 
+
 @login_required
 def list_incomings(request):
     incomings = IncomeTransaction.objects.all()
@@ -421,6 +425,7 @@ def list_incomings(request):
         'incomings': incomings,
     }
     return render(request, 'incomings.html', context=context)
+
 
 @login_required
 def view_report(request):
@@ -433,16 +438,20 @@ def view_report(request):
             from_date = form.cleaned_data.get("from_date")
             to_date = form.cleaned_data.get("to_date")
     else:
-       form = DateReportForm(initial={
-           "from_date": from_date,
-           "to_date": to_date
-       })
-    
-    transactions = rm.get_total_transactions_by_date(request.user, from_date, to_date)
-    largest_category = rm.get_the_category_with_the_largest_total_spending(request.user, from_date, to_date)
-    close_categories = rm.get_list_of_categories_close_or_over_the_limit(request.user, from_date, to_date)
-    list_of_categories_and_transactions = rm.get_list_of_transactions_in_category(request.user, from_date, to_date)
-    
+        form = DateReportForm(initial={
+            "from_date": from_date,
+            "to_date": to_date
+        })
+
+    transactions = rm.get_total_transactions_by_date(
+        request.user, from_date, to_date)
+    largest_category = rm.get_the_category_with_the_largest_total_spending(
+        request.user, from_date, to_date)
+    close_categories = rm.get_list_of_categories_close_or_over_the_limit(
+        request.user, from_date, to_date)
+    list_of_categories_and_transactions = rm.get_list_of_transactions_in_category(
+        request.user, from_date, to_date)
+
     context = {
         "form": form,
         "transactions": transactions,
@@ -452,38 +461,45 @@ def view_report(request):
     }
     return render(request, 'report.html', context=context)
 
+
 @login_required
 def view_settings(request):
     current_user = request.user
     toggle = current_user.toggle_notification
-    return render(request,'settings.html',{'toggle':toggle})
+    return render(request, 'settings.html', {'toggle': toggle})
+
 
 @login_required
 def toggle_notification(request):
     current_user = request.user
     if current_user.toggle_notification == 'ON':
-        current_user.toggle_notification='OFF'
+        current_user.toggle_notification = 'OFF'
         current_user.save()
     else:
-        current_user.toggle_notification='ON'
+        current_user.toggle_notification = 'ON'
         current_user.save()
     return redirect('settings')
 
-@login_required   
+
+@login_required
 def add_friend(request):
     return render(request, 'add_friend.html')
+
 
 @login_required
 def leaderboard(request):
     return render(request, 'leaderboard.html')
 
+
 @login_required
 def profile(request):
     return render(request, 'profile.html')
 
+
 @login_required
 def reports(request):
     return render(request, 'reports.html')
+
 
 @login_required
 def profile(request):
@@ -497,7 +513,7 @@ def profile(request):
 
     else:
         user_form = UpdateUserForm(instance=request.user)
-    
+
     return render(request, 'profile.html', {'user_form': user_form})
 
 

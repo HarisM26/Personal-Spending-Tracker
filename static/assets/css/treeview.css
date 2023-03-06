@@ -18,6 +18,8 @@ ul,
 }
 
 .caret::before {
+  /*font family enables color change on the arrow(content)*/
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   content: "\25B6";
   color: var(--color-dark);
   display: inline-block;
