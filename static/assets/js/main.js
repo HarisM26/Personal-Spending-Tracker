@@ -125,3 +125,6 @@ items.forEach( ( button, index ) =>
 
 // call swiper from swiper.js
 swiper
+
+  
+//console.log(totalTransactions[0].textContent)
