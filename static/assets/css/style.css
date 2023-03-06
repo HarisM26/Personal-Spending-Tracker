@@ -60,20 +60,6 @@ h3 {
   color: var(--color-second);
 }
 
-/*============================================================*/
-/* Cards */
-/* .card {
-  border-radius: 8px;
-  text-align: center;
-  opacity: 0.9;
-  height: 50vh;
-  width: 40vh;
-  margin: auto;
-  padding: 40px 40px;
-  position: relative;
-} */
-
-/*============================================================*/
 /* After Authentication Card */
 .main-card {
   /* text-align: center; */
