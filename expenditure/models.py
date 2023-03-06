@@ -141,12 +141,6 @@ class SpendingCategory(models.Model):
     # parent = models.ForeignKey('self',blank=True, null=True ,related_name='children')
     # Reduce the remaining amount left of the spending limit
 
-    def addTransaction(self, spentAmount):
-        if (spentAmount >= Decimal('0.00')):
-            self.limit.addTransaction(spentAmount)
-        else:
-            -1
-
     def delete(self, *args, **kwargs):
         self.limit.delete()
         return super(SpendingCategory, self).delete(*args, **kwargs)

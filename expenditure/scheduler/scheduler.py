@@ -13,6 +13,7 @@ logger = logging.getLogger(__name__)
 
 
 def refresh_time_limit():
+    print('================== Attempt to refresh =========================')
     # get limits with end date as a day before current day
     expired_limits = expenditure.models.Limit.objects.filter(
         end_date=datetime.date(datetime.now())-timedelta(days=1))
@@ -32,7 +33,7 @@ def refresh_time_limit():
         limit.end_date = get_end_date(limit.time_limit_type)
         limit.save()
 
-        create_notification_about_refresh(category.user, category.name)
+        create_notification_about_refresh(category.user, category)
 
 
 # The `close_old_connections` decorator ensures that database connections, that have become
@@ -59,7 +60,7 @@ def start():
     scheduler.add_jobstore(DjangoJobStore(), 'default')
     scheduler.add_job(
         refresh_time_limit,
-        trigger=CronTrigger(hour='00', minute='00'),
+        trigger=CronTrigger(hour='*/2'),  # hour='00', minute='00'),
         id='refresh_time_limit',
         max_instances=1,
         replace_existing=True,

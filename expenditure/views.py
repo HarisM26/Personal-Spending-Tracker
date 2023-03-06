@@ -282,9 +282,6 @@ def add_spending_transaction(request, request_id):
             transaction = SpendingTransaction.objects.create(
                 title=title, date=date, amount=amount, notes=notes, spending_category=category, receipt=receipt
             )
-            transaction.save()
-            category.addTransaction(transaction.amount)
-            category.save()
             messages.add_message(request, messages.SUCCESS,
                                  "Transaction created!")
             return HttpResponseRedirect(reverse('spending'))
