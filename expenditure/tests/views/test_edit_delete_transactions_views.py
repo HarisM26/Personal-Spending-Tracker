@@ -99,7 +99,7 @@ class EditAndDeleteTransactionsViews(TestCase):
     #     self.transaction_input['receipt'] = self.image
     #     response = self.client.post(f'/spending/edit/{self.transaction.pk}/', self.transaction_input)
     #     transaction = SpendingTransaction.objects.get(pk=self.transaction.pk)
-    #     self.assertEqual(transaction.receipt, self.image)
+    #     self.assertEqual(transaction, self.image)
     #     self.assertEqual(response.status_code, 302)
     
     def test_spending_limit_amount_change(self):

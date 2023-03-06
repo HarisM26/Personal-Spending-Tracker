@@ -33,8 +33,37 @@ def features(request):
 def contact(request):
     return render(request, 'contact.html')
 
+def add_quick_spending(request):
+    spending_catgeory_queryset = SpendingCategory.objects.filter(user=request.user)
+
+    #later do .filter(name='General') or order by id and then first (if general would be deleted)
+    form = QuickSpendingTransactionForm(initial={'spending_category': spending_catgeory_queryset.first()})
+
+    if request.method == 'POST':
+        form = QuickSpendingTransactionForm(request.POST)
+        if form.is_valid():
+            today = date.today()
+            amount = form.cleaned_data.get('amount')
+            spending_category = form.cleaned_data.get('spending_category')
+            title = f'QuickTransaction {spending_category}'
+            transaction = SpendingTransaction.objects.create(
+                title=title,
+                amount=amount,
+                spending_category=spending_category,
+                is_current=True,
+                date=today
+            )
+            messages.add_message(request, messages.SUCCESS, "Transaction created!")
+            form = QuickSpendingTransactionForm(initial={'spending_category': spending_category})
+
+    form.fields['spending_category'].queryset = spending_catgeory_queryset 
+
+    return form
+
 @login_required
 def feed(request):
+    form = add_quick_spending(request)
+
     current_user = request.user
     unread_status_count = get_unread_nofications(current_user)
     notifications = get_user_notifications(current_user)
@@ -46,6 +75,7 @@ def feed(request):
         'latest_notifications': latest_notifications,
         'unread_status_count': unread_status_count,
         'articles':articles,
+        'form': form,
     }
     return render(request, 'feed.html', context)
 
@@ -323,8 +353,6 @@ def edit_spending_transaction(request, id):
 
     if request.method == 'POST':
         form = SpendingTransactionForm(request.POST, request.FILES, instance=spending_transaction)
-        # if int(request.POST.get('title', 0)) != spending_transaction.title:
-        #     form.add_error('title', 'Invalid Transaction ID: Please refresh this page.')
         if form.is_valid():
             form.save(commit=False)
             if not(amount == form.cleaned_data.get('amount')):
@@ -347,8 +375,6 @@ def edit_incoming_transaction(request, id):
 
     if request.method == 'POST':
         form = IncomeTransactionForm(request.POST, instance=income_transaction)
-        # if int(request.POST.get('title', 0)) != income_transaction.title:
-        #     form.add_error('title', 'Invalid Transaction ID: Please refresh this page.')
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('incomings'))

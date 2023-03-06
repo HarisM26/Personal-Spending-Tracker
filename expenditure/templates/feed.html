@@ -19,6 +19,15 @@
                 Welcome back {{ user.first_name }}
             </div>
 
+            {{ form.media }}
+            <div class="main-card">
+                <form action="{% url 'feed' %}" method="post">
+                    {% csrf_token %}
+                    {% include 'partials/bootstrap_form.html' with form=form %}
+                    <input type="submit" value="Add transaction" class="btn btn-info">
+                </form>
+            </div>
+
             <div class="row">
                 <div class="col-lg-9">
                     <div class="row">

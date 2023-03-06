@@ -24,6 +24,11 @@ class SpendingTransactionForm(forms.ModelForm):
     #         self.add_error('date', 'The date of your outgoing outgoing transaction cannot be in the future')
     #     return spending_date
 
+class QuickSpendingTransactionForm(forms.ModelForm):
+    class Meta:
+        model = SpendingTransaction
+        fields = 'amount', 'spending_category'
+
 class IncomeTransactionForm(forms.ModelForm):
     class Meta:
         model = IncomeTransaction
