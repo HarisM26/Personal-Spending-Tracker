@@ -3,7 +3,7 @@ from django import forms
 from django.contrib.auth.models import AbstractBaseUser, UserManager, PermissionsMixin
 from django.contrib.auth.base_user import BaseUserManager
 from django.utils.translation import gettext_lazy as _
-from .helpers import not_future
+from .helpers import not_future, get_default_categories_as_set
 from datetime import datetime, date, timedelta
 from decimal import Decimal
 from django.core.validators import MinValueValidator
@@ -141,9 +141,21 @@ class SpendingCategory(models.Model):
     # parent = models.ForeignKey('self',blank=True, null=True ,related_name='children')
     # Reduce the remaining amount left of the spending limit
 
+    #Checks if the category is not a default one
+    @property
+    def is_not_default(self):
+      default_set = get_default_categories_as_set()
+      self_set = {self.name}
+      if not list(set(default_set) & set(self_set)):
+        return True
+      else:
+        return False
+
+    #Cannot delete a default category
     def delete(self, *args, **kwargs):
-        self.limit.delete()
-        return super(SpendingCategory, self).delete(*args, **kwargs)
+      if self.is_not_default:
+          self.limit.delete()
+          return super(SpendingCategory, self).delete(*args, **kwargs)
 
     def __str__(self):
         return self.name

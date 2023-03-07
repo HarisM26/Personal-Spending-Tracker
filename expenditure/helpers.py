@@ -68,3 +68,7 @@ def get_unread_nofications(user):
 
 def get_user_notifications(user):
     return expenditure.models.Notification.objects.filter(user_receiver=user)
+
+def get_default_categories_as_set():
+    default_categories = {'General', 'Groceries', 'Transport', 'Utilities'}
+    return default_categories

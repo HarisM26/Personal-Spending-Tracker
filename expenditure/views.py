@@ -143,6 +143,47 @@ def incoming(request):
     }
     return render(request, 'incomings.html', context)
 
+def create_deafult_categories(user):
+    default_general = SpendingCategory.objects.create(
+        user=user,
+        name='General',
+        limit=Limit.objects.create(
+            limit_amount=Decimal('500'),
+            start_date=date.today(),
+            end_date=datetime.now() + timedelta(days=30),
+            remaining_amount=Decimal('500.00'),
+        )
+    )
+    default_groceries = SpendingCategory.objects.create(
+        user=user,
+        name='Groceries',
+        limit=Limit.objects.create(
+            limit_amount=Decimal('400.00'),
+            start_date=date.today(),
+            end_date=datetime.now() + timedelta(days=30),
+            remaining_amount=Decimal('400.00'),
+        )
+    )
+    default_transport = SpendingCategory.objects.create(
+        user=user,
+        name='Transport',
+        limit=Limit.objects.create(
+            limit_amount=Decimal('200.00'),
+            start_date=date.today(),
+            end_date=datetime.now() + timedelta(days=30),
+            remaining_amount=Decimal('200.00')
+        )
+    )
+    default_utilities = SpendingCategory.objects.create(
+        user=user,
+        name='Utilities',
+        limit=Limit.objects.create(
+            limit_amount=Decimal('100.00'),
+            start_date=date.today(),
+            end_date=datetime.now() + timedelta(days=30),
+            remaining_amount=Decimal('100.00'),
+        )
+    )
 
 @login_prohibited
 def sign_up(request):
@@ -152,6 +193,7 @@ def sign_up(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
+            create_deafult_categories(user)
             return redirect('feed')
     else:
         form = SignUpForm()
