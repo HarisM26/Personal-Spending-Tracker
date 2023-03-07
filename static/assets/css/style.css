@@ -352,3 +352,17 @@ h3 {
   height: 500px;
   object-fit: cover;
 }
+
+/* Notification */
+.notification-card {
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgba(219, 219, 219, 0.877);
+  box-shadow: 2px 3px 5px rgba(219, 219, 219, 0.877);
+  cursor: pointer;
+}
+
+/**/
