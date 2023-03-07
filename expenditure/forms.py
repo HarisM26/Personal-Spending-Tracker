@@ -73,6 +73,10 @@ class LogInForm(forms.Form):
     email = forms.CharField(label='Email')
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
 
+class EmailForm(forms.Form):
+    email = forms.CharField(label='Email')
+
+
 class SignUpForm(UserCreationForm):
     class Meta:
         model = User

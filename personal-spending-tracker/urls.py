@@ -50,6 +50,9 @@ urlpatterns = [
     path('friends/follow_toggle/<int:id>', views.follow_toggle, name='follow_toggle'),
     #path('friends_profile/', views.friends_profile, name='friends_profile'),
     path('password-change/', ChangePasswordView.as_view(), name='password_change'),
+    path('forgot_password/', views.forgot_password, name='forgot_password'),
+   
+
    
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     

@@ -233,21 +233,6 @@ def profile(request):
 def reports(request):
     return render(request, 'reports.html')
 
-@login_required
-def profile(request):
-    if request.method == 'POST':
-        user_form = UpdateUserForm(request.POST, instance=request.user)
-
-        if user_form.is_valid():
-            user_form.save()
-            messages.success(request, 'Your profile is updated successfully')
-            return redirect('user_profile')
-
-    else:
-        user_form = UpdateUserForm(instance=request.user)
-    
-    return render(request, 'profile.html', {'user_form': user_form})
-
 
 def log_in(request):
     if request.method == 'POST':
@@ -321,23 +306,17 @@ def follow_toggle(request, id):
     else:
         return redirect('friends_profile', id=id)
     
-def log_in(request):
-    if request.method == 'POST':
-        form = LogInForm(request.POST)
-
-        if form.is_valid():
-            email = form.cleaned_data.get('email')
-            password = form.cleaned_data.get('password')
-            user = authenticate(email=email, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect('home')
-            
-            messages.add_message(request, messages.ERROR, "The credentials provided were invalid!")
-
-    return render(request, 'log_in.html', {'form': LogInForm()}) 
 
 class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
     template_name = 'change_password.html'
     success_message = 'Successfully changed password'
     success_url = reverse_lazy("user_profile")
+
+def forgot_password(request):
+    if request.method == 'POST':
+        form = EmailForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data.get("email")
+    else:
+        form = EmailForm()
+    return render(request, 'forgot_password.html', {'form': form})
