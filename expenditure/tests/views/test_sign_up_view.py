@@ -3,7 +3,7 @@ from django.test import TestCase
 from django.urls import reverse 
 from django.contrib.auth.hashers import check_password
 from expenditure.forms import SignUpForm
-from expenditure.models import User
+from expenditure.models import User, SpendingCategory
 from expenditure.tests.helpers import LogInTester
 
 class SignUpViewTestCase(TestCase,LogInTester):
@@ -52,7 +52,8 @@ class SignUpViewTestCase(TestCase,LogInTester):
 		self.assertTrue(form.is_bound)
 		self.assertFalse(self._is_logged_in())
 
-	def successful_sign_up(self):
+	def test_successful_sign_up(self):
+		categories_before_count = SpendingCategory.objects.count()
 		before_count = User.objects.count()
 		response = self.client.post(self.url, self.form_input, follow=True)
 		after_count = User.objects.count()
@@ -65,3 +66,7 @@ class SignUpViewTestCase(TestCase,LogInTester):
 		self.assertEqual(user.last_name, 'Smith')
 		is_password_correct = check_password('Password123', user.password)
 		self.assertTrue(is_password_correct)
+		categories_after_count = SpendingCategory.objects.count()
+		self.assertEqual(categories_after_count, categories_before_count + 4)
+		categories = SpendingCategory.objects.all()
+		self.assertFalse(categories[0].is_not_default)

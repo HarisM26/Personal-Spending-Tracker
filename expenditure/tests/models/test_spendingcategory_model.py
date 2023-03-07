@@ -44,7 +44,6 @@ class SpendingCategoryModelTest(TestCase):
         self.category.name = 'x' * 50
         self.assert_category_is_valid()
 
-    
-        
-
+    def test_category_not_default(self):
+        self.assertTrue(self.category.is_not_default)
     
