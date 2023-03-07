@@ -4,9 +4,9 @@
 
 {{ form.media }}
 
-<section class="content-section">
+<section class="content-section main-section">
   <div>
-    <h1>Dashboard</h1>
+    <h1>Reports</h1>
   </div>
   <nav>
       <ol class="breadcrumb">
@@ -14,19 +14,12 @@
           <li class="breadcrumb-item"> <a>Reports</a></li>
       </ol>
   </nav>
-    <form action="" method="post">
+    <form id="report-form" action="" method="post">
       {% csrf_token %}
       {% include 'partials/bootstrap_form.html' with form=form %}
       <input id="get-report-btn" type="submit" value="Get report" class="btn btn-primary btn-100">
     </form>
-
-    
-                  <div id="bar-chart-container">
-                      <canvas id="monthly-chart"> </canvas>
-                  </div>   
        
-
-
  <section class="report ">
     <!-- largest spending category card -->
     <div class="col-xxl-4 col-xl-12">
@@ -89,15 +82,22 @@
     <!-- End over and close to limit category card -->
 
  </section>
-        
 
+ <!-- chart -->       
+ <div id="bar-chart-container">
+  <canvas id="monthly-chart"> </canvas>
+</div>   
+ <!-- End chart -->  
+
+<!-- hidden:: used to generate chart -->
     {% for transaction in transactions %}
       <ul class="total-transaction-by-month" hidden>
       <li>{{transaction.month}}</li>
       <li > {{transaction.total}}</li>
       </ul>
       {% endfor %}
-    
+
+    <div class="categories-by-month">
     <h3>Categories</h3>
     {% regroup list_of_categories_and_transactions by spending_category as category_list %}
     {% for category in category_list %}
@@ -110,7 +110,7 @@
       {% empty %}
         <p>There are no transactions in this period of time.</p>
     {% endfor %}
-
+  </div>
 </section>
 
 {% endblock %}

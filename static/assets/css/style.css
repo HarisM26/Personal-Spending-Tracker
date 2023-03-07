@@ -36,9 +36,49 @@ body {
 h3 {
   margin-top: 15px;
 }
+/*--------------------------------------------------------------
+# Main section
+--------------------------------------------------------------*/
+.main-section {
+  padding: 20px 30px;
+  transition: all 0.3s;
+}
 
+@media (max-width: 1199px) {
+  .main-section {
+    padding: 0px;
+  }
+}
+
+#report-form {
+  padding: 30px;
+}
+/*--------------------------------------------------------------
+
+--------------------------------------------------------------*/
+@media (min-width: 1000px) {
+  .col-xl-12 {
+    flex: 0 0 auto;
+    width: 50%;
+    display: inline;
+    float: right;
+  }
+  #bar-chart-container {
+    width: 45%;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  #monthly-chart {
+    padding: 0px;
+  }
+}
+
+.categories-by-month {
+  padding: 50px;
+}
 .report .card-icon {
-  font-size: 20px;
+  font-size: 16px;
   line-height: 0;
   width: 64px;
   height: 64px;
@@ -52,6 +92,23 @@ h3 {
   font-weight: 700;
   margin: 0;
   padding: 10px;
+}
+
+@media (max-width: 550px) {
+  .report .info-card h6 {
+    font-size: 20px;
+  }
+  .report .card-icon {
+    font-size: 12px;
+    line-height: 0;
+    width: 50px;
+    height: 50px;
+    flex-shrink: 0;
+    flex-grow: 0;
+  }
+  .report .card-title {
+    font-size: 18px;
+  }
 }
 
 .largest-category-card .card-icon {
@@ -200,7 +257,6 @@ h3 {
   width: calc(100% - 78px);
   transition: all 0.5s ease;
   z-index: 2;
-  margin: 20px;
 }
 
 .content-section .text {
