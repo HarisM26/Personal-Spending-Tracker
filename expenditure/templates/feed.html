@@ -3,8 +3,8 @@
 {% block content %}
 
 
-<section class="content-section">
-    <div>
+<section class="content-section" style="margin-top: 100px;">
+    <div >
         <h1>Dashboard</h1>
     </div>
     <nav>
@@ -62,10 +62,13 @@
                         <h3 >News</h3>
                         {% for article in articles %}
                         <div class="card">
-                          <div id="news-card-body-div" class="card-body">
-                            <h7 class="card-title">{{ article|get_article_dict_element:"title" }} </h7>
-                            <a href="{{ article|get_article_dict_element:'url' }}" target="_blank" class="btn btn-info" style="margin: 10px;">View article</a>
-                          </div>
+                            <div id="news-card-body-div" class="card-body">
+                                <h7 class="card-title">{{ article|get_article_dict_element:"title" }} </h7>
+                            </div>
+
+                            <div>
+                                <a href="{{ article|get_article_dict_element:'url' }}" target="_blank" class="btn btn-info" style="margin: 10px;">View article</a>
+                            </div>
                         </div>
                         {% endfor %}
                     </div>
