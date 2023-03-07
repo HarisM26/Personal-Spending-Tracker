@@ -39,7 +39,7 @@
             {% for transaction in transactions %}
             <li class="transaction_list" data-bs-toggle="modal" data-bs-target="#transaction-detail-modal">
               <div id="transaction-date">{{transaction.date}}</div>
-              <div id="transaction-title">{{transaction.title}}</div>
+              <div id="transaction-title">{{transaction.title}} <span style="color: green">{% get_points transaction %} / 5 points</span></div>
               <div id="transaction-amount">&#163;{{transaction.amount|intcomma}}</div> 
               <div id="transaction-category" hidden>{{transaction.spending_category.name}}</div>
               <div id="transaction-notes" hidden>{{transaction.notes}}</div>
