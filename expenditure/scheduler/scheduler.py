@@ -85,5 +85,5 @@ def start():
     except KeyboardInterrupt:
         logger.info("Stopping scheduler...")
         scheduler.shutdown()
-        logger.info("Scheduler shut down successfully!")  
+        logger.info("Scheduler shut down successfully!") 
  

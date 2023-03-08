@@ -461,20 +461,26 @@ def toggle_notification(request):
         current_user.toggle_notification = 'ON'
         current_user.save()
     return redirect('settings')
-
-
+    
 @login_required
-def add_friend(request):
-    return render(request, 'add_friend.html')
-
+def toggle_privacy(request):
+    current_user = request.user
+    if current_user.toggle_privacy == 'ON':
+        current_user.toggle_privacy = 'OFF'
+        current_user.save()
+    else:
+        current_user.toggle_privacy = 'ON'
+        current_user.save()
+    return redirect('settings')
+    
 
 @login_required
 def leaderboard(request):
     return render(request, 'leaderboard.html')
 
 
-                
-def friends(request):
+@login_required            
+def search_friends(request):
     if request.method == 'GET':
         query=request.GET.get('q')
         
@@ -497,9 +503,10 @@ def friends(request):
             
 def show_friends_profile(request, id):
     results = User.objects.get(id = id)
+    following = request.user.is_following(results)
     template = loader.get_template('friends_profile.html')
     context = {
-        'results': results,
+        'results': results, 'following': following,
     }
     return HttpResponse(template.render(context, request))
 
@@ -510,9 +517,9 @@ def follow_toggle(request, id):
         followee = User.objects.get(id=id)
         current_user.toggle_follow(followee)
     except ObjectDoesNotExist:
-        return redirect('user_list')
+        return redirect('search_friends')
     else:
-        return redirect('friends_profile', id=id)
+        return redirect('search_friends')
     
 
 def sign_up(request):

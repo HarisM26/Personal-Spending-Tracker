@@ -65,24 +65,28 @@ class User(AbstractBaseUser, PermissionsMixin):
         if self.is_following(followee):
             self._unfollow(followee)
         else:
-            self.follow(followee)
+            self._follow(followee)
 
     def _follow(self, user):
-        user.follower.add(self)
+        user.followers.add(self)
 
     def _unfollow(self, user):
-        user.follower.remove(self)
+        user.followers.remove(self)
 
     def is_following(self, user):
         return user in self.followees.all()
         
     def follower_count(self):
-        return 0
-
+        return self.followers.count()
+        
+        
     def followee_count(self):
-        return 0
+        return self.followees.count()
 
     toggle_notification = models.CharField(
+        max_length=3, choices=TOGGLE_CHOICE, default='ON')
+        
+    toggle_privacy = models.CharField(
         max_length=3, choices=TOGGLE_CHOICE, default='ON')
 
 

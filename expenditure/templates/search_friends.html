@@ -12,9 +12,11 @@
             {{user.followee_count}} Following &emsp;
             {{user.follower_count}} Followers
         </p>
-        	<h1>Your Friends</h1>
         <p>
-        
+        	<h1>Your Friends</h1>
+        	<h10>{{r}}<h10>
+        </p>
+               
         
         
         
@@ -26,10 +28,9 @@
     	{% if submitbutton == 'Search' and request.GET.q != "" %}
     	{% if results %}
     	<h1> Here are the users for <b>{{request.GET.q}}</b></h1>
-    	<br/>    	
+    	<br/>    
+    	   		
     	{% for r in results %}
-    	
-    	
     	<form action = "{% url 'follow_toggle' id=user.id %}" method="get">
     	    <h10>{{r}}<h10> 
     	    {% if following %}
@@ -43,12 +44,15 @@
     	    <br>
     	</form>
     	
+    	
     	{% endfor %}
     	{% else %}
     	No user found
     	{% endif %}
     	{% endif %}    	
-    </p>
+    
+            	
+    
 
 </div>
 </div>
