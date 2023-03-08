@@ -13,3 +13,4 @@ class ExpenditureConfig(AppConfig):
         """
         scheduler.start()
     
+
