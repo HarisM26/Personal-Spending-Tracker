@@ -1,9 +1,8 @@
 from django.contrib import admin
-from .models import *
+from expenditure.models import *
 from django.contrib.auth.admin import UserAdmin
 from .forms import SignUpForm
 from django.contrib.auth import get_user_model
-from .models import Profile
 User = get_user_model()
 # Register your models here.
 
@@ -13,13 +12,17 @@ User = get_user_model()
 
 admin.site.register(Limit)
 
-class CategoryAdmin(admin.ModelAdmin):
-  list_display = ('name','is_income', Limit)
-admin.site.register(Category,CategoryAdmin)
+class SpendingCategoryAdmin(admin.ModelAdmin):
+  list_display = ('name', Limit)
+admin.site.register(SpendingCategory,SpendingCategoryAdmin)
+
+class IncomeCategoryAdmin(admin.ModelAdmin):
+   list_display = ('name',)
+admin.site.register(IncomeCategory, IncomeCategoryAdmin)
 
 class TransactionAdmin(admin.ModelAdmin):
-  list_display = ('title','amount','category')
-admin.site.register(Transaction,TransactionAdmin)
+  list_display = ('title','amount','spending_category')
+admin.site.register(SpendingTransaction,TransactionAdmin)
 
 class NotificationAdmin(admin.ModelAdmin):
   list_display = ('user_receiver','message','status')
@@ -49,8 +52,6 @@ class CustomUserAdmin(UserAdmin):
     search_fields = ("email",)
     ordering = ("email",)
 
-
 admin.site.register(User, CustomUserAdmin)
 admin.site.register(Profile)
-# Register your models here.
 

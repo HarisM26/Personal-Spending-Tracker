@@ -1,0 +1,35 @@
+{% extends 'base_content.html' %}
+{% load custom_tags %}
+{% load humanize %}
+{% block content %}
+
+<section class="content-section">
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active"> <a href="{% url 'feed' %}">Home</a></li>
+            <li class="breadcrumb-item active"> <a href="{% url 'spending' %}">Spending</a></li>
+            <li class="breadcrumb-item"> <a">Edit Spedning Transaction</a></li>
+        </ol>
+    </nav>
+    <div>
+        <h1>Outgoing Transaction {{ spending_transaction.title }} {{ spending_transaction.pk }} in {{ spending_transaction.spending_category }}</h1>
+    </div>
+
+    {{ form.media }}
+    <div class="card">
+        <h1>Edit Transaction</h1>
+        <div class="card-body">
+            <div class="col-sm-12 col-md-6 offset-md-3">
+                <div class="card-text text-start">
+                    <form action="" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% include 'partials/bootstrap_form.html' with form=form %}
+                        <input type="submit" value="Save" class="btn btn-info">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

@@ -56,6 +56,10 @@ Get key for API:
 Migrate the database:
 
 ```
+$ python3 manage.py makemigrations
+```
+
+```
 $ python3 manage.py migrate
 ```
 
@@ -71,12 +75,24 @@ Run all tests with:
 $ python3 manage.py test
 ```
 
+Run server:
+
+```
+Note: Before running server, check apps.py file and uncomment the code below to start scheduler
+- scheduler.start()
+```
+
+```
+$ python3 manage.py runserver
+```
+
 ## References
 
 CODE
 
 - https://www.w3schools.com/howto/howto_js_treeview.asp
 - https://django-betterforms.readthedocs.io/en/latest/multiform.html#working-with-createview
+- https://django-betterforms.readthedocs.io/en/latest/multiform.html#working-with-updateview
 - https://www.chartjs.org/docs/latest/
 
 IMAGES

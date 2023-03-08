@@ -1,27 +1,56 @@
-from expenditure.models import Transaction
+from expenditure.models import SpendingTransaction, IncomeTransaction, Notification
 from django import template
 from datetime import datetime
 
+
 register = template.Library()
 
+
 @register.filter
-def get_transactions(category):
-  transactions = Transaction.objects.filter(category=category)
-  return transactions
+def get_spending_transactions(category):
+    transactions = SpendingTransaction.objects.filter(
+        spending_category=category)
+    return transactions
+
+
+@register.filter
+def get_income_transactions(category):
+    transactions = IncomeTransaction.objects.filter(income_category=category)
+    return transactions
+
 
 @register.filter
 def get_transaction_total(iterable):
-  total = 0
-  for element in iterable:
-    total+=element.amount
-  return total
+    total = 0
+    for element in iterable:
+        if element.is_current:
+            total += element.amount
+    return total
+
+
+@register.filter
+def get_income_transaction_total(iterable):
+    total = 0
+    for element in iterable:
+        total += element.amount
+    return total
+
 
 @register.filter
 def get_article_dict_element(dict, key):
-  return dict[f'{key}']
+    return dict[f'{key}']
 
-#change date format to eg. 01 January, 2000
+# change date format to eg. 01 January, 2000
+
+
 @register.filter
 def convert_date(date):
-  dt = datetime.strptime(date,'%Y-%m-%dT%H:%M:%SZ')
-  return dt.strftime('%d %B, %Y')
+    dt = datetime.strptime(date, '%Y-%m-%dT%H:%M:%SZ')
+    return dt.strftime('%d %B, %Y')
+
+
+@register.filter
+def custom_mark_as_read(id):
+    notification = Notification.objects.get(id=id)
+    notification.status = 'read'
+    notification.save()

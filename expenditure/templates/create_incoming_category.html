@@ -1,0 +1,22 @@
+{% extends 'base_content.html' %}
+{% block content %}
+
+<section class="content-section">
+    <h1>Create a Category</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active"> <a href="{% url 'feed' %}">Home</a></li>
+            <li class="breadcrumb-item active"> <a href="{% url 'incomings' %}">Incoming</a></li>
+            <li class="breadcrumb-item"> <a>Create Category</a></li>
+        </ol>
+    </nav>
+    <div class="main-card">
+        <form action="{% url 'create_incoming_category' %}" method="post">
+            {% csrf_token %}
+            {% include 'partials/bootstrap_form.html' with form=form %}
+            <input type="submit" value="Create Category" class="btn btn-info">
+        </form>
+    </div>
+</section>
+
+{% endblock %}

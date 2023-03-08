@@ -1,0 +1,33 @@
+/* === News Page CSS ===*/
+/* .news-title {
+  text-align: center;
+}
+
+#news-card {
+  padding: 0em 1em;
+  margin: 1em 0em;
+  display: flex;
+}
+#news-card-img-div {
+  height: 80px;
+  width: 80px;
+  border-radius: 10px;
+  padding: 0.5em 1em;
+}
+#news-card-img {
+  height: 80px;
+  width: 80px;
+  object-fit: cover;
+  border-radius: 40px;
+}
+@media (min-width: 576px) {
+  #news-card,
+  .card-section {
+    max-width: 900px;
+    left: 0%;
+  }
+  .card-section {
+    margin: auto;
+  }
+  
+} */

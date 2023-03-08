@@ -4,6 +4,8 @@ from expenditure.forms import LimitForm
 from expenditure.models import Limit
 from django.core.exceptions import ValidationError
 from decimal import Decimal
+from datetime import datetime, timedelta
+
 
 
 class LimitFormTestCase(TestCase):
@@ -11,9 +13,8 @@ class LimitFormTestCase(TestCase):
 
     def setUp(self):
         self.form_input = {
-            'limit_amount': 1000,
-            'start_date': '2020-01-01',
-            'end_date': '2020-01-02',
+            'limit_amount': Decimal('1000.00'),
+            'time_limit_type':'weekly',
         }
 
     def assert_limitform_is_valid(self):
@@ -26,11 +27,8 @@ class LimitFormTestCase(TestCase):
     def test_form_has_necessary_fields(self):
         form = LimitForm()
         self.assertIn('limit_amount', form.fields)
-        self.assertIn('start_date', form.fields)
-        self.assertIn('end_date', form.fields)
+        self.assertIn('time_limit_type', form.fields)
         self.assertIsInstance(form.fields['limit_amount'], forms.DecimalField)
-        self.assertIsInstance(form.fields['start_date'], forms.DateField)
-        self.assertIsInstance(form.fields['end_date'], forms.DateField)
     
     def test_form_is_valid(self):
         form = LimitForm(data=self.form_input)

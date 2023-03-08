@@ -7,8 +7,8 @@ from .helpers import not_future
 from datetime import datetime, date, timedelta
 from decimal import Decimal
 from django.core.validators import MinValueValidator
-
-
+from django.urls import reverse
+from expenditure.choices import *
 
 
 class UserManager(BaseUserManager):
@@ -29,202 +29,181 @@ class UserManager(BaseUserManager):
         return user
 
     def create_superuser(self, email, password, **extra_fields):
-      extra_fields.setdefault("is_staff", True)
-      extra_fields.setdefault("is_superuser", True)
-      extra_fields.setdefault("is_active", True)
+        extra_fields.setdefault("is_staff", True)
+        extra_fields.setdefault("is_superuser", True)
+        extra_fields.setdefault("is_active", True)
 
-      if extra_fields.get("is_staff") is not True:
-          raise ValueError(_("Superuser must have is_staff=True."))
-      if extra_fields.get("is_superuser") is not True:
-          raise ValueError(_("Superuser must have is_superuser=True."))
-      return self.create_user(email, password, **extra_fields)
+        if extra_fields.get("is_staff") is not True:
+            raise ValueError(_("Superuser must have is_staff=True."))
+        if extra_fields.get("is_superuser") is not True:
+            raise ValueError(_("Superuser must have is_superuser=True."))
+        return self.create_user(email, password, **extra_fields)
+        # ///?? cannot create user in admin
+
 
 class User(AbstractBaseUser, PermissionsMixin):
-  email = models.EmailField(_("email address"),
-        unique=True,
-        max_length=255,
-        blank=False,
+    email = models.EmailField(_("email address"),
+                              unique=True,
+                              max_length=255,
+                              blank=False,
+                              )
+
+    first_name = models.CharField(
+        max_length=30,
     )
 
-  first_name = models.CharField(
-    max_length=30,
+    last_name = models.CharField(
+        max_length=150,
     )
 
-  last_name = models.CharField(
-    max_length=150,
-    )
-  followers = models.ManyToManyField(
-  'self', symmetrical=False, related_name='followees'
-  )
-    
-  def toggle_follow(self, followee):
-    if self.is_following(followee):
-        self._unfollow(followee)
-    else:
-        self.follow(followee)
-    
-  def _follow(self, user):
-      user.follower.add(self)
   
-  def _unfollow(self, user):
-      user.follower.remove(self)
+    followers = models.ManyToManyField(
+    'self', symmetrical=False, related_name='followees'
+    )
+
+    def toggle_follow(self, followee):
+        if self.is_following(followee):
+            self._unfollow(followee)
+        else:
+            self.follow(followee)
+
+    def _follow(self, user):
+        user.follower.add(self)
+
+    def _unfollow(self, user):
+        user.follower.remove(self)
+
+    def is_following(self, user):
+        return user in self.followees.all()
+        
+    def follower_count(self):
+        return 0
+
+    def followee_count(self):
+        return 0
+
+    toggle_notification = models.CharField(
+        max_length=3, choices=TOGGLE_CHOICE, default='ON')
+
+
+    def __str__(self):
+        return self.email
+
+    @property
+    def user_id(self):
+        return self.first_name + str(self.id)
     
-  def is_following(self, user):
-    return user in self.followees.all()
-      
-  def follower_count(self):
-    return 0
+    is_staff = models.BooleanField(default=False)
     
-  def followee_count(self):
-    return 0
+    is_active = models.BooleanField(default=True)
 
-  id = models.AutoField(primary_key=True) 
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
 
+    objects = UserManager()
 
-  is_staff = models.BooleanField(default=False)
-    
-  is_active = models.BooleanField(default=True)
-
-  TOGGLE_CHOICE=[('ON',('ON')),('OFF',('OFF'))]
-  toggle_notification = models.CharField(max_length=3,choices=TOGGLE_CHOICE,default='ON')
-
-  USERNAME_FIELD = 'email'
-  REQUIRED_FIELDS = []
-
-  objects =  UserManager()
-  
-  def __str__(self):   
-    return self.email
-
-  @property
-  def user_id(self):
-    return str(self.first_name + str(self.id))
 
 class Profile(models.Model):
-  user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
-  def __str__(self):
-    return self.user.email
+    def __str__(self):
+        return self.user.email
 
+    def __str__(self):
+        return self.user.first_name
 
-
-
-
-
-
-
-
+    def __str__(self):
+        return self.user.last_name
 
 
 class Limit(models.Model):
-  LIMIT_STATUS=[('reached',('reached')),('not reached',('not reached')), ('approaching',('approaching'))]
-  #TIME_LIMIT_TYPE=[('weekly',('weekly')),('monthly',('monthly')),('yearly',('yearly'))]
+    limit_amount = models.DecimalField(max_digits=10, decimal_places=2, null=False, validators=[
+                                       MinValueValidator(Decimal('0.01'))])
+    remaining_amount = models.DecimalField(
+        max_digits=10, decimal_places=2, default=Decimal('0.00'))
+    status = models.CharField(
+        max_length=50, choices=LIMIT_STATUS, default='not reached')
+    time_limit_type = models.CharField(
+        max_length=7, choices=TIME_LIMIT_TYPE, default='weekly')
+    start_date = models.DateField(auto_now_add=True)
+    end_date = models.DateField()
 
-  limit_amount = models.DecimalField(max_digits=10,decimal_places=2,null=False, validators=[MinValueValidator(Decimal('0.01'))])
-  remaining_amount = models.DecimalField(max_digits=10,decimal_places=2, default= 0.00)
-  status = models.CharField(max_length=50, choices=LIMIT_STATUS, default='not reached')
-  #time_limit_type = models.CharField(max_length=50, choices=TIME_LIMIT_TYPE, default='weekly')
-  start_date = models.DateField()
-  end_date = models.DateField()
- 
-  def __str__(self):
-    return str(self.limit_amount)
+    def __str__(self):
+        return str(self.limit_amount)
 
-  @property
-  def calc_90_percent_of_limit(self):
-    return Decimal(self.limit_amount)*Decimal('0.90')
-  
+    @property
+    def calc_90_percent_of_limit(self):
+        return Decimal(self.limit_amount)*Decimal('0.90')
 
-class Profile(models.Model):
-  user = models.OneToOneField(User, on_delete=models.CASCADE)
+    def addTransaction(self, spentAmount):
+        if (spentAmount >= Decimal('0.00')):
+            self.remaining_amount -= spentAmount
+        else:
+            return -1
 
-  def __str__(self):
-    return self.user.email 
-  
-  def __str__(self):
-    return self.user.first_name
-  
-  def __str__(self):
-    return self.user.last_name
-  
 
-    
 class Notification(models.Model):
-    STATUS_CHOICE=[('unread',('unread')),('read',('read'))]
-    user_receiver = models.ForeignKey(User,on_delete=models.CASCADE)
+    user_receiver = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=300)
-    message = models.CharField(max_length = 1200)
-    status = models.CharField(max_length=6,choices=STATUS_CHOICE,default= 'unread')
-    time_created = models.TimeField(auto_now_add=True)
-    date_created = models.DateField(auto_now_add=True)
+    message = models.CharField(max_length=1200)
+    status = models.CharField(
+        max_length=6, choices=STATUS_CHOICE, default='unread')
+    created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ['-date_created','-time_created']
-    
+        ordering = ['-created']
+
     def __str__(self):
         return self.message
 
-class Category(models.Model):
+
+class SpendingCategory(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
-    is_income = models.BooleanField(default=False)
-    limit = models.OneToOneField(Limit, on_delete=models.CASCADE)
-    #slug = models.SlugField()
-    #parent = models.ForeignKey('self',blank=True, null=True ,related_name='children')
+    limit = models.OneToOneField(
+        Limit, related_name='category', on_delete=models.CASCADE)
+    # slug = models.SlugField()
+    # parent = models.ForeignKey('self',blank=True, null=True ,related_name='children')
+    # Reduce the remaining amount left of the spending limit
+
+    def delete(self, *args, **kwargs):
+        self.limit.delete()
+        return super(SpendingCategory, self).delete(*args, **kwargs)
+
     def __str__(self):
         return self.name
 
-    # Used to create and save new instance of limit associated with this category
-    def createLimit(category, limit_amount, **kwargs):
-      Limit.objects.create(
-        category=category,
-        limit_amount=limit_amount,
-        **kwargs
-      )
 
+class IncomeCategory(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=50)
 
-# To get the outgoing transactions do: Category.spendings
-class SpendingManager(models.Manager):
-    def get_query_set(self):
-      return super(SpendingManager, self).get_query_set().filter(
-        category__is_income=False,
-      )
-
-# To get the incoming transactions do: Category.incomings
-class IncomingManager(models.Manager):
-    def get_query_set(self):
-      return super(IncomingManager, self).get_query_set().filter(
-        category__is_income=True,
-      )
-
-# To get all transactions do: Category.objects
-class TransactionManager(models.Manager):
-    def get_query_set(self):
-      return super(TransactionManager, self).get_query_set()
 
 class Transaction(models.Model):
     title = models.CharField(max_length=200)
     date = models.DateField(validators=[not_future])
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    amount = models.DecimalField(max_digits=20, decimal_places=2)
     notes = models.TextField(blank=True)
-    reciept = models.ImageField(upload_to='', blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
-    category = models.ForeignKey(Category, related_name="transactions", on_delete=models.PROTECT)
-    
-    objects = TransactionManager()
-    spendings = SpendingManager()
-    incomings = IncomingManager()
 
     class Meta:
-      ordering = ['-date',]
-    
-    def __str__(self):
-        return 'desc: '+ self.title + ' -> $ ' + str(self.amount)
-
-    class Meta:
+        abstract = True
         ordering = ['-date',]
-  
+
+    def __str__(self):
+        return 'desc: ' + self.title + ' ->  £' + str(self.amount)
 
 
+class SpendingTransaction(Transaction):
+    spending_category = models.ForeignKey(
+        SpendingCategory, related_name="transactions", null=True, on_delete=models.SET_NULL)
+    receipt = models.ImageField(upload_to='', blank=True, null=True)
+    is_current = models.BooleanField(default=True)
 
-  
+    def get_absolute_url(self):
+        return reverse('transaction', kwargs={'id': self.pk})
+
+
+class IncomeTransaction(Transaction):
+    income_category = models.ForeignKey(
+        IncomeCategory, related_name="transactions", null=True, on_delete=models.SET_NULL)

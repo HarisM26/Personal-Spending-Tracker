@@ -2,12 +2,20 @@
 {% block content %}
 
 
-<div class="card">
-    <div class="text-center">
+<section class="content-section">
+    <div>
         <h1>Leaderboard</h1>
     </div>
-    <p>Page is under construction</p>
-
-</div>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active"> <a href="{% url 'feed' %}">Home</a></li>
+            <li class="breadcrumb-item"> <a>Leaderboard</a></li>
+        </ol>
+    </nav>
+    <div class="main-card">
+        <p>Welcome To Leaderboard Section</p>
+        
+    </div>
+</section>
 
 {% endblock %}

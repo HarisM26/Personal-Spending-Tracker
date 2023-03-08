@@ -1,0 +1,30 @@
+{% extends 'base_content.html' %}
+
+{% block content %}
+
+{{ form.media }}
+
+<div class="container vh-100">
+  <div class="row h-100">
+      <div class="col-12 my-auto">
+          <div class="cover-card">
+              <h1>Outgoing Transaction {{ transaction.title }} {{ transaction.pk }} in {{ transaction.category }}</h1>
+              <div class="col">
+                <p>Date of the transaction: {{ transaction.date }}</p> 
+                <p>Amount: {{ transaction.amount }}</p>
+                {% if transaction.notes %}
+                    <p>Notes: {{ transaction.notes }}</p> 
+                {% endif %}
+                {% if transaction.receipt %}
+                    <p>Receipt: <img src="{{ transaction.receipt.url }}" width="100" alt=""></p>
+                {% else %}
+                    <td></td>
+                {% endif %}
+                <p>Added on: {{ transaction.created }}</p>  
+              </div> 
+          </div>
+      </div>
+  </div>
+</div>
+
+{% endblock %}

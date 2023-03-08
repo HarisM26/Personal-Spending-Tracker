@@ -37,10 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
+    'django.contrib.humanize',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'notifications',
     'expenditure',
     'widget_tweaks',
     'bootstrap5',
@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'newsapi',
     'bootstrap_datepicker_plus',
     'betterforms',
+    'django_apscheduler',
 ]
 
 
@@ -127,12 +128,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-
-STATIC_URL = 'static/'
-MEDIA_ROOT = BASE_DIR / 'uploads/'
-MEDIA_URL = 'uploads/'
-
 STATIC_URL = '/static/'
+
+MEDIA_ROOT = '/uploads/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR,'uploads')
+
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
@@ -148,11 +149,18 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'expenditure.User'
 
+# Login URL for redirecting users from login protected views
+LOGIN_URL = 'log_in'
 
+# URL where @login_prohibited redirects to
+REDIRECT_URL_WHEN_LOGGED_IN = 'feed'
+
+# Message level tags should use Bootstrap terms
 MESSAGE_TAGS = {
     message_constants.DEBUG: 'dark',
     message_constants.ERROR: 'danger',
 }
-LOGIN_REDIRECT_URL = '/'
-LOGIN_URL = 'log_in'
+#tell Celery how to find Redis
+CELERY_BROKER_URL = 'redis://localhost:6379'
+LOGIN_REDIRECT_URL = '/' 
 

@@ -4,17 +4,17 @@ from django.contrib.auth.forms import UserCreationForm
 from django.core.validators import RegexValidator
 from bootstrap_datepicker_plus.widgets import DatePickerInput
 from datetime import datetime, date
-from .models import Transaction
 from .helpers import not_future
 from betterforms.multiform import MultiModelForm
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
-class SpendingForm(forms.ModelForm):
+class SpendingTransactionForm(forms.ModelForm):
     class Meta:
-        model = Transaction
+        model = SpendingTransaction
         fields = '__all__'
+        exclude = ('spending_category','is_current',)
         widgets = {
             'date': DatePickerInput(options={"format": "DD/MM/YYYY"}),
             'category': forms.HiddenInput(),
@@ -27,11 +27,16 @@ class SpendingForm(forms.ModelForm):
     #         self.add_error('date', 'The date of your outgoing outgoing transaction cannot be in the future')
     #     return spending_date
 
-class IncomingForm(forms.ModelForm):
+class QuickSpendingTransactionForm(forms.ModelForm):
     class Meta:
-        model = Transaction
+        model = SpendingTransaction
+        fields = 'amount', 'spending_category'
+
+class IncomeTransactionForm(forms.ModelForm):
+    class Meta:
+        model = IncomeTransaction
         fields = '__all__'
-        exclude = ('reciept',)
+        exclude=('income_category',)
         widgets = {
             'date': DatePickerInput(options={"format": "DD/MM/YYYY"}),
             'category': forms.HiddenInput(),
@@ -43,30 +48,33 @@ class IncomingForm(forms.ModelForm):
     #     if incoming_date > current_date:
     #         self.add_error('date', 'The date of your incoming transaction cannot be in the future')
     #     return incoming_date    
-
-class CategoryForm(forms.ModelForm):
+class IncomeCategoryForm(forms.ModelForm):
     class Meta:
-        model = Category
-        fields = ('name','is_income')
+        model=IncomeCategory
+        fields = ('name',)
 
-    #limit = forms.DecimalField(label='Spending Limit')
+class SpendingCategoryForm(forms.ModelForm):
+    class Meta:
+        model = SpendingCategory
+        fields = ('name',)
 
 class LimitForm(forms.ModelForm):
     class Meta:
         model = Limit
         fields = '__all__'
-        exclude = ('remaining_amount','status')
-        widgets = {
-            'start_date': DatePickerInput(options={"format": "DD/MM/YYYY"}),
-            'end_date': DatePickerInput(options={"format": "DD/MM/YYYY"})
-            }
-
+        exclude = ('remaining_amount','status','end_date')
+    
 class CategoryCreationMultiForm(MultiModelForm):
     form_classes = {
-        'category': CategoryForm,
+        'category': SpendingCategoryForm,
         'limit': LimitForm
     }
 
+class SpendingCategoryEditMultiForm(MultiModelForm):
+    form_classes = {
+        'category': SpendingCategoryForm,
+        'limit': LimitForm
+    }
 
 
 class LogInForm(forms.Form):
@@ -95,6 +103,32 @@ class SignUpForm(UserCreationForm):
             
         )
         return user
+    """ class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']
+    
+    new_password = forms.CharField(label='Password', widget=forms.PasswordInput(), validators=[RegexValidator(
+        regex=r'^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).*$',
+        message='Password must contain an uppercase character, a lowercase character and a number'
+    )])
+    password_confirmation = forms.CharField(label='Password confirmation', widget=forms.PasswordInput())
+
+    def clean(self):
+        super().clean()
+        new_password = self.cleaned_data.get('new_password')
+        password_confirmation =self.cleaned_data.get('password_confirmation')
+        if new_password != password_confirmation:
+            self.add_error('password_confirmation', 'confirmation does not match password')
+
+    def save(self):
+        super().save(commit=False)
+        self.user=User.objects.create_user(
+            email = self.cleaned_data.get('email'),
+            first_name=self.cleaned_data.get('first_name'),
+            last_name=self.cleaned_data.get('last_name'), 
+            password=self.cleaned_data.get('new_password'),
+        )
+        return self.user """
 
 
 class UpdateUserForm(forms.ModelForm):
