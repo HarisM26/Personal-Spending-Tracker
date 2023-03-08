@@ -37,6 +37,9 @@ def home(request):
 def about(request):
     return render(request, 'about.html')
 
+def incoming(request):
+    pass
+
 
 @login_prohibited
 def features(request):

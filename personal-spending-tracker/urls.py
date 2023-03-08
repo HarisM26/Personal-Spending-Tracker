@@ -53,6 +53,7 @@ urlpatterns = [
     path('incomings/edit/<int:id>/', views.edit_incoming_transaction, name='edit_income'),
     path('spending/delete/<int:id>/', views.delete_spending_transaction, name='delete_spending'),
     path('incomings/delete/<int:id>/', views.delete_incoming_transaction, name='delete_income'),
+    path('incomings/',views.incoming ,name='incomings'),
     path('add_friend/',views.add_friend,name='add_friend'),
     path('leaderboard/',views.leaderboard,name='leaderboard'),
     path('reports/',views.view_report,name='reports'),
