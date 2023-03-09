@@ -56,6 +56,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         max_length=150,
     )
 
+    points = models.IntegerField(default=0)
+    
     id = models.AutoField(primary_key=True)
 
     is_staff = models.BooleanField(default=False)
@@ -176,6 +178,12 @@ class Transaction(models.Model):
     class Meta:
         abstract = True
         ordering = ['-date',]
+    
+    def get_points(self):
+        if (self.notes == ''):
+            return 3
+        else:
+            return 4
 
     def __str__(self):
         return 'desc: ' + self.title + ' ->  £' + str(self.amount)
@@ -187,6 +195,14 @@ class SpendingTransaction(Transaction):
     receipt = models.ImageField(upload_to='', blank=True, null=True)
     is_current = models.BooleanField(default=True)
 
+    def get_points(self):
+        points = super().get_points()
+        if (self.receipt == ''):
+            return points
+        else:
+            points += 1
+            return points
+    
     def get_absolute_url(self):
         return reverse('transaction', kwargs={'id': self.pk})
 
