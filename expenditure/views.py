@@ -18,6 +18,9 @@ from django.contrib.auth.decorators import login_required
 import expenditure.report_methods as rm
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
+from django.db.models import Q
+from django.template import loader
+from django.core.exceptions import ObjectDoesNotExist
 
 
 @login_prohibited
@@ -45,6 +48,7 @@ def contact(request):
     return render(request, 'contact.html')
 
 
+@login_required
 def add_quick_spending(request):
     spending_catgeory_queryset = SpendingCategory.objects.filter(
         user=request.user)
@@ -211,6 +215,7 @@ class EditIncomeCategoryView(LoginRequiredMixin, UpdateView):
 
 
 class CreateSpendingCategoryView(LoginRequiredMixin, CreateView):
+
     template_name = "create_category.html"
     form_class = CategoryCreationMultiForm
 
@@ -509,9 +514,48 @@ def leaderboard(request):
     return render(request, 'leaderboard.html')
 
 
+def friends(request):
+    if request.method == 'GET':
+        query = request.GET.get('q')
+
+        submitbutton = request.GET.get('submit')
+
+        if query is not None:
+            lookups = Q(first_name__icontains=query) | Q(
+                last_name__icontains=query) | Q(email__icontains=query)
+
+            results = User.objects.filter(lookups).distinct()
+
+            context = {'results': results, 'submitbutton': submitbutton}
+
+            return render(request, 'friends.html', context)
+
+        else:
+            return render(request, 'friends.html')
+
+    else:
+        return render(request, 'friends.html')
+
+
+def show_friends_profile(request, id):
+    results = User.objects.get(id=id)
+    template = loader.get_template('friends_profile.html')
+    context = {
+        'results': results,
+    }
+    return HttpResponse(template.render(context, request))
+
+
 @login_required
-def profile(request):
-    return render(request, 'profile.html')
+def follow_toggle(request, id):
+    current_user = request.user
+    try:
+        followee = User.objects.get(id=id)
+        current_user.toggle_follow(followee)
+    except ObjectDoesNotExist:
+        return redirect('friends')
+    else:
+        return redirect('friends_profile', id=id)
 
 
 @login_required
@@ -534,3 +578,13 @@ class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
     template_name = 'change_password.html'
     success_message = 'Successfully changed password'
     success_url = reverse_lazy("user_profile")
+
+
+def forgot_password(request):
+    if request.method == 'POST':
+        form = EmailForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data.get("email")
+    else:
+        form = EmailForm()
+    return render(request, 'forgot_password.html', {'form': form})

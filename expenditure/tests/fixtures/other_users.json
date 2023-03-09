@@ -9,5 +9,41 @@
       "password": "pbkdf2_sha256$390000$bp7m6hSMHOMIL7p4xAAss0$lEkd1dLaZBwsVxK1GJih2TCqdRO7jZl2FrYfh++5zPo=",
       "is_active": true
     }
+  },
+
+  {
+    "model": "expenditure.user",
+    "pk": 3,
+    "fields": {
+      "first_name": "Willow",
+      "last_name": "Smith",
+      "email": "willowsmith@example.org",
+      "password": "pbkdf2_sha256$390000$bp7m6hSMHOMIL7p4xAAss0$lEkd1dLaZBwsVxK1GJih2TCqdRO7jZl2FrYfh++5zPo=",
+      "is_active": true
+    }
+  },
+
+  {
+    "model": "expenditure.user",
+    "pk": 4,
+    "fields": {
+      "first_name": "Sarah",
+      "last_name": "Kipling",
+      "email": "sarahkipling@example.org",
+      "password": "pbkdf2_sha256$390000$bp7m6hSMHOMIL7p4xAAss0$lEkd1dLaZBwsVxK1GJih2TCqdRO7jZl2FrYfh++5zPo=",
+      "is_active": true
+    }
+  },
+
+  {
+    "model": "expenditure.user",
+    "pk": 5,
+    "fields": {
+      "first_name": "Sam",
+      "last_name": "Kipling",
+      "email": "samkipling@example.org",
+      "password": "pbkdf2_sha256$390000$bp7m6hSMHOMIL7p4xAAss0$lEkd1dLaZBwsVxK1GJih2TCqdRO7jZl2FrYfh++5zPo=",
+      "is_active": true
+    }
   }
 ]

@@ -1,5 +1,5 @@
 {% extends 'base_content.html' %}
-
+{% load custom_tags %}
 {% block content %}
 
 {{ form.media }}
@@ -22,7 +22,7 @@
        
  <section class="report ">
     <!-- largest spending category card -->
-    <div class="col-xxl-4 col-xl-12">
+    <div class="col-xxl-4 col-xl-12"> 
 
       <div class="card info-card largest-category-card">
         <div class="card-body">
@@ -35,7 +35,7 @@
             {% if largest_category %}
             <div class="ps-3">
 
-              <h6>&#163; {{largest_category.total}}</h6>
+              <h6>&#163; {{largest_category.total|to_2_decimal_places}}</h6>
               <span class="text-muted small pt-2 ps-1">Category </span> <span class="text-success small pt-1 fw-bold">{{largest_category.name}}</span>
 
             </div>
