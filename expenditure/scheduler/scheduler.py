@@ -55,7 +55,7 @@ def delete_old_job_executions(max_age=604_800):
     # help = 'Run APScheduler'
 
 
-def start():
+""" def start():
     scheduler = BackgroundScheduler()
     scheduler.add_jobstore(DjangoJobStore(), 'default')
     scheduler.add_job(
@@ -85,5 +85,5 @@ def start():
     except KeyboardInterrupt:
         logger.info("Stopping scheduler...")
         scheduler.shutdown()
-        logger.info("Scheduler shut down successfully!") 
+        logger.info("Scheduler shut down successfully!")  """
  
