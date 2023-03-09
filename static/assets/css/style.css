@@ -13,6 +13,7 @@
   --color-white: #ffffff;
   --color-body: #e4e9f7;
   --color-light: #caf0f8;
+  --color-card-border: rgba(219, 219, 219, 0.877);
 
   /*font*/
   --main-font: "Red Hat Display";
@@ -129,7 +130,7 @@ h3 {
 }
 .col-xxl-4 {
   margin: 20px;
-  box-shadow: 2px 3px 5px rgba(219, 219, 219, 0.877);
+  box-shadow: 2px 3px 5px var(--color-card-border);
   overflow: hidden;
 }
 
@@ -320,7 +321,10 @@ h3 {
   right: 0%;
   margin: 10px;
   list-style: none;
-  box-shadow: 0px 5px 5px rgba(219, 219, 219, 0.877);
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgba(238, 230, 230, 0.877);
+  box-shadow: 2px 3px 5px var(--color-card-border);
   overflow: hidden;
   border-radius: 5px;
 }
@@ -361,8 +365,11 @@ h3 {
   border-style: solid;
   border-width: 1px;
   border-color: rgba(219, 219, 219, 0.877);
-  box-shadow: 2px 3px 5px rgba(219, 219, 219, 0.877);
-  cursor: pointer;
+  box-shadow: 2px 3px 5px var(--color-card-border);
+}
+#notification-card-anchor {
+  text-decoration: none;
+  color: inherit;
 }
 
 /**/

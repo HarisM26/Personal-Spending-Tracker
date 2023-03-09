@@ -61,6 +61,37 @@ def get_list_of_categories_close_or_over_the_limit(user, from_date, to_date):
     return categories_over_the_budget, categories_close_to_the_budget
 
 
+def get_list_of_categories_close(user, from_date, to_date):
+    categories = SpendingCategory.objects.prefetch_related('transactions').select_related('limit').filter(
+        user=user,
+        transactions__date__gte=from_date,
+        transactions__date__lte=to_date,
+    ).annotate(
+        month=TruncMonth("transactions__date")
+    ).annotate(
+        total=Sum("transactions__amount")
+    )
+    approaching_limits = Limit.objects.filter(status='approaching')
+    categories_close_to_the_budget = []
+    for category in categories:
+        categories_close_to_the_budget.append(category.limit.status)
+
+    return categories_close_to_the_budget
+    # approaching_limits = Limit.objects.filter(status='approaching')
+    # categories_close_to_the_budget = []
+    # for limit in approaching_limits:
+    #    approaching_category = SpendingCategory.objects.get(
+    #        user=user, limit=limit)
+    #    if approaching_category:
+    #        categories_close_to_the_budget.append(approaching_category)
+    # return categories_close_to_the_budget
+
+
+def print_list(lst):
+    for n in lst:
+        print(f'========{n}========')
+
+
 def get_total_left_after_subtraction_of_essentail_spending():
     pass
 
