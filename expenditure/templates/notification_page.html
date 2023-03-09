@@ -8,24 +8,22 @@
   <nav>
       <ol class="breadcrumb">
           <li class="breadcrumb-item active"> <a href="{% url 'feed' %}">Home</a></li>
-          <li class="breadcrumb-item"> <a">Notification</a></li>
+          <li class="breadcrumb-item"> <a> All Notifications</a></li>
       </ol>
   </nav>
+
   <div class="main-card">
-    <div>
       {% for notification in notifications%}
-      <li> 
-        <span><b>{{ notification.title }} </b></span><br>
-        <i>{{ notification.message }}</i> <br>
-        <span>{{ notification.created|naturaltime}}</span>
-        <span>{{ notification.status }}</span>
-        <li><hr ></li>
-      </li>
+      <a id="notification-card-anchor" href="{% url 'view_selected_notification' notification.id %}">
+        <div class="notification-card"> 
+          <span><b>{{ notification.title }} </b></span><br>
+          <i>{{ notification.message }}</i> <br>
+          <span class="text-muted">{{ notification.created|naturaltime}}</span>
+          <span class="text-muted">{{ notification.status }}</span>
+        </div>
+      </a>
       {% endfor %}
-    </div>
   </div>
 </section>
-
-
 
 {% endblock %}
