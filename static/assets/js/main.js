@@ -1,4 +1,5 @@
 import { generateMonthlyChart } from './reportcharts.js';
+import { generateCategoryChart } from './reportcharts.js';
 import { swiper } from './swiper.js';
 
 /*tree view*/
@@ -127,4 +128,20 @@ items.forEach( ( button, index ) =>
 // call swiper from swiper.js
 swiper
 
-  
+//Pie chart
+const doughnutLabel=[]
+const doughnutData=[]
+const rangeCategorySelector = Array.from(document.getElementsByClassName("category-in-range"));
+rangeCategorySelector.forEach((item)=>{
+  for (let i = 0; i < item.children.length; i++){
+    if (i<1){
+      doughnutLabel.push(item.children[i].textContent)
+    }
+    else{
+      doughnutData.push(item.children[i].textContent)
+    }
+  }
+})
+
+
+generateCategoryChart("category-chart",doughnutLabel,doughnutData)

@@ -83,11 +83,11 @@
 
  </section>
 
- <!-- chart -->       
+ <!-- Bar chart -->       
  <div id="bar-chart-container">
   <canvas id="monthly-chart"> </canvas>
 </div>   
- <!-- End chart -->  
+ <!-- End bar chart -->  
 
 <!-- hidden:: used to generate chart -->
     {% for transaction in transactions %}
@@ -111,6 +111,19 @@
         <p>There are no transactions in this period of time.</p>
     {% endfor %}
   </div>
+
+  {%for category in range_categories%}
+  <div class="category-in-range" hidden>
+    <span id="range-category-name">{{category.name}} </span>
+    <span id="range-category-total">{{category.total|to_2_decimal_places}} </span>
+  </div>
+  {% endfor %}
+
+   <!-- Doughnut chart -->       
+ <div class="doughnut-chart-container">
+  <canvas id="category-chart"> </canvas>
+</div>   
+ <!-- End doughnut chart --> 
 </section>
 
 {% endblock %}

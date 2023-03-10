@@ -248,6 +248,10 @@ h3 {
 #bar-chart-container {
   margin-top: 30px;
 }
+.doughnut-chart-container {
+  width: 550px;
+  height: 550px;
+}
 /*==============================*/
 
 /* Content Page */
