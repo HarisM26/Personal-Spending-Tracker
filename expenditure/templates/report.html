@@ -1,5 +1,5 @@
 {% extends 'base_content.html' %}
-
+{% load custom_tags %}
 {% block content %}
 
 {{ form.media }}
@@ -22,7 +22,7 @@
        
  <section class="report ">
     <!-- largest spending category card -->
-    <div class="col-xxl-4 col-xl-12">
+    <div class="col-xxl-4 col-xl-12"> 
 
       <div class="card info-card largest-category-card">
         <div class="card-body">
@@ -35,7 +35,7 @@
             {% if largest_category %}
             <div class="ps-3">
 
-              <h6>&#163; {{largest_category.total}}</h6>
+              <h6>&#163; {{largest_category.total|to_2_decimal_places}}</h6>
               <span class="text-muted small pt-2 ps-1">Category </span> <span class="text-success small pt-1 fw-bold">{{largest_category.name}}</span>
 
             </div>
@@ -83,11 +83,11 @@
 
  </section>
 
- <!-- chart -->       
+ <!-- Bar chart -->       
  <div id="bar-chart-container">
   <canvas id="monthly-chart"> </canvas>
 </div>   
- <!-- End chart -->  
+ <!-- End bar chart -->  
 
 <!-- hidden:: used to generate chart -->
     {% for transaction in transactions %}
@@ -111,6 +111,19 @@
         <p>There are no transactions in this period of time.</p>
     {% endfor %}
   </div>
+
+  {%for category in range_categories%}
+  <div class="category-in-range" hidden>
+    <span id="range-category-name">{{category.name}} </span>
+    <span id="range-category-total">{{category.total|to_2_decimal_places}} </span>
+  </div>
+  {% endfor %}
+
+   <!-- Doughnut chart -->       
+ <div class="doughnut-chart-container">
+  <canvas id="category-chart"> </canvas>
+</div>   
+ <!-- End doughnut chart --> 
 </section>
 
 {% endblock %}

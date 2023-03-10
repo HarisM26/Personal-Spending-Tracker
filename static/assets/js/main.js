@@ -1,4 +1,5 @@
 import { generateMonthlyChart } from './reportcharts.js';
+import { generateCategoryChart } from './reportcharts.js';
 import { swiper } from './swiper.js';
 
 /*tree view*/
@@ -127,44 +128,20 @@ items.forEach( ( button, index ) =>
 // call swiper from swiper.js
 swiper
 
-  
-// js for notification modal
-const notification = {
-  title: "",
-  message: "",
-  created: "",
-  status: "",
-}
+//Pie chart
+const doughnutLabel=[]
+const doughnutData=[]
+const rangeCategorySelector = Array.from(document.getElementsByClassName("category-in-range"));
+rangeCategorySelector.forEach((item)=>{
+  for (let i = 0; i < item.children.length; i++){
+    if (i<1){
+      doughnutLabel.push(item.children[i].textContent)
+    }
+    else{
+      doughnutData.push(item.children[i].textContent)
+    }
+  }
+})
 
-const notificationItems = Array.from(document.getElementsByClassName("notification-card"));
 
-notificationItems.forEach( ( button, index ) =>
-{
-    button.addEventListener("click", () =>
-    {  
-      const element = notificationItems[index]
-      transaction.receipt = ""
-      for (const child of element.children){   
-        switch(child.id){
-          case "notification-title":
-            notification.title = child.textContent;
-            break;
-          case "notification-message":
-            notification.message = child.textContent;
-            break;
-          case "notification-created":
-          notification.created = child.textContent;
-          break;
-          case "notification-status":
-            notification.status = child.textContent;
-            break;
-          default:
-            break;
-        }
-      }
-      changeInnerText("notificationModalLabel",notification.title)
-      changeInnerText("notification-message-modal",notification.message)
-      changeInnerText("notification-created-modal",notification.created)
-      changeInnerText("notification-status-modal",notification.status)
-    })
-    })
+generateCategoryChart("category-chart",doughnutLabel,doughnutData)

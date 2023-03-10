@@ -8,48 +8,22 @@
   <nav>
       <ol class="breadcrumb">
           <li class="breadcrumb-item active"> <a href="{% url 'feed' %}">Home</a></li>
-          <li class="breadcrumb-item"> <a">Notification</a></li>
+          <li class="breadcrumb-item"> <a> All Notifications</a></li>
       </ol>
   </nav>
 
   <div class="main-card">
       {% for notification in notifications%}
-     <!-- <a href="{% url 'mark_as_read' notification.id %}"></a>
-      </a>-->
-      <div class="notification-card" data-bs-toggle="modal" data-bs-target="#notificationModal"> 
-        <span id="notification-title"><b>{{ notification.title }} </b></span><br>
-        <i id="notification-message">{{ notification.message }}</i> <br>
-        <span id="notification-created" class="text-muted">{{ notification.created|naturaltime}}</span>
-        <span id="notification-status" class="text-muted">{{ notification.status }}</span>
-      </div>
-    
+      <a id="notification-card-anchor" href="{% url 'view_selected_notification' notification.id %}">
+        <div class="notification-card"> 
+          <span><b>{{ notification.title }} </b></span><br>
+          <i>{{ notification.message }}</i> <br>
+          <span class="text-muted">{{ notification.created|naturaltime}}</span>
+          <span class="text-muted">{{ notification.status }}</span>
+        </div>
+      </a>
       {% endfor %}
   </div>
 </section>
-
-<!-- Modal -->
-<div class="modal fade" id="notificationModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="notificationModalLabel"> </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div id="notification-message-modal"></div>
-        <div>
-          <span id="notification-created-modal" class="text-muted"></span>
-          <span id="notification-status-modal" class="text-muted"></span>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <a href="{% url 'spending' %}" type="button" class="btn btn-primary">View</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-
 
 {% endblock %}

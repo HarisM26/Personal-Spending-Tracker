@@ -18,6 +18,9 @@ from django.contrib.auth.decorators import login_required
 import expenditure.report_methods as rm
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
+from django.db.models import Q
+from django.template import loader
+from django.core.exceptions import ObjectDoesNotExist
 
 
 @login_prohibited
@@ -44,11 +47,15 @@ def features(request):
 def contact(request):
     return render(request, 'contact.html')
 
-def add_quick_spending(request):
-    spending_catgeory_queryset = SpendingCategory.objects.filter(user=request.user)
 
-    #later do .filter(name='General') or order by id and then first (if general would be deleted)
-    form = QuickSpendingTransactionForm(initial={'spending_category': spending_catgeory_queryset.first()})
+@login_required
+def add_quick_spending(request):
+    spending_catgeory_queryset = SpendingCategory.objects.filter(
+        user=request.user)
+
+    # later do .filter(name='General') or order by id and then first (if general would be deleted)
+    form = QuickSpendingTransactionForm(
+        initial={'spending_category': spending_catgeory_queryset.first()})
 
     if request.method == 'POST':
         form = QuickSpendingTransactionForm(request.POST)
@@ -64,12 +71,15 @@ def add_quick_spending(request):
                 is_current=True,
                 date=today
             )
-            messages.add_message(request, messages.SUCCESS, "Transaction created!")
-            form = QuickSpendingTransactionForm(initial={'spending_category': spending_category})
+            messages.add_message(request, messages.SUCCESS,
+                                 "Transaction created!")
+            form = QuickSpendingTransactionForm(
+                initial={'spending_category': spending_category})
 
-    form.fields['spending_category'].queryset = spending_catgeory_queryset 
+    form.fields['spending_category'].queryset = spending_catgeory_queryset
 
     return form
+
 
 @login_required
 def feed(request):
@@ -88,7 +98,7 @@ def feed(request):
         'articles': articles,
         'form': form,
     }
-    
+
     return render(request, 'feed.html', context)
 
 
@@ -107,11 +117,14 @@ def notification_page(request):
 
 
 @login_required
-def mark_as_read(request, id):
+def view_selected_notification(request, id):
     notification = Notification.objects.get(id=id)
     notification.status = 'read'
     notification.save()
-    return redirect('notification_page')
+    context = {
+        'notification': notification,
+    }
+    return render(request, 'view_notification.html', context)
 
 
 @login_required
@@ -200,6 +213,7 @@ class EditIncomeCategoryView(LoginRequiredMixin, UpdateView):
 
 
 class CreateSpendingCategoryView(LoginRequiredMixin, CreateView):
+
     template_name = "create_category.html"
     form_class = CategoryCreationMultiForm
 
@@ -359,6 +373,7 @@ def add_income_transaction(request, request_id):
     }
     return render(request, 'add_income_transaction.html', context)
 
+
 @login_required
 def edit_spending_transaction(request, id):
     spending_transaction = get_object_or_404(SpendingTransaction, id=id)
@@ -367,11 +382,13 @@ def edit_spending_transaction(request, id):
     points_before = spending_transaction.get_points()
 
     if request.method == 'POST':
-        form = SpendingTransactionForm(request.POST, request.FILES, instance=spending_transaction)
+        form = SpendingTransactionForm(
+            request.POST, request.FILES, instance=spending_transaction)
         if form.is_valid():
             form.save(commit=False)
-            if not(amount == form.cleaned_data.get('amount')):
-                spending_transaction.spending_category.limit.remaining_amount += (amount - form.cleaned_data.get('amount'))
+            if not (amount == form.cleaned_data.get('amount')):
+                spending_transaction.spending_category.limit.remaining_amount += (
+                    amount - form.cleaned_data.get('amount'))
                 spending_transaction.spending_category.limit.save()
             form.save()
             # Update how many points the user gets for this transaction
@@ -382,12 +399,13 @@ def edit_spending_transaction(request, id):
             return HttpResponseRedirect(reverse('spending'))
     else:
         form = SpendingTransactionForm(instance=spending_transaction)
-    
+
     context = {
         'spending_transaction': spending_transaction,
         'form': form,
     }
     return render(request, 'edit_spending_transaction.html', context=context)
+
 
 @login_required
 def edit_incoming_transaction(request, id):
@@ -400,12 +418,13 @@ def edit_incoming_transaction(request, id):
             return HttpResponseRedirect(reverse('incomings'))
     else:
         form = IncomeTransactionForm(instance=income_transaction)
-    
+
     context = {
         'income_transaction': income_transaction,
         'form': form,
     }
     return render(request, 'edit_income_transaction.html', context=context)
+
 
 @login_required
 def delete_spending_transaction(request, id):
@@ -420,11 +439,13 @@ def delete_spending_transaction(request, id):
     messages.success(request, "transaction deleted successfully!")
     return HttpResponseRedirect(reverse('spending'))
 
+
 @login_required
 def delete_incoming_transaction(request, id):
     income = get_object_or_404(IncomeTransaction, id=id)
     income.delete()
     return HttpResponseRedirect(reverse('incomings'))
+
 
 @login_required
 def view_transaction(request, id):
@@ -449,7 +470,7 @@ def list_incomings(request):
 def view_report(request):
     from_date = date(date.today().year-1, date.today().month, 1)
     to_date = date.today()
-
+    current_user = request.user
     if request.method == "POST":
         form = DateReportForm(request.POST)
         if form.is_valid():
@@ -462,13 +483,15 @@ def view_report(request):
         })
 
     transactions = rm.get_total_transactions_by_date(
-        request.user, from_date, to_date)
+        current_user, from_date, to_date)
     largest_category = rm.get_the_category_with_the_largest_total_spending(
-        request.user, from_date, to_date)
+        current_user, from_date, to_date)
     close_categories = rm.get_list_of_categories_close_or_over_the_limit(
-        request.user, from_date, to_date)
+        current_user, from_date, to_date)
     list_of_categories_and_transactions = rm.get_list_of_transactions_in_category(
-        request.user, from_date, to_date)
+        current_user, from_date, to_date)
+    range_categories = rm.get_categories_within_time_frame(
+        current_user, from_date, to_date)
 
     context = {
         "form": form,
@@ -476,6 +499,7 @@ def view_report(request):
         "close_categories": close_categories,
         'largest_category': largest_category,
         'list_of_categories_and_transactions': list_of_categories_and_transactions,
+        'range_categories': range_categories,
     }
     return render(request, 'report.html', context=context)
 
@@ -509,9 +533,48 @@ def leaderboard(request):
     return render(request, 'leaderboard.html')
 
 
+def friends(request):
+    if request.method == 'GET':
+        query = request.GET.get('q')
+
+        submitbutton = request.GET.get('submit')
+
+        if query is not None:
+            lookups = Q(first_name__icontains=query) | Q(
+                last_name__icontains=query) | Q(email__icontains=query)
+
+            results = User.objects.filter(lookups).distinct()
+
+            context = {'results': results, 'submitbutton': submitbutton}
+
+            return render(request, 'friends.html', context)
+
+        else:
+            return render(request, 'friends.html')
+
+    else:
+        return render(request, 'friends.html')
+
+
+def show_friends_profile(request, id):
+    results = User.objects.get(id=id)
+    template = loader.get_template('friends_profile.html')
+    context = {
+        'results': results,
+    }
+    return HttpResponse(template.render(context, request))
+
+
 @login_required
-def profile(request):
-    return render(request, 'profile.html')
+def follow_toggle(request, id):
+    current_user = request.user
+    try:
+        followee = User.objects.get(id=id)
+        current_user.toggle_follow(followee)
+    except ObjectDoesNotExist:
+        return redirect('friends')
+    else:
+        return redirect('friends_profile', id=id)
 
 
 @login_required
@@ -534,3 +597,13 @@ class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
     template_name = 'change_password.html'
     success_message = 'Successfully changed password'
     success_url = reverse_lazy("user_profile")
+
+
+def forgot_password(request):
+    if request.method == 'POST':
+        form = EmailForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data.get("email")
+    else:
+        form = EmailForm()
+    return render(request, 'forgot_password.html', {'form': form})

@@ -63,20 +63,14 @@ const data = {
     data: myData,
     backgroundColor: [
       'rgba(54, 162, 235, 0.2)',
-      'rgba(54, 162, 235, 0.2)',
-      'rgba(54, 162, 235, 0.2)',
-      'rgba(54, 162, 235, 0.2)',
-      'rgba(54, 162, 235, 0.2)',
     ],
     borderColor: [
       'rgb(54, 162, 235)',
-      'rgb(54, 162, 235)',
-      'rgb(54, 162, 235)',
-      'rgb(54, 162, 235)',
-      'rgb(3, 4, 96)',
     ],
-    borderWidth: 2,
-    borderRadius: 100
+    borderWidth: 1,
+    borderRadius: 20,
+    borderSkipped: false,
+    barPercentage: 0.9
   }]
 };
 
@@ -104,5 +98,44 @@ const config = {
     };
 
 const chartArea = document.getElementById(`${templateId}`);
+  return new Chart(chartArea,config);
+  }
+
+    //generate random numbers
+const randomNumber = number => Math.floor(Math.random()*(number+1));
+const backgroudColor = []
+const populateBackgroundColor = (size) => {
+  for(let i = 0; i < size; i++){
+    backgroudColor.push(`rgba(${randomNumber(255)}, ${randomNumber(255)}, ${randomNumber(255)},0.2)`)
+  }
+}
+  export const generateCategoryChart= (templateId,labels,myData) => {
+    populateBackgroundColor(myData.length)
+    const data = {
+      labels: labels,
+      datasets: [{
+        label: 'Total transactions per category',
+        data: myData,
+        backgroundColor: backgroudColor,
+        borderColor: backgroudColor,
+      }]
+    };
+    const config = {
+      type: 'doughnut',
+      data: data,
+      options: {
+        responsive: true,
+          plugins: {
+            tooltip: {
+              callbacks: {
+                label: ((tooltipItem, data) => {
+                  return ' £' + tooltipItem.formattedValue
+                })
+              }
+            }
+          }
+        }
+        };
+        const chartArea = document.getElementById(`${templateId}`);
   return new Chart(chartArea,config);
   }
