@@ -56,15 +56,12 @@ class User(AbstractBaseUser, PermissionsMixin):
         max_length=150,
     )
 
-<<<<<<< HEAD
     points = models.IntegerField(default=0)
 
     id = models.AutoField(primary_key=True)
-=======
     followers = models.ManyToManyField(
         'self', symmetrical=False, related_name='followees'
     )
->>>>>>> main
 
     def toggle_follow(self, followee):
         if followee == self:
