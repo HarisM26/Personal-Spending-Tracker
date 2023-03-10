@@ -1,7 +1,7 @@
 /* Register and Login css  */
 
 .signing{
-    height:100vh;
+    height:100%;
     margin-top: 3vh;
     background: url(/static/images/bkg2.jpg);
 	background-size: cover;
@@ -14,14 +14,21 @@
 
 }
 
+.signing .message{
+    margin-top: 200px;
+}
+
 .signing .row{
+    position: fixed;
     align-items: center;
     justify-content: center;
     height: 100%;
 }
 
 .signing .card{
+    
     border-radius: 1rem;   
+    margin-bottom: 20vh;
     
 }
 

@@ -21,12 +21,10 @@
                   {% csrf_token %}
                   <input type="hidden" name="next" value="{{ next }}">
                   {% include 'partials/bootstrap_form.html' with form=form %}
-                  <input type="submit" value="Login" class="btn btn-info">
+                  <input type="submit" value="             Login             " class="btn btn-info">
                 </form>
-                  
-            
+                <a href="{% url 'forgot_password' %}">Forgot Password?</a>
                 </div>
-            
                 <div>
                   <p class="mb-0">Don't have an account? <a href="{% url 'sign_up' %}">Get Started</a>
                   </p>
@@ -38,7 +36,7 @@
           </div>
       </div>
     </div>
-  </section>
+</section>
     
 {% endblock %}
 
