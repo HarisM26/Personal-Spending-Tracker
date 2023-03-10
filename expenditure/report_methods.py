@@ -85,3 +85,6 @@ def get_list_of_transactions_in_category(user, from_date, to_date):
         date__lte=to_date,
         spending_category__user=user
     )
+
+# average daily spending
+# percentage increase or decrease
