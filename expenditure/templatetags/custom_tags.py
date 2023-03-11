@@ -1,4 +1,5 @@
-from expenditure.models import SpendingTransaction, IncomeTransaction, Notification
+from expenditure.models.transactions import SpendingTransaction, IncomeTransaction
+from expenditure.models.notification import Notification
 from django import template
 from datetime import datetime
 

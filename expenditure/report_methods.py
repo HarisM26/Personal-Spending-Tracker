@@ -1,8 +1,9 @@
-from datetime import datetime, date, timedelta
 from decimal import *
-from django.db.models import Sum, F, IntegerField
-from django.db.models.functions import TruncMonth, Cast, ExtractDay
-from .models import *
+from django.db.models import Sum
+from django.db.models.functions import TruncMonth
+from expenditure.models.categories import *
+from expenditure.models.transactions import *
+from expenditure.models.user import *
 
 
 def get_total_transactions_by_date(user, from_date, to_date):
@@ -40,6 +41,20 @@ def get_categories_within_time_frame(user, from_date, to_date):
     ).order_by("-total")
 
     return categories
+
+
+def get_average_daily_spending_within_time_frame(user, from_date, to_date):
+    days = (to_date-from_date).days
+    print(f'============={days}==============')  # why is tot days in yr 375??
+    categories = get_categories_within_time_frame(user, from_date, to_date)
+
+    total_transactions = 0
+    for category in categories:
+        total_transactions += category.total
+    if days is not 0:
+        return total_transactions/days
+    else:
+        return total_transactions
 
 
 def get_list_of_categories_close_or_over_the_limit(user, from_date, to_date):

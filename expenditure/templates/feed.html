@@ -4,7 +4,8 @@
 
 
 <section class="content-section">
-    <div>
+    <div>{%include 'partials/messages.html' %}</div>
+    <div >
         <h1>Dashboard</h1>
     </div>
     <nav>
@@ -15,8 +16,38 @@
     </nav>
  
         <section class="section dashboard">
-            <div class="welcome-card">
-                Welcome back {{ user.first_name }}
+            <div class="main-cards">
+                <div class="card">
+                    <div class="card-inner">
+                        <p class="text-primary"> Points </p>
+                        <span class="pic"></span>
+                    </div>
+                    <span class="text-primary font-weight-bold">25</span>
+                </div>
+
+                <div class="card">
+                    <div class="card-inner">
+                        <p class="text-primary"> Points </p>
+                        <span class="pic"></span>
+                    </div>
+                    <span class="text-primary font-weight-bold">25</span>
+                </div>
+
+                <div class="card">
+                    <div class="card-inner">
+                        <p class="text-primary"> Points </p>
+                        <span class="pic"></span>
+                    </div>
+                    <span class="text-primary font-weight-bold">25</span>
+                </div>
+
+                <div class="card">
+                    <div class="card-inner">
+                        <p class="text-primary"> Points </p>
+                        <span class="pic"></span>
+                    </div>
+                    <span class="text-primary font-weight-bold">25</span>
+                </div>
             </div>
 
             {{ form.media }}
@@ -29,33 +60,39 @@
             </div>
 
             <div class="row">
-                <div class="col-lg-9">
-                    <div class="row">
-                        <div class="main-card">
-                            <div id="bar-chart-container">
-                                <canvas id="monthly-chart"> </canvas>
-                            </div>   
-                        </div>                     
-                    </div>
+                <div class="col-md-8">
+                    <div class="card">
+                        <div id="bar-chart-container">
+                            <canvas id="monthly-chart"> </canvas>
+                        </div>   
+                    </div> 
                 </div>
-        
-                
-                <div class="col-lg-3">
-                    <div class="row">
+                <div class="col-md-4">
+                    <div class="card">
+                        <h3 >News</h3>
+                        {% for article in articles %}
                         <div class="card">
-                            <h3 >News</h3>
-                            {% for article in articles %}
-                            <div id="news-card" class="modal-card">
-                              <div id="news-card-body-div" class="card-body">
+                            <div id="news-card-body-div" class="card-body">
                                 <h7 class="card-title">{{ article|get_article_dict_element:"title" }} </h7>
-                                <a href="{{ article|get_article_dict_element:'url' }}" target="_blank" class="btn btn-info" style="margin: 10px;">View article</a>
-                              </div>
                             </div>
-                            {% endfor %}
+
+                            <div>
+                                <a href="{{ article|get_article_dict_element:'url' }}" target="_blank" class="btn btn-info" style="margin: 10px;">View article</a>
+                            </div>
                         </div>
+                        {% endfor %}
+                    </div>
+                    <div class="card" style="margin-top:30px;">
+                        <h3 >Recent Activity</h3>
+                        <p style="margin:30px;">
+                            Joel is now your friend
+                        </p>
                     </div>
                 </div>
             </div>
+            
+
+            
            
         </section>
 

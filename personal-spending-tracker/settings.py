@@ -14,7 +14,8 @@ from pathlib import Path
 import os
 from django.contrib.messages import constants as message_constants
 from django.conf.locale.es import formats as es_formats
-
+# import django
+# django.setup()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -49,6 +50,7 @@ INSTALLED_APPS = [
     'bootstrap_datepicker_plus',
     'betterforms',
     'django_apscheduler',
+
 ]
 
 
@@ -132,20 +134,21 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT = '/uploads/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR,'uploads')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 STATICFILES_FINDERS = [
-      'django.contrib.staticfiles.finders.FileSystemFinder',
-      'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-  ]
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 
 AUTH_USER_MODEL = 'expenditure.User'
 
@@ -160,7 +163,6 @@ MESSAGE_TAGS = {
     message_constants.DEBUG: 'dark',
     message_constants.ERROR: 'danger',
 }
-#tell Celery how to find Redis
+# tell Celery how to find Redis
 CELERY_BROKER_URL = 'redis://localhost:6379'
-LOGIN_REDIRECT_URL = '/' 
-
+LOGIN_REDIRECT_URL = '/'

@@ -1,9 +1,11 @@
 from django.db.models.signals import post_save
-from .models import *
 from django.dispatch import receiver
 from decimal import *
 from expenditure.helpers import create_limit_notification
 from django.contrib.auth import get_user_model
+from expenditure.models.categories import *
+from expenditure.models.transactions import *
+from expenditure.models.user import *
 
 User = get_user_model()
 

@@ -4,7 +4,7 @@ from datetime import date, datetime, timedelta
 from django.conf import settings
 from django.shortcuts import redirect
 from decimal import Decimal
-import expenditure.models
+from expenditure.models.notification import Notification
 
 """Inspiration taken from https://groups.google.com/g/django-developers/c/LHnM_2jnZOM/m/8-oK6CXyEAAJ"""
 
@@ -25,7 +25,7 @@ def create_limit_notification(user, category_name, category_limit_obj, total):
     else:
         current_message = f'{category_name} category has reached its limit!'
 
-    notification = expenditure.models.Notification.objects.create(
+    notification = Notification.objects.create(
         user_receiver=user,
         title='About your limit',
         message=current_message
@@ -34,7 +34,7 @@ def create_limit_notification(user, category_name, category_limit_obj, total):
 
 
 def create_notification_about_refresh(user, category):
-    notification = expenditure.models.Notification.objects.create(
+    notification = Notification.objects.create(
         user_receiver=user,
         title='Yey!, A category has refreshed.',
         message=f'{category.name} category has refreshed. Let\'s not go over our £{category.limit} limit this time!. Happy saving!!'
@@ -63,8 +63,8 @@ def get_end_date(limit_type):
 
 
 def get_unread_nofications(user):
-    return expenditure.models.Notification.objects.filter(user_receiver=user, status='unread').count()
+    return Notification.objects.filter(user_receiver=user, status='unread').count()
 
 
 def get_user_notifications(user):
-    return expenditure.models.Notification.objects.filter(user_receiver=user)
+    return Notification.objects.filter(user_receiver=user)

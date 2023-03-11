@@ -3,13 +3,14 @@ from .forms import *
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from datetime import datetime, date, timedelta
+from datetime import date
 from django.http import HttpResponse, HttpResponseRedirect
 from .news_api import all_articles
 from django.urls import reverse, reverse_lazy
-from .models import *
-from django.db.models import Sum
-from django.db.models.functions import TruncMonth
+from expenditure.models.categories import *
+from expenditure.models.transactions import *
+from expenditure.models.notification import Notification
+from expenditure.models.user import *
 from decimal import *
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -474,6 +475,8 @@ def view_report(request):
         current_user, from_date, to_date)
     range_categories = rm.get_categories_within_time_frame(
         current_user, from_date, to_date)
+    average_daily_spending = rm.get_average_daily_spending_within_time_frame(
+        current_user, from_date, to_date)
 
     context = {
         "form": form,
@@ -482,6 +485,7 @@ def view_report(request):
         'largest_category': largest_category,
         'list_of_categories_and_transactions': list_of_categories_and_transactions,
         'range_categories': range_categories,
+        'average_daily_spending': average_daily_spending,
     }
     return render(request, 'report.html', context=context)
 

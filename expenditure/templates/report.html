@@ -46,6 +46,26 @@
     </div>
     <!-- End largest spending category card -->
 
+    <!-- Average daily spending -->
+    <div class="col-xxl-4 col-xl-12"> 
+
+      <div class="card info-card largest-category-card">
+        <div class="card-body">
+          <h5 class="card-title">Average daily spending </h5>
+
+          <div class="d-flex align-items-center">
+            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+              <i class="fa-regular fa-sterling-sign fa-2x"></i>
+            </div>
+            <div class="ps-3">
+              <h6>&#163; {{average_daily_spending|to_2_decimal_places}}</h6>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Average daily spending  -->
+    
      <!-- over and close to limit category card -->
      {% for list_of_categories in close_categories %}
      {% if forloop.first %}
