@@ -1,0 +1,17 @@
+{% extends 'friends.html' %}
+{% block content %} 
+
+<section class="content-section">
+<div class="card">
+       <h1> Profile</h1>
+       <h1>{{results.first_name}} {{results.last_name}} </h1>
+       
+       <p class="profile-statistics">
+            {{results.followee_count}} Following &emsp;
+            {{results.follower_count}} Followers &emsp;
+            <button>add</button>
+       </p>
+           
+</div>
+</section>
+{% endblock content %}
