@@ -27,7 +27,11 @@ SECRET_KEY = 'django-insecure-tpfuxvw7-9jg#o@7&57&@^9ao$=5i^krv%@g)9&!6g_ueb5u$l
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'voidmoneytracker@gmail.com'
+EMAIL_HOST_PASSWORD = 'oifzbxogrvpgwvjh'
+EMAIL_PORT = 587
 ALLOWED_HOSTS = []
 
 
