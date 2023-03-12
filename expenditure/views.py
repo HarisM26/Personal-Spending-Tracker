@@ -1,3 +1,4 @@
+import uuid
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import *
 from django.contrib import messages
@@ -21,6 +22,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q
 from django.template import loader
 from django.core.exceptions import ObjectDoesNotExist
+from .email_manager import EmailSender
 
 
 @login_prohibited
@@ -164,7 +166,10 @@ def sign_up(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
+            passResetToken = PasswordResetToken.objects.create(user=user)
+            passResetToken.save()
             login(request, user)
+            EmailSender().send_welcome_email(request.POST.get('email'))
             return redirect('feed')
     else:
         form = SignUpForm()
@@ -583,9 +588,25 @@ class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
 
 def forgot_password(request):
     if request.method == 'POST':
+        username = request.POST.get('username')
         form = EmailForm(request.POST)
         if form.is_valid():
             email = form.cleaned_data.get("email")
+            user = User.objects.get(email=email)
+            token = str(uuid.uuid4())
+            EmailSender().send_forgot_password_email(email, token)
+            messages.success(
+                request, 'An email has been sent to your registered email')
     else:
         form = EmailForm()
     return render(request, 'forgot_password.html', {'form': form})
+
+
+def change_password(request, token):
+    context = {}
+    try:
+        reset_password_token = models.ResetPasswordToken.objects.get(
+            token=token)
+    except:
+        print(e)
+    return render(request, 'change_password.html', {'token': token})
