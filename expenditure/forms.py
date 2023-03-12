@@ -144,3 +144,20 @@ class DateReportForm(forms.Form):
                                 not_future], widget=DatePickerInput(options={"format": "DD/MM/YYYY"}))
     to_date = forms.DateField(label="to", validators=[
                               not_future], widget=DatePickerInput(options={"format": "DD/MM/YYYY"}))
+
+
+class NewForgottenPasswordForm(forms.Form):
+    new_password = forms.CharField(label='Password', widget=forms.PasswordInput(), validators=[RegexValidator(
+        regex=r'^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).*$',
+        message='Password must contain an uppercase character, a lowercase character and a number'
+    )])
+    password_confirmation = forms.CharField(
+        label='Password confirmation', widget=forms.PasswordInput())
+
+    def clean(self):
+        super().clean()
+        new_password = self.cleaned_data.get('new_password')
+        password_confirmation = self.cleaned_data.get('password_confirmation')
+        if new_password != password_confirmation:
+            self.add_error('password_confirmation',
+                           'confirmation does not match password')
