@@ -64,7 +64,8 @@ h3 {
     display: inline;
     float: right;
   }
-  #bar-chart-container {
+  #bar-chart-container,
+  .doughnut-chart-container {
     width: 45%;
   }
 }
@@ -265,10 +266,7 @@ h3 {
 #bar-chart-container {
   margin-top: 30px;
 }
-.doughnut-chart-container {
-  width: 550px;
-  height: 550px;
-}
+
 /*==============================*/
 
 /* Content Page */
@@ -395,4 +393,8 @@ h3 {
   color: inherit;
 }
 
+.doughnut-chart-container {
+  margin-top: 30px;
+  padding-top: 10px;
+}
 /**/

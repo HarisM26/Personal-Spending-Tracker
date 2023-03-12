@@ -479,6 +479,8 @@ def view_report(request):
         current_user, from_date, to_date)
 
     context = {
+        "from_date": from_date,
+        "to_date": to_date,
         "form": form,
         "transactions": transactions,
         "close_categories": close_categories,

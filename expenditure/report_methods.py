@@ -45,7 +45,6 @@ def get_categories_within_time_frame(user, from_date, to_date):
 
 def get_average_daily_spending_within_time_frame(user, from_date, to_date):
     days = (to_date-from_date).days
-    print(f'============={days}==============')  # why is tot days in yr 375??
     categories = get_categories_within_time_frame(user, from_date, to_date)
 
     total_transactions = 0

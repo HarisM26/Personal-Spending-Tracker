@@ -51,7 +51,7 @@
 
       <div class="card info-card largest-category-card">
         <div class="card-body">
-          <h5 class="card-title">Average daily spending </h5>
+          <h5 class="card-title">Average daily spending from <b>{{from_date}}</b> to <b>{{to_date}}</b></h5>
 
           <div class="d-flex align-items-center">
             <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -117,21 +117,6 @@
       </ul>
       {% endfor %}
 
-    <div class="categories-by-month">
-    <h3>Categories</h3>
-    {% regroup list_of_categories_and_transactions by spending_category as category_list %}
-    {% for category in category_list %}
-      <details>
-        <summary>{{ category.grouper }}</summary>
-        {% for transaction in category.list %}
-          <p><a style="color: black" href="{{transaction.get_absolute_url}}">{{ transaction }}</a></p>
-        {% endfor %}
-      </details>
-      {% empty %}
-        <p>There are no transactions in this period of time.</p>
-    {% endfor %}
-  </div>
-
   {%for category in range_categories%}
   <div class="category-in-range" hidden>
     <span id="range-category-name">{{category.name}} </span>
@@ -144,6 +129,23 @@
   <canvas id="category-chart"> </canvas>
 </div>   
  <!-- End doughnut chart --> 
+
+ <!--Categories by month-->
+ <div class="categories-by-month">
+  <h3>Categories Breakdown</h3>
+  {% regroup list_of_categories_and_transactions by spending_category as category_list %}
+  {% for category in category_list %}
+    <details>
+      <summary>{{ category.grouper }}</summary>
+      {% for transaction in category.list %}
+        <p><a style="color: black" href="{{transaction.get_absolute_url}}">{{ transaction }}</a></p>
+      {% endfor %}
+    </details>
+    {% empty %}
+      <p>There are no transactions in this period of time.</p>
+  {% endfor %}
+</div>
+<!--End categories by month-->
 </section>
 
 {% endblock %}

@@ -53,3 +53,10 @@ def convert_date(date):
 @register.filter
 def to_2_decimal_places(value):
     return round(value, 2)
+
+# Greetings custom tag
+
+
+@register.filter
+def get_greetings(date):
+    pass

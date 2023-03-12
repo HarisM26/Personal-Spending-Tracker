@@ -124,7 +124,7 @@ const populateBackgroundColor = (size) => {
       type: 'doughnut',
       data: data,
       options: {
-        responsive: true,
+        maintainAspectRatio: true,
           plugins: {
             tooltip: {
               callbacks: {
