@@ -90,6 +90,7 @@ urlpatterns = [
     path('leaderboard/', views.leaderboard, name='leaderboard'),
     path('reports/', views.view_report, name='reports'),
     path('profile/', views.profile, name='user_profile'),
-    path('password-change/', ChangePasswordView.as_view(), name='password_change'),
+    path('password-change/<token>/',
+         ChangePasswordView.as_view(), name='password_change'),
     path('forgot_password/', views.forgot_password, name='forgot_password'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
