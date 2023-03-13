@@ -76,9 +76,6 @@ h3 {
   }
 }
 
-.categories-by-month {
-  padding: 50px;
-}
 .report .card-icon {
   font-size: 16px;
   line-height: 0;
@@ -266,7 +263,11 @@ h3 {
 #bar-chart-container {
   margin-top: 30px;
 }
-
+@media (max-width: 400px) {
+  .categories-by-month {
+    font-size: 14px;
+  }
+}
 /*==============================*/
 
 /* Content Page */
@@ -379,7 +380,9 @@ h3 {
 }
 
 /* Notification */
-.notification-card {
+.notification-card,
+.individual-category,
+.transaction_list {
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 8px;
@@ -387,6 +390,16 @@ h3 {
   border-width: 1px;
   border-color: rgba(219, 219, 219, 0.877);
   box-shadow: 2px 3px 5px var(--color-card-border);
+}
+.transaction_list {
+  padding: 0px 10px;
+  margin-top: 10px;
+}
+#transaction-date {
+  padding-left: 10px;
+}
+#transaction-amount {
+  padding-right: 10px;
 }
 #notification-card-anchor {
   text-decoration: none;
@@ -397,4 +410,9 @@ h3 {
   margin-top: 30px;
   padding-top: 10px;
 }
+
+.categories-by-month {
+  margin-top: 40px;
+}
+
 /**/

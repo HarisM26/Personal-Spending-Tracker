@@ -60,3 +60,25 @@ def to_2_decimal_places(value):
 @register.filter
 def get_greetings(date):
     pass
+
+
+@register.filter
+def get_month(monthvalue):
+    months = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September',
+              'October', 'November', 'December']
+    return months[monthvalue]
+# current_month = datetime.month()
+
+# @register.filter
+# def check_month(month):
+#    if current_month == month:
+#        return True
+#    else:
+#        current_month = month
+#        return False
+
+
+@register.filter
+def printstuff(stuff):
+    print(f'======= date {stuff.month}=========')
+    # print(f'==========current month{current_month}=============')

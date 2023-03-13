@@ -35,8 +35,6 @@ def get_categories_within_time_frame(user, from_date, to_date):
         transactions__date__gte=from_date,
         transactions__date__lte=to_date,
     ).annotate(
-        month=TruncMonth("transactions__date")
-    ).annotate(
         total=Sum("transactions__amount")
     ).order_by("-total")
 

@@ -19,7 +19,7 @@
   </div>
   <div class="main-card">
   {% for category in categories %}
-    <div >
+    <div class = "individual-category">
       <ul id="myUL">
         <li class="category_list"> 
           <span id="category-name-tag" class="caret"><b>{{ category.name }} </b></span><br>
@@ -34,7 +34,6 @@
             <a class="btn btn-info" href="{% url 'delete_spending_category' category.id %}" data-bs-toggle="tooltip" title="Delete category"> <i class="fa-solid fa-trash-can" style="color: red"></i> </a>
           </span>
           </div>
-          <hr>
           <ul class="nested">
             {% with transactions=category|get_spending_transactions %}
             {% for transaction in transactions %}
@@ -61,7 +60,6 @@
                <div>&#163;{{transactions|get_transaction_total|intcomma}}</div>
             </div>
             {% endwith %}
-            <li><hr></li>
           </ul>
         </li>
       </ul>
@@ -142,4 +140,5 @@
     </div>
   </div>
 </div>
+<!--End modal-->
 {% endblock %}
