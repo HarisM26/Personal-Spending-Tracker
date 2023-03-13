@@ -4,18 +4,36 @@
 
 
 <section class="content-section">
-    <div >
-        <h1>Dashboard</h1>
+    <div class="feed-header">
+        <div>
+            <h1>Dashboard</h1>
+            {{ form.media }}
+            <div class="quick-add">
+                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#quick-add-detail-modal">Quick Add</button>
+
+                </div>
+            </div>
+            
+        </div>
+        
+        <div>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item active"> <a href="{% url 'feed' %}">Home</a></li>
+                    <li class="breadcrumb-item"> <a>Dashboard</a></li>
+                </ol>
+            </nav>
+        </div>
+
+        
     </div>
-    <nav>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item active"> <a href="{% url 'feed' %}">Home</a></li>
-            <li class="breadcrumb-item"> <a>Dashboard</a></li>
-        </ol>
-    </nav>
+
  
         <section class="section dashboard">
+            
+            
             <div class="main-cards">
+                
                 <div class="card">
                     <div class="card-inner">
                         <p class="text-primary"> Points </p>
@@ -49,14 +67,7 @@
                 </div>
             </div>
 
-            {{ form.media }}
-            <div class="main-card">
-                <form action="{% url 'feed' %}" method="post">
-                    {% csrf_token %}
-                    {% include 'partials/bootstrap_form.html' with form=form %}
-                    <input type="submit" value="Add transaction" class="btn btn-info">
-                </form>
-            </div>
+            
 
             <div class="row">
                 <div class="col-md-8">
@@ -96,4 +107,26 @@
         </section>
 
 </section>
+
+<div class="modal" id="quick-add-detail-modal" tabindex="-1" aria-labelledby="quick-add-modal-label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="quick-add-modal-label" >Quick Add</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form method="post" >
+                {% csrf_token %}
+                <input type="hidden" name="feed" value="{{ next }}">
+                {% include 'partials/bootstrap_form.html' with form=form %}
+                <input type="submit" value="             Quick Add           " class="btn btn-info">
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}

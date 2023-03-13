@@ -1,11 +1,15 @@
 /* Register and Login css  */
 
 .signing{
-    height:100%;
-    margin-top: 3vh;
-    background: url(/static/images/bkg2.jpg);
+    width:100vw;
+	height: 100vh;
+	background: url(/static/images/bkg2.jpg);
 	background-size: cover;
 	background-position: bottom;
+	font-family: "Lato", sans-serif;
+	display:flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .signing .container{
@@ -47,3 +51,10 @@
     color: gray;
     font-weight: bold;
 }
+
+
+@media (max-width: 1000px) {
+    .signing .image {
+      display: none;
+    }
+  }

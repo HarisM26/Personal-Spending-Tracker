@@ -396,3 +396,8 @@ h3 {
 }
 
 /**/
+
+
+.content-section .quick-add{
+  float: right;
+}
