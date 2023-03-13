@@ -54,7 +54,6 @@ def delete_old_job_executions(max_age=604_800):
 # class Command(BaseCommand):
     # help = 'Run APScheduler'
 
-
 """ def start():
     scheduler = BackgroundScheduler()
     scheduler.add_jobstore(DjangoJobStore(), 'default')
@@ -72,7 +71,7 @@ def delete_old_job_executions(max_age=604_800):
         delete_old_job_executions,
         trigger=CronTrigger(
             day_of_week="mon", hour="00", minute="00"
-        ),  # Midnight on Monday, before start of the next work week.
+        ),
         id="delete_old_job_executions",
         max_instances=1,
         replace_existing=True,
@@ -85,5 +84,5 @@ def delete_old_job_executions(max_age=604_800):
     except KeyboardInterrupt:
         logger.info("Stopping scheduler...")
         scheduler.shutdown()
-        logger.info("Scheduler shut down successfully!")  """
- 
+        logger.info("Scheduler shut down successfully!")
+ """

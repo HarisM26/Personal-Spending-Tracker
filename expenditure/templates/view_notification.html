@@ -1,0 +1,36 @@
+{% extends 'base_content.html' %}
+{% block content %}
+{% load humanize %}
+<section class="content-section">
+  <div>
+    <h1> View Notification </h1>
+  </div>
+  <nav>
+      <ol class="breadcrumb">
+          <li class="breadcrumb-item active"> <a href="{% url 'feed' %}">Home</a></li>
+          <li class="breadcrumb-item"> <a href="{% url 'notification_page' %}"> All Notifications </a></li>
+          <li class="breadcrumb-item"> <a> View Notification </a></li>
+      </ol>
+  </nav>
+
+    <div class="main-card">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{ notification.title }}</h5>
+          </div>
+        <div class="modal-body">
+          <i id="notification-message">{{ notification.message }}</i> <br>
+          <span id="notification-created" class="text-muted">{{ notification.created|naturaltime}}</span>
+          <span id="notification-status" class="text-muted">{{ notification.status }}</span>
+        </div>
+        <div class="modal-footer">
+          <a href="{% url 'notification_page' %}" type="button" class="btn btn-primary modal-btn">Close</a>
+          <a href="{% url 'spending' %}" type="button" class="btn btn-primary">View</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</section>
+{% endblock %}
