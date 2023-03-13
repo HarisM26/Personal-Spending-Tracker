@@ -54,7 +54,6 @@ def delete_old_job_executions(max_age=604_800):
 # class Command(BaseCommand):
     # help = 'Run APScheduler'
 
-
 def start():
     scheduler = BackgroundScheduler()
     scheduler.add_jobstore(DjangoJobStore(), 'default')
