@@ -59,18 +59,35 @@ class User(AbstractBaseUser, PermissionsMixin):
     points = models.IntegerField(default=0)
 
     id = models.AutoField(primary_key=True)
+    followers = models.ManyToManyField(
+        'self', symmetrical=False, related_name='followees'
+    )
 
-    is_staff = models.BooleanField(default=False)
+    def toggle_follow(self, followee):
+        if followee == self:
+            return
+        if self.is_following(followee):
+            self._unfollow(followee)
+        else:
+            self._follow(followee)
 
-    is_active = models.BooleanField(default=True)
+    def _follow(self, user):
+        user.followers.add(self)
+
+    def _unfollow(self, user):
+        user.followers.remove(self)
+
+    def is_following(self, user):
+        return user in self.followees.all()
+
+    def follower_count(self):
+        return self.followers.count()
+
+    def followee_count(self):
+        return self.followees.count()
 
     toggle_notification = models.CharField(
         max_length=3, choices=TOGGLE_CHOICE, default='ON')
-
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
-
-    objects = UserManager()
 
     def __str__(self):
         return self.email
@@ -82,6 +99,15 @@ class User(AbstractBaseUser, PermissionsMixin):
     @property
     def get_points(self):
       return DailyPoint.objects.filter(user__pk=self.pk).count()
+
+    is_staff = models.BooleanField(default=False)
+
+    is_active = models.BooleanField(default=True)
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
+
+    objects = UserManager()
 
 
 class Profile(models.Model):

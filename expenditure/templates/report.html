@@ -1,12 +1,12 @@
 {% extends 'base_content.html' %}
-
+{% load custom_tags %}
 {% block content %}
 
 {{ form.media }}
 
-<section class="content-section">
+<section class="content-section main-section">
   <div>
-    <h1>Dashboard</h1>
+    <h1>Reports</h1>
   </div>
   <nav>
       <ol class="breadcrumb">
@@ -14,48 +14,116 @@
           <li class="breadcrumb-item"> <a>Reports</a></li>
       </ol>
   </nav>
-  <div class="main-card">
-    <form action="" method="post">
+    <form id="report-form" action="" method="post">
       {% csrf_token %}
       {% include 'partials/bootstrap_form.html' with form=form %}
       <input id="get-report-btn" type="submit" value="Get report" class="btn btn-primary btn-100">
     </form>
-    {% for transaction in transactions %}
-      <li>{{transaction.month}} &#187;&#187;&#187; <span> &#163;{{transaction.total}} </span></li>
-    {% endfor %}
+       
+ <section class="report ">
+    <!-- largest spending category card -->
+    <div class="col-xxl-4 col-xl-12"> 
 
-    {% for list_of_categories in close_categories %}
-      {% if forloop.first %}
-        <h3>Categories past the limit on average</h3>
+      <div class="card info-card largest-category-card">
+        <div class="card-body">
+          <h5 class="card-title">Category with the largest total spending </h5>
+
+          <div class="d-flex align-items-center">
+            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+              <i class="fa-regular fa-group-arrows-rotate fa-2x"></i>
+            </div>
+            {% if largest_category %}
+            <div class="ps-3">
+
+              <h6>&#163; {{largest_category.total|to_2_decimal_places}}</h6>
+              <span class="text-muted small pt-2 ps-1">Category </span> <span class="text-success small pt-1 fw-bold">{{largest_category.name}}</span>
+
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End largest spending category card -->
+
+     <!-- over and close to limit category card -->
+     {% for list_of_categories in close_categories %}
+     {% if forloop.first %}
+     <div class="col-xxl-4 col-xl-12">
+
+      <div class="card info-card over-limit-category-card">
+        <div class="card-body">
+          <h5 class="card-title"> Categories past the limit on average </h5>
       {% else %}
-        <h3>Categories close to the limit on average</h3>
+      <div class="col-xxl-4 col-xl-12">
+
+        <div class="card info-card close-limit-category-card">
+          <div class="card-body">
+            <h5 class="card-title"> Categories close to the limit on average </h5>
+
       {% endif %}
-      <ul>
-        {% for category in list_of_categories %}
-          <li>{{category.name}} &#187;&#187;&#187; <span> &#163;{{category.total}} </span></li>
-        {% empty %}
-          <li>There are no such categories!</li>
-        {% endfor %}
+          <div class="d-flex align-items-center">
+            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+              <i class="fa-regular fa-group-arrows-rotate fa-2x"></i>
+            </div>
+            {% for category in list_of_categories %}
+            <div class="ps-3">
+
+              <h6>&#163; {{largest_category.total}}</h6>
+              <span class="text-muted small pt-2 ps-1">Category </span> <span class="text-success small pt-1 fw-bold">{{largest_category.name}}</span>
+              {% empty %}
+              <h6> There are no such categories!</h6>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    <!-- End over and close to limit category card -->
+
+ </section>
+
+ <!-- Bar chart -->       
+ <div id="bar-chart-container">
+  <canvas id="monthly-chart"> </canvas>
+</div>   
+ <!-- End bar chart -->  
+
+<!-- hidden:: used to generate chart -->
+    {% for transaction in transactions %}
+      <ul class="total-transaction-by-month" hidden>
+      <li>{{transaction.month}}</li>
+      <li > {{transaction.total}}</li>
       </ul>
-    {% endfor %}
-    {% if largest_category %}
-        <h3>The category with the largest total spending</h3>
-        <p>{{largest_category.name}} &#187;&#187;&#187; <span> &#163;{{largest_category.total}} </span></p>
-    {% endif %}
-    
+      {% endfor %}
+
+    <div class="categories-by-month">
     <h3>Categories</h3>
     {% regroup list_of_categories_and_transactions by spending_category as category_list %}
     {% for category in category_list %}
       <details>
         <summary>{{ category.grouper }}</summary>
         {% for transaction in category.list %}
-          <p><a href="{{transaction.get_absolute_url}}">{{ transaction }}</a></p>
+          <p><a style="color: black" href="{{transaction.get_absolute_url}}">{{ transaction }}</a></p>
         {% endfor %}
       </details>
       {% empty %}
         <p>There are no transactions in this period of time.</p>
     {% endfor %}
   </div>
+
+  {%for category in range_categories%}
+  <div class="category-in-range" hidden>
+    <span id="range-category-name">{{category.name}} </span>
+    <span id="range-category-total">{{category.total|to_2_decimal_places}} </span>
+  </div>
+  {% endfor %}
+
+   <!-- Doughnut chart -->       
+ <div class="doughnut-chart-container">
+  <canvas id="category-chart"> </canvas>
+</div>   
+ <!-- End doughnut chart --> 
 </section>
 
 {% endblock %}
