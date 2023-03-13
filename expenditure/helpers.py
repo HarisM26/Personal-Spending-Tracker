@@ -3,6 +3,7 @@ from django.utils.translation import gettext_lazy as _
 from datetime import date, datetime, timedelta
 from django.conf import settings
 from django.shortcuts import redirect
+from django.core.mail import send_mail
 from decimal import Decimal
 import expenditure.models
 
@@ -72,3 +73,12 @@ def get_user_notifications(user):
 def get_default_categories_as_set():
     default_categories = {'General', 'Groceries', 'Transport', 'Utilities'}
     return default_categories
+
+def sending_email(message, user):
+    send_mail(
+        'This is VOID Money Tracker',
+        message,
+        from_email = None,
+        recipient_list = [user.email],
+        fail_silently=False,
+    )

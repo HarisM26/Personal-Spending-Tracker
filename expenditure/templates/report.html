@@ -26,9 +26,9 @@
 
     {% for list_of_categories in close_categories %}
       {% if forloop.first %}
-        <h3>Categories past the limit</h3>
+        <h3>Categories past the limit on average</h3>
       {% else %}
-        <h3>Categories close to the limit</h3>
+        <h3>Categories close to the limit on average</h3>
       {% endif %}
       <ul>
         {% for category in list_of_categories %}

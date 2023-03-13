@@ -57,7 +57,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
 
     points = models.IntegerField(default=0)
-    
+
     id = models.AutoField(primary_key=True)
 
     is_staff = models.BooleanField(default=False)
@@ -78,6 +78,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     @property
     def user_id(self):
         return self.first_name + str(self.id)
+    
+    @property
+    def get_points(self):
+      return DailyPoint.objects.filter(user__pk=self.pk).count()
 
 
 class Profile(models.Model):
@@ -210,3 +214,10 @@ class SpendingTransaction(Transaction):
 class IncomeTransaction(Transaction):
     income_category = models.ForeignKey(
         IncomeCategory, related_name="transactions", null=True, on_delete=models.SET_NULL)
+
+class DailyPoint(models.Model):
+  user = models.ForeignKey(User, on_delete=models.CASCADE)
+  date = models.DateField()
+
+  class Meta:
+    unique_together = ('user', 'date')

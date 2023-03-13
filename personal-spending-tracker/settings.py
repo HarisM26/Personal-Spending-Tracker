@@ -164,3 +164,11 @@ MESSAGE_TAGS = {
 CELERY_BROKER_URL = 'redis://localhost:6379'
 LOGIN_REDIRECT_URL = '/' 
 
+#EMAILING
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'hello.void.money.tracker@gmail.com'
+EMAIL_HOST_PASSWORD = 'brfonebssgpvoodn'
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'hello.void.money.tracker@gmail.com'

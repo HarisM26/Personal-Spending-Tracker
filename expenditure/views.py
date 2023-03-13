@@ -20,6 +20,7 @@ from django.contrib.auth.views import PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
 
 
+
 @login_prohibited
 def home(request):
     articles = all_articles['articles']
@@ -89,6 +90,14 @@ def feed(request):
         'form': form,
     }
     
+    # send_mail(
+    #     'This is VOID Money Tracker',
+    #     'Hello.',
+    #     from_email = None,
+    #     recipient_list = ['hello.void.money.tracker@gmail.com'],
+    #     fail_silently=False,
+    # )
+
     return render(request, 'feed.html', context)
 
 
@@ -315,8 +324,12 @@ def log_in(request):
             user = authenticate(email=email, password=password)
             if user is not None:
                 login(request, user)
-                user.points += 1
-                user.save()
+                point, created =  DailyPoint.objects.get_or_create(user=user, date=date.today())
+                if created:
+                    sending_email(
+                        'Thank you for logging in today! You have earned 1 point!',
+                        user
+                    )
                 redirect_url = next or 'feed'
                 return redirect(redirect_url)
         # Add error message here
