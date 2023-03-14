@@ -5,14 +5,19 @@
 <div class="card">
     <div class="text-center">
         <p class="profile-statistics">
+	    </br>
+            </br>
+            </br>
+        
             {{user.followee_count}} Following &emsp;
             {{user.follower_count}} Followers
         </p>
         <h1>Your Friends</h1>
-    </div>
-    <p>
+        <p>
+        
+        </br></br>
     	<form action ="." method ="GET" value ="{{request.GET.q}}"><input type ="text" name ="q" value ="{{request.GET.q}}" placeholder="Search users..."/>
-    	<input type ="submit" name="submit" value="Search"/>
+    	<input class="btn btn-primary" type ="submit" name="submit" value="Search"/>
     	</form>
     	
     	{% if submitbutton == 'Search' and request.GET.q != "" %}
@@ -22,7 +27,10 @@
     	
     	{% for r in results %}
     	<form action = "{% url 'follow_toggle' id=r.id %}" method="get">
-    	    <h10>{{r}}<h10> <button>add</button><button><a href="friends_profile/{{r.id}}">view profile</a></button><br>
+    	    <h10>{{r}}<h10> 
+    	    <button class="btn btn-primary">add</button>
+    	    <button class="btn btn-primary"><a href="friends_profile/{{r.id}}">view profile</a></button>
+    	    <br>
     	</form>
     	
     	{% endfor %}
@@ -31,7 +39,8 @@
     	{% endif %}
     	{% endif %}    	
     </p>
-
+    
+    </div>
 </div>
 </section>
 

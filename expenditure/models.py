@@ -76,6 +76,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def is_following(self, user):
         return user in self.followees.all()
+        
+    def show_following(self):
+    	return self.followees.all()
 
     def follower_count(self):
         return self.followers.count()
@@ -86,6 +89,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     toggle_notification = models.CharField(
         max_length=3, choices=TOGGLE_CHOICE, default='ON')
 
+    toggle_privacy = models.CharField(
+        max_length=3, choices=TOGGLE_CHOICE, default='ON')
+        
     def __str__(self):
         return self.email
 

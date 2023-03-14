@@ -79,13 +79,14 @@ urlpatterns = [
     path('view_notification/<int:id>', views.view_selected_notification,
          name='view_selected_notification'),
     path('notification_page/', views.notification_page, name='notification_page'),
+    path('settings/toggle_privacy',
+         views.toggle_privacy, name='toggle_privacy'),
 
     # ====================Profile/Password/friends
-    path('add_friend/', views.add_friend, name='add_friend'),
-    path('friends/', views.friends, name='friends'),
-    path('friends/friends_profile/<int:id>',
+    path('search_friends/', views.search_friends, name='search_friends'),
+    path('search_friends/friends_profile/<int:id>',
          views.show_friends_profile, name='friends_profile'),
-    path('friends/follow_toggle/<int:id>',
+    path('search_friends/follow_toggle/<int:id>',
          views.follow_toggle, name='follow_toggle'),
     path('leaderboard/', views.leaderboard, name='leaderboard'),
     path('reports/', views.view_report, name='reports'),

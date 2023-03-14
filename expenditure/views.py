@@ -490,7 +490,8 @@ def view_report(request):
 def view_settings(request):
     current_user = request.user
     toggle = current_user.toggle_notification
-    return render(request, 'settings.html', {'toggle': toggle})
+    toggle_priv = current_user.toggle_privacy
+    return render(request, 'settings.html', {'toggle': toggle}, {'toggle_priv' : toggle_priv})
 
 
 @login_required
@@ -503,6 +504,18 @@ def toggle_notification(request):
         current_user.toggle_notification = 'ON'
         current_user.save()
     return redirect('settings')
+    
+@login_required
+def toggle_privacy(request):
+    current_user = request.user
+    if current_user.toggle_privacy == 'ON':
+        current_user.toggle_privacy = 'OFF'
+        current_user.save()
+    else:
+        current_user.toggle_privacy = 'ON'
+        current_user.save()
+    return redirect('settings')
+
 
 
 @login_required
@@ -515,7 +528,7 @@ def leaderboard(request):
     return render(request, 'leaderboard.html')
 
 
-def friends(request):
+def search_friends(request):
     if request.method == 'GET':
         query = request.GET.get('q')
 
@@ -524,28 +537,44 @@ def friends(request):
         if query is not None:
             lookups = Q(first_name__icontains=query) | Q(
                 last_name__icontains=query) | Q(email__icontains=query)
-
+                
             results = User.objects.filter(lookups).distinct()
-
-            context = {'results': results, 'submitbutton': submitbutton}
-
-            return render(request, 'friends.html', context)
+            user = request.user
+            following = user.show_following()
+            context = {'results': results, 'submitbutton': submitbutton, 'following': following}
+            
+            return render(request, 'search_friends.html', context)
 
         else:
-            return render(request, 'friends.html')
+            user = request.user
+            following = user.show_following()
+            context = {'following': following}
+            return render(request, 'search_friends.html', context)
+            
 
     else:
-        return render(request, 'friends.html')
+            user = request.user
+            following = user.show_following()
+            context = {'following': following}
+            return render(request, 'search_friends.html', context)
+    
 
+def show_following(request):
+    following = User.objects.show_following()
+    template = loader.get_template('search_friends.html')
+    context = {
+        'following': following
+    }
+    return HttpResponse(template.render(context, request))
 
 def show_friends_profile(request, id):
     results = User.objects.get(id=id)
     template = loader.get_template('friends_profile.html')
     context = {
-        'results': results,
+        'results': results
     }
     return HttpResponse(template.render(context, request))
-
+      
 
 @login_required
 def follow_toggle(request, id):

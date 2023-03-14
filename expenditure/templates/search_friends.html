@@ -1,0 +1,62 @@
+{% extends 'base_content.html' %}
+{% block content %}
+
+<section class="content-section">
+<div class="card">
+    <div class="text-center">
+        <p class="profile-statistics">
+	    </br>
+            </br>
+            </br>
+            	{{user.followee_count}} Following &emsp;
+            	{{user.follower_count}} Followers
+                
+            <h1>Your Friends</h1>
+            {% if following %}
+            {% for f in following %}
+        	<h10><a href="friends_profile/{{f.id}}">{{f.first_name}} {{f.last_name}}</a></h10>
+        	</br>
+            {% endfor %}
+            {% else %}
+    	    	search friends below
+    	    {% endif %}
+            
+            
+            
+        	</br>
+        </p>
+    
+    
+    	<form action ="." method ="GET" value ="{{request.GET.q}}"><input type ="text" name ="q" value ="{{request.GET.q}}" placeholder="Search users..."/>
+    	<input class="btn btn-primary" type ="submit" name="submit" value="Search"/>
+    	</form>
+    	
+    	
+    	{% if submitbutton == 'Search' and request.GET.q != "" %}
+    	{% if results %}
+    	<h1> Here are the users for <b>{{request.GET.q}}</b></h1>
+      	<br/>
+    	
+    	{% for r in results %}
+    	<form action = "{% url 'follow_toggle' id=r.id %}" method="get">
+    	        <h10>{{r.first_name}} {{r.last_name}}<h10> 
+    	    {% if following %}
+    	    	<button class="btn btn-secondary">unadd</button>
+    	    {% else %}
+    	    	<button class="btn btn-primary">add</button>	
+    	    {% endif %}
+    	        <button class="btn btn-primary"><a href="friends_profile/{{r.id}}">view profile</a></button>
+    	        </br>
+    	 </form>
+    	    	
+    	{% endfor %}
+    	{% else %}
+    	No user found
+    	{% endif %}
+    	{% endif %}    	
+     
+    </div>
+</div>
+</section>
+
+{% endblock %}
