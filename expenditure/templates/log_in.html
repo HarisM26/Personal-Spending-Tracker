@@ -3,8 +3,9 @@
 {% block body %}
 {% include 'partials/home_form_menu.html' %}
 <section class="signing">
+  <div> {% include 'partials/messages.html' %} </div>
     <div class="container">
-      <div> {% include 'partials/messages.html' %} </div>
+      
       <div class="row">
         <div class="col-md-8 col-lg-7 col-xl-6">
           <div class="image">
@@ -17,6 +18,7 @@
               <div class="card-body">
             
                 <div class="mb-md-5 mt-md-4 pb-5">
+                  
                   <h2>Login</h2>
                 <div class="line"></div>
                 <form action="{% url 'log_in' %}" method="post" >

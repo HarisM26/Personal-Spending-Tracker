@@ -189,6 +189,16 @@ h3 {
   margin: 20px 0;
 }
 
+@media (max-width: 800px) {
+  .main-cards{
+    display: inline;
+    margin-top: 20px;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 20px;
+    margin: 20px 0;
+  }
+}
+
 .main-cards .card {
   display:flex;
   flex-direction:column;
