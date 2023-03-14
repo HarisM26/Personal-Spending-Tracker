@@ -410,11 +410,17 @@ def edit_spending_transaction(request, id):
 @login_required
 def edit_incoming_transaction(request, id):
     income_transaction = get_object_or_404(IncomeTransaction, id=id)
+    current_user = request.user
+    points_before = income_transaction.get_points()
 
     if request.method == 'POST':
         form = IncomeTransactionForm(request.POST, instance=income_transaction)
         if form.is_valid():
             form.save()
+            edited_transaction = get_object_or_404(IncomeTransaction, id=id)
+            points_after = edited_transaction.get_points()
+            current_user.points += (points_after - points_before)
+            current_user.save()
             return HttpResponseRedirect(reverse('incomings'))
     else:
         form = IncomeTransactionForm(instance=income_transaction)

@@ -211,7 +211,7 @@ class SpendingTransaction(Transaction):
 
     def get_points(self):
         points = super().get_points()
-        if (self.receipt == ''):
+        if not (self.receipt):
             return points
         else:
             points += 1
@@ -224,3 +224,4 @@ class SpendingTransaction(Transaction):
 class IncomeTransaction(Transaction):
     income_category = models.ForeignKey(
         IncomeCategory, related_name="transactions", null=True, on_delete=models.SET_NULL)
+
