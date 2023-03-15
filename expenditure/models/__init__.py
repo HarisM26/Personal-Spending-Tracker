@@ -1,1 +1,1 @@
-from .user import User
+from expenditure.models.user import User

@@ -7,7 +7,7 @@ from expenditure.helpers import *
 @login_required
 def notification_page(request):
     current_user = request.user
-    notifications = get_user_notifications(current_user)
+    notifications = Notification.objects.filter(user_receiver=current_user)
     context = {
         'notifications': notifications,
     }

@@ -60,11 +60,3 @@ def get_end_date(limit_type):
         return datetime.date(datetime.now()) + timedelta(days=27)
     else:
         return datetime.date(datetime.now()) + timedelta(days=364)
-
-
-def get_unread_nofications(user):
-    return Notification.objects.filter(user_receiver=user, status='unread').count()
-
-
-def get_user_notifications(user):
-    return Notification.objects.filter(user_receiver=user)

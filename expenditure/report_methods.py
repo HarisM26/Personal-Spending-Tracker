@@ -48,7 +48,7 @@ def get_average_daily_spending_within_time_frame(user, from_date, to_date):
     total_transactions = 0
     for category in categories:
         total_transactions += category.total
-    if days is not 0:
+    if days != 0:
         return total_transactions/days
     else:
         return total_transactions

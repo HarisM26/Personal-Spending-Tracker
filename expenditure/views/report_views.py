@@ -36,7 +36,6 @@ def view_report(request):
     average_daily_spending = rm.get_average_daily_spending_within_time_frame(
         current_user, from_date, to_date)
 
-    print(f'========={list_of_categories_and_transactions}=======')
     context = {
         "from_date": from_date,
         "to_date": to_date,
