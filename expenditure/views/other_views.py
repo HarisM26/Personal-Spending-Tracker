@@ -19,17 +19,10 @@ def home(request):
 @login_required
 def feed(request):
     form = add_quick_spending(request)
-
-    current_user = request.user
-    unread_status_count = get_unread_nofications(current_user)
-    notifications = get_user_notifications(current_user)
     articles = all_articles['articles']
     articles = articles[0:4]
 
-    latest_notifications = notifications[0:3]
     context = {
-        'latest_notifications': latest_notifications,
-        'unread_status_count': unread_status_count,
         'articles': articles,
         'form': form,
     }

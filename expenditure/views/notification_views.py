@@ -8,12 +8,8 @@ from expenditure.helpers import *
 def notification_page(request):
     current_user = request.user
     notifications = get_user_notifications(current_user)
-    latest_notifications = notifications[0:3]
-    unread_status_count = get_unread_nofications(current_user)
     context = {
-        'latest_notifications': latest_notifications,
         'notifications': notifications,
-        'unread_status_count': unread_status_count,
     }
     return render(request, 'notification_page.html', context)
 

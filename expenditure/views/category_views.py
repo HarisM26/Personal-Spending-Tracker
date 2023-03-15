@@ -14,13 +14,8 @@ from django.contrib.auth.decorators import login_required
 def spending(request):
     current_user = request.user
     categories = SpendingCategory.objects.filter(user=current_user)
-    notifications = get_user_notifications(current_user)
-    latest_notifications = notifications[0:3]
-    unread_status_count = get_unread_nofications(current_user)
     context = {
-        'latest_notifications': latest_notifications,
         'categories': categories,
-        'unread_status_count': unread_status_count,
     }
     return render(request, 'spending.html', context)
 
@@ -28,9 +23,6 @@ def spending(request):
 @login_required
 def create_incoming_category(request):
     current_user = request.user
-    notifications = get_user_notifications(current_user)
-    latest_notifications = notifications[0:3]
-    unread_status_count = get_unread_nofications(current_user)
     if request.method == 'POST':
         form = IncomeCategoryForm(request.POST)
         if form.is_valid():
@@ -47,8 +39,6 @@ def create_incoming_category(request):
 
     context = {
         'form': form,
-        'latest_notifications': latest_notifications,
-        'unread_status_count': unread_status_count,
     }
     return render(request, 'create_incoming_category.html', context)
 
@@ -57,13 +47,8 @@ def create_incoming_category(request):
 def incoming(request):
     current_user = request.user
     categories = IncomeCategory.objects.filter(user=current_user)
-    notifications = get_user_notifications(current_user)
-    latest_notifications = notifications[0:3]
-    unread_status_count = get_unread_nofications(current_user)
     context = {
-        'latest_notifications': latest_notifications,
         'categories': categories,
-        'unread_status_count': unread_status_count,
     }
     return render(request, 'incomings.html', context)
 
@@ -131,15 +116,3 @@ class CreateSpendingCategoryView(LoginRequiredMixin, CreateView):
         messages.add_message(self.request, messages.ERROR,
                              "Your input is invalid!, try again")
         return redirect('create_category')
-
-    # doesnt work at the moment
-    def creation_view(self):
-        current_user = self.request.user
-        notifications = get_user_notifications(current_user)
-        latest_notifications = notifications[0:3]
-        unread_status_count = get_unread_nofications(current_user)
-        context = {
-            'latest_notifications': latest_notifications,
-            'unread_status_count': unread_status_count,
-        }
-        return context
