@@ -1,4 +1,5 @@
 {% extends 'base_content.html' %}
+{% load static %}
 {% block content %}
 
 
@@ -12,10 +13,162 @@
             <li class="breadcrumb-item"> <a>Leaderboard</a></li>
         </ol>
     </nav>
-    <div class="card">
-        <p style="padding: 30px;">Welcome To Leaderboard Section</p>
-        
-    </div>
+    <section class="leaderboard-section">
+		<div class="container">
+
+			<div class="row">
+				<div class="col-sm-4" >
+					<div class="card card-second">
+                        <div class="card-top">
+						</div>
+						<div class="card-body ">
+							<div class="text-center">
+								<img src="/static/images/second.png" class="circle-img mb-2" alt="">
+                                <h3 class="text-center">-   1023   -</h3>
+								<h5 class="mb-0">Jake Smith</h5>
+							</div>
+						</div>
+					</div>
+				</div>
+                
+				<div class="col-sm-4" >
+					<div class="card card-first">
+                        <div class="card-top">
+						</div>
+						<div class="card-body text-center">
+							<div class="text-center">
+                                <img src="/static/images/first.png" class="circle-img mb-2" alt="">
+							    <h3 class="text-center">-   1201   -</h3>
+								<h5 class="mb-0">Chris Stevie</h5>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-4" >
+					<div class="card card-third">
+                        <div class="card-top">
+						</div>
+						<div class="card-body">
+							<div class="text-center">
+                                <img src="/static/images/third.png" class="circle-img mb-2" alt="">
+                                <h3 class="text-center">-   992   -</h3>
+								<h5 class="mb-0">John Doe</h5>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+            <br><br>
+            <div class="card top-200-card" style="padding: 20px;">
+                <h4>Top 200</h4>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th style="color: white; font-size: 23px;">Position</th>
+                            <th style="color: white; font-size: 23px">User</th>
+                            <th style="color: white; font-size: 23px">Points</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="user-position">
+                                        <h5 class="mb-0">1.</h5>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="user-info__basic">
+                                        <h5 class="mb-0">Chris Stevie</h5>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-baseline">
+                                    <h4 class="mr-1">1201</h4>
+                                </div>
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="user-position">
+                                        <h5 class="mb-0">2.</h5>
+                                    </div>
+                                </div>
+                            </td>
+                            
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="user-info__basic">
+                                        <h5 class="mb-0">Jake Smith</h5>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-baseline">
+                                    <h4 class="mr-1">1023</h4>
+                                </div>
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="user-position">
+                                        <h5 class="mb-0">3.</h5>
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="user-info__basic">
+                                        <h5 class="mb-0">John Doe</h5>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-baseline">
+                                    <h4 class="mr-1">992</h4>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="user-position">
+                                        <h5 class="mb-0">4.</h5>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="user-info__basic">
+                                        <h5 class="mb-0">John Noakes</h5>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-baseline">
+                                    <h4 class="mr-1">986</h4>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+		</div>
+	</section>
 </section>
 
 {% endblock %}
