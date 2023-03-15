@@ -491,7 +491,7 @@ def view_settings(request):
     current_user = request.user
     toggle = current_user.toggle_notification
     toggle_priv = current_user.toggle_privacy
-    return render(request, 'settings.html', {'toggle': toggle}, {'toggle_priv' : toggle_priv})
+    return render(request, 'settings.html', {'toggle': toggle, 'toggle_priv' : toggle_priv})
 
 
 @login_required

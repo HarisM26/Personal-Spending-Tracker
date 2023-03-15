@@ -1,5 +1,4 @@
 {% extends 'base_content.html' %}
-
 {% block content %}
 
 
@@ -21,6 +20,7 @@
       Toggle Notification
        <button class="btn btn-primary"><a id="toggle_anchor" href="{% url 'toggle_notification' %}"> {{ toggle }} </a> </button> 
     </div>
+  </div>
     
   <div class="main-card">
     <h3 id="privacy-settings">Privacy Settings</h3>
@@ -33,7 +33,7 @@
 
   
       
-  </div>
 </section>
+
 
 {% endblock %}
