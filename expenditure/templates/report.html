@@ -27,7 +27,7 @@
 
       <div class="card info-card largest-category-card">
         <div class="card-body">
-          <h5 class="card-title">Category with the largest total spending currently </h5>
+          <h5 class="card-title">Category with the largest total spending this month </h5>
 
           <div class="d-flex align-items-center">
             <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -136,15 +136,15 @@
   <h4>Categories Breakdown</h4>
 {% regroup list_of_categories_and_transactions by spending_category as category_list %}
   {% for category in category_list %}
-  {% for transaction in category.list %}
-  <div>{{transaction.date.month|get_month}}<span>&#44;{{transaction.date.year}}</span></div>
+  
+  <div>month<span>&#44;year</span></div>
 <div class = "individual-category">
   <ul id="myUL">
     <li class="category_list"> 
       <span id="category-name-tag" class="caret"><b>{{ category.grouper }}</b></span><br>
       
       <ul class="nested">
-        
+        {% for transaction in category.list %}
         <li class="transaction_list" data-bs-toggle="modal" data-bs-target="#transaction-detail-modal">
           <div id="transaction-date">{{transaction.date}}</div>
           <div id="transaction-title">{{transaction.title}}</div>
