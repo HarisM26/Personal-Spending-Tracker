@@ -4,6 +4,7 @@ from expenditure.news_api import all_articles
 from expenditure.helpers import *
 from django.contrib.auth.decorators import login_required
 from expenditure.views.transaction_views import add_quick_spending
+from expenditure.views.report_views import feed_page_report
 
 
 @login_prohibited
@@ -22,7 +23,10 @@ def feed(request):
     articles = all_articles['articles']
     articles = articles[0:4]
 
+    feed_report_context = feed_page_report(request)
+
     context = {
+        'categories_within_limit': feed_report_context,
         'articles': articles,
         'form': form,
     }

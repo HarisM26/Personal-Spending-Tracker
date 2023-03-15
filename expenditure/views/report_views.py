@@ -48,3 +48,23 @@ def view_report(request):
         'average_daily_spending': average_daily_spending,
     }
     return render(request, 'report.html', context=context)
+
+
+def feed_page_report(request):
+    current_user = request.user
+    categories_within_limit = rm.total_categories_currently_within_limit(
+        current_user)
+    total_budget = rm.get_total_budget(current_user)
+    remaining_budget = rm.get_total_remaining_budget(current_user)
+    total_spending = rm.get_total_spending(current_user)
+    total_income = rm.get_total_income(current_user)
+
+    context = {
+        'categories_within_limit': categories_within_limit,
+        'total_budget': total_budget,
+        'remaining_budget': remaining_budget,
+        'total_spending': total_spending,
+        'total_income': total_income,
+
+    }
+    return context

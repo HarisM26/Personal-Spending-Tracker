@@ -98,5 +98,48 @@ def get_list_of_transactions_in_category(user, from_date, to_date):
         spending_category__user=user
     )
 
+
+def total_categories_currently_within_limit(user):
+    all_spending_categories = SpendingCategory.objects.filter(user=user)
+    categories_within_limit = []
+    for category in all_spending_categories:
+        if category.limit.status != 'reached':
+            categories_within_limit.append(category)
+    return len(categories_within_limit)
+
+
+def get_total_budget(user):
+    all_spending_categories = SpendingCategory.objects.filter(user=user)
+    total_budget = 0
+    for category in all_spending_categories:
+        total_budget += category.limit.limit_amount
+
+    return total_budget
+
+
+def get_total_remaining_budget(user):
+    all_spending_categories = SpendingCategory.objects.filter(user=user)
+    remaining_budget = 0
+    for category in all_spending_categories:
+        remaining_budget += category.limit.remaining_amount
+
+    return remaining_budget
+
+
+def get_total_spending(user):
+    total_budget = get_total_budget(user)
+    remaining_budget = get_total_remaining_budget(user)
+    total_spending = total_budget - remaining_budget
+    return total_spending
+
+
+def get_total_income(user):
+    all_income = IncomeTransaction.objects.filter(income_category__user=user)
+    total_income = 0
+
+    for income in all_income:
+        total_income += income.amount
+
+    return total_income
 # average daily spending
 # percentage increase or decrease
