@@ -5,6 +5,9 @@ from datetime import datetime
 
 register = template.Library()
 
+@register.simple_tag
+def get_points(transaction):
+    return transaction.get_points()
 
 @register.filter
 def get_spending_transactions(category):
