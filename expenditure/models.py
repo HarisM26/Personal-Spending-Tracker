@@ -90,7 +90,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         max_length=3, choices=TOGGLE_CHOICE, default='ON')
 
     toggle_privacy = models.CharField(
-        max_length=3, choices=TOGGLE_CHOICE, default='ON')
+        max_length=3, choices=TOGGLE_CHOICE, default='OFF')
         
     def __str__(self):
         return self.email
@@ -102,6 +102,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
 
     is_active = models.BooleanField(default=True)
+    
+    is_private = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

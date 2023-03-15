@@ -510,24 +510,20 @@ def toggle_privacy(request):
     current_user = request.user
     if current_user.toggle_privacy == 'ON':
         current_user.toggle_privacy = 'OFF'
+        current_user.is_private = False
         current_user.save()
     else:
         current_user.toggle_privacy = 'ON'
+        current_user.is_private = True
         current_user.save()
     return redirect('settings')
-
-
-
-@login_required
-def add_friend(request):
-    return render(request, 'add_friend.html')
 
 
 @login_required
 def leaderboard(request):
     return render(request, 'leaderboard.html')
 
-
+@login_required
 def search_friends(request):
     if request.method == 'GET':
         query = request.GET.get('q')
@@ -539,9 +535,12 @@ def search_friends(request):
                 last_name__icontains=query) | Q(email__icontains=query)
                 
             results = User.objects.filter(lookups).distinct()
+            
             user = request.user
+            private_user = user.is_private
             following = user.show_following()
-            context = {'results': results, 'submitbutton': submitbutton, 'following': following}
+                        
+            context = {'results': results, 'submitbutton': submitbutton, 'private_user': private_user, 'following': following}
             
             return render(request, 'search_friends.html', context)
 
@@ -559,14 +558,7 @@ def search_friends(request):
             return render(request, 'search_friends.html', context)
     
 
-def show_following(request):
-    following = User.objects.show_following()
-    template = loader.get_template('search_friends.html')
-    context = {
-        'following': following
-    }
-    return HttpResponse(template.render(context, request))
-
+@login_required
 def show_friends_profile(request, id):
     results = User.objects.get(id=id)
     template = loader.get_template('friends_profile.html')
@@ -574,7 +566,6 @@ def show_friends_profile(request, id):
         'results': results
     }
     return HttpResponse(template.render(context, request))
-      
 
 @login_required
 def follow_toggle(request, id):
@@ -583,11 +574,10 @@ def follow_toggle(request, id):
         followee = User.objects.get(id=id)
         current_user.toggle_follow(followee)
     except ObjectDoesNotExist:
-        return redirect('friends')
+        return redirect('search_friends')
     else:
         return redirect('friends_profile', id=id)
-
-
+    
 @login_required
 def profile(request):
     if request.method == 'POST':

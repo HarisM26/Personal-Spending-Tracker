@@ -38,17 +38,20 @@
       	<br/>
     	
     	{% for r in results %}
+    	{% if private_user %}
+    	<h10>{{r.first_name}} {{r.last_name}}<h10> 
+    	{% else %}
     	<form action = "{% url 'follow_toggle' id=r.id %}" method="get">
-    	        <h10>{{r.first_name}} {{r.last_name}}<h10> 
-    	    {% if following %}
+    	        <h10><a href="friends_profile/{{r.id}}">{{r.first_name}} {{r.last_name}}</a></h10> &emsp;
+    	    {% if r in following %}
     	    	<button class="btn btn-secondary">unadd</button>
     	    {% else %}
     	    	<button class="btn btn-primary">add</button>	
     	    {% endif %}
-    	        <button class="btn btn-primary"><a href="friends_profile/{{r.id}}">view profile</a></button>
+    	        </br>
     	        </br>
     	 </form>
-    	    	
+    	{% endif %}    	
     	{% endfor %}
     	{% else %}
     	No user found
