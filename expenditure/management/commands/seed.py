@@ -2,7 +2,7 @@ from django.core.management.base import BaseCommand, CommandError
 from django.db import IntegrityError
 
 from expenditure.models import User
-from random import randint, choice, sample
+from random import randint, random, sample
 
 
 from faker import Faker
@@ -12,7 +12,10 @@ class Command(BaseCommand):
 
     help = 'Seeds database with fake data'
 
-    USER_COUNT = 250
+    USER_COUNT = 50
+    HIGH_POINT_USER_BIAS = 0.1  # Probability of a high point seeded user being generated
+    HIGH_POINT_USER_MIN = 5000
+    HIGH_POINT_USER_MAX = 25000
     DEFAULT_PASSWORD = 'SeededUserPassword123'
 
     def __init__(self):
@@ -40,11 +43,13 @@ class Command(BaseCommand):
         first_name = self.faker.first_name()
         last_name = self.faker.last_name()
         email = generate_email(first_name, last_name)
+        points = self.get_points()
         user = User.objects.create_user(
             email=email,
             first_name=first_name,
             last_name=last_name,
             password=self.DEFAULT_PASSWORD,
+            points=points,
             is_active=True,
             is_staff=False,
         )
@@ -58,6 +63,12 @@ class Command(BaseCommand):
         random_users = sample(all_users, num_following)
         for random_user in random_users:
             user.toggle_follow(random_user)
+
+    def get_points(self):
+        res = random()
+        if res < self.HIGH_POINT_USER_BIAS:
+            return randint(self.HIGH_POINT_USER_MIN, self.HIGH_POINT_USER_MAX)
+        return randint(0, self.HIGH_POINT_USER_MIN)
 
 
 def generate_email(first_name, last_name):
