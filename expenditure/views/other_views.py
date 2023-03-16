@@ -20,6 +20,7 @@ def home(request):
 
 @login_required
 def feed(request):
+    check_league(request.user, request)
     form = add_quick_spending(request)
     articles = all_articles['articles']
     articles = articles[0:4]
@@ -31,7 +32,7 @@ def feed(request):
         'total_budget': feed_report_context['total_budget'],  # not used yet
         'remaining_budget': feed_report_context['remaining_budget'],
         'total_spending': feed_report_context['total_spending'],
-        'total_income': feed_report_context['total_income'],  # not used yet
+        'total_income': feed_report_context['total_income'],
         'income_categories': feed_report_context['income_categories'],
         'articles': articles,
         'form': form,
@@ -41,24 +42,8 @@ def feed(request):
 
 
 @login_prohibited
-def about(request):
-    return render(request, 'about.html')
-
-
-@login_prohibited
 def features(request):
     return render(request, 'features.html')
-
-
-@login_prohibited
-def contact(request):
-    return render(request, 'contact.html')
-
-
-@login_prohibited
-def news_page(request):
-    articles = all_articles['articles']
-    return render(request, 'news_page.html', {'articles': articles})
 
 
 @login_required

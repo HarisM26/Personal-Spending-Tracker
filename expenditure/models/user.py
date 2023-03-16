@@ -3,7 +3,7 @@ from django import forms
 from django.contrib.auth.models import AbstractBaseUser, UserManager, PermissionsMixin
 from django.contrib.auth.base_user import BaseUserManager
 from django.utils.translation import gettext_lazy as _
-from expenditure.choices import TOGGLE_CHOICE
+from expenditure.choices import TOGGLE_CHOICE, LEAGUE
 
 
 class UserManager(BaseUserManager):
@@ -57,6 +57,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     followers = models.ManyToManyField(
         'self', symmetrical=False, related_name='followees'
     )
+    league_status = models.CharField(
+        max_length=8,
+        choices=LEAGUE.choices,
+        default=LEAGUE.BRONZE,
+    )
 
     is_staff = models.BooleanField(default=False)
 
@@ -100,6 +105,14 @@ class User(AbstractBaseUser, PermissionsMixin):
     def user_id(self):
         return self.first_name + str(self.id)
 
+    @property
+    def get_points(self):
+        return DailyPoint.objects.filter(user__pk=self.pk).count()
+
+    def add_login_points(self):
+        self.points += 1
+        self.save()
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -112,3 +125,11 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.last_name
+
+
+class DailyPoint(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    date = models.DateField()
+
+    class Meta:
+        unique_together = ('user', 'date')

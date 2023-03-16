@@ -263,8 +263,43 @@ h3 {
   justify-content: space-between;
   align-items: center;
 }
+#spending-categories-detail-div {
+  margin-top: 8px;
+}
 #category-name-tag {
-  float: left;
+  font-size: 20px;
+}
+.add-transaction-btn:before {
+  content: "Add transaction";
+}
+@media (max-width: 700px) and (min-width: 530px) {
+  .add-transaction-btn,
+  .edit-transaction-btn {
+    padding: 2px;
+  }
+  .add-transaction-btn::before {
+    content: "+";
+    font-size: 20px;
+    padding: 0px 8px;
+  }
+}
+@media (max-width: 530px) {
+  #spending-categories-detail-div {
+    display: block;
+  }
+  #category-name-tag {
+    font-size: 18px;
+  }
+  .add-transaction-btn {
+    margin-top: 5px;
+    margin-left: 2px !important;
+    font-size: 13px;
+    padding: 5px;
+  }
+  .edit-category-btn {
+    font-size: 12px;
+    padding: 8px;
+  }
 }
 
 .category_list {
@@ -341,7 +376,6 @@ h3 {
   text-decoration: none;
 }
 
-#white-text-button,
 #create-spending-cat-anch {
   color: white;
 }
@@ -434,7 +468,7 @@ h3 {
 .content-section .quick-add {
   float: right;
 }
-
+/* pie chart style*/
 .income-chart-div {
   padding: 20px;
 }
@@ -443,3 +477,4 @@ h3 {
     width: 550px;
   }
 }
+/*======================================*/

@@ -23,6 +23,3 @@ class Limit(models.Model):
     @property
     def calc_90_percent_of_limit(self):
         return Decimal(self.limit_amount)*Decimal('0.90')
-
-    class Meta:
-        app_label = "expenditure"

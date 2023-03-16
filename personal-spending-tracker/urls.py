@@ -28,10 +28,7 @@ urlpatterns = [
     # ========= Other urls ===========
     path('', other_views.home, name='home'),
     path('feed/', other_views.feed, name='feed'),
-    path('about/', other_views.about, name='about'),
     path('features/', other_views.features, name='features'),
-    path('contact/', other_views.contact, name='contact'),
-    path('news_page/', other_views.news_page, name='news_page'),
     path('settings/', other_views.view_settings, name='settings'),
 
 

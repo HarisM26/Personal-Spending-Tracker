@@ -22,16 +22,21 @@
     <div class = "individual-category">
       <ul id="myUL">
         <li class="category_list"> 
-          <span id="category-name-tag" class="caret"><b>{{ category.name }} </b></span><br>
+        
+            <span class="caret d-flex justify-content-between align-items-center"><b id="category-name-tag">{{ category.name }} </b>
+              <a class="btn btn-info edit-category-btn" href="{% url 'edit_spending_category' category.id %}" data-bs-toggle="tooltip" title="Edit category"> ✏️ </a>
+            </span>
+          
           <div id="spending-categories-detail-div">
           <div>
           Limit&#58; &#163;<i>{{ category.limit.limit_amount|intcomma }}</i>
         </div>
-        <span>Amount left to spend&#58; &#163;{{ category.limit.remaining_amount|intcomma }}</span>
+        <span id="amount-remaining-tag">Amount left to spend&#58; &#163;{{ category.limit.remaining_amount|intcomma }}</span>
           <span>
-            <a class="btn btn-info" id="white-text-button" href="{% url 'add_spending_transaction' category.id %}"> Add transaction </a>
-            <a class="btn btn-info" href="{% url 'edit_spending_category' category.id %}" data-bs-toggle="tooltip" title="Edit category"> ✏️ </a>
+            <a class="btn btn-info add-transaction-btn" href="{% url 'add_spending_transaction' category.id %}"> </a>
+            {% if category.is_not_default %}
             <a class="btn btn-info" href="{% url 'delete_spending_category' category.id %}" data-bs-toggle="tooltip" title="Delete category"> <i class="fa-solid fa-trash-can" style="color: red"></i> </a>
+            {% endif %}
           </span>
           </div>
           <ul class="nested">

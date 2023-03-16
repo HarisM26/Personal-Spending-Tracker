@@ -1,3 +1,13 @@
+from django.db import models
+
+
+class LEAGUE(models.TextChoices):
+    BRONZE = 'bronze', ('bronze')
+    SILVER = 'silver', ('silver')
+    GOLD = 'gold', ('gold')
+    PLATINUM = 'platinum', ('platinum')
+    DIAMOND = 'diamond', ('diamond')
+
 
 LIMIT_STATUS = [
     ('reached', ('reached')),
