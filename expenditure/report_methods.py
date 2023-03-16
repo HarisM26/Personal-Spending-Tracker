@@ -106,7 +106,7 @@ def get_list_of_transactions_in_category(user, from_date, to_date):
         date__gte=from_date,
         date__lte=to_date,
         spending_category__user=user
-    )
+    ).annotate(month=TruncMonth("date")).annotate(total=Sum("amount")).order_by("-date")
 
 
 def total_categories_currently_within_limit(user):

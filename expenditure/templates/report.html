@@ -138,7 +138,11 @@
 {% regroup list_of_categories_and_transactions by spending_category as category_list %}
   {% for category in category_list %}
   
-  <div>{{category.list|get_latest_transaction_month|get_month}}<span>&#44;{{category.list|get_latest_transaction_year}}</span></div>
+  <div>
+   <span>{{category.list|get_oldest_transaction_month|get_month}}&#44; {{category.list|get_oldest_transaction_year}}</span> </span> &#45;
+    <span>{{category.list|get_latest_transaction_month|get_month}}&#44; {{category.list|get_latest_transaction_year}}</span> 
+    
+  </div>
 <div class = "individual-category">
   <ul id="myUL">
     <li class="category_list"> 
@@ -240,4 +244,5 @@
     </div>
   </div>
 </div>
+<!--End modal-->
 {% endblock %}

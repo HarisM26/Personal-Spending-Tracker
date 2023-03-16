@@ -6,9 +6,11 @@ from datetime import datetime
 
 register = template.Library()
 
+
 @register.simple_tag
 def get_points(transaction):
     return transaction.get_points()
+
 
 @register.filter
 def get_spending_transactions(category):
@@ -80,3 +82,13 @@ def get_latest_transaction_month(lst):
 @register.filter
 def get_latest_transaction_year(lst):
     return lst[0].date.year
+
+
+@register.filter
+def get_oldest_transaction_year(lst):
+    return lst[len(lst)-1].date.year
+
+
+@register.filter
+def get_oldest_transaction_month(lst):
+    return lst[len(lst)-1].date.month
