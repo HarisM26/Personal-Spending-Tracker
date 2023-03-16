@@ -23,6 +23,7 @@ from django.template import loader
 from django.core.exceptions import ObjectDoesNotExist
 
 
+
 @login_prohibited
 def home(request):
     articles = all_articles['articles']
@@ -48,7 +49,6 @@ def contact(request):
     return render(request, 'contact.html')
 
 
-@login_required
 def add_quick_spending(request):
     spending_catgeory_queryset = SpendingCategory.objects.filter(
         user=request.user)
@@ -83,6 +83,7 @@ def add_quick_spending(request):
 
 @login_required
 def feed(request):
+    check_league(request.user, request)
     form = add_quick_spending(request)
 
     current_user = request.user
@@ -98,6 +99,14 @@ def feed(request):
         'articles': articles,
         'form': form,
     }
+    
+    # send_mail(
+    #     'This is VOID Money Tracker',
+    #     'Hello.',
+    #     from_email = None,
+    #     recipient_list = ['hello.void.money.tracker@gmail.com'],
+    #     fail_silently=False,
+    # )
 
     return render(request, 'feed.html', context)
 
@@ -129,6 +138,7 @@ def view_selected_notification(request, id):
 
 @login_required
 def spending(request):
+    check_league(request.user, request)
     current_user = request.user
     categories = SpendingCategory.objects.filter(user=current_user)
     notifications = get_user_notifications(current_user)
@@ -156,6 +166,47 @@ def incoming(request):
     }
     return render(request, 'incomings.html', context)
 
+def create_deafult_categories(user):
+    default_general = SpendingCategory.objects.create(
+        user=user,
+        name='General',
+        limit=Limit.objects.create(
+            limit_amount=Decimal('500'),
+            start_date=date.today(),
+            end_date=datetime.now() + timedelta(days=30),
+            remaining_amount=Decimal('500.00'),
+        )
+    )
+    default_groceries = SpendingCategory.objects.create(
+        user=user,
+        name='Groceries',
+        limit=Limit.objects.create(
+            limit_amount=Decimal('400.00'),
+            start_date=date.today(),
+            end_date=datetime.now() + timedelta(days=30),
+            remaining_amount=Decimal('400.00'),
+        )
+    )
+    default_transport = SpendingCategory.objects.create(
+        user=user,
+        name='Transport',
+        limit=Limit.objects.create(
+            limit_amount=Decimal('200.00'),
+            start_date=date.today(),
+            end_date=datetime.now() + timedelta(days=30),
+            remaining_amount=Decimal('200.00')
+        )
+    )
+    default_utilities = SpendingCategory.objects.create(
+        user=user,
+        name='Utilities',
+        limit=Limit.objects.create(
+            limit_amount=Decimal('100.00'),
+            start_date=date.today(),
+            end_date=datetime.now() + timedelta(days=30),
+            remaining_amount=Decimal('100.00'),
+        )
+    )
 
 @login_prohibited
 def sign_up(request):
@@ -165,6 +216,13 @@ def sign_up(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
+            user.points += 10
+            user.save()
+            sending_email(
+                'Thank you for signing up! You are awarded with 10 points!',
+                user
+            )
+            create_deafult_categories(user)
             return redirect('feed')
     else:
         form = SignUpForm()
@@ -287,6 +345,13 @@ def log_in(request):
             user = authenticate(email=email, password=password)
             if user is not None:
                 login(request, user)
+                point, created =  DailyPoint.objects.get_or_create(user=user, date=date.today())
+                if created:
+                    user.add_login_points()
+                    sending_email(
+                        'Thank you for logging in today! You have earned 1 point!',
+                        user
+                    )
                 redirect_url = next or 'feed'
                 return redirect(redirect_url)
         # Add error message here
@@ -510,11 +575,6 @@ def add_friend(request):
     return render(request, 'add_friend.html')
 
 
-@login_required
-def leaderboard(request):
-    return render(request, 'leaderboard.html')
-
-
 def friends(request):
     if request.method == 'GET':
         query = request.GET.get('q')
@@ -539,6 +599,7 @@ def friends(request):
 
 
 def show_friends_profile(request, id):
+    check_league(request.user, request)
     results = User.objects.get(id=id)
     template = loader.get_template('friends_profile.html')
     context = {
@@ -556,6 +617,8 @@ def follow_toggle(request, id):
     except ObjectDoesNotExist:
         return redirect('friends')
     else:
+        current_user.points += 1
+        current_user.save()
         return redirect('friends_profile', id=id)
 
 
@@ -589,3 +652,22 @@ def forgot_password(request):
     else:
         form = EmailForm()
     return render(request, 'forgot_password.html', {'form': form})
+
+@login_required
+def leaderboard(request):
+    check_league(request.user, request)
+    num_top_users = 10
+
+    users = User.objects
+    user_overall_place = users.filter(points__gt=request.user.points).count() + 1
+
+    users = users.filter(league_status=request.user.league_status).order_by('-points')
+    user_place = users.filter(points__gt=request.user.points).count() + 1
+
+    context = {
+        'num_top_users': num_top_users,
+        'users': users[:num_top_users],
+        'user_place': user_place,
+        'user_overall_place': user_overall_place,
+    }
+    return render(request, 'leaderboard.html', context=context)

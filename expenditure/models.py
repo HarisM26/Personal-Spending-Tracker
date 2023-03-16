@@ -3,7 +3,7 @@ from django import forms
 from django.contrib.auth.models import AbstractBaseUser, UserManager, PermissionsMixin
 from django.contrib.auth.base_user import BaseUserManager
 from django.utils.translation import gettext_lazy as _
-from .helpers import not_future
+from .helpers import not_future, get_default_categories_as_set, check_league
 from datetime import datetime, date, timedelta
 from decimal import Decimal
 from django.core.validators import MinValueValidator
@@ -40,6 +40,12 @@ class UserManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
         # ///?? cannot create user in admin
 
+class LEAGUE(models.TextChoices):
+        BRONZE = 'bronze', ('bronze')
+        SILVER = 'silver', ('silver')
+        GOLD = 'gold', ('gold')
+        PLATINUM = 'platinum', ('platinum')
+        DIAMOND = 'diamond', ('diamond')
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_("email address"),
@@ -56,9 +62,21 @@ class User(AbstractBaseUser, PermissionsMixin):
         max_length=150,
     )
 
+    points = models.IntegerField(default=0)
+
+    id = models.AutoField(primary_key=True)
+
     followers = models.ManyToManyField(
         'self', symmetrical=False, related_name='followees'
+    ) 
+
+    league_status = models.CharField(
+        max_length=8,
+        choices=LEAGUE.choices,
+        default=LEAGUE.BRONZE,
     )
+
+    #leaderboard = models.ForeignKey(Leaderboard, on_delete=models.PROTECT)
 
     def toggle_follow(self, followee):
         if followee == self:
@@ -92,6 +110,14 @@ class User(AbstractBaseUser, PermissionsMixin):
     @property
     def user_id(self):
         return self.first_name + str(self.id)
+    
+    @property
+    def get_points(self):
+      return DailyPoint.objects.filter(user__pk=self.pk).count()
+
+    def add_login_points(self):
+      self.points += 1
+      self.save()
 
     is_staff = models.BooleanField(default=False)
 
@@ -101,8 +127,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = []
 
     objects = UserManager()
-
-
+    
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
@@ -166,9 +191,21 @@ class SpendingCategory(models.Model):
     # parent = models.ForeignKey('self',blank=True, null=True ,related_name='children')
     # Reduce the remaining amount left of the spending limit
 
+    #Checks if the category is not a default one
+    @property
+    def is_not_default(self):
+      default_set = get_default_categories_as_set()
+      self_set = {self.name}
+      if not list(set(default_set) & set(self_set)):
+        return True
+      else:
+        return False
+
+    #Cannot delete a default category
     def delete(self, *args, **kwargs):
-        self.limit.delete()
-        return super(SpendingCategory, self).delete(*args, **kwargs)
+      if self.is_not_default:
+          self.limit.delete()
+          return super(SpendingCategory, self).delete(*args, **kwargs)
 
     def __str__(self):
         return self.name
@@ -189,6 +226,12 @@ class Transaction(models.Model):
     class Meta:
         abstract = True
         ordering = ['-date',]
+    
+    def get_points(self):
+        if (self.notes == ''):
+            return 3
+        else:
+            return 4
 
     def __str__(self):
         return 'desc: ' + self.title + ' ->  £' + str(self.amount)
@@ -200,6 +243,14 @@ class SpendingTransaction(Transaction):
     receipt = models.ImageField(upload_to='', blank=True, null=True)
     is_current = models.BooleanField(default=True)
 
+    def get_points(self):
+        points = super().get_points()
+        if (self.receipt == ''):
+            return points
+        else:
+            points += 1
+            return points
+    
     def get_absolute_url(self):
         return reverse('transaction', kwargs={'id': self.pk})
 
@@ -207,3 +258,10 @@ class SpendingTransaction(Transaction):
 class IncomeTransaction(Transaction):
     income_category = models.ForeignKey(
         IncomeCategory, related_name="transactions", null=True, on_delete=models.SET_NULL)
+
+class DailyPoint(models.Model):
+  user = models.ForeignKey(User, on_delete=models.CASCADE)
+  date = models.DateField()
+
+  class Meta:
+    unique_together = ('user', 'date')
