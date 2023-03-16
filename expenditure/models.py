@@ -3,7 +3,7 @@ from django import forms
 from django.contrib.auth.models import AbstractBaseUser, UserManager, PermissionsMixin
 from django.contrib.auth.base_user import BaseUserManager
 from django.utils.translation import gettext_lazy as _
-from .helpers import not_future, get_default_categories_as_set
+from .helpers import not_future, get_default_categories_as_set, check_league
 from datetime import datetime, date, timedelta
 from decimal import Decimal
 from django.core.validators import MinValueValidator
@@ -40,6 +40,12 @@ class UserManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
         # ///?? cannot create user in admin
 
+class LEAGUE(models.TextChoices):
+        BRONZE = 'bronze', ('bronze')
+        SILVER = 'silver', ('silver')
+        GOLD = 'gold', ('gold')
+        PLATINUM = 'platinum', ('platinum')
+        DIAMOND = 'diamond', ('diamond')
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_("email address"),
@@ -59,9 +65,18 @@ class User(AbstractBaseUser, PermissionsMixin):
     points = models.IntegerField(default=0)
 
     id = models.AutoField(primary_key=True)
+
     followers = models.ManyToManyField(
         'self', symmetrical=False, related_name='followees'
+    ) 
+
+    league_status = models.CharField(
+        max_length=8,
+        choices=LEAGUE.choices,
+        default=LEAGUE.BRONZE,
     )
+
+    #leaderboard = models.ForeignKey(Leaderboard, on_delete=models.PROTECT)
 
     def toggle_follow(self, followee):
         if followee == self:
@@ -100,6 +115,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     def get_points(self):
       return DailyPoint.objects.filter(user__pk=self.pk).count()
 
+    def add_login_points(self):
+      self.points += 1
+      self.save()
+
     is_staff = models.BooleanField(default=False)
 
     is_active = models.BooleanField(default=True)
@@ -108,8 +127,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = []
 
     objects = UserManager()
-
-
+    
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
