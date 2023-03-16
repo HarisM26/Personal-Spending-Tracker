@@ -377,6 +377,7 @@ def news_page(request):
 @login_required
 def add_spending_transaction(request, request_id):
     category = get_object_or_404(SpendingCategory, id=request_id)
+    current_user = request.user
     # category_limit = category.limit
     if request.method == 'POST':
         create_transaction_form = SpendingTransactionForm(
@@ -391,6 +392,9 @@ def add_spending_transaction(request, request_id):
             transaction = SpendingTransaction.objects.create(
                 title=title, date=date, amount=amount, notes=notes, spending_category=category, receipt=receipt
             )
+            # Add points for creating and filling fields in new transaction
+            current_user.points += transaction.get_points()
+            current_user.save()
             messages.add_message(request, messages.SUCCESS,
                                  "Transaction created!")
             return HttpResponseRedirect(reverse('spending'))
@@ -407,6 +411,7 @@ def add_spending_transaction(request, request_id):
 @login_required
 def add_income_transaction(request, request_id):
     category = get_object_or_404(IncomeCategory, id=request_id)
+    current_user = request.user
     if request.method == 'POST':
         create_transaction_form = IncomeTransactionForm(request.POST)
         if create_transaction_form.is_valid():
@@ -418,7 +423,9 @@ def add_income_transaction(request, request_id):
             transaction = IncomeTransaction.objects.create(
                 title=title, date=date, amount=amount, notes=notes, income_category=category
             )
-            transaction.save()
+            # Add points for creating and filling fields in new transaction
+            current_user.points += transaction.get_points()
+            current_user.save()
             messages.add_message(request, messages.SUCCESS,
                                  "Transaction created!")
             return HttpResponseRedirect(reverse('incomings'))
@@ -435,7 +442,9 @@ def add_income_transaction(request, request_id):
 @login_required
 def edit_spending_transaction(request, id):
     spending_transaction = get_object_or_404(SpendingTransaction, id=id)
+    current_user = request.user
     amount = spending_transaction.amount
+    points_before = spending_transaction.get_points()
 
     if request.method == 'POST':
         form = SpendingTransactionForm(
@@ -447,6 +456,11 @@ def edit_spending_transaction(request, id):
                     amount - form.cleaned_data.get('amount'))
                 spending_transaction.spending_category.limit.save()
             form.save()
+            # Update how many points the user gets for this transaction
+            edited_transaction = get_object_or_404(SpendingTransaction, id=id)
+            points_after = edited_transaction.get_points()
+            current_user.points += (points_after - points_before)
+            current_user.save()
             return HttpResponseRedirect(reverse('spending'))
     else:
         form = SpendingTransactionForm(instance=spending_transaction)
@@ -461,11 +475,17 @@ def edit_spending_transaction(request, id):
 @login_required
 def edit_incoming_transaction(request, id):
     income_transaction = get_object_or_404(IncomeTransaction, id=id)
+    current_user = request.user
+    points_before = income_transaction.get_points()
 
     if request.method == 'POST':
         form = IncomeTransactionForm(request.POST, instance=income_transaction)
         if form.is_valid():
             form.save()
+            edited_transaction = get_object_or_404(IncomeTransaction, id=id)
+            points_after = edited_transaction.get_points()
+            current_user.points += (points_after - points_before)
+            current_user.save()
             return HttpResponseRedirect(reverse('incomings'))
     else:
         form = IncomeTransactionForm(instance=income_transaction)
@@ -480,9 +500,13 @@ def edit_incoming_transaction(request, id):
 @login_required
 def delete_spending_transaction(request, id):
     spending = get_object_or_404(SpendingTransaction, id=id)
+    current_user = request.user
+    points = spending.get_points()
     spending.spending_category.limit.remaining_amount += spending.amount
     spending.spending_category.limit.save()
     spending.delete()
+    current_user.points -= points
+    current_user.save()
     messages.success(request, "transaction deleted successfully!")
     return HttpResponseRedirect(reverse('spending'))
 
