@@ -23,6 +23,13 @@ def sign_up(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
+            user.points += 10
+            user.save()
+            sending_email(
+                'Thank you for signing up! You are awarded with 10 points!',
+                user
+            )
+            create_default_categories(user)
             return redirect('feed')
     else:
         form = SignUpForm()
@@ -40,6 +47,14 @@ def log_in(request):
             user = authenticate(email=email, password=password)
             if user is not None:
                 login(request, user)
+                point, created = DailyPoint.objects.get_or_create(
+                    user=user, date=date.today())  # point not in use?
+                if created:
+                    user.add_login_points()
+                    sending_email(
+                        'Thank you for logging in today! You have earned 1 point!',
+                        user
+                    )
                 redirect_url = next or 'feed'
                 return redirect(redirect_url)
         # Add error message here
@@ -63,7 +78,24 @@ def add_friend(request):
 
 @login_required
 def leaderboard(request):
-    return render(request, 'leaderboard.html')
+    check_league(request.user, request)
+    num_top_users = 10
+
+    users = User.objects
+    user_overall_place = users.filter(
+        points__gt=request.user.points).count() + 1
+
+    users = users.filter(
+        league_status=request.user.league_status).order_by('-points')
+    user_place = users.filter(points__gt=request.user.points).count() + 1
+
+    context = {
+        'num_top_users': num_top_users,
+        'users': users[:num_top_users],
+        'user_place': user_place,
+        'user_overall_place': user_overall_place,
+    }
+    return render(request, 'leaderboard.html', context=context)
 
 
 def friends(request):
@@ -107,6 +139,8 @@ def follow_toggle(request, id):
     except ObjectDoesNotExist:
         return redirect('friends')
     else:
+        current_user.points += 1
+        current_user.save()
         return redirect('friends_profile', id=id)
 
 
