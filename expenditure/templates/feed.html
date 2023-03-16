@@ -68,46 +68,47 @@
                     <span class="text-primary font-weight-bold">{{categories_within_limit}}</span>
                 </div>
             </div>
-            <!--Hidden tags :: for pie chart-->
-            {%for category in income_categories%}
-            <div class="income-category-hidden" hidden>
-              <span >{{category.name}} </span>
-              <span >{{category.total|to_2_decimal_places}} </span>
-            </div>
-            {% endfor %}
-            <!--End hidden tags-->
-
-                <!-- Pie chart -->       
-            <div class="income-chart-div">
             
-                <span class="feed-report-card">
-                    <!-- Total income card  -->
-                    <div class="col-xxl-4 col-xl-12"> 
-
-                        <div class="card info-card total-income-card">
-                          <div class="card-body">
-                            <h5 class="card-title">Total Income</b></h5>
-                  
-                            <div class="d-flex align-items-center">
-                              <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                <i class="fa-regular fa-sterling-sign fa-2x"></i>
-                              </div>
-                              <div class="ps-3">
-                                <h6>&#163; {{total_income|to_2_decimal_places}}</h6>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- End total income card  -->
-                </span>
-               <canvas id="income-chart"> </canvas>
-             </div>   
-              <!-- End pie chart -->
 
 
             <div class="row">
                 <div class="col-md-8">
+                    <!--Hidden tags :: for pie chart-->
+                    {%for category in income_categories%}
+                    <div class="income-category-hidden" hidden>
+                    <span >{{category.name}} </span>
+                    <span >{{category.total|to_2_decimal_places}} </span>
+                    </div>
+                    {% endfor %}
+                    <!--End hidden tags-->
+
+                        <!-- Pie chart -->       
+                    <div class="income-chart-div">
+                    
+                        <span class="feed-report-card">
+                            <!-- Total income card  -->
+                            <div class="col-xxl-4 col-xl-12"> 
+
+                                <div class="card info-card total-income-card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Total Income</b></h5>
+                        
+                                    <div class="d-flex align-items-center">
+                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                        <i class="fa-regular fa-sterling-sign fa-2x"></i>
+                                    </div>
+                                    <div class="ps-3">
+                                        <h6>&#163; {{total_income|to_2_decimal_places}}</h6>
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                            <!-- End total income card  -->
+                        </span>
+                    <canvas id="income-chart"> </canvas>
+                    </div>   
+                    <!-- End pie chart -->
                 </div>
                 <div class="col-md-4">
                     <div class="card">
