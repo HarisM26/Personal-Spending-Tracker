@@ -54,17 +54,18 @@ def feed_page_report(request):
     current_user = request.user
     categories_within_limit = rm.total_categories_currently_within_limit(
         current_user)
-    total_budget = rm.get_total_budget(current_user)
+    total_budget = rm.get_total_budget(current_user)  # not used yet
     remaining_budget = rm.get_total_remaining_budget(current_user)
     total_spending = rm.get_total_spending(current_user)
-    total_income = rm.get_total_income(current_user)
-
+    total_income = rm.get_total_income(current_user)  # not used yet
+    income_categories = rm.get_all_income_categories(current_user)
     context = {
         'categories_within_limit': categories_within_limit,
         'total_budget': total_budget,
         'remaining_budget': remaining_budget,
         'total_spending': total_spending,
         'total_income': total_income,
+        'income_categories': income_categories,
 
     }
     return context

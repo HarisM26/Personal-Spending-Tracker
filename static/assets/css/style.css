@@ -1,9 +1,9 @@
 @import "treeview.css";
 @import "navbar.css";
 @import "sidebar.css";
-@import "newspage.css";
 @import "landingpage.css";
 @import "signing.css";
+@import "leaderboard.css";
 
 :root {
   /*colors*/
@@ -76,7 +76,8 @@ h3 {
   }
 }
 
-.report .card-icon {
+.report .card-icon,
+.feed-report-card .card-icon {
   font-size: 16px;
   line-height: 0;
   width: 64px;
@@ -85,7 +86,8 @@ h3 {
   flex-grow: 0;
 }
 
-.report .info-card h6 {
+.report .info-card h6,
+.feed-report-card .info-card h6 {
   font-size: 28px;
   color: var(--color-dark);
   font-weight: 700;
@@ -108,6 +110,13 @@ h3 {
   .report .card-title {
     font-size: 18px;
   }
+}
+.feed-report-card .col-xl-12 {
+  width: 100%;
+}
+.total-income-card .card-icon {
+  color: var(--color-default);
+  background: rgb(135, 229, 135);
 }
 
 .largest-category-card .card-icon {
@@ -185,6 +194,16 @@ h3 {
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 20px;
   margin: 20px 0;
+}
+
+@media (max-width: 800px) {
+  .main-cards {
+    display: inline;
+    margin-top: 20px;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 20px;
+    margin: 20px 0;
+  }
 }
 
 .main-cards .card {
@@ -317,11 +336,6 @@ h3 {
   margin-left: 20px;
 }
 
-.content-section a:visited {
-  color: gray;
-  text-decoration: none;
-}
-
 .content-section a:hover {
   color: #0067ac;
   text-decoration: none;
@@ -415,4 +429,17 @@ h3 {
   margin-top: 40px;
 }
 
-/**/
+/*Quick add*/
+
+.content-section .quick-add {
+  float: right;
+}
+
+.income-chart-div {
+  padding: 20px;
+}
+@media (min-width: 620px) {
+  .income-chart-div {
+    width: 550px;
+  }
+}

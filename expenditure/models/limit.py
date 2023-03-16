@@ -24,11 +24,5 @@ class Limit(models.Model):
     def calc_90_percent_of_limit(self):
         return Decimal(self.limit_amount)*Decimal('0.90')
 
-    def addTransaction(self, spentAmount):
-        if (spentAmount >= Decimal('0.00')):
-            self.remaining_amount -= spentAmount
-        else:
-            return -1
-
     class Meta:
         app_label = "expenditure"

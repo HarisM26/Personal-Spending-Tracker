@@ -120,10 +120,11 @@
 
   {%for category in range_categories%}
   <div class="category-in-range" hidden>
-    <span id="range-category-name">{{category.name}} </span>
-    <span id="range-category-total">{{category.total|to_2_decimal_places}} </span>
+    <span>{{category.name}} </span>
+    <span>{{category.total|to_2_decimal_places}} </span>
   </div>
   {% endfor %}
+  <!--End hidden-->
 
    <!-- Doughnut chart -->       
  <div class="doughnut-chart-container">

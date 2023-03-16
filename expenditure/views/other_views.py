@@ -5,6 +5,7 @@ from expenditure.helpers import *
 from django.contrib.auth.decorators import login_required
 from expenditure.views.transaction_views import add_quick_spending
 from expenditure.views.report_views import feed_page_report
+import decimal
 
 
 @login_prohibited
@@ -26,7 +27,12 @@ def feed(request):
     feed_report_context = feed_page_report(request)
 
     context = {
-        'categories_within_limit': feed_report_context,
+        'categories_within_limit': feed_report_context['categories_within_limit'],
+        'total_budget': feed_report_context['total_budget'],  # not used yet
+        'remaining_budget': feed_report_context['remaining_budget'],
+        'total_spending': feed_report_context['total_spending'],
+        'total_income': feed_report_context['total_income'],  # not used yet
+        'income_categories': feed_report_context['income_categories'],
         'articles': articles,
         'form': form,
     }

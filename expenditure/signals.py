@@ -1,4 +1,5 @@
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete
+from .models import *
 from django.dispatch import receiver
 from decimal import *
 from expenditure.helpers import create_limit_notification
@@ -8,6 +9,13 @@ from expenditure.models.transactions import *
 from expenditure.models.user import *
 
 User = get_user_model()
+
+
+@receiver(post_delete, sender=IncomeTransaction)
+def remove_incometransaction_points(instance, *args, **kwargs):
+    current_user = instance.income_category.user
+    current_user.points -= 3
+    current_user.save()
 
 
 @receiver(post_save, sender=SpendingTransaction)

@@ -109,7 +109,7 @@ const populateBackgroundColor = (size) => {
     backgroudColor.push(`rgba(${randomNumber(255)}, ${randomNumber(255)}, ${randomNumber(255)},0.2)`)
   }
 }
-  export const generateCategoryChart= (templateId,labels,myData) => {
+  export const generateCategoryChart= (templateId,labels,myData,chartType) => {
     populateBackgroundColor(myData.length)
     const data = {
       labels: labels,
@@ -121,7 +121,7 @@ const populateBackgroundColor = (size) => {
       }]
     };
     const config = {
-      type: 'doughnut',
+      type: `${chartType}`,
       data: data,
       options: {
         maintainAspectRatio: true,

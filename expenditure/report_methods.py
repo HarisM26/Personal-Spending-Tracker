@@ -41,6 +41,16 @@ def get_categories_within_time_frame(user, from_date, to_date):
     return categories
 
 
+def get_all_income_categories(user):
+    categories = IncomeCategory.objects.prefetch_related('transactions').filter(
+        user=user
+    ).annotate(
+        total=Sum("transactions__amount")
+    ).order_by("-total")
+
+    return categories
+
+
 def get_average_daily_spending_within_time_frame(user, from_date, to_date):
     days = (to_date-from_date).days
     categories = get_categories_within_time_frame(user, from_date, to_date)
@@ -141,5 +151,3 @@ def get_total_income(user):
         total_income += income.amount
 
     return total_income
-# average daily spending
-# percentage increase or decrease

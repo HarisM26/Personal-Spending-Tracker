@@ -25,6 +25,12 @@ class Transaction(models.Model):
         abstract = True
         ordering = ['-date',]
 
+    def get_points(self):
+        if (self.notes == ''):
+            return 3
+        else:
+            return 4
+
     def __str__(self):
         return 'desc: ' + self.title + ' ->  £' + str(self.amount)
 
@@ -34,6 +40,14 @@ class SpendingTransaction(Transaction):
         SpendingCategory, related_name="transactions", null=True, on_delete=models.SET_NULL)
     receipt = models.ImageField(upload_to='', blank=True, null=True)
     is_current = models.BooleanField(default=True)
+
+    def get_points(self):
+        points = super().get_points()
+        if not (self.receipt):
+            return points
+        else:
+            points += 1
+            return points
 
     def get_absolute_url(self):
         return reverse('transaction', kwargs={'id': self.pk})

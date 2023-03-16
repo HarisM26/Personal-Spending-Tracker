@@ -33,10 +33,6 @@ class UserManager(BaseUserManager):
         if extra_fields.get("is_superuser") is not True:
             raise ValueError(_("Superuser must have is_superuser=True."))
         return self.create_user(email, password, **extra_fields)
-
-    class Meta:
-        app_label = "expenditure"
-
         # ///?? cannot create user in admin
 
 
@@ -55,9 +51,24 @@ class User(AbstractBaseUser, PermissionsMixin):
         max_length=150,
     )
 
+    points = models.IntegerField(default=0)
+
+    id = models.AutoField(primary_key=True)
     followers = models.ManyToManyField(
         'self', symmetrical=False, related_name='followees'
     )
+
+    is_staff = models.BooleanField(default=False)
+
+    is_active = models.BooleanField(default=True)
+
+    toggle_notification = models.CharField(
+        max_length=3, choices=TOGGLE_CHOICE, default='ON')
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
+
+    objects = UserManager()
 
     def toggle_follow(self, followee):
         if followee == self:
@@ -82,24 +93,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     def followee_count(self):
         return self.followees.count()
 
-    toggle_notification = models.CharField(
-        max_length=3, choices=TOGGLE_CHOICE, default='ON')
-
     def __str__(self):
         return self.email
 
     @property
     def user_id(self):
         return self.first_name + str(self.id)
-
-    is_staff = models.BooleanField(default=False)
-
-    is_active = models.BooleanField(default=True)
-
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
-
-    objects = UserManager()
 
 
 class Profile(models.Model):
@@ -113,6 +112,3 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.last_name
-
-    class Meta:
-        app_label = "expenditure"
