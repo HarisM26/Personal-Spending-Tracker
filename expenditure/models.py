@@ -233,6 +233,12 @@ class Transaction(models.Model):
         else:
             return 4
 
+    def get_points(self):
+        if (self.notes == ''):
+            return 3
+        else:
+            return 4
+
     def __str__(self):
         return 'desc: ' + self.title + ' ->  £' + str(self.amount)
 
@@ -245,12 +251,12 @@ class SpendingTransaction(Transaction):
 
     def get_points(self):
         points = super().get_points()
-        if (self.receipt == ''):
+        if not (self.receipt):
             return points
         else:
             points += 1
             return points
-    
+            
     def get_absolute_url(self):
         return reverse('transaction', kwargs={'id': self.pk})
 

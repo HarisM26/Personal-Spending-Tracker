@@ -27,22 +27,10 @@ class EditSpendingCategoryViewTestCase(TestCase):
         self.url_list_spendings = reverse('spending')
         self.url_edit_category = reverse('edit_spending_category', kwargs={'pk': self.category.id})
 
-        self.category2 = SpendingCategory.objects.create(
-            user = User.objects.get(email='johndoe@example.com'),
-            name = 'ChangedCategory',
-            limit = Limit.objects.create(
-                limit_amount=Decimal('500.00'),
-                remaining_amount = Decimal('500.00'),
-                time_limit_type = 'monthly',
-                start_date= date.today(),
-                end_date= datetime.now() + timedelta(days=7)
-            )
-        )
-
         self.edited_form = {
-            'category-name': self.category.name,
-            'limit-limit_amount': self.category.limit.limit_amount,
-            'limit-time_limit_type': self.category.limit.time_limit_type
+            'category-name': 'ChangedCategory',
+            'limit-limit_amount': Decimal('500.00'),
+            'limit-time_limit_type': 'monthly'
         }
 
     def test_edit_category_url(self):
@@ -52,9 +40,10 @@ class EditSpendingCategoryViewTestCase(TestCase):
     def test_edit_category_changed(self):
         self.client.login(email=self.category.user.email, password='Password123')
         response = self.client.post(self.url_edit_category, self.edited_form, follow=True)
-        self.assertEqual(self.category.name, self.edited_form['category-name'])
-        self.assertEqual(self.category.limit.limit_amount, self.edited_form['limit-limit_amount'])
-        self.assertEqual(self.category.limit.time_limit_type, self.edited_form['limit-time_limit_type'])
+        spending_category = SpendingCategory.objects.get(id=self.category.pk)
+        self.assertEqual(spending_category.name, self.edited_form['category-name'])
+        self.assertEqual(spending_category.limit.limit_amount, self.edited_form['limit-limit_amount'])
+        self.assertEqual(spending_category.limit.time_limit_type, self.edited_form['limit-time_limit_type'])
         response_url = reverse('spending')
         self.assertRedirects(response, response_url, status_code=302, target_status_code=200 )
 
