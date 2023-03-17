@@ -32,7 +32,7 @@ def feed(request):
         'total_budget': feed_report_context['total_budget'],  # not used yet
         'remaining_budget': feed_report_context['remaining_budget'],
         'total_spending': feed_report_context['total_spending'],
-        'total_income': feed_report_context['total_income'],  # not used yet
+        'total_income': feed_report_context['total_income'],
         'income_categories': feed_report_context['income_categories'],
         'articles': articles,
         'form': form,

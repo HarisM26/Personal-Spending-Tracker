@@ -66,11 +66,6 @@ def get_end_date(limit_type):
         return datetime.date(datetime.now()) + timedelta(days=364)
 
 
-# def get_default_categories_as_set():
-#    default_categories = {'General', 'Groceries', 'Transport', 'Utilities'}
-#    return default_categories
-
-
 def create_default_categories(user):
     default_general = SpendingCategory.objects.create(
         user=user,
