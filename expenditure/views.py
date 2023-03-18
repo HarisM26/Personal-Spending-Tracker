@@ -21,7 +21,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q
 from django.template import loader
 from django.core.exceptions import ObjectDoesNotExist
-
+from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
 
 
 @login_prohibited
@@ -99,7 +99,7 @@ def feed(request):
         'articles': articles,
         'form': form,
     }
-    
+
     # send_mail(
     #     'This is VOID Money Tracker',
     #     'Hello.',
@@ -166,6 +166,7 @@ def incoming(request):
     }
     return render(request, 'incomings.html', context)
 
+
 def create_deafult_categories(user):
     default_general = SpendingCategory.objects.create(
         user=user,
@@ -207,6 +208,7 @@ def create_deafult_categories(user):
             remaining_amount=Decimal('100.00'),
         )
     )
+
 
 @login_prohibited
 def sign_up(request):
@@ -345,7 +347,8 @@ def log_in(request):
             user = authenticate(email=email, password=password)
             if user is not None:
                 login(request, user)
-                point, created =  DailyPoint.objects.get_or_create(user=user, date=date.today())
+                point, created = DailyPoint.objects.get_or_create(
+                    user=user, date=date.today())
                 if created:
                     user.add_login_points()
                     sending_email(
@@ -668,6 +671,22 @@ class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
     success_url = reverse_lazy("user_profile")
 
 
+class PasswordResetView(PasswordResetView):
+    template_name = 'password_reset.html'
+
+
+class PasswordResetDoneView(PasswordResetDoneView):
+    template_name = 'password_reset_done.html'
+
+
+class PasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = 'password_reset_confirm.html'
+
+
+class PasswordResetCompleteView(PasswordResetCompleteView):
+    template_name = 'password_reset_complete.html'
+
+
 def forgot_password(request):
     if request.method == 'POST':
         form = EmailForm(request.POST)
@@ -677,15 +696,18 @@ def forgot_password(request):
         form = EmailForm()
     return render(request, 'forgot_password.html', {'form': form})
 
+
 @login_required
 def leaderboard(request):
     check_league(request.user, request)
     num_top_users = 10
 
     users = User.objects
-    user_overall_place = users.filter(points__gt=request.user.points).count() + 1
+    user_overall_place = users.filter(
+        points__gt=request.user.points).count() + 1
 
-    users = users.filter(league_status=request.user.league_status).order_by('-points')
+    users = users.filter(
+        league_status=request.user.league_status).order_by('-points')
     user_place = users.filter(points__gt=request.user.points).count() + 1
 
     context = {
