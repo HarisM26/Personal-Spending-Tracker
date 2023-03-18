@@ -184,8 +184,11 @@ h3 {
 .nested .transaction_list:hover {
   margin-left: 20px;
   font-weight: 600;
-  cursor: pointer;
   color: var(--color-second);
+}
+
+.nested .transaction_list .transaction-detail-container:hover {
+  cursor: pointer;
 }
 
 /* After Authentication Card */
@@ -250,12 +253,16 @@ h3 {
 
 /*============================================================*/
 /*Income Page*/
-#add-transaction-btn {
+#add-income-transaction-btn {
   display: flex;
   justify-content: right;
+  margin-top: 8px;
 }
 /*============================================*/
 /* Spending Category*/
+.spending-content-section {
+  margin-left: 3px;
+}
 #spending-categories-detail-div,
 #total-transaction,
 .transaction_list {
@@ -272,15 +279,40 @@ h3 {
 .add-transaction-btn:before {
   content: "Add transaction";
 }
-@media (max-width: 700px) and (min-width: 530px) {
+.transaction-menu {
+  visibility: hidden;
+  display: none;
+}
+.delete-transaction-btn i,
+.delete-category-btn i {
+  color: red;
+}
+@media (max-width: 780px) and (min-width: 530px) {
   .add-transaction-btn,
-  .edit-transaction-btn {
+  .edit-category-btn {
     padding: 2px;
+  }
+  .delete-category-btn {
+    font-size: 12px;
+    padding: 5px 10px;
   }
   .add-transaction-btn::before {
     content: "+";
     font-size: 20px;
     padding: 0px 8px;
+  }
+  .edit-transaction-btn,
+  .delete-transaction-btn {
+    font-size: 12px;
+    padding: 8px;
+  }
+  .transaction_list .transaction-btn-container {
+    visibility: hidden;
+  }
+  .transaction-menu {
+    visibility: visible;
+    display: inline;
+    margin-right: 5px;
   }
 }
 @media (max-width: 530px) {
@@ -296,14 +328,50 @@ h3 {
     font-size: 13px;
     padding: 5px;
   }
-  .edit-category-btn {
+  .edit-category-btn,
+  .delete-category-btn {
     font-size: 12px;
     padding: 8px;
   }
+
+  #transaction-date,
+  #points-tag {
+    visibility: hidden;
+    display: none;
+  }
+  .edit-transaction-btn,
+  .delete-transaction-btn {
+    font-size: 12px;
+    padding: 8px;
+  }
+  .transaction_list .transaction-btn-container {
+    visibility: hidden;
+    display: none;
+  }
+  .transaction-menu {
+    visibility: visible;
+    display: inline;
+    margin-right: 5px;
+  }
 }
 
+.edit-transaction-btn,
+.delete-transaction-btn {
+  margin-left: 8px !important;
+}
 .category_list {
   margin-top: 5px;
+}
+.transaction-btn-container {
+  margin-right: 8px;
+}
+.transaction-detail-container {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+}
+#points-tag {
+  color: green;
 }
 /*================================*/
 
