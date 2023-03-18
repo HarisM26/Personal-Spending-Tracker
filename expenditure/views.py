@@ -676,11 +676,11 @@ class PasswordResetView(PasswordResetView):
 
 
 class PasswordResetDoneView(PasswordResetDoneView):
-    template_name = 'password_reset_done.html'
+    template_name = 'password_reset_sent.html'
 
 
 class PasswordResetConfirmView(PasswordResetConfirmView):
-    template_name = 'password_reset_confirm.html'
+    template_name = 'password_reset_form.html'
 
 
 class PasswordResetCompleteView(PasswordResetCompleteView):
