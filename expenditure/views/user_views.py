@@ -94,6 +94,9 @@ def leaderboard(request):
         'users': users[:num_top_users],
         'user_place': user_place,
         'user_overall_place': user_overall_place,
+        'first_place':users[0],
+        'second_place':users[1],
+        'third_place':users[2],
     }
     return render(request, 'leaderboard.html', context=context)
 
