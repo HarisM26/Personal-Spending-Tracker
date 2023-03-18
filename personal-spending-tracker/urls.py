@@ -91,5 +91,13 @@ urlpatterns = [
     path('reports/', views.view_report, name='reports'),
     path('profile/', views.profile, name='user_profile'),
     path('password-change/', ChangePasswordView.as_view(), name='password_change'),
-    path('forgot_password/', views.forgot_password, name='forgot_password'),
+    # ====================Reset Password
+    path('reset_password/', views.PasswordResetView.as_view(),
+         name='reset_password'),
+    path('reset_password_sent/', views.PasswordResetDoneView.as_view(),
+         name='password_reset_done'),
+    path('reset/<uidb64>/<token>/', views.PasswordResetConfirmView.as_view(),
+         name='password_reset_confirm'),
+    path('reset_password_complete/', views.PasswordResetCompleteView.as_view(),
+         name='password_reset_complete'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
