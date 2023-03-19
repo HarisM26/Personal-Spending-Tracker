@@ -83,7 +83,7 @@ def add_quick_spending(request):
 
 @login_required
 def feed(request):
-    check_league(request.user, request)
+    check_league(request)
     form = add_quick_spending(request)
 
     current_user = request.user
@@ -98,6 +98,7 @@ def feed(request):
         'unread_status_count': unread_status_count,
         'articles': articles,
         'form': form,
+        'messages': messages.get_messages(request),
     }
     
     # send_mail(
@@ -138,7 +139,7 @@ def view_selected_notification(request, id):
 
 @login_required
 def spending(request):
-    check_league(request.user, request)
+    check_league(request)
     current_user = request.user
     categories = SpendingCategory.objects.filter(user=current_user)
     notifications = get_user_notifications(current_user)
@@ -148,6 +149,7 @@ def spending(request):
         'latest_notifications': latest_notifications,
         'categories': categories,
         'unread_status_count': unread_status_count,
+        'messages': messages.get_messages(request),
     }
     return render(request, 'spending.html', context)
 
@@ -218,16 +220,21 @@ def sign_up(request):
             login(request, user)
             user.points += 10
             user.save()
-            sending_email(
-                'Thank you for signing up! You are awarded with 10 points!',
-                user
-            )
+            if (user.points == 15):
+                sending_email(
+                    'Thank you for signing up! You are awarded with 15 points for joining us and being referred!',
+                    user
+                )
+            else:
+                sending_email(
+                    'Thank you for signing up! You are awarded with 10 points!',
+                    user
+                )
             create_deafult_categories(user)
             return redirect('feed')
     else:
         form = SignUpForm()
     return render(request, 'sign_up.html', {'form': form})
-
 
 class DeleteSpendingCategoryView(LoginRequiredMixin, DeleteView):
     model = SpendingCategory
@@ -348,10 +355,8 @@ def log_in(request):
                 point, created =  DailyPoint.objects.get_or_create(user=user, date=date.today())
                 if created:
                     user.add_login_points()
-                    sending_email(
-                        'Thank you for logging in today! You have earned 1 point!',
-                        user
-                    )
+                    check_league(request)
+                    messages.success(request, 'Thank you for logging in today. You have earned 1 point!')
                 redirect_url = next or 'feed'
                 return redirect(redirect_url)
         # Add error message here
@@ -360,7 +365,13 @@ def log_in(request):
     else:
         next = request.GET.get('next') or ''
     form = LogInForm()
-    return render(request, 'log_in.html', {'form': form, 'next': next})
+
+    context = {
+        'form': form, 
+        'next': next,
+        'messages': messages.get_messages(request),
+    }
+    return render(request, 'log_in.html', context)
 
 
 def log_out(request):
@@ -623,11 +634,12 @@ def friends(request):
 
 
 def show_friends_profile(request, id):
-    check_league(request.user, request)
+    check_league(request)
     results = User.objects.get(id=id)
     template = loader.get_template('friends_profile.html')
     context = {
         'results': results,
+        'messages': messages.get_messages(request),
     }
     return HttpResponse(template.render(context, request))
 
@@ -641,8 +653,9 @@ def follow_toggle(request, id):
     except ObjectDoesNotExist:
         return redirect('friends')
     else:
-        current_user.points += 1
+        current_user.points += 3
         current_user.save()
+        messages.success(request, 'You have earned 3 points!')
         return redirect('friends_profile', id=id)
 
 
@@ -679,7 +692,7 @@ def forgot_password(request):
 
 @login_required
 def leaderboard(request):
-    check_league(request.user, request)
+    check_league(request)
     num_top_users = 10
 
     users = User.objects
@@ -693,5 +706,6 @@ def leaderboard(request):
         'users': users[:num_top_users],
         'user_place': user_place,
         'user_overall_place': user_overall_place,
+        'messages': messages.get_messages(request),
     }
     return render(request, 'leaderboard.html', context=context)

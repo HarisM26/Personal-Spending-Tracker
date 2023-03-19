@@ -74,11 +74,6 @@ def get_list_of_categories_close_or_over_the_limit(user, from_date, to_date):
 
     return categories_over_the_budget, categories_close_to_the_budget
 
-
-def get_total_left_after_subtraction_of_essentail_spending():
-    pass
-
-
 def get_list_of_transactions_in_category(user, from_date, to_date):
     return SpendingTransaction.objects.select_related('spending_category').filter(
         date__gte=from_date,

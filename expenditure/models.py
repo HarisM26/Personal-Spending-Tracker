@@ -9,6 +9,7 @@ from decimal import Decimal
 from django.core.validators import MinValueValidator
 from django.urls import reverse
 from expenditure.choices import *
+import random
 
 
 class UserManager(BaseUserManager):
@@ -109,7 +110,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     @property
     def user_id(self):
-        return self.first_name + str(self.id)
+        return f'{self.first_name}@{self.id}'
     
     @property
     def get_points(self):

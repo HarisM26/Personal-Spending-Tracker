@@ -70,3 +70,16 @@ class SignUpViewTestCase(TestCase,LogInTester):
 		self.assertEqual(categories_after_count, categories_before_count + 4)
 		categories = SpendingCategory.objects.all()
 		self.assertFalse(categories[0].is_not_default)
+	
+	def test_successful_referred_sign_up(self):
+		referred_input = {
+		    'first_name': 'Larry',
+	        'last_name': 'Lewis',
+	        'email': 'larrylewis@example.org',
+	        'new_password': 'Password123',
+	        'password_confirmation': 'Password123',
+			'reference_code': self.user.user_id
+		}
+		response = self.client.post(self.url, referred_input, follow=True)
+		user = User.objects.get(email = 'larrylewis@example.org')
+		self.assertEqual(user.points, 15)

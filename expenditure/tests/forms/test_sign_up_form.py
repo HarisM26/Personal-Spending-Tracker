@@ -7,6 +7,8 @@ from expenditure.models import User
 
 
 class SignUpFormTestCase(TestCase):
+    fixtures = ['expenditure/tests/fixtures/default_user.json',
+              'expenditure/tests/fixtures/other_users.json']
     def setUp(self):
         self.form_input = {
             'first_name': 'Will',
@@ -15,6 +17,8 @@ class SignUpFormTestCase(TestCase):
             'new_password': 'Password123',
             'password_confirmation': 'Password123',
         }
+    
+        self.referrer_id = User.objects.get(email='johndoe@example.com').user_id
 
     # test that the form accepts input data
 
@@ -76,3 +80,24 @@ class SignUpFormTestCase(TestCase):
         self.assertEqual(user.last_name, 'Smith')
         is_password_correct = check_password('Password123', user.password)
         self.assertTrue(is_password_correct)
+
+    def test_reference_code_accepted(self):
+        referrer = User.objects.get(email='johndoe@example.com')
+        before_points = referrer.points
+        self.form_input['reference_code'] = self.referrer_id
+        form = SignUpForm(data=self.form_input)
+        self.assertEqual(self.referrer_id, 'John@1')
+        self.assertTrue(form.is_valid())
+        form.save()
+        #self.assertEqual(referrer.points, before_points+10)
+
+    def test_reference_code_rejected_incorrect_format(self):
+        self.form_input['reference_code'] = 'bhu@xdrt'
+        form = SignUpForm(data=self.form_input)
+        self.assertFalse(form.is_valid())
+    
+    def test_reference_code_rejected_user_not_found(self):
+        self.form_input['reference_code'] = self.referrer_id + '1'
+        form = SignUpForm(data=self.form_input)
+        self.assertFalse(form.is_valid())
+    

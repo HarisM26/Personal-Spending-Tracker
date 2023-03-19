@@ -9,6 +9,7 @@
             <li class="breadcrumb-item active"> <a href="{% url 'feed' %}">Home</a></li>
             <li class="breadcrumb-item"> <a>Profile</a></li>
         </ol>
+        <p>Your unique reference code is: {{ request.user.user_id }}. Please share this code with a friend and earn 10 points!</p>
     </nav>
 
     <div class="card" style="padding: 30px;">
