@@ -1,60 +1,59 @@
 /* Register and Login css  */
 
-.signing{
-    width:100vw;
-	height: 100vh;
-	background: url(/static/images/bkg2.jpg);
-	background-size: cover;
-	background-position: bottom;
-	font-family: "Lato", sans-serif;
-	display:flex;
-	align-items: center;
-	justify-content: center;
+.signing {
+  min-height: 100vh;
+  width: 100vw;
+  height: 100vh;
+  background: url(/static/images/bkg2.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+  background-color: var(--color-body);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.signing .container{
-    padding: 5%;
-    height: 100%;
-
+.signing .container {
+  padding: 5%;
+  height: 100%;
 }
 
-.signing .message{
-    margin-top: 200px;
+.signing .message {
+  margin-top: 200px;
 }
 
-.signing .row{
-    position: fixed;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
+.signing .row {
+  position: fixed;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }
 
-.signing .card{
-    
-    border-radius: 1rem;   
-    margin-bottom: 20vh;
-    
+.signing .card {
+  border-radius: 1rem;
+  margin-bottom: 20vh;
 }
 
-.signing .card-body{
-    text-align: center;
-    padding: 5%;
+.signing .card-body {
+  text-align: center;
+  padding: 5%;
 }
 
-.signing h2{
-    text-transform: uppercase;
-    margin-bottom: 4px;
-    font-weight: bold;
+.signing h2 {
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  font-weight: bold;
 }
 
-.signing p{
-    color: gray;
-    font-weight: bold;
+.signing p {
+  color: gray;
+  font-weight: bold;
 }
-
 
 @media (max-width: 1000px) {
-    .signing .image {
-      display: none;
-    }
+  .signing .image {
+    display: none;
   }
+}
