@@ -132,15 +132,15 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT = '/uploads/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR,'uploads')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 STATICFILES_FINDERS = [
-      'django.contrib.staticfiles.finders.FileSystemFinder',
-      'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-  ]
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -160,15 +160,15 @@ MESSAGE_TAGS = {
     message_constants.DEBUG: 'dark',
     message_constants.ERROR: 'danger',
 }
-#tell Celery how to find Redis
+# tell Celery how to find Redis
 CELERY_BROKER_URL = 'redis://localhost:6379'
-LOGIN_REDIRECT_URL = '/' 
+LOGIN_REDIRECT_URL = '/'
 
-#EMAILING
+# EMAILING
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'hello.void.money.tracker@gmail.com'
-EMAIL_HOST_PASSWORD = 'brfonebssgpvoodn'
+EMAIL_HOST_USER = 'voidmoneytracker@gmail.com'
+EMAIL_HOST_PASSWORD = 'titqlaykgdacuhke'
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'hello.void.money.tracker@gmail.com'
+DEFAULT_FROM_EMAIL = 'voidmoneytracker@gmail.com'
