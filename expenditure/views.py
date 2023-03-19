@@ -529,9 +529,10 @@ def sign_up(request):
             user = form.save()
             login(request, user)
             return redirect('home')
+        
     else:
         form = SignUpForm()
-        return render(request, 'sign_up.html' , {'form': form})
+    return render(request, 'sign_up.html' , {'form': form})
 
 
 
@@ -591,3 +592,12 @@ def forgot_password(request):
     else:
         form = EmailForm()
     return render(request, 'forgot_password.html', {'form': form})
+
+@login_required
+def delete_account(request):
+    user_pk = request.user.pk
+    logout(request)
+    User = get_user_model()
+    User.objects.filter(pk=user_pk).delete()
+    return redirect('home')
+
