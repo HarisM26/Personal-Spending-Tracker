@@ -495,12 +495,7 @@ def leaderboard(request):
     return render(request, 'leaderboard.html')
 
 
-<<<<<<< HEAD
-@login_required            
-def search_friends(request):
-=======
 def friends(request):
->>>>>>> main
     if request.method == 'GET':
         query = request.GET.get('q')
 
@@ -524,12 +519,7 @@ def friends(request):
 
 
 def show_friends_profile(request, id):
-<<<<<<< HEAD
-    results = User.objects.get(id = id)
-    following = request.user.is_following(results)
-=======
     results = User.objects.get(id=id)
->>>>>>> main
     template = loader.get_template('friends_profile.html')
     context = {
         'results': results, 'following': following,
@@ -544,16 +534,9 @@ def follow_toggle(request, id):
         followee = User.objects.get(id=id)
         current_user.toggle_follow(followee)
     except ObjectDoesNotExist:
-<<<<<<< HEAD
-        return redirect('search_friends')
-    else:
-        return redirect('search_friends')
-    
-=======
         return redirect('friends')
     else:
         return redirect('friends_profile', id=id)
->>>>>>> main
 
 def sign_up(request):
     if request.method == 'POST':
@@ -624,3 +607,12 @@ def forgot_password(request):
     else:
         form = EmailForm()
     return render(request, 'forgot_password.html', {'form': form})
+
+@login_required
+def delete_account(request):
+    user_pk = request.user.pk
+    logout(request)
+    User = get_user_model()
+    User.objects.filter(pk=user_pk).delete()
+    return redirect('home')
+

@@ -1,12 +1,8 @@
 from django.test import TestCase
 from django.urls import reverse
 from expenditure.models import User
-<<<<<<< HEAD
-from expenditure.tests import reverse_with_next
-=======
 from expenditure.tests.helpers import reverse_with_next
 
->>>>>>> main
 
 class ShowUserTest(TestCase):
 
