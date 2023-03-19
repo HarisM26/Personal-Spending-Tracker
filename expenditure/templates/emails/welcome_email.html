@@ -1,164 +1,460 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>{{title}}</title>
-        <style type="text/css">
-            body {
-                margin: 0;
-                background-color: #cccccc;
-            }
-            table {
-                border-spacing: 0;
-            }
-            td {
-                padding: 0;
-            }
-            img {
-                border: 0;
-            }
-            .wrapper {
-                width: 100%;
-                table-layout: fixed;
-                background-color: #cccccc;
-                padding-bottom: 60px;
-            }
-            .main {
-                background-color: #ffffff;
-                margin: 0 auto;
-                width: 100%;
-                max-width: 600px;
-                border-spacing: 0;
-                font-family: sans-serif;
-                color: #171c1f;
-            }
-            .two-columns {
-                text-align: center;
-                font-size: 0;
-            }
-            .two-columns .column {
-                width: 100%;
-                max-width: 300px;
-                display: inline-block;
-                vertical-align: top;
-                text-align: center;
-            }
-            .three-columns {
-                text-align: center;
-                font-size: 0;
-                padding: 15px 0 25px;
-            }
-            .three-columns .column {
-                width: 100%;
-                max-width: 200px;
-                display: inline-table;
-                vertical-align: top;
-                text-align: center;
-            }
-            .three-columns .padding {
-                padding: 15px;
-                display: inline-table;
-            }
-            .three-columns .content {
-                font-size: 12px;
-                line-height: 20px;
-                padding: 0 5px;
-                display: inline-table;
-            }
-            .two-columns .last {
-                padding: 15px 0;
-            }
-            .two-columns .padding {
-                padding: 20px;
-            }
-            .two-columns .content {
-                font-size: 15px;
-                line-height: 20px;
-                text-align: left;
-            }
-            .button {
-                background-color: #ffffff;
-                color: #171a20;
-                text-decoration: none;
-                padding: 12px 20px;
-                border-radius: 5px;
-                font-weight: bold;
-            }
-            .button-dark {
-                background-color: #171a20;
-                color: #ffffff;
-                text-decoration: none;
-                padding: 12px 20px;
-                border-radius: 5px;
-                font-weight: bold;
-            }
-        </style>
-        </head>
-        <body>
-            <center class="wrapper">
-            <table class="main" width="100%">
-            <!-- TOP BORDER -->
-            <tr>
-            <td height="8"></td>
-            </tr>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Modern HTML Email Template</title>
+    <style type="text/css">
+      body {
+        margin: 0;
+        background-color: #cccccc;
+      }
+      table {
+        border-spacing: 0;
+      }
+      td {
+        padding: 0;
+      }
+      img {
+        border: 0;
+      }
+      .wrapper {
+        width: 100%;
+        table-layout: fixed;
+        background-color: #cccccc;
+        padding-bottom: 60px;
+      }
+      .container {
+        position: relative;
+        text-align: center;
+        color: #ffffff;
+      }
+      .container .center-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+      .message-content {
+        line-height: 23px;
+        font-size: 15px;
+        padding: 5px 0 15px;
+      }
+      .main {
+        background-color: #ffffff;
+        margin: 0 auto;
+        width: 100%;
+        max-width: 600px;
+        border-spacing: 0;
+        font-family: sans-serif;
+        color: #171c1f;
+      }
+      .two-columns {
+        text-align: center;
+        font-size: 0;
+      }
+      .two-columns .column {
+        width: 100%;
+        max-width: 300px;
+        display: inline-block;
+        vertical-align: top;
+        text-align: center;
+      }
+      .three-columns {
+        text-align: center;
+        font-size: 0;
+        padding: 15px 0 25px;
+      }
+      .three-columns .column {
+        width: 100%;
+        max-width: 200px;
+        display: inline-table;
+        vertical-align: top;
+        text-align: center;
+      }
+      .three-columns .padding {
+        padding: 15px;
+        display: inline-table;
+      }
+      .three-columns .content {
+        font-size: 12px;
+        line-height: 20px;
+        padding: 0 5px;
+        display: inline-table;
+      }
+      .two-columns .last {
+        padding: 15px 0;
+      }
+      .two-columns .padding {
+        padding: 20px;
+      }
+      .two-columns .content {
+        font-size: 15px;
+        line-height: 20px;
+        text-align: left;
+      }
+      .button {
+        background-color: #ffffff;
+        color: #171a20;
+        text-decoration: none;
+        padding: 12px 20px;
+        border-radius: 5px;
+        font-weight: bold;
+      }
+      .button-dark {
+        background-color: #171a20;
+        color: #ffffff;
+        text-decoration: none;
+        padding: 12px 20px;
+        border-radius: 5px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <center class="wrapper">
+      <table class="main" width="100%">
+        <!-- TOP BORDER -->
+        <tr>
+          <td height="8"></td>
+        </tr>
 
-            <!-- LOGO SECTION -->
-            <tr>
-            <td style="padding: 14px 0 4px">
-                <table width="100%">
-                <tr>
-                    <td class="two-columns">
-                    <table class="column">
-                        <tr>
-                        <td style="padding: 0 62px 10px">
-                            <a href="#">
-                            <img
-                                src="https://i.ibb.co/frQmrPx/logo2.png"
-                                alt="Void Money Tracker Logo"
-                                width="180"
-                                title="Void
-                            Money Tracker Logo"
-                            />
-                            </a>
-                        </td>
-                        </tr>
-                    </table>
+        <!-- LOGO SECTION -->
+        <tr>
+          <td style="padding: 14px 0 4px">
+            <table width="100%">
+              <tr>
+                <td class="two-columns">
+                  <table class="column">
+                    <tr>
+                      <td style="padding: 0 62px 10px">
+                        <a href="#">
+                          <img
+                            src="https://i.ibb.co/frQmrPx/logo2.png"
+                            alt="Void Money Tracker Logo"
+                            width="180"
+                            title="Void
+                          Money Tracker Logo"
+                          />
+                        </a>
+                      </td>
+                    </tr>
+                  </table>
 
-                    <table class="column">
-                        <tr>
-                        <td style="padding: 10px 72px">
-                            <a href="#">
-                            <img src="https://i.ibb.co/m4QS2tp/black-facebook.png"
-                            alt"" width="30">
-                            </a>
-                            <a href="#">
-                            <img src="https://i.ibb.co/dLvJw4p/black-twitter.png"
-                            alt"" width="30">
-                            </a>
-                            <a href="#">
-                            <img src="https://i.ibb.co/jDz18vD/black-youtube.png"
-                            alt"" width="30">
-                            </a>
-                            <a href="#">
-                            <img src="https://i.ibb.co/x5h3McB/black-linkedin.png"
-                            alt"" width="30">
-                            </a>
-                            <a href="#">
-                            <img
-                            src="https://i.ibb.co/F3xPTYb/black-instagram.png"
-                            alt"" width="30">
-                            </a>
-                        </td>
-                        </tr>
-                    </table>
-                    </td>
-                </tr>
-                </table>
-            </td>
-            </tr>
+                  <table class="column">
+                    <tr>
+                      <td style="padding: 10px 72px">
+                        <a href="#">
+                          <img src="https://i.ibb.co/m4QS2tp/black-facebook.png"
+                          alt"" width="30">
+                        </a>
+                        <a href="#">
+                          <img src="https://i.ibb.co/dLvJw4p/black-twitter.png"
+                          alt"" width="30">
+                        </a>
+                        <a href="#">
+                          <img src="https://i.ibb.co/jDz18vD/black-youtube.png"
+                          alt"" width="30">
+                        </a>
+                        <a href="#">
+                          <img src="https://i.ibb.co/x5h3McB/black-linkedin.png"
+                          alt"" width="30">
+                        </a>
+                        <a href="#">
+                          <img
+                          src="https://i.ibb.co/F3xPTYb/black-instagram.png"
+                          alt"" width="30">
+                        </a>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
 
-        </center>
-        
-    </body>
+        <!-- BANNER IMAGE -->
+        <tr>
+          <td>
+            <a href="#"
+              ><img
+                src="https://i.ibb.co/Vm1J4Dd/bkg2.jpg"
+                alt=""
+                width="600"
+                style="max-width: 100%; height: 60px"
+              />
+            </a>
+          </td>
+        </tr>
+
+        <!-- MAIN MESSAGE SECTION -->
+        <tr>
+          <td style="padding: 15px 0 15px">
+            <table width="100%">
+              <tr>
+                <td style="text-align: center; padding: 15px">
+                  <p style="font-size: 20px; font-weight: bold">
+                    Welcome to Void Money Tracker
+                  </p>
+                  <p style="font-size: 17px; font-weight: bold">
+                    Your first step towards financial freedom
+                  </p>
+                  <p
+                    style="
+                      line-height: 23px;
+                      font-size: 15px;
+                      padding: 5px 0 15px;
+                    "
+                  >
+                    We are excited to welcome you to Void Money Tracker! 
+                    Our team is dedicated to helping you take control of your finances 
+                    and achieve your financial goals.
+                  </p>
+                  <p
+                    style="
+                      line-height: 23px;
+                      font-size: 15px;
+                      padding: 5px 0 15px;
+                    "
+                  >
+                    With our easy-to-use platform, you can quickly track your spending, 
+                    set financial goals, and monitor your progress over time. We also offer 
+                    helpful resources and tools to help you make informed financial decisions.
+                    To get started, simply log into your account and check out the dashboard. 
+                    You'll be able to see an overview of your spending habits, recent transactions,
+                    and progress towards your goals. And if you ever have any questions or need 
+                    assistance, feel free to reach out to our team.
+                  </p>
+                  <p
+                    style="
+                      line-height: 23px;
+                      font-size: 15px;
+                      padding: 5px 0 15px;
+                    "
+                  >
+                    As a welcome gift we are giving you 10 extra Void Points! We hope you enjoy
+                    our service and we are looking forward to seeing you prosper.
+                  
+                  </p>
+                  <p
+                    style="
+                      line-height: 23px;
+                      font-size: 15px;
+                      padding: 5px 0 15px;
+                      font-weight: bold;
+                    "
+                  >
+                    The Void Money Tracker Team 
+                  </p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- SECTION BREAK -->
+        <tr>
+          <td>
+            <a href="#"
+              ><img
+                src="https://i.ibb.co/Vm1J4Dd/bkg2.jpg"
+                alt=""
+                width="600"
+                style="max-width: 100%; height: 30px"
+              />
+            </a>
+          </td>
+        </tr>
+
+        <!-- THREE COLUMN SECTION -->
+
+        <tr>
+          <td>
+            <table width="100%">
+              <tr>
+                <td class="three-columns">
+                  <table class="content">
+                    <tr>
+                      <td class="padding">
+                        <table class="column">
+                          <tr>
+                            <td>
+                              <a href="#">
+                                <img
+                                  src="https://i.ibb.co/YjD2c5M/pin.png"
+                                  alt=""
+                                  width="130"
+                                  style="max-width: 130px"
+                                />
+                              </a>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <p style="font-weight: bold; font-size: 17px">
+                                Track
+                              </p>
+                              <p>Add all your expenses with ease.</p>
+                            </td>
+                          </tr>
+                        </table>
+                        <table class="column">
+                          <tr>
+                            <td>
+                              <a href="#">
+                                <img
+                                  src="https://i.ibb.co/xjzwhB1/categorise.png"
+                                  alt=""
+                                  width="130"
+                                  style="max-width: 130px"
+                                />
+                              </a>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <p style="font-weight: bold; font-size: 17px">
+                                Organise
+                              </p>
+                              <p>Add each expense to a category.</p>
+                            </td>
+                          </tr>
+                        </table>
+                        <table class="column">
+                          <tr>
+                            <td>
+                              <a href="#">
+                                <img
+                                  src="https://i.ibb.co/P1Cbxjb/finetune.png"
+                                  alt=""
+                                  width="130"
+                                  style="max-width: 130px"
+                                />
+                              </a>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <p style="font-weight: bold; font-size: 17px">
+                                Personalise
+                              </p>
+                              <p>Fine tune the limits for each category.</p>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- TWO COLUMN SECTION -->
+
+        <tr>
+          <td style="background-color: #262930; color: #ffffff">
+            <table width="100%">
+              <tr>
+                <td class="two-columns final">
+                  <table class="column">
+                    <tr>
+                      <td class="padding">
+                        <table class="content">
+                          <tr>
+                            <td>
+                              <a href="#">
+                                <img
+                                  src="https://i.ibb.co/Z2KdNG7/pound.jpg"
+                                  alt=""
+                                  width="260px"
+                                  max-width="260px"
+                                />
+                              </a>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </table>
+
+                  <table class="column">
+                    <tr>
+                      <td class="padding">
+                        <table class="content">
+                          <tr>
+                            <td>
+                              <p style="font-weight: bold; font-size: 18px">
+                                Read our blog
+                              </p>
+                              <p>
+                                Stay up to date with all the latest advice and
+                                tips on how to save and build your wealth.
+                              </p>
+                              <a href="#" class="button">Read more</a>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- FOOTER SECTION -->
+        <tr>
+          <td style="background-color: #26292b">
+            <table width="100%">
+              <tr>
+                <td
+                  style="text-align: center; padding: 45px 20px; color: #ffffff"
+                >
+                  <a href="#">
+                    <img
+                      src="https://i.ibb.co/frQmrPx/logo2.png"
+                      alt=""
+                      width="130"
+                      style="max-width: 130px"
+                    />
+                  </a>
+                  <p style="padding: 10px">Void Money Tracker HTML email</p>
+                  <p style="padding: 10px">Bush House address</p>
+                  <a href="#">
+                    <img
+                      src="https://i.ibb.co/P57c6bC/white-facebook.png"
+                      alt=""
+                      width="30"
+                    />
+                  </a>
+                  <a href="#">
+                    <img src="https://i.ibb.co/5rkzFRX/white-twitter.png" alt""
+                    width="30">
+                  </a>
+                  <a href="#">
+                    <img src="https://i.ibb.co/M8fjXYZ/white-youtube.png" alt""
+                    width="30">
+                  </a>
+                  <a href="#">
+                    <img src="https://i.ibb.co/2P7z84n/white-linkedin.png" alt""
+                    width="30">
+                  </a>
+                  <a href="#">
+                    <img src="https://i.ibb.co/NYs3W3k/white-instagram.png"
+                    alt"" width="30">
+                  </a>
+                  <p style="padding: 10px">SUBSCRIBE</p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </center>
+  </body>
 </html>
