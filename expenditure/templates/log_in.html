@@ -4,9 +4,9 @@
 {% include 'partials/home_form_menu.html' %}
 <section class="signing">
   <div> {% include 'partials/messages.html' %} </div>
-    <div class="container">
+    <div class="container d-flex justify-content-center">
       
-      <div class="row">
+      <div class="row" id="login-card">
         <div class="col-md-8 col-lg-7 col-xl-6">
           <div class="image">
             <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"
@@ -14,7 +14,7 @@
           </div>
         </div>
           <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
-            <div class="card">
+            <div class="card" >
               <div class="card-body">
             
                 <div class="mb-md-5 mt-md-4 pb-5">
@@ -25,7 +25,7 @@
                   {% csrf_token %}
                   <input type="hidden" name="next" value="{{ next }}">
                   {% include 'partials/bootstrap_form.html' with form=form %}
-                  <input type="submit" value="             Login             " class="btn btn-info">
+                  <input type="submit" value="Login" class="btn btn-info">
                 </form>
                 <br>
                 <a href="{% url 'forgot_password' %}">Forgot Password?</a>
@@ -41,7 +41,9 @@
           </div>
       </div>
     </div>
+
 </section>
+
     
 {% endblock %}
 

@@ -164,6 +164,11 @@ h3 {
   justify-content: right;
   margin-bottom: 20px;
 }
+/*Login cards*/
+#login-card {
+  width: 90%;
+}
+/*================*/
 
 /* transaction list hover*/
 .nested .transaction_list {
