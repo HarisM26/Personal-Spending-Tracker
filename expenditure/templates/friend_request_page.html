@@ -13,6 +13,22 @@
   </nav>
 
   <div class="main-card">
+  <h3>Requests You Have Made</h3>
+      {% for fr in friendship_requests%}
+      <a id="friend_request-card-anchor" href="{% url 'view_selected_request' friendship_request.id %}">
+        <div class="friend_request-card"> 
+          <span><b>{{ fr.title }} </b></span><br>
+          <i>{{ fr.message }}</i> <br>
+          <span class="text-muted">{{ fr.created|naturaltime}}</span>
+          <span class="text-muted">{{ fr.status }}</span>
+        </div>
+      </a>
+      {% endfor %}
+  </div>
+  
+  
+  <div class="main-card">
+  <h3>Requests You Have Received</h3>
       {% for fr in friendship_requests%}
       <a id="friend_request-card-anchor" href="{% url 'view_selected_request' friendship_request.id %}">
         <div class="friend_request-card"> 

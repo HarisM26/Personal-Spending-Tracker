@@ -578,7 +578,22 @@ def show_friends_profile(request, id):
         'results': results
     }
     return HttpResponse(template.render(context, request))
-
+    
+@login_required
+def friend_request_page(request):
+    current_user = request.user
+    fr_request = get_user_notifications(current_user)
+    latest_notifications = fr_request[0:3]
+    unread_status_count = get_unread_nofications(current_user)
+    pending_requests = current_user.show_pending_requests()
+    context = {
+        'pending_requests' : pending_requests,
+        'latest_notifications': latest_notifications,
+        'fr_request': fr_request,
+        'unread_status_count': unread_status_count,
+    }
+    return render(request, 'friend_request_page.html', context)
+    
 #sender creates request to be accepted by a private user 
 @login_required
 def create_friendship_request(request, id):
@@ -634,19 +649,6 @@ def follow_toggle(request, id):
         
 
         
-@login_required
-def friend_request_page(request):
-    current_user = request.user
-    fr_request = get_user_notifications(current_user)
-    latest_notifications = fr_request[0:3]
-    unread_status_count = get_unread_nofications(current_user)
-    context = {
-        'latest_notifications': latest_notifications,
-        'fr_request': fr_request,
-        'unread_status_count': unread_status_count,
-    }
-    return render(request, 'friend_request_page.html', context)
-
 
 '''@login_required
 def view_selected_notification(request, id):

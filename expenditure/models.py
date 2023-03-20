@@ -84,7 +84,13 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.followers.count()
 
     def followee_count(self):
-        return self.followees.count()      
+        return self.followees.count()   
+        
+    def show_pending_requests(self):
+    	return FriendRequest.show_pending_requests(self)
+    	
+    def show_accepted_requests(self):
+    	return FriendRequest.show_accepted_requests(self)   
 
     toggle_notification = models.CharField(
         max_length=3, choices=TOGGLE_CHOICE, default='ON')
@@ -200,13 +206,13 @@ class FriendRequest(models.Model):
             accepted_requests.add(self)
         else:
             return
-                                
+            
     def show_pending_requests(self):
     	return pending_requests.all()
     	
     def show_accepted_requests(self):
     	return accepted_requests.all()
-    
+                                    
 
 class SpendingCategory(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
