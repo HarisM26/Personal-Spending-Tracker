@@ -108,7 +108,7 @@ class SignUpForm(forms.ModelForm):
     password_confirmation = forms.CharField(
         label='Password confirmation', widget=forms.PasswordInput())
     
-    reference_code = forms.CharField(required=False, label="reference code")
+    reference_code = forms.CharField(required=False, label="Reference Code")
 
     def check_reference_code(self):
         if not self.cleaned_data.get('reference_code'):
