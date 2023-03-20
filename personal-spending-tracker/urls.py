@@ -63,7 +63,6 @@ urlpatterns = [
     path('follow_toggle/<int:id>', views.follow_toggle, name='follow_toggle'),
     path('password-change/', ChangePasswordView.as_view(), name='password_change'),
     path('forgot_password/', views.forgot_password, name='forgot_password'),
-    path('delete_account/', views.delete_account, name='delete_account'),
    
 
    

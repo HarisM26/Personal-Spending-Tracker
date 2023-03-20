@@ -85,5 +85,4 @@ def delete_old_job_executions(max_age=604_800):
         logger.info("Stopping scheduler...")
         scheduler.shutdown()
         logger.info("Scheduler shut down successfully!")
- 
  """
