@@ -121,19 +121,19 @@ def sending_email(message, user):
 
 
 def check_league(user, request):
-    if (user.league_status == 'bronze' and int(user.points) >= 50):
+    if (user.league_status == 'bronze' and int(user.points) >= 200):
         user.league_status = 'silver'
         user.save()
         # messages.success(request, "Congradulations! You have reached the Silver League. You need to have 150 points to progress to the next league.")
-    elif ((user.league_status == 'silver' and int(user.points) >= 150)):
+    elif ((user.league_status == 'silver' and int(user.points) >= 600)):
         user.league_status = 'gold'
         user.save()
         # messages.success(request, "Congradulations! You have reached the Gold League. You need to have 300 points to progress to the next league.")
-    elif ((user.league_status == 'gold' and int(user.points) >= 300)):
+    elif ((user.league_status == 'gold' and int(user.points) >= 1800)):
         user.league_status = 'platinum'
         user.save()
         # messages.success(request, "Congradulations! You have reached the Platinum League. You need to have 500 points to progress to the next league.")
-    elif ((user.league_status == 'platinum' and int(user.points) >= 500)):
+    elif ((user.league_status == 'platinum' and int(user.points) >= 5000)):
         user.league_status = 'diamond'
         user.save()
         # messages.success(request, "Congradulations! You have reached the final Diamond League. You will shortly recieve a present from us!")

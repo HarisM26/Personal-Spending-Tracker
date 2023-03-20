@@ -14,15 +14,6 @@
         </ol>
     </nav>
     <div class="main-card">
-        <p class="alert alert-success">
-            <!-- Position Display -->
-            {% if user_place == user_overall_place %}
-                Your Current Position: #{{ user_place }}
-            {% else %}
-                You are #{{ user_place }} place in {{ request.user.league_status }} league 
-                and #{{ user_overall_place }} overall
-            {% endif %}
-        </p>
         <!-- League Display -->
         <h2 class="league-title"> {{ request.user.league_status }} League</h2>
 
@@ -87,7 +78,7 @@
 
             <br><br>
             <div class="card top-200-card" style="padding: 20px;">
-                <h4>Top 200</h4>
+                <h4>Top 10</h4>
 
                 <table class="table">
                     <thead>
@@ -99,7 +90,7 @@
                     </thead>
                     <tbody>
                         {% for user in users %}
-                            <tr class="{% if request.user == user %}alert-success{% endif %}">
+                            <tr class="{% if request.user == user %}alert-primary{% endif %}">
                                 <td>
                                     <div class="d-flex align-items-center">
                                         <div class="user-position">
@@ -121,8 +112,9 @@
                                 </td>
                             </tr>
                         {% endfor %}
+                        <br>
                         {% if user_place > num_top_users %}
-                        <tr class="{% if request.user == user %}alert-success{% endif %}">
+                        <tr class="{% if request.user == user %}alert-primary{% endif %}">
                             <td>
                                 <div class="d-flex align-items-center">
                                     <div class="user-position">

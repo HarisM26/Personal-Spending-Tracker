@@ -49,11 +49,11 @@ class CustomUserAdmin(UserAdmin):
     add_form = SignUpForm
     model = User
     list_display = ("user_id", "first_name", "last_name",
-                    "email", "is_staff", "is_active",)
+                    "email", "is_staff", "is_active","points")
 
     list_filter = ("email", "is_staff", "is_active")
     fieldsets = (
-        (None, {"fields": ("first_name", "last_name", "email", "password")}),
+        (None, {"fields": ("first_name", "last_name", "email", "password","points",)}),
         ("Permissions", {"fields": ("is_staff",
          "is_active", "groups", "user_permissions")}),
     )
@@ -62,7 +62,7 @@ class CustomUserAdmin(UserAdmin):
             "classes": ("wide",),
             "fields": (
                 "email", "password", "is_staff",
-                "is_active", "groups", "user_permissions"
+                "is_active", "groups", "user_permissions","points",
             )}
          ),
     )
