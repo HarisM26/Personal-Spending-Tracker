@@ -176,6 +176,13 @@ def forgot_password(request):
         form = EmailForm()
     return render(request, 'forgot_password.html', {'form': form})
 
+@login_required
+def delete_account(request):
+    user_pk = request.user.pk
+    logout(request)
+    User = get_user_model()
+    User.objects.filter(pk=user_pk).delete()
+    return redirect('home')
 
 class PasswordResetView(PasswordResetView):
     template_name = 'password_reset.html'
@@ -191,3 +198,44 @@ class PasswordResetConfirmView(PasswordResetConfirmView):
 
 class PasswordResetCompleteView(PasswordResetCompleteView):
     template_name = 'password_reset_complete.html'
+    
+@login_required
+def delete_account(request):
+    user_pk = request.user.pk
+    logout(request)
+    User = get_user_model()
+    User.objects.filter(pk=user_pk).delete()
+    return redirect('home')
+
+@login_required
+def toggle_privacy(request):
+    current_user = request.user
+    if current_user.toggle_privacy == 'ON':
+        current_user.toggle_privacy = 'OFF'
+        current_user.save()
+    else:
+        current_user.toggle_privacy = 'ON'
+        current_user.save()
+    return redirect('settings')
+
+@login_required            
+def search_friends(request):
+    if request.method == 'GET':
+        query=request.GET.get('q')
+        
+        submitbutton=request.GET.get('submit')
+        
+        if query is not None:
+            lookups=Q(first_name__icontains=query)|Q(last_name__icontains=query)|Q(email__icontains=query)
+            
+            results= User.objects.filter(lookups).distinct()
+            
+            context={'results': results, 'submitbutton': submitbutton}
+            
+            return render(request, 'friends.html', context)
+            
+        else:
+            return render(request, 'friends.html')
+            
+    else:
+            return render(request, 'friends.html') 

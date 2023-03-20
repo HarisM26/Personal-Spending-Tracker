@@ -3,6 +3,7 @@ from expenditure.models.categories import *
 from expenditure.models.transactions import *
 from django.contrib.auth.forms import UserCreationForm
 from django.core.validators import RegexValidator
+from django.core import validators
 from bootstrap_datepicker_plus.widgets import DatePickerInput
 from datetime import datetime, date
 from .helpers import not_future
@@ -90,25 +91,31 @@ class SpendingCategoryEditMultiForm(MultiModelForm):
 
 
 class LogInForm(forms.Form):
-    email = forms.CharField(label='Email')
+    email = forms.EmailField(label='Email', required=True, validators=[validators.EmailValidator(message="Invalid Email")])
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
 
 
 class EmailForm(forms.Form):
-    email = forms.CharField(label='Email')
+    email = forms.EmailField(label='Email')
 
 
 class SignUpForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email']
-
+        
+    email = forms.EmailField(label='Email')
+    first_name = forms.CharField(label='First Name')
+    last_name = forms.CharField(label='Last Name')
+    
     new_password = forms.CharField(label='Password', widget=forms.PasswordInput(), validators=[RegexValidator(
         regex=r'^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).*$',
         message='Password must contain an uppercase character, a lowercase character and a number'
-    )])
-    password_confirmation = forms.CharField(
-        label='Password confirmation', widget=forms.PasswordInput())
+    )]
+
+    
+    )
+    password_confirmation = forms.CharField(label='Password confirmation', widget=forms.PasswordInput())
 
     def clean(self):
         super().clean()
