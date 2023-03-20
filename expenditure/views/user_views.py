@@ -25,10 +25,16 @@ def sign_up(request):
             login(request, user)
             user.points += 10
             user.save()
-            sending_email(
-                'Thank you for signing up! You are awarded with 10 points!',
-                user
-            )
+            if (user.points == 15):
+                sending_email(
+                    'Thank you for signing up! You are awarded with 15 points for joining us and being referred!',
+                    user
+                )
+            else:
+                sending_email(
+                    'Thank you for signing up! You are awarded with 10 points!',
+                    user
+                )
             create_default_categories(user)
             return redirect('feed')
     else:
@@ -51,10 +57,8 @@ def log_in(request):
                     user=user, date=date.today())  # point not in use?
                 if created:
                     user.add_login_points()
-                    sending_email(
-                        'Thank you for logging in today! You have earned 1 point!',
-                        user
-                    )
+                    check_league(request)
+                    messages.success(request, 'Thank you for logging in today. You have earned 1 point!')
                 redirect_url = next or 'feed'
                 return redirect(redirect_url)
         # Add error message here
@@ -63,7 +67,13 @@ def log_in(request):
     else:
         next = request.GET.get('next') or ''
     form = LogInForm()
-    return render(request, 'log_in.html', {'form': form, 'next': next})
+
+    context = {
+        'form': form, 
+        'next': next,
+        'messages': messages.get_messages(request),
+    }
+    return render(request, 'log_in.html', context)
 
 
 def log_out(request):
@@ -78,7 +88,7 @@ def add_friend(request):
 
 @login_required
 def leaderboard(request):
-    check_league(request.user, request)
+    check_league(request)
     num_top_users = 10
 
     users = User.objects
@@ -94,6 +104,7 @@ def leaderboard(request):
         'users': users[:num_top_users],
         'user_place': user_place,
         'user_overall_place': user_overall_place,
+        'messages': messages.get_messages(request),
     }
     return render(request, 'leaderboard.html', context=context)
 
@@ -122,10 +133,12 @@ def friends(request):
 
 
 def show_friends_profile(request, id):
+    check_league(request)
     results = User.objects.get(id=id)
     template = loader.get_template('friends_profile.html')
     context = {
         'results': results,
+        'messages': messages.get_messages(request),
     }
     return HttpResponse(template.render(context, request))
 

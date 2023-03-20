@@ -12,10 +12,12 @@ from django.contrib.auth.decorators import login_required
 
 @login_required
 def spending(request):
+    check_league(request)
     current_user = request.user
     categories = SpendingCategory.objects.filter(user=current_user)
     context = {
         'categories': categories,
+        'messages': messages.get_messages(request),
     }
     return render(request, 'spending.html', context)
 
