@@ -690,6 +690,7 @@ def forgot_password(request):
         form = EmailForm()
     return render(request, 'forgot_password.html', {'form': form})
 
+"""" Sometimes the place in the leaderboard and the user place do not match when there are users with the same number of points"""
 @login_required
 def leaderboard(request):
     check_league(request)
@@ -700,6 +701,10 @@ def leaderboard(request):
 
     users = users.filter(league_status=request.user.league_status).order_by('-points')
     user_place = users.filter(points__gt=request.user.points).count() + 1
+
+    # if (users.filter(points__gte=request.user.points).last().points == request.user.points):
+    #     user_overall_place += 1
+    #     user_place += 1
 
     context = {
         'num_top_users': num_top_users,
