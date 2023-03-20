@@ -82,6 +82,7 @@ urlpatterns = [
 
     # ====================Profile/Password/friends
     #path('add_friend/', views.add_friend, name='add_friend'),
+    path('search_friends/', views.search_friends, name='search_friends'),
     path('friends/', views.friends, name='friends'),
     path('friends/friends_profile/<int:id>',
          views.show_friends_profile, name='friends_profile'),

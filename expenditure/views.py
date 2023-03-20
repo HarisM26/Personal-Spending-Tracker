@@ -495,6 +495,28 @@ def leaderboard(request):
     return render(request, 'leaderboard.html')
 
 
+def search_friends(request):
+    if request.method == 'GET':
+        query=request.GET.get('q')
+        
+        submitbutton=request.GET.get('submit')
+        
+        if query is not None:
+            lookups=Q(first_name__icontains=query)|Q(last_name__icontains=query)|Q(email__icontains=query)
+            
+            results= User.objects.filter(lookups).distinct()
+            
+            context={'results': results, 'submitbutton': submitbutton}
+            
+            return render(request, 'friends.html', context)
+            
+        else:
+            return render(request, 'friends.html')
+            
+    else:
+            return render(request, 'friends.html') 
+
+
 def friends(request):
     if request.method == 'GET':
         query = request.GET.get('q')
