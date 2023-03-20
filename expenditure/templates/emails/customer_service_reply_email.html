@@ -196,10 +196,11 @@
               <tr>
                 <td style="text-align: center; padding: 15px">
                   <p style="font-size: 20px; font-weight: bold">
-                    You are approaching your spending limit for...
+                    Dear {{first_name}}
                   </p>
                   <p style="font-size: 17px; font-weight: bold">
-                    {{category_name}}
+                    You have received a message from
+                    {{customer_service_assistant_name}}
                   </p>
                   <p
                     style="
@@ -208,19 +209,7 @@
                       padding: 5px 0 15px;
                     "
                   >
-                    Just letting you know you have used
-                    {{percentage_limit_used}} percent of your allowance for
-                    {{category_name}} so far.
-                  </p>
-                  <p
-                    style="
-                      line-height: 23px;
-                      font-size: 15px;
-                      padding: 5px 0 15px;
-                    "
-                  >
-                    If you're looking to read more about saving tips and advice,
-                    read our helpful articles.
+                    {{customer_service_message}}
                   </p>
                   <a href="#" class="button-dark">Read more</a>
                   <p
@@ -231,7 +220,8 @@
                       font-weight: bold;
                     "
                   >
-                    The Void Money Tracker Team
+                    {{customer_service_assistant_name}} from The Void Money
+                    Tracker Team
                   </p>
                 </td>
               </tr>
