@@ -14,7 +14,8 @@ from pathlib import Path
 import os
 from django.contrib.messages import constants as message_constants
 from django.conf.locale.es import formats as es_formats
-
+# import django
+# django.setup()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -49,6 +50,7 @@ INSTALLED_APPS = [
     'bootstrap_datepicker_plus',
     'betterforms',
     'django_apscheduler',
+
 ]
 
 
@@ -75,6 +77,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'expenditure.custom_context_processors.get_notification',
             ],
         },
     },
@@ -147,6 +150,7 @@ STATICFILES_FINDERS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
 AUTH_USER_MODEL = 'expenditure.User'
 
 # Login URL for redirecting users from login protected views
@@ -160,9 +164,6 @@ MESSAGE_TAGS = {
     message_constants.DEBUG: 'dark',
     message_constants.ERROR: 'danger',
 }
-# tell Celery how to find Redis
-CELERY_BROKER_URL = 'redis://localhost:6379'
-LOGIN_REDIRECT_URL = '/'
 
 # EMAILING
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

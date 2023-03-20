@@ -1,24 +1,22 @@
-from datetime import date, timedelta, datetime
-from django import forms
 from django.test import TestCase
-from django.core.files.uploadedfile import SimpleUploadedFile
 from expenditure.forms import *
-from expenditure.models import Transaction, SpendingCategory, Limit, User, IncomeCategory
-from decimal import Decimal
+from expenditure.models.categories import *
+from expenditure.models.user import User
+
 
 class IncomeCategoryFormTest(TestCase):
 
     fixtures = ['expenditure/tests/fixtures/default_user.json',
-              'expenditure/tests/fixtures/other_users.json']
+                'expenditure/tests/fixtures/other_users.json']
 
     def setUp(self):
         self.category = IncomeCategory.objects.create(
-            user = User.objects.get(email='johndoe@example.com'),
-            name = 'test_category'
+            user=User.objects.get(email='johndoe@example.com'),
+            name='test_category'
         )
 
         self.form_input = {
-            'name':'Test_Category'
+            'name': 'Test_Category'
         }
 
     def test_form_contains_required_fields(self):

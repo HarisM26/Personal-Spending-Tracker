@@ -2,8 +2,9 @@
 {% block body %}
 {% include 'partials/home_form_menu.html' %}
 <section class="signing">
-    <div class="container">
-      <div class="row">
+  <div> {% include 'partials/messages.html' %} </div>
+    <div class="container d-flex justify-content-center ">
+      <div class="row row-container" id="sign-up-row-container">
         <div class="col-md-8 col-lg-7 col-xl-6">
           <div class="image">
             <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"

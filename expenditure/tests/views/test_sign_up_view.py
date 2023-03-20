@@ -3,9 +3,10 @@ from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth.hashers import check_password
 from expenditure.forms import SignUpForm
-from expenditure.models import User, SpendingCategory
+from expenditure.models.user import User
 from expenditure.tests.helpers import LogInTester
 from django.core import mail
+from expenditure.models.categories import SpendingCategory
 
 
 class SignUpViewTestCase(TestCase, LogInTester):
@@ -42,19 +43,6 @@ class SignUpViewTestCase(TestCase, LogInTester):
                              status_code=302, target_status_code=200)
         self.assertTemplateUsed(response, 'feed.html')
 
-    def test_unsuccessful_sign_up(self):
-        self.form_input['email'] = '@willsmith@example.org'
-        before_count = User.objects.count()
-        response = self.client.post(self.url, self.form_input)
-        after_count = User.objects.count()
-        self.assertEqual(after_count, before_count)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'sign_up.html')
-        form = response.context['form']
-        self.assertTrue(isinstance(form, SignUpForm))
-        self.assertTrue(form.is_bound)
-        self.assertFalse(self._is_logged_in())
-
     def test_successful_sign_up(self):
         categories_before_count = SpendingCategory.objects.count()
         before_count = User.objects.count()
@@ -77,3 +65,16 @@ class SignUpViewTestCase(TestCase, LogInTester):
         email = mail.outbox[0]
         self.assertEqual(email.to, ['willsmith@example.com'])
         self.assertEqual(email.subject, 'Welcome to Void Money Tracker')
+
+    def test_unsuccessful_sign_up(self):
+        self.form_input['email'] = '@willsmith@example.org'
+        before_count = User.objects.count()
+        response = self.client.post(self.url, self.form_input)
+        after_count = User.objects.count()
+        self.assertEqual(after_count, before_count)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'sign_up.html')
+        form = response.context['form']
+        self.assertTrue(isinstance(form, SignUpForm))
+        self.assertTrue(form.is_bound)
+        self.assertFalse(self._is_logged_in())
