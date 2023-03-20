@@ -57,6 +57,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     followers = models.ManyToManyField(
         'self', symmetrical=False, related_name='followees'
     )
+
     league_status = models.CharField(
         max_length=8,
         choices=LEAGUE.choices,
@@ -103,7 +104,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     @property
     def user_id(self):
-        return self.first_name + str(self.id)
+        return f'{self.first_name}@{self.id}'
 
     @property
     def get_points(self):

@@ -20,7 +20,7 @@ def home(request):
 
 @login_required
 def feed(request):
-    check_league(request.user, request)
+    check_league(request)
     form = add_quick_spending(request)
     articles = all_articles['articles']
     articles = articles[0:4]
@@ -36,6 +36,8 @@ def feed(request):
         'income_categories': feed_report_context['income_categories'],
         'articles': articles,
         'form': form,
+        'user_points': request.user.points,
+        'messages': messages.get_messages(request),
     }
 
     return render(request, 'feed.html', context)

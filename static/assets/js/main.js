@@ -74,7 +74,7 @@ const changeInnerText = (tagId,value) => {
   }
 }
 
-const items = Array.from(document.getElementsByClassName("transaction_list"));
+const items = Array.from(document.getElementsByClassName("transaction-detail-container"));
 
 items.forEach( ( button, index ) =>
 {

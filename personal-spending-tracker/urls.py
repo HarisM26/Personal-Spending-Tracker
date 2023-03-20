@@ -47,6 +47,9 @@ urlpatterns = [
     path('password-change/', user_views.ChangePasswordView.as_view(),
          name='password_change'),
     path('forgot_password/', user_views.forgot_password, name='forgot_password'),
+    path('delete_account/',user_views.delete_account, name='delete_account'),
+    path('search_friends/', user_views.search_friends, name='search_friends'),
+    
 
 
     # ========== Notification urls =============
@@ -93,10 +96,18 @@ urlpatterns = [
     path('transactions/<int:id>/',
          transaction_views.view_transaction, name='transaction'),
 
-
-
     # ========  Report urls ========
 
     path('reports/', report_views.view_report, name='reports'),
+
+    # ====================Reset Password
+    path('reset_password/', user_views.PasswordResetView.as_view(),
+         name='reset_password'),
+    path('reset_password_sent/', user_views.PasswordResetDoneView.as_view(),
+         name='password_reset_done'),
+    path('reset/<uidb64>/<token>/', user_views.PasswordResetConfirmView.as_view(),
+         name='password_reset_confirm'),
+    path('reset_password_complete/', user_views.PasswordResetCompleteView.as_view(),
+         name='password_reset_complete'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

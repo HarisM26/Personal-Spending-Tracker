@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 from expenditure.models.user import *
 from expenditure.helpers import *
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import PasswordChangeView
+from django.contrib.auth.views import PasswordChangeView, PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q
 from django.template import loader
@@ -25,10 +25,16 @@ def sign_up(request):
             login(request, user)
             user.points += 10
             user.save()
-            sending_email(
-                'Thank you for signing up! You are awarded with 10 points!',
-                user
-            )
+            if (user.points == 15):
+                sending_email(
+                    'Thank you for signing up! You are awarded with 15 points for joining us and being referred!',
+                    user
+                )
+            else:
+                sending_email(
+                    'Thank you for signing up! You are awarded with 10 points!',
+                    user
+                )
             create_default_categories(user)
             return redirect('feed')
     else:
@@ -51,10 +57,8 @@ def log_in(request):
                     user=user, date=date.today())  # point not in use?
                 if created:
                     user.add_login_points()
-                    sending_email(
-                        'Thank you for logging in today! You have earned 1 point!',
-                        user
-                    )
+                    check_league(request)
+                    messages.success(request, 'Thank you for logging in today. You have earned 1 point!')
                 redirect_url = next or 'feed'
                 return redirect(redirect_url)
         # Add error message here
@@ -63,7 +67,13 @@ def log_in(request):
     else:
         next = request.GET.get('next') or ''
     form = LogInForm()
-    return render(request, 'log_in.html', {'form': form, 'next': next})
+
+    context = {
+        'form': form, 
+        'next': next,
+        'messages': messages.get_messages(request),
+    }
+    return render(request, 'log_in.html', context)
 
 
 def log_out(request):
@@ -78,7 +88,7 @@ def add_friend(request):
 
 @login_required
 def leaderboard(request):
-    check_league(request.user, request)
+    check_league(request)
     num_top_users = 10
 
     users = User.objects
@@ -101,6 +111,7 @@ def leaderboard(request):
         'first_place':users[0],
         'second_place':users[1],
         'third_place':users[2],
+        'messages': messages.get_messages(request),
     }
     return render(request, 'leaderboard.html', context=context)
 
@@ -129,10 +140,12 @@ def friends(request):
 
 
 def show_friends_profile(request, id):
+    check_league(request)
     results = User.objects.get(id=id)
     template = loader.get_template('friends_profile.html')
     context = {
         'results': results,
+        'messages': messages.get_messages(request),
     }
     return HttpResponse(template.render(context, request))
 
@@ -182,3 +195,67 @@ def forgot_password(request):
     else:
         form = EmailForm()
     return render(request, 'forgot_password.html', {'form': form})
+
+@login_required
+def delete_account(request):
+    user_pk = request.user.pk
+    logout(request)
+    User = get_user_model()
+    User.objects.filter(pk=user_pk).delete()
+    return redirect('home')
+
+class PasswordResetView(PasswordResetView):
+    template_name = 'password_reset.html'
+
+
+class PasswordResetDoneView(PasswordResetDoneView):
+    template_name = 'password_reset_sent.html'
+
+
+class PasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = 'password_reset_form.html'
+
+
+class PasswordResetCompleteView(PasswordResetCompleteView):
+    template_name = 'password_reset_complete.html'
+    
+@login_required
+def delete_account(request):
+    user_pk = request.user.pk
+    logout(request)
+    User = get_user_model()
+    User.objects.filter(pk=user_pk).delete()
+    return redirect('home')
+
+@login_required
+def toggle_privacy(request):
+    current_user = request.user
+    if current_user.toggle_privacy == 'ON':
+        current_user.toggle_privacy = 'OFF'
+        current_user.save()
+    else:
+        current_user.toggle_privacy = 'ON'
+        current_user.save()
+    return redirect('settings')
+
+@login_required            
+def search_friends(request):
+    if request.method == 'GET':
+        query=request.GET.get('q')
+        
+        submitbutton=request.GET.get('submit')
+        
+        if query is not None:
+            lookups=Q(first_name__icontains=query)|Q(last_name__icontains=query)|Q(email__icontains=query)
+            
+            results= User.objects.filter(lookups).distinct()
+            
+            context={'results': results, 'submitbutton': submitbutton}
+            
+            return render(request, 'friends.html', context)
+            
+        else:
+            return render(request, 'friends.html')
+            
+    else:
+            return render(request, 'friends.html') 

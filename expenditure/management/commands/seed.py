@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand, CommandError
 from django.db import IntegrityError
 
-from expenditure.models import User
+from expenditure.models.user import User
 from random import randint, choice, sample
 
 

@@ -8,6 +8,7 @@ from expenditure.models.user import User
 from expenditure.models.limit import Limit
 from decimal import Decimal
 from expenditure.forms import IncomeTransactionForm, SpendingTransactionForm
+from django.shortcuts import get_object_or_404
 
 
 class TransactionViews(TestCase):
@@ -72,8 +73,9 @@ class TransactionViews(TestCase):
             'title': 'transaction_test',
             'date': date.today(),
             'amount': Decimal('80.00'),
-            'receipt': self.image,
+            'notes': 'different',
             'spending_category': self.category.id,
+            'receipt': self.image,
             'is_current': True,
         }
 
@@ -82,8 +84,8 @@ class TransactionViews(TestCase):
             'date': date.today(),
             'amount': Decimal('80.00'),
             'notes': 'Some notes',
-            'receipt': self.image,
             'spending_category': self.category.id,
+            'receipt': self.image,
             'is_current': True,
         }
 
@@ -92,7 +94,7 @@ class TransactionViews(TestCase):
             'date': date.today(),
             'amount': Decimal('30.00'),
             'notes': 'changed',
-            'receipt': None,
+            'receipt': self.image,
             'spending_category': self.category.id,
             'is_current': True,
         }
@@ -129,7 +131,7 @@ class TransactionViews(TestCase):
         self.url_transaction = reverse(
             'transaction', kwargs={'id': self.transaction.pk})
         self.url_edit_transaction = reverse(
-            'edit_spending', args=[self.transaction.pk])
+            'edit_spending', args=[self.transaction.id])
         self.url_edit_incoming_transaction = reverse(
             'edit_income', args=[self.transaction_incoming.pk])
 
@@ -142,6 +144,8 @@ class TransactionViews(TestCase):
                          f'/transactions/add_income/{self.category_2.id}/')
         self.assertEqual(self.url_transaction,
                          f'/transactions/{self.transaction.pk}/')
+        self.assertEqual(self.url_edit_transaction, f'/spending/edit/{self.transaction.id}/')
+        self.assertEqual(self.url_edit_incoming_transaction, f'/incomings/edit/{self.transaction_incoming.id}/')
 
     # changed
     def test_transaction_urls_are_accessible(self):
@@ -238,28 +242,30 @@ class TransactionViews(TestCase):
         # self.assertEqual(transaction.category.pk, self.incoming_transaction_input['category'])
 
 
-"""     def test_transaction_returns_3_points_for_3_filled_fields(self):
+    def test_transaction_returns_3_points_for_3_filled_fields(self):
         self.client.login(email='johndoe@example.com', password='Password123')
         response = self.client.get(f'/transactions/add/{self.transaction.spending_category.pk}/')
         form = response.context['create_transaction_form']
         self.assertTrue(isinstance(form, SpendingTransactionForm))
         self.assertFalse(form.is_bound)
         response = self.client.post(self.url_add_transaction, self.transaction_input, follow=True)
-        spending_transaction = SpendingTransaction.objects.get(id=1)
+        spending_transaction = SpendingTransaction.objects.latest('created')
         self.assertEqual(spending_transaction.get_points(), 3)
         response_url = reverse('spending')
         self.assertRedirects(response, response_url, status_code=302, target_status_code=200)
-    def test_transaction_returns_4_points_for_4_filled_fields(self):
+
+    """ def test_transaction_returns_4_points_for_4_filled_fields(self):
         self.client.login(email='johndoe@example.com', password='Password123')
         response = self.client.get(f'/transactions/add/{self.transaction.spending_category.pk}/')
         form = response.context['create_transaction_form']
         self.assertTrue(isinstance(form, SpendingTransactionForm))
         self.assertFalse(form.is_bound)
         response = self.client.post(self.url_add_transaction, self.transaction_input_4_points, follow=True)
-        spending_transaction = SpendingTransaction.objects.get(id=1)
+        spending_transaction = SpendingTransaction.objects.latest('created')
         self.assertEqual(spending_transaction.get_points(), 4)
         response_url = reverse('spending')
         self.assertRedirects(response, response_url, status_code=302, target_status_code=200)
+
     def test_transaction_returns_4_points_for_4_filled_fields_2(self):
         self.client.login(email='johndoe@example.com', password='Password123')
         response = self.client.get(f'/transactions/add/{self.transaction.spending_category.pk}/')
@@ -267,21 +273,24 @@ class TransactionViews(TestCase):
         self.assertTrue(isinstance(form, SpendingTransactionForm))
         self.assertFalse(form.is_bound)
         response = self.client.post(self.url_add_transaction, self.transaction_input_4_points_2, follow=True)
-        spending_transaction = SpendingTransaction.objects.get(id=1)
+        spending_transaction = SpendingTransaction.objects.all()
+        import pdb; pdb.set_trace()
         self.assertEqual(spending_transaction.get_points(), 4)
         response_url = reverse('spending')
-        self.assertRedirects(response, response_url, status_code=302, target_status_code=200)
-    def test_transaction_returns_5_points_for_5_filled_fields(self):
+        self.assertRedirects(response, response_url, status_code=302, target_status_code=200) """
+
+    '''def test_transaction_returns_5_points_for_5_filled_fields(self):
         self.client.login(email='johndoe@example.com', password='Password123')
         response = self.client.get(f'/transactions/add/{self.transaction.spending_category.pk}/')
         form = response.context['create_transaction_form']
         self.assertTrue(isinstance(form, SpendingTransactionForm))
         self.assertFalse(form.is_bound)
         response = self.client.post(self.url_add_transaction, self.transaction_input_5_points, follow=True)
-        spending_transaction = SpendingTransaction.objects.get(id=1)
+        spending_transaction = SpendingTransaction.objects.latest('created')
         self.assertEqual(spending_transaction.get_points(), 5)
         response_url = reverse('spending')
-        self.assertRedirects(response, response_url, status_code=302, target_status_code=200)
+        self.assertRedirects(response, response_url, status_code=302, target_status_code=200)'''
+
     def test_incoming_transaction_returns_3_points_for_3_filled_fields(self):
         self.client.login(email='johndoe@example.com', password='Password123')
         response = self.client.get(f'/transactions/add_income/{self.transaction_incoming.income_category.pk}/')
@@ -289,10 +298,11 @@ class TransactionViews(TestCase):
         self.assertTrue(isinstance(form, IncomeTransactionForm))
         self.assertFalse(form.is_bound)
         response = self.client.post(self.url_add_transaction, self.incoming_transaction_input, follow=True)
-        income_transaction = SpendingTransaction.objects.get(id=1)
+        income_transaction = SpendingTransaction.objects.latest('created')
         self.assertEqual(income_transaction.get_points(), 3)
         response_url = reverse('spending')
         self.assertRedirects(response, response_url, status_code=302, target_status_code=200)
+
     def test_incoming_transaction_returns_4_points_for_4_filled_fields(self):
         self.client.login(email='johndoe@example.com', password='Password123')
         response = self.client.get(f'/transactions/add_income/{self.transaction_incoming.income_category.pk}/')
@@ -300,22 +310,24 @@ class TransactionViews(TestCase):
         self.assertTrue(isinstance(form, IncomeTransactionForm))
         self.assertFalse(form.is_bound)
         response = self.client.post(self.url_add_transaction, self.incoming_transaction_input_4_points, follow=True)
-        income_transaction = SpendingTransaction.objects.get(id=1)
+        income_transaction = SpendingTransaction.objects.latest('created')
         self.assertEqual(income_transaction.get_points(), 4)
         response_url = reverse('spending')
         self.assertRedirects(response, response_url, status_code=302, target_status_code=200)
-    def test_edit_transaction(self):
+
+"""     def test_edit_transaction(self):
         self.client.login(email='johndoe@example.com', password='Password123')
         response = self.client.post(self.url_edit_transaction, self.edited_transaction, follow=True)
-        spending_transaction = SpendingTransaction.objects.get(id=self.transaction.pk)
-        self.assertEqual(spending_transaction.title, self.edited_transaction['title'])
-        self.assertEqual(spending_transaction.amount, self.edited_transaction['amount'])
-        self.assertEqual(spending_transaction.date, self.edited_transaction['date'])
-        self.assertEqual(spending_transaction.notes, self.edited_transaction['notes'])
-        self.assertTrue(not spending_transaction.receipt)
-        self.assertEqual(spending_transaction.get_points(), 4)
         response_url = reverse('spending')
         self.assertRedirects(response, response_url, status_code=302, target_status_code=200)
+        self.transaction.refresh_from_db()
+        self.assertEqual(self.transaction.title, self.edited_transaction['title'])
+        self.assertEqual(self.transaction.amount, self.edited_transaction['amount'])
+        self.assertEqual(self.transaction.date, self.edited_transaction['date'])
+        self.assertEqual(self.transaction.notes, self.edited_transaction['notes'])
+        self.assertTrue(self.transaction.receipt is not None)
+        self.assertEqual(self.transaction.get_points(), 4)
+
     def test_edit_incoming_transaction(self):
         self.client.login(email='johndoe@example.com', password='Password123')
         response = self.client.post(self.url_edit_incoming_transaction, self.edited_incoming_transaction, follow=True)
@@ -325,5 +337,5 @@ class TransactionViews(TestCase):
         self.assertEqual(incoming_transaction.date, self.edited_incoming_transaction['date'])
         self.assertEqual(incoming_transaction.notes, self.edited_incoming_transaction['notes'])
         self.assertEqual(incoming_transaction.get_points(), 4)
-        response_url = reverse('spending')
+        response_url = reverse('incomings')
         self.assertRedirects(response, response_url, status_code=302, target_status_code=200) """

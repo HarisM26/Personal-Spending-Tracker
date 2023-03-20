@@ -14,7 +14,6 @@ def add_quick_spending(request):
     spending_catgeory_queryset = SpendingCategory.objects.filter(
         user=request.user)
 
-    # later do .filter(name='General') or order by id and then first (if general would be deleted)
     form = QuickSpendingTransactionForm(
         initial={'spending_category': spending_catgeory_queryset.first()})
 

@@ -151,6 +151,7 @@
       <ul class="nested">
         {% for transaction in category.list %}
         <li class="transaction_list" data-bs-toggle="modal" data-bs-target="#transaction-detail-modal">
+          <div class="transaction-detail-container" data-bs-toggle="modal" data-bs-target="#transaction-detail-modal">
           <div id="transaction-date">{{transaction.date}}</div>
           <div id="transaction-title">{{transaction.title}}</div>
           <div id="transaction-amount">&#163;{{transaction.amount|intcomma}}</div> 
@@ -160,6 +161,7 @@
           <img id="transaction-image" hidden src="{{transaction.receipt.url}}" alt="receipt">
           {%endif%}
           <div id="transaction-created" hidden>{{transaction.created}}</div>
+        </div>
         </li>
         {% endfor %}       
       </ul>
