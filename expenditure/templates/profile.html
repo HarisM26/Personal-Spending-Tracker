@@ -1,11 +1,18 @@
-
 {% extends 'base_content.html' %}
 {% block content %} 
 <section class="content-section">
+    <div>
+        <h1>Profile</h1>
+    </div>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active"> <a href="{% url 'feed' %}">Home</a></li>
+            <li class="breadcrumb-item"> <a>Profile</a></li>
+        </ol>
+    </nav>
 
-<div class="card">
-       <h1>Welcome to your Profile {{user.email}}, {{user.user_id}} </h1>
-            <div class="welcome_paragraph">
+    <div class="card" style="padding: 30px;">
+        <div class="welcome_paragraph">
                 <form action="{% url 'user_profile' %}" method="post">
                     {% csrf_token %}
                     <label class="small mb-1">Email:</label>
@@ -24,7 +31,7 @@
                     <button type="submit" class="btn btn-dark btn-lg">Save Changes</button>
                     <button type="reset" class="btn btn-dark btn-lg">Reset</button>
                 </form>
-            </div>
         </div>
-    </section>
+    </div>
+</section>
 {% endblock content %}

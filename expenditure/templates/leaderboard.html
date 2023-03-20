@@ -1,4 +1,5 @@
 {% extends 'base_content.html' %}
+{% load static %}
 {% block content %}
 
 
@@ -14,8 +15,201 @@
     </nav>
     <div class="main-card">
         <p>Welcome To Leaderboard Section</p>
-        
+        <p class="alert alert-success">
+            {% if user_place == user_overall_place %}
+                You are on the {{ user_place }} place among all users
+            {% else %}
+                You are on the {{ user_place }} place in {{ request.user.league_status }} league 
+                and {{ user_overall_place }} overall among all users
+            {% endif %}
+        </p>
+        <p>Your current league is {{ request.user.league_status }}</p>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">User place</th>
+                        <th scope="col">User</th>
+                        <th scope="col">Points</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                        <tr class="{% if request.user == user %}alert-success{% endif %}">
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ user.first_name }} {{ user.last_name }}</td>
+                            <td>{{ user.points }}</td>
+                        </tr>
+                    {% endfor %}
+                    {% if user_place > num_top_users %}
+                        <tr><td colspan="3" class="text-center">...</td></tr>
+                        <tr class="alert-success">
+                            <td>{{ user_place }}</td>
+                            <td>{{ request.user.first_name }} {{ request.user.last_name }}</td>
+                            <td>{{ request.user.points }}</td>
+                        </tr>
+                    {% endif %}  
+                </tbody>
+            </table>
+        </div>
     </div>
+    <!-- Joel's version --> 
+    <section class="leaderboard-section">
+		<div class="container">
+
+			<div class="row">
+				<div class="col-sm-4" >
+					<div class="card card-second">
+                        <div class="card-top">
+						</div>
+						<div class="card-body ">
+							<div class="text-center">
+								<img src="/static/images/second.png" class="circle-img mb-2" alt="">
+                                <h3 class="text-center">-   1023   -</h3>
+								<h5 class="mb-0">Jake Smith</h5>
+							</div>
+						</div>
+					</div>
+				</div>
+                
+				<div class="col-sm-4" >
+					<div class="card card-first">
+                        <div class="card-top">
+						</div>
+						<div class="card-body text-center">
+							<div class="text-center">
+                                <img src="/static/images/first.png" class="circle-img mb-2" alt="">
+							    <h3 class="text-center">-   1201   -</h3>
+								<h5 class="mb-0">Chris Stevie</h5>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-4" >
+					<div class="card card-third">
+                        <div class="card-top">
+						</div>
+						<div class="card-body">
+							<div class="text-center">
+                                <img src="/static/images/third.png" class="circle-img mb-2" alt="">
+                                <h3 class="text-center">-   992   -</h3>
+								<h5 class="mb-0">John Doe</h5>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+            <br><br>
+            <div class="card top-200-card" style="padding: 20px;">
+                <h4>Top 200</h4>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th style="color: white; font-size: 23px;">Position</th>
+                            <th style="color: white; font-size: 23px">User</th>
+                            <th style="color: white; font-size: 23px">Points</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="user-position">
+                                        <h5 class="mb-0">1.</h5>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="user-info__basic">
+                                        <h5 class="mb-0">Chris Stevie</h5>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-baseline">
+                                    <h4 class="mr-1">1201</h4>
+                                </div>
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="user-position">
+                                        <h5 class="mb-0">2.</h5>
+                                    </div>
+                                </div>
+                            </td>
+                            
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="user-info__basic">
+                                        <h5 class="mb-0">Jake Smith</h5>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-baseline">
+                                    <h4 class="mr-1">1023</h4>
+                                </div>
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="user-position">
+                                        <h5 class="mb-0">3.</h5>
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="user-info__basic">
+                                        <h5 class="mb-0">John Doe</h5>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-baseline">
+                                    <h4 class="mr-1">992</h4>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="user-position">
+                                        <h5 class="mb-0">4.</h5>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="user-info__basic">
+                                        <h5 class="mb-0">John Noakes</h5>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-baseline">
+                                    <h4 class="mr-1">986</h4>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+		</div>
+	</section>
 </section>
 
 {% endblock %}

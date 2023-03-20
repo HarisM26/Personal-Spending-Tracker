@@ -1,5 +1,9 @@
 from django.contrib import admin
-from expenditure.models import *
+from expenditure.models.limit import Limit
+from expenditure.models.categories import SpendingCategory, IncomeCategory
+from expenditure.models.transactions import SpendingTransaction, IncomeTransaction
+from expenditure.models.notification import Notification
+from expenditure.models.user import Profile  # User
 from django.contrib.auth.admin import UserAdmin
 from .forms import SignUpForm
 from django.contrib.auth import get_user_model

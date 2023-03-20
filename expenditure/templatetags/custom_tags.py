@@ -1,9 +1,15 @@
-from expenditure.models import SpendingTransaction, IncomeTransaction, Notification
+from expenditure.models.transactions import SpendingTransaction, IncomeTransaction
+from expenditure.models.notification import Notification
 from django import template
 from datetime import datetime
 
 
 register = template.Library()
+
+
+@register.simple_tag
+def get_points(transaction):
+    return transaction.get_points()
 
 
 @register.filter
@@ -52,3 +58,37 @@ def convert_date(date):
 @register.filter
 def to_2_decimal_places(value):
     return round(value, 2)
+
+# Greetings custom tag
+
+
+@register.filter
+def get_greetings(date):
+    pass
+
+
+@register.filter
+def get_month(monthvalue):
+    months = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September',
+              'October', 'November', 'December']
+    return months[monthvalue]
+
+
+@register.filter
+def get_latest_transaction_month(lst):
+    return lst[0].date.month
+
+
+@register.filter
+def get_latest_transaction_year(lst):
+    return lst[0].date.year
+
+
+@register.filter
+def get_oldest_transaction_year(lst):
+    return lst[len(lst)-1].date.year
+
+
+@register.filter
+def get_oldest_transaction_month(lst):
+    return lst[len(lst)-1].date.month
