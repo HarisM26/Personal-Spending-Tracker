@@ -26,7 +26,7 @@
 }
 
 .signing .row {
-  position: fixed;
+  /*position: fixed;*/
   align-items: center;
   justify-content: center;
   height: 100%;
