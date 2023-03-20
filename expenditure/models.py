@@ -86,12 +86,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     def followee_count(self):
         return self.followees.count()   
         
-    def show_pending_requests(self):
-    	return FriendRequest.show_pending_requests(self)
-    	
-    def show_accepted_requests(self):
-    	return FriendRequest.show_accepted_requests(self)   
-
     toggle_notification = models.CharField(
         max_length=3, choices=TOGGLE_CHOICE, default='ON')
 
@@ -171,48 +165,7 @@ class Notification(models.Model):
         ordering = ['-created']
 
     def __str__(self):
-        return self.message
-        
-class FriendRequest(models.Model):
-    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sender')
-    receiver = models.ForeignKey(User, on_delete=models.CASCADE)
-    is_pending = models.BooleanField(default=True)
-    status = models.CharField(
-        max_length=6, choices=STATUS_CHOICE, default='unread')
-    created = models.DateTimeField(auto_now_add=True)
-    
-    def create_request(self, sender, receiver, **extra_fields):
-        request = self.model(**extra_fields)
-        request.save()
-        return request
-    
-    class Meta:
-        ordering = ['-created']
-        
-    def add_request_to_pending(self):
-        if self.is_pending == True :
-            pending_requests.add(self)
-        else:
-            return
-            
-    def remove_request_from_pending(self):
-        if self.is_pending == False :
-            pending_requests.remove(self)
-            return
-            
-    def add_request_to_accepted(self):
-        if self.is_pending == False:
-            pending_requests.remove(self)
-            accepted_requests.add(self)
-        else:
-            return
-            
-    def show_pending_requests(self):
-    	return pending_requests.all()
-    	
-    def show_accepted_requests(self):
-    	return accepted_requests.all()
-                                    
+        return self.message                                  
 
 class SpendingCategory(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
