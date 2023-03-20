@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 from expenditure.models.user import *
 from expenditure.helpers import *
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import PasswordChangeView
+from django.contrib.auth.views import PasswordChangeView, PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q
 from django.template import loader
@@ -175,3 +175,19 @@ def forgot_password(request):
     else:
         form = EmailForm()
     return render(request, 'forgot_password.html', {'form': form})
+
+
+class PasswordResetView(PasswordResetView):
+    template_name = 'password_reset.html'
+
+
+class PasswordResetDoneView(PasswordResetDoneView):
+    template_name = 'password_reset_sent.html'
+
+
+class PasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = 'password_reset_form.html'
+
+
+class PasswordResetCompleteView(PasswordResetCompleteView):
+    template_name = 'password_reset_complete.html'
