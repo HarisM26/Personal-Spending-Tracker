@@ -81,7 +81,7 @@ urlpatterns = [
     path('notification_page/', views.notification_page, name='notification_page'),
 
     # ====================Profile/Password/friends
-    path('add_friend/', views.add_friend, name='add_friend'),
+    #path('add_friend/', views.add_friend, name='add_friend'),
     path('friends/', views.friends, name='friends'),
     path('friends/friends_profile/<int:id>',
          views.show_friends_profile, name='friends_profile'),
