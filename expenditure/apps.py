@@ -11,8 +11,4 @@ class ExpenditureConfig(AppConfig):
         """ uncomment the code below to start scheduler upon running server
             NB: comment out before running initial migration
         """
-<<<<<<< HEAD
         #scheduler.start()
-=======
-        # scheduler.start()
->>>>>>> forms
