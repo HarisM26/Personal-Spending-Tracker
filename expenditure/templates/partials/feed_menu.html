@@ -2,19 +2,19 @@
   <div class="d-flex align-items-center">
     <ul id="auth-navbar" class="d-flex justify-content-end">
       <li class="nav-item dropdown">
-        <a class="nav-link position-relative" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-          <i class="fa-regular fa-bell fa-lg">
+        <a class="nav-link " href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fa-regular fa-bell fa-lg position-relative">
             {% if unread_status_count > 0 %}
-              <span class="position-absolute top-1 start-50 translate-middle p-1 bg-danger rounded-circle"> </span>
+              <span class="position-absolute top-0 start-100 translate-middle p-1 badge border border-light bg-danger rounded-circle"> </span>
             {% endif %}
           </i> 
         </a>
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
           {% for notification in latest_notifications%}
           {% if notification.status == 'unread'%}
-            <li><a class="dropdown-item" href="{% url 'mark_as_read' notification.id %}"><strong>{{ notification.title }}</strong></a></li>
+            <li><a class="dropdown-item" href="{% url 'view_selected_notification' notification.id %}"><strong>{{ notification.title }}</strong></a></li>
           {% else %}
-          <li><a class="dropdown-item" href="{% url 'mark_as_read' notification.id %}">{{ notification.title }}</a></li>
+          <li><a class="dropdown-item" href="{% url 'view_selected_notification' notification.id %}">{{ notification.title }}</a></li>
           {% endif%}
           {% endfor%}
           <li><hr class="dropdown-divider"></li>

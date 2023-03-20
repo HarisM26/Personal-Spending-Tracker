@@ -56,12 +56,13 @@ class User(AbstractBaseUser, PermissionsMixin):
         max_length=150,
     )
 
-  
     followers = models.ManyToManyField(
-    'self', symmetrical=False, related_name='followees'
+        'self', symmetrical=False, related_name='followees'
     )
 
     def toggle_follow(self, followee):
+        if followee == self:
+            return
         if self.is_following(followee):
             self._unfollow(followee)
         else:
@@ -75,11 +76,15 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def is_following(self, user):
         return user in self.followees.all()
-        
+
     def follower_count(self):
         return self.followers.count()
+<<<<<<< HEAD
         
         
+=======
+
+>>>>>>> main
     def followee_count(self):
         return self.followees.count()
 
@@ -89,16 +94,15 @@ class User(AbstractBaseUser, PermissionsMixin):
     toggle_privacy = models.CharField(
         max_length=3, choices=TOGGLE_CHOICE, default='ON')
 
-
     def __str__(self):
         return self.email
 
     @property
     def user_id(self):
         return self.first_name + str(self.id)
-    
+
     is_staff = models.BooleanField(default=False)
-    
+
     is_active = models.BooleanField(default=True)
 
     USERNAME_FIELD = 'email'

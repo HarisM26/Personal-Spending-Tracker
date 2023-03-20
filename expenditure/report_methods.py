@@ -28,6 +28,20 @@ def get_the_category_with_the_largest_total_spending(user, from_date, to_date):
         return largest_category.first()
 
 
+def get_categories_within_time_frame(user, from_date, to_date):
+    categories = SpendingCategory.objects.prefetch_related('transactions').filter(
+        user=user,
+        transactions__date__gte=from_date,
+        transactions__date__lte=to_date,
+    ).annotate(
+        month=TruncMonth("transactions__date")
+    ).annotate(
+        total=Sum("transactions__amount")
+    ).order_by("-total")
+
+    return categories
+
+
 def get_list_of_categories_close_or_over_the_limit(user, from_date, to_date):
     days = (to_date-from_date).days
     categories = SpendingCategory.objects.prefetch_related('transactions').select_related('limit').filter(
@@ -71,3 +85,6 @@ def get_list_of_transactions_in_category(user, from_date, to_date):
         date__lte=to_date,
         spending_category__user=user
     )
+
+# average daily spending
+# percentage increase or decrease

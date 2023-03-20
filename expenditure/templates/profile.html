@@ -1,7 +1,8 @@
 
 {% extends 'base_content.html' %}
 {% block content %} 
-<title>Profile • VMT</title>
+<section class="content-section">
+
 <div class="card">
        <h1>Welcome to your Profile {{user.email}}, {{user.user_id}} </h1>
             <div class="welcome_paragraph">
@@ -24,4 +25,5 @@
                 </form>
             </div>
         </div>
+    </section>
 {% endblock content %}

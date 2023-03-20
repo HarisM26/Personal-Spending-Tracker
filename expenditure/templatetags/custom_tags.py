@@ -50,7 +50,5 @@ def convert_date(date):
 
 
 @register.filter
-def custom_mark_as_read(id):
-    notification = Notification.objects.get(id=id)
-    notification.status = 'read'
-    notification.save()
+def to_2_decimal_places(value):
+    return round(value, 2)

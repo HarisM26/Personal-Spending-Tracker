@@ -11,15 +11,16 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+
 class SpendingTransactionForm(forms.ModelForm):
     class Meta:
         model = SpendingTransaction
         fields = '__all__'
-        exclude = ('spending_category','is_current',)
+        exclude = ('spending_category', 'is_current',)
         widgets = {
             'date': DatePickerInput(options={"format": "DD/MM/YYYY"}),
             'category': forms.HiddenInput(),
-            }
+        }
 
     # def clean_spending_date(self):
     #     spending_date = self.cleaned_data.get('date')
@@ -28,48 +29,56 @@ class SpendingTransactionForm(forms.ModelForm):
     #         self.add_error('date', 'The date of your outgoing outgoing transaction cannot be in the future')
     #     return spending_date
 
+
 class QuickSpendingTransactionForm(forms.ModelForm):
     class Meta:
         model = SpendingTransaction
         fields = 'amount', 'spending_category'
 
+
 class IncomeTransactionForm(forms.ModelForm):
     class Meta:
         model = IncomeTransaction
         fields = '__all__'
-        exclude=('income_category',)
+        exclude = ('income_category',)
         widgets = {
             'date': DatePickerInput(options={"format": "DD/MM/YYYY"}),
             'category': forms.HiddenInput(),
-            }
+        }
 
     # def clean_incoming_date(self):
     #     incoming_date = self.cleaned_data.get('date')
     #     current_date = date.today()
     #     if incoming_date > current_date:
     #         self.add_error('date', 'The date of your incoming transaction cannot be in the future')
-    #     return incoming_date    
+    #     return incoming_date
+
+
 class IncomeCategoryForm(forms.ModelForm):
     class Meta:
-        model=IncomeCategory
+        model = IncomeCategory
         fields = ('name',)
+
 
 class SpendingCategoryForm(forms.ModelForm):
     class Meta:
         model = SpendingCategory
         fields = ('name',)
 
+
 class LimitForm(forms.ModelForm):
     class Meta:
         model = Limit
         fields = '__all__'
-        exclude = ('remaining_amount','status','end_date')
-    
+        exclude = ('remaining_amount', 'status', 'end_date')
+
+
 class CategoryCreationMultiForm(MultiModelForm):
     form_classes = {
         'category': SpendingCategoryForm,
         'limit': LimitForm
     }
+
 
 class SpendingCategoryEditMultiForm(MultiModelForm):
     form_classes = {
@@ -82,6 +91,7 @@ class LogInForm(forms.Form):
     email = forms.EmailField(label='Email', required=True, validators=[validators.EmailValidator(message="Invalid Email")])
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
 
+
 class EmailForm(forms.Form):
     email = forms.EmailField(label='Email')
 
@@ -90,6 +100,7 @@ class SignUpForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email']
+<<<<<<< HEAD
         
     email = forms.EmailField(label='Email')
     first_name = forms.CharField(label='First Name')
@@ -103,10 +114,20 @@ class SignUpForm(forms.ModelForm):
     
     )
     password_confirmation = forms.CharField(label='Password confirmation', widget=forms.PasswordInput())
+=======
+
+    new_password = forms.CharField(label='Password', widget=forms.PasswordInput(), validators=[RegexValidator(
+        regex=r'^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).*$',
+        message='Password must contain an uppercase character, a lowercase character and a number'
+    )])
+    password_confirmation = forms.CharField(
+        label='Password confirmation', widget=forms.PasswordInput())
+>>>>>>> main
 
     def clean(self):
         super().clean()
         new_password = self.cleaned_data.get('new_password')
+<<<<<<< HEAD
         password_confirmation =self.cleaned_data.get('password_confirmation')
         if new_password != password_confirmation:
             self.add_error('password_confirmation', 'confirmation does not match password')
@@ -116,10 +137,22 @@ class SignUpForm(forms.ModelForm):
         super().save(commit=False)
         user=User.objects.create_user(
             self.cleaned_data.get('email'),
+=======
+        password_confirmation = self.cleaned_data.get('password_confirmation')
+        if new_password != password_confirmation:
+            self.add_error('password_confirmation',
+                           'confirmation does not match password')
+
+    def save(self):
+        super().save(commit=False)
+        self.user = User.objects.create_user(
+            email=self.cleaned_data.get('email'),
+>>>>>>> main
             first_name=self.cleaned_data.get('first_name'),
             last_name=self.cleaned_data.get('last_name'),
             password=self.cleaned_data.get('new_password'),
         )
+<<<<<<< HEAD
         return user
 
 
@@ -174,12 +207,18 @@ class SignUpForm(forms.ModelForm):
         )
         return user """
     
+=======
+        return self.user
+>>>>>>> main
 
 
 class UpdateUserForm(forms.ModelForm):
-    email = forms.EmailField(required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
-    first_name = forms.CharField(max_length=100, label='first_name', widget=forms.TextInput(attrs={'class': 'form-control'}))
-    last_name = forms.CharField(max_length=100, label='last_name', widget=forms.TextInput(attrs={'class': 'form-control'}))
+    email = forms.EmailField(required=True, widget=forms.TextInput(
+        attrs={'class': 'form-control'}))
+    first_name = forms.CharField(max_length=100, label='first_name', widget=forms.TextInput(
+        attrs={'class': 'form-control'}))
+    last_name = forms.CharField(max_length=100, label='last_name', widget=forms.TextInput(
+        attrs={'class': 'form-control'}))
 
     class Meta:
         model = User
@@ -187,7 +226,7 @@ class UpdateUserForm(forms.ModelForm):
 
 
 class DateReportForm(forms.Form):
-    from_date = forms.DateField(label="from", validators=[not_future], widget=DatePickerInput(options={"format": "DD/MM/YYYY"}))
-    to_date = forms.DateField(label="to", validators=[not_future], widget=DatePickerInput(options={"format": "DD/MM/YYYY"}))
-
-
+    from_date = forms.DateField(label="from", validators=[
+                                not_future], widget=DatePickerInput(options={"format": "DD/MM/YYYY"}))
+    to_date = forms.DateField(label="to", validators=[
+                              not_future], widget=DatePickerInput(options={"format": "DD/MM/YYYY"}))

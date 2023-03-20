@@ -12,4 +12,7 @@ class ExpenditureConfig(AppConfig):
             NB: comment out before running initial migration
         """
         #scheduler.start()
+<<<<<<< HEAD
     
+=======
+>>>>>>> main
