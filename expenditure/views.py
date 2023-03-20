@@ -22,6 +22,7 @@ from django.db.models import Q
 from django.template import loader
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
+from .email_manager import EmailSender
 
 
 @login_prohibited
@@ -220,10 +221,7 @@ def sign_up(request):
             login(request, user)
             user.points += 10
             user.save()
-            sending_email(
-                'Thank you for signing up! You are awarded with 10 points!',
-                user
-            )
+            EmailSender().send_welcome_email(user)
             create_deafult_categories(user)
             return redirect('feed')
     else:
