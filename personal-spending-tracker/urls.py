@@ -94,4 +94,5 @@ urlpatterns = [
     path('password-change/', ChangePasswordView.as_view(), name='password_change'),
     path('forgot_password/', views.forgot_password, name='forgot_password'),
     path('delete_account/', views.delete_account, name='delete_account'),
+    path('settings/toggle_privacy',views.toggle_privacy,name='toggle_privacy'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
