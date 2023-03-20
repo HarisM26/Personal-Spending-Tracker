@@ -47,6 +47,9 @@ urlpatterns = [
     path('password-change/', user_views.ChangePasswordView.as_view(),
          name='password_change'),
     path('forgot_password/', user_views.forgot_password, name='forgot_password'),
+    path('delete_account/',user_views.delete_account, name='delete_account'),
+    path('search_friends/', user_views.search_friends, name='search_friends'),
+    
 
 
     # ========== Notification urls =============
