@@ -81,6 +81,8 @@ urlpatterns = [
     path('notification_page/', views.notification_page, name='notification_page'),
     path('settings/toggle_privacy',
          views.toggle_privacy, name='toggle_privacy'),
+         path('settings/toggle_email',
+         views.toggle_email, name='toggle_email'),
 
     # ====================Profile/Password/friends
     path('search_friends/', views.search_friends, name='search_friends'),
@@ -88,6 +90,9 @@ urlpatterns = [
          views.show_friends_profile, name='friends_profile'),
     path('search_friends/follow_toggle/<int:id>',
          views.follow_toggle, name='follow_toggle'),
+    path('search_friends/create_friendship_request/<int:id>',
+         views.create_friendship_request, name='create_friendship_request'),
+    path('friend_request_page/', views.friend_request_page, name='friend_request_page'),
     path('leaderboard/', views.leaderboard, name='leaderboard'),
     path('reports/', views.view_report, name='reports'),
     path('profile/', views.profile, name='user_profile'),

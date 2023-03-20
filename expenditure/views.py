@@ -87,14 +87,14 @@ def feed(request):
 
     current_user = request.user
     unread_status_count = get_unread_nofications(current_user)
-    notifications = get_user_notifications(current_user)
+    notifications = get_user_notifications(current_user)   
     articles = all_articles['articles']
     articles = articles[0:4]
-
+    
     latest_notifications = notifications[0:3]
     context = {
         'latest_notifications': latest_notifications,
-        'unread_status_count': unread_status_count,
+        'unread_status_count': unread_status_count,    
         'articles': articles,
         'form': form,
     }
@@ -491,7 +491,8 @@ def view_settings(request):
     current_user = request.user
     toggle = current_user.toggle_notification
     toggle_priv = current_user.toggle_privacy
-    return render(request, 'settings.html', {'toggle': toggle, 'toggle_priv' : toggle_priv})
+    toggle_email = current_user.toggle_email
+    return render(request, 'settings.html', {'toggle': toggle, 'toggle_priv' : toggle_priv, 'toggle_email': toggle_email})
 
 
 @login_required
@@ -515,6 +516,17 @@ def toggle_privacy(request):
     else:
         current_user.toggle_privacy = 'ON'
         current_user.is_private = True
+        current_user.save()
+    return redirect('settings')
+    
+@login_required
+def toggle_email(request):
+    current_user = request.user
+    if current_user.toggle_email == 'ON':
+        current_user.toggle_email = 'OFF'
+        current_user.save()
+    else:
+        current_user.toggle_email = 'ON'
         current_user.save()
     return redirect('settings')
 
@@ -567,6 +579,47 @@ def show_friends_profile(request, id):
     }
     return HttpResponse(template.render(context, request))
 
+#sender creates request to be accepted by a private user 
+@login_required
+def create_friendship_request(request, id):
+    current_user = request.user
+    recipient = User.objects.get(id=id)
+    request_notification = FriendRequest.objects.get_or_create(sender=current_user, receivers=recipient)
+    add_request_to_pending(request_notification)
+    return redirect('search_friends')
+    
+#sender deletes request before accepted by a private user 
+#NEED TO PUT IN TRY AND CATCH BLOCKS   
+@login_required
+def delete_friendship_request(request, id):
+    current_user = request.user
+    recipient = User.objects.get(id=id)
+    request_notification = FriendRequest.objects.get(sender=current_user, receivers=recipient)
+    remove_request_from_pending(request_notification)
+    request_notification.delete()
+    return redirect('search_friends')  
+    
+#recipient deletes request by a sender 
+#NEED TO PUT IN TRY AND CATCH BLOCKS         
+@login_required
+def accept_friendship_request(request, id):
+    current_user = request.user
+    recipient = User.objects.get(id=id)
+    add_request_to_accepted(request_notification)
+    current_user.toggle_follow(recipient)
+    return redirect('search_friends')
+    
+#recipient deletes request by a sender 
+#NEED TO PUT IN TRY AND CATCH BLOCKS         
+@login_required
+def decline_friendship_request(request, id):
+    current_user = request.user
+    recipient = User.objects.get(id=id)
+    request_notification = FriendRequest.objects.get(sender=recipient, receivers=current_user)
+    remove_request_from_pending(request_notification)
+    request_notification.delete()
+    return redirect('search_friends')
+    
 @login_required
 def follow_toggle(request, id):
     current_user = request.user
@@ -577,6 +630,33 @@ def follow_toggle(request, id):
         return redirect('search_friends')
     else:
         return redirect('friends_profile', id=id)
+   
+        
+
+        
+@login_required
+def friend_request_page(request):
+    current_user = request.user
+    fr_request = get_user_notifications(current_user)
+    latest_notifications = fr_request[0:3]
+    unread_status_count = get_unread_nofications(current_user)
+    context = {
+        'latest_notifications': latest_notifications,
+        'fr_request': fr_request,
+        'unread_status_count': unread_status_count,
+    }
+    return render(request, 'friend_request_page.html', context)
+
+
+'''@login_required
+def view_selected_notification(request, id):
+    notification = Notification.objects.get(id=id)
+    notification.status = 'read'
+    notification.save()
+    context = {
+        'notification': notification,
+    }
+    return render(request, 'view_notification.html', context)'''
     
 @login_required
 def profile(request):
