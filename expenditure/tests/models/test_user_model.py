@@ -1,7 +1,7 @@
 '''Unit test for the User Model'''
 from django.core.exceptions import ValidationError
 from django.test import TestCase
-from expenditure.models import User
+from expenditure.models.user import User
 
 
 class UserModelTestCase(TestCase):

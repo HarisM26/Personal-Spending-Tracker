@@ -1,9 +1,9 @@
 @import "treeview.css";
 @import "navbar.css";
 @import "sidebar.css";
-@import "newspage.css";
 @import "landingpage.css";
 @import "signing.css";
+@import "leaderboard.css";
 
 :root {
   /*colors*/
@@ -33,6 +33,10 @@
 body {
   font-family: var(--main-font), "Segoe UI", Tahoma, sans-serif;
   margin-right: 20px;
+  overflow-y: scroll;
+  min-height: 100vh;
+  position: relative;
+  height: 100vh;
 }
 h3 {
   margin-top: 15px;
@@ -64,7 +68,8 @@ h3 {
     display: inline;
     float: right;
   }
-  #bar-chart-container {
+  #bar-chart-container,
+  .doughnut-chart-container {
     width: 45%;
   }
 }
@@ -75,10 +80,8 @@ h3 {
   }
 }
 
-.categories-by-month {
-  padding: 50px;
-}
-.report .card-icon {
+.report .card-icon,
+.feed-report-card .card-icon {
   font-size: 16px;
   line-height: 0;
   width: 64px;
@@ -87,7 +90,8 @@ h3 {
   flex-grow: 0;
 }
 
-.report .info-card h6 {
+.report .info-card h6,
+.feed-report-card .info-card h6 {
   font-size: 28px;
   color: var(--color-dark);
   font-weight: 700;
@@ -110,6 +114,13 @@ h3 {
   .report .card-title {
     font-size: 18px;
   }
+}
+.feed-report-card .col-xl-12 {
+  width: 100%;
+}
+.total-income-card .card-icon {
+  color: var(--color-default);
+  background: rgb(135, 229, 135);
 }
 
 .largest-category-card .card-icon {
@@ -157,6 +168,18 @@ h3 {
   justify-content: right;
   margin-bottom: 20px;
 }
+/*Login cards*/
+.row-container {
+  width: 90%;
+}
+#sign-up-row-container {
+  margin-top: 50px;
+}
+.h-100 {
+  min-height: 100vh;
+  height: 100vh;
+}
+/*================*/
 
 /* transaction list hover*/
 .nested .transaction_list {
@@ -177,33 +200,63 @@ h3 {
 .nested .transaction_list:hover {
   margin-left: 20px;
   font-weight: 600;
-  cursor: pointer;
   color: var(--color-second);
 }
 
+.nested .transaction_list .transaction-detail-container:hover {
+  cursor: pointer;
+}
+
 /* After Authentication Card */
-.main-card {
-  /* text-align: center; */
-  opacity: 0.9;
-  height: auto;
-  padding: 40px 40px 40px 40px;
-  position: relative;
-  background-color: white;
-  right: 0%;
-  margin-right: 30px;
-  margin-left: 30px;
-  list-style: none;
+.main-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 20px;
+  margin: 20px 0;
 }
 
-.main-card h1 {
-  text-align: left;
-  font-size: 38px;
-  padding: 10px 25px;
+@media (max-width: 800px) {
+  .main-cards {
+    display: inline;
+    margin-top: 20px;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 20px;
+    margin: 20px 0;
+  }
 }
 
-.main-card form {
-  padding: 40px 40px;
-  width: 75%;
+.main-cards .card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 25px;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  border-radius: 5px;
+  box-shadow: 0 6px 7px -6px rbga(0, 0, 0, 0.2);
+}
+.main-cards .card:first-child {
+  border-left: 7px solid red;
+}
+
+.main-cards .card:nth-child(2) {
+  border-left: 7px solid blue;
+}
+
+.main-cards .card:nth-child(3) {
+  border-left: 7px solid green;
+}
+
+.main-cards .card:nth-child(4) {
+  border-left: 7px solid yellow;
+}
+
+.main-cards .card > p {
+  font-size: 10px;
+}
+
+.main-cards .card > span {
+  font-size: 35px;
 }
 
 .btn,
@@ -216,12 +269,16 @@ h3 {
 
 /*============================================================*/
 /*Income Page*/
-#add-transaction-btn {
+#add-income-transaction-btn {
   display: flex;
   justify-content: right;
+  margin-top: 8px;
 }
 /*============================================*/
 /* Spending Category*/
+.spending-content-section {
+  margin-left: 3px;
+}
 #spending-categories-detail-div,
 #total-transaction,
 .transaction_list {
@@ -229,12 +286,108 @@ h3 {
   justify-content: space-between;
   align-items: center;
 }
+#spending-categories-detail-div {
+  margin-top: 8px;
+}
 #category-name-tag {
-  float: left;
+  font-size: 20px;
+}
+.add-transaction-btn:before {
+  content: "Add transaction";
+}
+.transaction-menu {
+  visibility: hidden;
+  display: none;
+}
+.delete-transaction-btn i,
+.delete-category-btn i {
+  color: red;
+}
+@media (max-width: 780px) and (min-width: 530px) {
+  .add-transaction-btn,
+  .edit-category-btn {
+    padding: 2px;
+  }
+  .delete-category-btn {
+    font-size: 12px;
+    padding: 5px 10px;
+  }
+  .add-transaction-btn::before {
+    content: "+";
+    font-size: 20px;
+    padding: 0px 8px;
+  }
+  .edit-transaction-btn,
+  .delete-transaction-btn {
+    font-size: 12px;
+    padding: 8px;
+  }
+  .transaction_list .transaction-btn-container {
+    visibility: hidden;
+  }
+  .transaction-menu {
+    visibility: visible;
+    display: inline;
+    margin-right: 5px;
+  }
+}
+@media (max-width: 530px) {
+  #spending-categories-detail-div {
+    display: block;
+  }
+  #category-name-tag {
+    font-size: 18px;
+  }
+  .add-transaction-btn {
+    margin-top: 5px;
+    margin-left: 2px !important;
+    font-size: 13px;
+    padding: 5px;
+  }
+  .edit-category-btn,
+  .delete-category-btn {
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  #transaction-date,
+  #points-tag {
+    visibility: hidden;
+    display: none;
+  }
+  .edit-transaction-btn,
+  .delete-transaction-btn {
+    font-size: 12px;
+    padding: 8px;
+  }
+  .transaction_list .transaction-btn-container {
+    visibility: hidden;
+    display: none;
+  }
+  .transaction-menu {
+    visibility: visible;
+    display: inline;
+    margin-right: 5px;
+  }
 }
 
+.edit-transaction-btn,
+.delete-transaction-btn {
+  margin-left: 8px !important;
+}
 .category_list {
   margin-top: 5px;
+}
+.transaction-btn-container {
+  margin-right: 8px;
+}
+.transaction-detail-container {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+}
+#points-tag {
+  color: green;
 }
 /*================================*/
 
@@ -248,20 +401,23 @@ h3 {
 #bar-chart-container {
   margin-top: 30px;
 }
-.doughnut-chart-container {
-  width: 550px;
-  height: 550px;
+@media (max-width: 400px) {
+  .categories-by-month {
+    font-size: 14px;
+  }
 }
 /*==============================*/
 
 /* Content Page */
 .content-section {
   position: relative;
-  top: 0;
   left: 78px;
   width: calc(100% - 78px);
   transition: all 0.5s ease;
   z-index: 2;
+  margin: 20px;
+  padding-right: 20px;
+  padding-top: 70px;
 }
 
 .content-section .text {
@@ -299,17 +455,11 @@ h3 {
   margin-left: 20px;
 }
 
-.content-section a:visited {
-  color: gray;
-  text-decoration: none;
-}
-
 .content-section a:hover {
   color: #0067ac;
   text-decoration: none;
 }
 
-#white-text-button,
 #create-spending-cat-anch {
   color: white;
 }
@@ -362,7 +512,9 @@ h3 {
 }
 
 /* Notification */
-.notification-card {
+.notification-card,
+.individual-category,
+.transaction_list {
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 8px;
@@ -371,9 +523,42 @@ h3 {
   border-color: rgba(219, 219, 219, 0.877);
   box-shadow: 2px 3px 5px var(--color-card-border);
 }
+.transaction_list {
+  padding: 0px 10px;
+  margin-top: 10px;
+}
+#transaction-date {
+  padding-left: 10px;
+}
+#transaction-amount {
+  padding-right: 10px;
+}
 #notification-card-anchor {
   text-decoration: none;
   color: inherit;
 }
 
-/**/
+.doughnut-chart-container {
+  margin-top: 30px;
+  padding-top: 10px;
+}
+
+.categories-by-month {
+  margin-top: 40px;
+}
+
+/*Quick add*/
+
+.content-section .quick-add {
+  float: right;
+}
+/* pie chart style*/
+.income-chart-div {
+  padding: 20px;
+}
+@media (min-width: 620px) {
+  .income-chart-div {
+    width: 550px;
+  }
+}
+/*======================================*/

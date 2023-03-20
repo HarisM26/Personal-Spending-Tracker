@@ -18,31 +18,49 @@
       <a class="btn btn-info" id="white-text-button" href="{% url 'create_incoming_category'%}">Create new category</a>
     </div>
   {% for category in categories %}
-    <div >
+    <div class="individual-category" >
       <ul id="myUL">
         <li class="category_list"> 
-          <span id="category-name-tag" class="caret"><b>{{ category.name }} </b></span><br>
-          <span id="add-transaction-btn">
+          <span class="caret d-flex justify-content-between align-items-center"><b id="category-name-tag">{{ category.name }} </b>
+            <div>
+              <a class="btn btn-info edit-category-btn" href="{% url 'edit_spending_category' category.id %}" data-bs-toggle="tooltip" title="Edit category"> ✏️ </a>
+              <a class="btn btn-info delete-category-btn" href="{% url 'delete_spending_category' category.id %}" data-bs-toggle="tooltip" title="Delete category"> <i class="fa-solid fa-trash-can" style="color: red"></i> </a>
+            </div>
+          </span>
+          <span id="add-income-transaction-btn">
             <span>
-              <a class="btn btn-info" id="white-text-button" href="{% url 'add_income_transaction' category.id %}"> Add transaction </a>
-              <a class="btn btn-info" href="{% url 'edit_income_category' category.id %}" data-bs-toggle="tooltip" title="Edit category"> ✏️ </a>
-              <a class="btn btn-info" href="{% url 'delete_income_category' category.id %}" data-bs-toggle="tooltip" title="Delete category"> <i class="fa-solid fa-trash-can" style="color: red"></i> </a>
+              <a class="btn btn-info add-transaction-btn" id="white-text-button" href="{% url 'add_income_transaction' category.id %}"> </a>    
             </span>
           </span>
-          <hr>
           <ul class="nested">
             {% with transactions=category|get_income_transactions %}
             {% for transaction in transactions %}
-            <li class="transaction_list" data-bs-toggle="modal" data-bs-target="#transaction-detail-modal">
+            <li class="transaction_list">
+              <div class="transaction-detail-container" data-bs-toggle="modal" data-bs-target="#transaction-detail-modal">
               <div id="transaction-date">{{transaction.date}}</div>
-              <div id="transaction-title">{{transaction.title}}</div>
+              <div id="transaction-title">{{transaction.title}} <span style="color: green">{% get_points transaction %} / 4 points</span></div>
               <div id="transaction-amount">&#163;{{transaction.amount|intcomma}}</div> 
               <div id="transaction-category" hidden>{{transaction.income_category.name}}</div>
               <div id="transaction-notes" hidden>{{transaction.notes}}</div>
               <div id="transaction-created" hidden>{{transaction.created}}</div>
+            </div>
+            <div class="transaction-btn-container">
+              <a class="btn btn-info edit-transaction-btn" href="{% url 'edit_income' transaction.id %}" data-bs-toggle="tooltip" title="Edit transaction"> ✏️ </a>
+              <a class="btn btn-info delete-transaction-btn" href="{% url 'delete_income' transaction.id %}" onclick="return confirm('Are you sure you want to delete this transaction?')" data-bs-toggle="tooltip" title="Delete transaction"> <i class="fa-solid fa-trash-can"></i> </a>
+            </div>
+            <div class="dropdown transaction-menu">
+              <a class="btn btn-info" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa-solid fa-ellipsis"></i>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink1">
+                <li class="d-flex justify-content-around">
+                  <a class="btn btn-info edit-transaction-btn" href="{% url 'edit_spending' transaction.id %}" data-bs-toggle="tooltip" title="Edit transaction"> ✏️ </a>
+                  <a class="btn btn-info delete-transaction-btn" href="{% url 'delete_spending' transaction.id %}" onclick="return confirm('Are you sure you want to delete this transaction?')" data-bs-toggle="tooltip" title="Delete transaction"> <i class="fa-solid fa-trash-can"></i> </a>
+                </li>
+                
+              </ul>
+            </div>
             </li>
-            <a class="btn btn-info" href="{% url 'edit_spending' transaction.id %}" data-bs-toggle="tooltip" title="Edit transaction"> ✏️ </a>
-            <a class="btn btn-info" href="{% url 'delete_spending' transaction.id %}" onclick="return confirm('Are you sure you want to delete this transaction?')" data-bs-toggle="tooltip" title="Delete transaction"> <i class="fa-solid fa-trash-can" style="color: red"></i> </a>
             {% endfor %}
             <hr>
             <div id="total-transaction">

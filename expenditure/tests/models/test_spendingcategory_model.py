@@ -1,8 +1,11 @@
 from django.test import TestCase
 from datetime import datetime, timedelta, date
 from django.core.exceptions import ValidationError
-from expenditure.models import SpendingCategory, Limit, User
+from expenditure.models.categories import *
+from expenditure.models.user import User
+from expenditure.models.limit import Limit
 from decimal import *
+
 
 class SpendingCategoryModelTest(TestCase):
 
@@ -10,9 +13,9 @@ class SpendingCategoryModelTest(TestCase):
 
     def setUp(self):
         self.category = SpendingCategory.objects.create(
-            user = User.objects.get(email='johndoe@example.com'),
-            name = "CategoryName",
-            limit = Limit.objects.create(
+            user=User.objects.get(email='johndoe@example.com'),
+            name="CategoryName",
+            limit=Limit.objects.create(
                 limit_amount=Decimal('10.00'),
                 start_date=date.today(),
                 end_date=datetime.now() + timedelta(days=7)
@@ -24,11 +27,11 @@ class SpendingCategoryModelTest(TestCase):
             self.category.full_clean()
         except:
             self.fail('Category should be valid')
-    
+
     def assert_category_is_invalid(self):
         with self.assertRaises(ValidationError):
             self.category.full_clean()
-    
+
     def test_category(self):
         self.assert_category_is_valid()
 
@@ -44,7 +47,5 @@ class SpendingCategoryModelTest(TestCase):
         self.category.name = 'x' * 50
         self.assert_category_is_valid()
 
-    
-        
-
-    
+    def test_category_not_default(self):
+        self.assertTrue(self.category.is_not_default)

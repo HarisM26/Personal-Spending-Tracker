@@ -4,60 +4,161 @@
 
 
 <section class="content-section">
-    <div>
-        <h1>Dashboard</h1>
+    <div>{%include 'partials/messages.html' %}</div>
+    <div >
+    <div class="feed-header">
+        <div>
+            <h1>Dashboard</h1>
+            {{ form.media }}
+            <div class="quick-add">
+                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#quick-add-detail-modal" data-bs-toggle="tooltip" title="Add transaction">Quick Add</button>
+
+                </div>
+            </div>
+            
+        </div>
+        
+        <div>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item active"> <a href="{% url 'feed' %}">Home</a></li>
+                    <li class="breadcrumb-item"> <a>Dashboard</a></li>
+                </ol>
+            </nav>
+        </div>
+
+        
     </div>
-    <nav>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item active"> <a href="{% url 'feed' %}">Home</a></li>
-            <li class="breadcrumb-item"> <a>Dashboard</a></li>
-        </ol>
-    </nav>
+
  
         <section class="section dashboard">
-            <div class="welcome-card">
-                Welcome back {{ user.first_name }}
-            </div>
-
-            {{ form.media }}
-            <div class="main-card">
-                <form action="{% url 'feed' %}" method="post">
-                    {% csrf_token %}
-                    {% include 'partials/bootstrap_form.html' with form=form %}
-                    <input type="submit" value="Add transaction" class="btn btn-info">
-                </form>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-9">
-                    <div class="row">
-                        <div class="main-card">
-                            <div id="bar-chart-container">
-                                <canvas id="monthly-chart"> </canvas>
-                            </div>   
-                        </div>                     
-                    </div>
-                </div>
-        
+            
+            
+            <div class="main-cards">
                 
-                <div class="col-lg-3">
-                    <div class="row">
-                        <div class="card">
-                            <h3 >News</h3>
-                            {% for article in articles %}
-                            <div id="news-card" class="modal-card">
-                              <div id="news-card-body-div" class="card-body">
-                                <h7 class="card-title">{{ article|get_article_dict_element:"title" }} </h7>
-                                <a href="{{ article|get_article_dict_element:'url' }}" target="_blank" class="btn btn-info" style="margin: 10px;">View article</a>
+                <div class="card">
+                    <div class="card-inner">
+                        <p class="text-primary"> Points(TBC) </p>
+                        <span class="pic"></span>
+                    </div>
+                    <span class="text-primary font-weight-bold">62</span>
+                </div>
+
+                <div class="card">
+                    <div class="card-inner">
+                        <p class="text-primary"> Total Spent </p>
+                        <span class="pic"></span>
+                    </div>
+                    <span class="text-primary font-weight-bold">&#163;{{total_spending}}</span>
+                </div>
+
+                <div class="card">
+                    <div class="card-inner">
+                        <p class="text-primary"> Budget Remaining </p>
+                        <span class="pic"></span>
+                    </div>
+                    <span class="text-primary font-weight-bold">&#163;{{remaining_budget}}</span>
+                </div>
+
+                <div class="card">
+                    <div class="card-inner">
+                        <p class="text-primary"> Total categories within limit </p>
+                        <span class="pic"></span>
+                    </div>
+                    <span class="text-primary font-weight-bold">{{categories_within_limit}}</span>
+                </div>
+            </div>
+            <!--Hidden tags :: for pie chart-->
+            {%for category in income_categories%}
+            <div class="income-category-hidden" hidden>
+              <span >{{category.name}} </span>
+              <span >{{category.total|to_2_decimal_places}} </span>
+            </div>
+            {% endfor %}
+            <!--End hidden tags-->
+
+                <!-- Pie chart -->       
+            <div class="income-chart-div">
+            
+                <span class="feed-report-card">
+                    <!-- Total income card  -->
+                    <div class="col-xxl-4 col-xl-12"> 
+
+                        <div class="card info-card total-income-card">
+                          <div class="card-body">
+                            <h5 class="card-title">Total Income</b></h5>
+                  
+                            <div class="d-flex align-items-center">
+                              <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                <i class="fa-regular fa-sterling-sign fa-2x"></i>
+                              </div>
+                              <div class="ps-3">
+                                <h6>&#163; {{total_income|to_2_decimal_places}}</h6>
                               </div>
                             </div>
-                            {% endfor %}
+                          </div>
                         </div>
+                      </div>
+                      <!-- End total income card  -->
+                </span>
+               <canvas id="income-chart"> </canvas>
+             </div>   
+              <!-- End pie chart -->
+
+
+            <div class="row">
+                <div class="col-md-8">
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <h3 >News</h3>
+                        {% for article in articles %}
+                        <div class="card">
+                            <div id="news-card-body-div" class="card-body">
+                                <h7 class="card-title">{{ article|get_article_dict_element:"title" }} </h7>
+                            </div>
+
+                            <div>
+                                <a href="{{ article|get_article_dict_element:'url' }}" target="_blank" class="btn btn-info" style="margin: 10px;">View article</a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="card" style="margin-top:30px;">
+                        <h3 >Recent Activity</h3>
+                        <p style="margin:30px;">
+                            Joel is now your friend
+                        </p>
                     </div>
                 </div>
             </div>
+            
+
+            
            
         </section>
 
 </section>
+
+<div class="modal" id="quick-add-detail-modal" tabindex="-1" aria-labelledby="quick-add-modal-label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="quick-add-modal-label" >Quick Add Transaction</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form method="post" >
+                {% csrf_token %}
+                <input type="hidden" name="feed" value="{{ next }}">
+                {% include 'partials/bootstrap_form.html' with form=form %}
+                <input type="submit" value="             Quick Add           " class="btn btn-info">
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}

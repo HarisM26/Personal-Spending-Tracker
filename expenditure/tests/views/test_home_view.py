@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
-from expenditure.models import User
+from expenditure.models.user import User
+
 
 class HomeViewTestCase(TestCase):
     """Tests of the home view. Inspiration taken from clucker"""
@@ -12,7 +13,7 @@ class HomeViewTestCase(TestCase):
         self.user = User.objects.get(email='johndoe@example.com')
 
     def test_home_url(self):
-        self.assertEqual(self.url,'/')
+        self.assertEqual(self.url, '/')
 
     def test_get_home(self):
         response = self.client.get(self.url)
@@ -23,5 +24,6 @@ class HomeViewTestCase(TestCase):
         self.client.login(email=self.user.email, password="Password123")
         response = self.client.get(self.url, follow=True)
         redirect_url = reverse('feed')
-        self.assertRedirects(response, redirect_url, status_code=302, target_status_code=200)
+        self.assertRedirects(response, redirect_url,
+                             status_code=302, target_status_code=200)
         self.assertTemplateUsed(response, 'feed.html')

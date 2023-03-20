@@ -1,5 +1,6 @@
 from django import forms
-from expenditure.models import *
+from expenditure.models.categories import *
+from expenditure.models.transactions import *
 from django.contrib.auth.forms import UserCreationForm
 from django.core.validators import RegexValidator
 from bootstrap_datepicker_plus.widgets import DatePickerInput
@@ -7,6 +8,8 @@ from datetime import datetime, date
 from .helpers import not_future
 from betterforms.multiform import MultiModelForm
 from django.contrib.auth import get_user_model
+from expenditure.models.user import *
+from expenditure.models.limit import Limit
 
 User = get_user_model()
 
