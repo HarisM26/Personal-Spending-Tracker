@@ -7,6 +7,7 @@ from expenditure.models.user import User
 from expenditure.tests.helpers import LogInTester
 from django.core import mail
 from expenditure.models.categories import SpendingCategory
+from django.conf import settings
 
 
 class SignUpViewTestCase(TestCase, LogInTester):
@@ -63,8 +64,9 @@ class SignUpViewTestCase(TestCase, LogInTester):
         categories = SpendingCategory.objects.all()
         self.assertFalse(categories[0].is_not_default)
         email = mail.outbox[0]
-        self.assertEqual(email.to, ['willsmith@example.com'])
+        self.assertEqual(email.to, ['willsmith@example.org'])
         self.assertEqual(email.subject, 'Welcome to Void Money Tracker')
+        self.assertEqual(email.from_email, settings.DEFAULT_FROM_EMAIL)
 
     def test_unsuccessful_sign_up(self):
         self.form_input['email'] = '@willsmith@example.org'
