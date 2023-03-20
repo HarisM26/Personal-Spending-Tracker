@@ -1,7 +1,5 @@
 from django.test import TestCase
 from django.urls import reverse
-from expenditure.models import User
-from django.core import mail
 
 
 class PasswordResetTest(TestCase):
