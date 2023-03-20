@@ -520,6 +520,7 @@ def friends(request):
 
 def show_friends_profile(request, id):
     results = User.objects.get(id=id)
+    following = request.user.is_following(results)
     template = loader.get_template('friends_profile.html')
     context = {
         'results': results, 'following': following,
@@ -547,8 +548,21 @@ def sign_up(request):
             return redirect('home')
     else:
         form = SignUpForm()
-        return render(request, 'sign_up.html' , {'form': form})
+    return render(request, 'sign_up.html' , {'form': form})
 
+        
+
+
+@login_required
+def follow_toggle(request, id):
+    current_user = request.user
+    try:
+        followee = User.objects.get(id=id)
+        current_user.toggle_follow(followee)
+    except ObjectDoesNotExist:
+        return redirect('friends')
+    else:
+        return redirect('friends_profile', id=id)
 
 
 @login_prohibited

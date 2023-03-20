@@ -79,6 +79,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def follower_count(self):
         return self.followers.count()
+
+    def follower_count(self):
+        return self.followers.count()
     def followee_count(self):
         return self.followees.count()
 

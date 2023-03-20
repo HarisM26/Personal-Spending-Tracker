@@ -84,5 +84,9 @@ def delete_old_job_executions(max_age=604_800):
     except KeyboardInterrupt:
         logger.info("Stopping scheduler...")
         scheduler.shutdown()
+<<<<<<< HEAD
         logger.info("Scheduler shut down successfully!")
  """
+=======
+        logger.info("Scheduler shut down successfully!") """
+>>>>>>> main
