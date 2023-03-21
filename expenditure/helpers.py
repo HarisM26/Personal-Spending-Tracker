@@ -131,3 +131,7 @@ def check_league(user, request):
         #     'You have reached the final Diamond League! You can now get unlimited access to tips from our financial advisors and a chance to meet one!',
         #     user
         # )
+
+
+def get_percentage_of_limit_used(limit):
+    return Decimal(limit.limit_amount) - Decimal(limit.remaining_amount) / Decimal(limit.limit_amount) * 100
