@@ -4,6 +4,7 @@ from datetime import date, datetime, timedelta
 from django.conf import settings
 from django.shortcuts import redirect
 from django.core.mail import send_mail
+from django.contrib import messages
 from decimal import Decimal
 from expenditure.models.notification import Notification
 from expenditure.models.categories import SpendingCategory
@@ -110,28 +111,51 @@ def create_default_categories(user):
     return default_general, default_groceries, default_transport, default_utilities
 
 
-def check_league(user, request):
-    if (user.league_status == 'bronze' and int(user.points) >= 50):
+def sending_email(message, user):
+    send_mail(
+        'This is VOID Money Tracker',
+        message,
+        from_email=None,
+        recipient_list=[user.email],
+        fail_silently=False,
+    )
+
+
+def check_league(request):
+    user = request.user
+    if (user.league_status == 'bronze' and int(user.points) >= 200):
         user.league_status = 'silver'
         user.save()
-        # messages.success(request, "Congratulations! You have reached the Silver League. You need to have 150 points to progress to the next league.")
-    elif ((user.league_status == 'silver' and int(user.points) >= 150)):
+        sending_email(
+            'Congradulations! You have reached the Silver League. You need to have 600 points to progress to the next league.',
+            user
+        )
+        messages.success(
+            request, "Congradulations! You have reached the Silver League. You need to have 150 points to progress to the next league.")
+    elif ((user.league_status == 'silver' and int(user.points) >= 600)):
         user.league_status = 'gold'
         user.save()
-        # messages.success(request, "Congratulations! You have reached the Gold League. You need to have 300 points to progress to the next league.")
-    elif ((user.league_status == 'gold' and int(user.points) >= 300)):
+        sending_email(
+            'Congradulations! You have reached the Gold League. You need to have 1800 points to progress to the next league.',
+            user
+        )
+        messages.success(
+            request, "Congradulations! You have reached the Gold League. You need to have 300 points to progress to the next league.")
+    elif ((user.league_status == 'gold' and int(user.points) >= 1800)):
         user.league_status = 'platinum'
         user.save()
-        # messages.success(request, "Congratulations! You have reached the Platinum League. You need to have 500 points to progress to the next league.")
-    elif ((user.league_status == 'platinum' and int(user.points) >= 500)):
+        sending_email(
+            'Congradulations! You have reached the Platinum League. You need to have 5000 points to progress to the next league.',
+            user
+        )
+        messages.success(
+            request, "Congradulations! You have reached the Platinum League. You need to have 500 points to progress to the next league.")
+    elif ((user.league_status == 'platinum' and int(user.points) >= 5000)):
         user.league_status = 'diamond'
         user.save()
-        # messages.success(request, "Congratulations! You have reached the final Diamond League. You will shortly recieve a present from us!")
-        # sending_email(
-        #     'You have reached the final Diamond League! You can now get unlimited access to tips from our financial advisors and a chance to meet one!',
-        #     user
-        # )
-
-
-def get_percentage_of_limit_used(limit):
-    return Decimal(limit.limit_amount) - Decimal(limit.remaining_amount) / Decimal(limit.limit_amount) * 100
+        messages.success(
+            request, "Congradulations! You have reached the final Diamond League. You will shortly recieve a present from us!")
+        sending_email(
+            'You have reached the final Diamond League! You can now get unlimited access to tips from our financial advisors and a chance to meet one!',
+            user
+        )

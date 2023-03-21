@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand, CommandError
 
-from expenditure.models import User
+from expenditure.models.user import User
 
 
 class Command(BaseCommand):

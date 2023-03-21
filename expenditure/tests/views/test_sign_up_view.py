@@ -44,6 +44,19 @@ class SignUpViewTestCase(TestCase, LogInTester):
                              status_code=302, target_status_code=200)
         self.assertTemplateUsed(response, 'feed.html')
 
+    def test_unsuccessful_sign_up(self):
+        self.form_input['email'] = '@willsmith@example.org'
+        before_count = User.objects.count()
+        response = self.client.post(self.url, self.form_input)
+        after_count = User.objects.count()
+        self.assertEqual(after_count, before_count)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'sign_up.html')
+        form = response.context['form']
+        self.assertTrue(isinstance(form, SignUpForm))
+        self.assertTrue(form.is_bound)
+        self.assertFalse(self._is_logged_in())
+
     def test_successful_sign_up(self):
         categories_before_count = SpendingCategory.objects.count()
         before_count = User.objects.count()
@@ -68,15 +81,15 @@ class SignUpViewTestCase(TestCase, LogInTester):
         self.assertEqual(email.subject, 'Welcome to Void Money Tracker')
         self.assertEqual(email.from_email, settings.DEFAULT_FROM_EMAIL)
 
-    def test_unsuccessful_sign_up(self):
-        self.form_input['email'] = '@willsmith@example.org'
-        before_count = User.objects.count()
-        response = self.client.post(self.url, self.form_input)
-        after_count = User.objects.count()
-        self.assertEqual(after_count, before_count)
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'sign_up.html')
-        form = response.context['form']
-        self.assertTrue(isinstance(form, SignUpForm))
-        self.assertTrue(form.is_bound)
-        self.assertFalse(self._is_logged_in())
+    def test_successful_referred_sign_up(self):
+        referred_input = {
+            'first_name': 'Larry',
+            'last_name': 'Lewis',
+            'email': 'larrylewis@example.org',
+            'new_password': 'Password123',
+            'password_confirmation': 'Password123',
+            'reference_code': self.user.user_id
+        }
+        response = self.client.post(self.url, referred_input, follow=True)
+        user = User.objects.get(email='larrylewis@example.org')
+        self.assertEqual(user.points, 15)
