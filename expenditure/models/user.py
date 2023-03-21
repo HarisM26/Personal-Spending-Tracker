@@ -67,9 +67,14 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
 
     is_active = models.BooleanField(default=True)
+    
+    is_private = models.BooleanField(default=False)
 
     toggle_notification = models.CharField(
         max_length=3, choices=TOGGLE_CHOICE, default='ON')
+        
+    toggle_privacy = models.CharField(
+        max_length=3, choices=TOGGLE_CHOICE, default='OFF')
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
@@ -92,6 +97,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def is_following(self, user):
         return user in self.followees.all()
+        
+    def show_following(self):
+    	return self.followees.all()
 
     def follower_count(self):
         return self.followers.count()
