@@ -56,6 +56,7 @@ class SignUpViewTestCase(TestCase, LogInTester):
         self.assertTrue(isinstance(form, SignUpForm))
         self.assertTrue(form.is_bound)
         self.assertFalse(self._is_logged_in())
+        self.assertEqual(len(mail.outbox), 0)
 
     def test_successful_sign_up(self):
         categories_before_count = SpendingCategory.objects.count()
