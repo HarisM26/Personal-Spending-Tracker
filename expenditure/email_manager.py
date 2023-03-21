@@ -10,9 +10,9 @@ import uuid
 class EmailSender():
 
     WELCOME_EMAIL_TEMPLATE = 'emails/welcome_email.html'
-    APPROCHING_LIMIT_TEMPLATE = 'email/approaching_limit_email.html'
-    REACHED_LIMIT_TEMPLATE = 'email/reached_limit_email.html'
-    CUSTOMER_SERVICE_REPLY_TEMPLATE = 'email/customer_service_reply_email.html'
+    APPROCHING_LIMIT_TEMPLATE = 'emails/approaching_limit_email.html'
+    REACHED_LIMIT_TEMPLATE = 'emails/reached_limit_email.html'
+    CUSTOMER_SERVICE_REPLY_TEMPLATE = 'emails/customer_service_reply_email.html'
 
     # message = "Thank you for signing up with us."
     # user_email=form.cleaned_data.get('email')
