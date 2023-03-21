@@ -75,6 +75,9 @@ class User(AbstractBaseUser, PermissionsMixin):
         
     toggle_privacy = models.CharField(
         max_length=3, choices=TOGGLE_CHOICE, default='OFF')
+    
+    toggle_email = models.CharField(
+        max_length=3, choices=TOGGLE_CHOICE, default='ON')
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

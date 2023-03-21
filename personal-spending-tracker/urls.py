@@ -59,6 +59,8 @@ urlpatterns = [
          name='view_selected_notification'),
     path('notification_page/', notification_views.notification_page,
          name='notification_page'),
+    path('settings/toggle_email',
+         notification_views.toggle_email, name='toggle_email'),
 
 
     # ========= Category urls ===========
