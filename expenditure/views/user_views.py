@@ -49,10 +49,6 @@ def log_in(request):
                     user=user, date=date.today())  # point not in use?
                 if created:
                     user.add_login_points()
-                    sending_email(
-                        'Thank you for logging in today! You have earned 1 point!',
-                        user
-                    )
                 redirect_url = next or 'feed'
                 return redirect(redirect_url)
         # Add error message here
