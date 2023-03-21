@@ -103,7 +103,7 @@ class EmailSender():
             context,
         )
 
-    ''' /Can be used to personalise reset email, requires token to be made in view and saved for user in seperate model (incomplete)/
+    ''' /Can be used to personalise reset email, requires token to be made in view and saved for user in seperate model (this implementation is currently not used)/
     def send_forgot_password_email(self, to, token):
         subject = 'Your forgot password link'
         message = f'Hi, click on this link to reset your password: http://127.0.0.1:8000/password-change/{token}/'
