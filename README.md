@@ -100,4 +100,6 @@ https://pixabay.com/illustrations/pound-uk-money-currency-finance-685059/
 
 TEMPLATES
 
+- HTML email templates inspired by "Responsive HTML Email" Youtube channel: https://www.youtube.com/watch?v=_G5OuTmuU0Q
+
 OTHER
