@@ -83,3 +83,12 @@ img.circle-img.circle-img--small {
 .table tbody tr td:nth-child(1) {
 	border-radius: 5px;
 }
+
+.league-title {
+	margin-top: 30px;
+	text-align: center;
+	
+}
+.league-title:first-letter {
+	text-transform: uppercase;
+}

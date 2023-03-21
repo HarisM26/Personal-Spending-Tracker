@@ -58,7 +58,8 @@ def log_in(request):
                 if created:
                     user.add_login_points()
                     check_league(request)
-                    messages.success(request, 'Thank you for logging in today. You have earned 1 point!')
+                    messages.success(
+                        request, 'Thank you for logging in today. You have earned 1 point!')
                 redirect_url = next or 'feed'
                 return redirect(redirect_url)
         # Add error message here
@@ -69,7 +70,7 @@ def log_in(request):
     form = LogInForm()
 
     context = {
-        'form': form, 
+        'form': form,
         'next': next,
         'messages': messages.get_messages(request),
     }
@@ -99,12 +100,19 @@ def leaderboard(request):
         league_status=request.user.league_status).order_by('-points')
     user_place = users.filter(points__gt=request.user.points).count() + 1
 
+    if (users.filter(points__gte=request.user.points).last().points == request.user.points):
+        user_overall_place += 1
+        user_place += 1
+
     context = {
         'num_top_users': num_top_users,
         'users': users[:num_top_users],
         'user_place': user_place,
         'user_overall_place': user_overall_place,
         'messages': messages.get_messages(request),
+        # 'first_place':users[0],
+        # 'second_place':users[1],
+        # 'third_place':users[2],
     }
     return render(request, 'leaderboard.html', context=context)
 
@@ -189,6 +197,7 @@ def forgot_password(request):
         form = EmailForm()
     return render(request, 'forgot_password.html', {'form': form})
 
+
 @login_required
 def delete_account(request):
     user_pk = request.user.pk
@@ -196,6 +205,7 @@ def delete_account(request):
     User = get_user_model()
     User.objects.filter(pk=user_pk).delete()
     return redirect('home')
+
 
 class PasswordResetView(PasswordResetView):
     template_name = 'password_reset.html'
@@ -211,14 +221,7 @@ class PasswordResetConfirmView(PasswordResetConfirmView):
 
 class PasswordResetCompleteView(PasswordResetCompleteView):
     template_name = 'password_reset_complete.html'
-    
-@login_required
-def delete_account(request):
-    user_pk = request.user.pk
-    logout(request)
-    User = get_user_model()
-    User.objects.filter(pk=user_pk).delete()
-    return redirect('home')
+
 
 @login_required
 def toggle_privacy(request):
@@ -231,24 +234,26 @@ def toggle_privacy(request):
         current_user.save()
     return redirect('settings')
 
-@login_required            
+
+@login_required
 def search_friends(request):
     if request.method == 'GET':
-        query=request.GET.get('q')
-        
-        submitbutton=request.GET.get('submit')
-        
+        query = request.GET.get('q')
+
+        submitbutton = request.GET.get('submit')
+
         if query is not None:
-            lookups=Q(first_name__icontains=query)|Q(last_name__icontains=query)|Q(email__icontains=query)
-            
-            results= User.objects.filter(lookups).distinct()
-            
-            context={'results': results, 'submitbutton': submitbutton}
-            
+            lookups = Q(first_name__icontains=query) | Q(
+                last_name__icontains=query) | Q(email__icontains=query)
+
+            results = User.objects.filter(lookups).distinct()
+
+            context = {'results': results, 'submitbutton': submitbutton}
+
             return render(request, 'friends.html', context)
-            
+
         else:
             return render(request, 'friends.html')
-            
+
     else:
-            return render(request, 'friends.html') 
+        return render(request, 'friends.html')

@@ -1,5 +1,6 @@
 {% extends 'base_content.html' %}
 {% block content %} 
+{%include 'partials/messages.html' %}
 <section class="content-section">
     <div>
         <h1>Profile</h1>
@@ -9,30 +10,27 @@
             <li class="breadcrumb-item active"> <a href="{% url 'feed' %}">Home</a></li>
             <li class="breadcrumb-item"> <a>Profile</a></li>
         </ol>
-        <p>Your unique reference code is: {{ request.user.user_id }}. Please share this code with a friend and earn 10 points!</p>
     </nav>
-
-    <div class="card" style="padding: 30px;">
-        <div class="welcome_paragraph">
-                <form action="{% url 'user_profile' %}" method="post">
-                    {% csrf_token %}
-                    <label class="small mb-1">Email:</label>
-                        {{ user_form.email }}
-                        <br>
-                    <label class="small mb-1">First Name:</label>
-                        {{ user_form.first_name }}
-                        <br>
-                    <label class="small mb-1">Last Name:</label>
-                        {{ user_form.last_name }}
-                        <br>
-                    
-                    <a href="{% url 'password_change' %}">Change Password</a>
-                    <a href="{% url 'delete_account' %}">Delete Account</a>
-                    <br> <br>
-                    <button type="submit" class="btn btn-dark btn-lg">Save Changes</button>
-                    <button type="reset" class="btn btn-dark btn-lg">Reset</button>
-                </form>
+    <p id="unique-reference-paragraph">Your unique reference code is <span id="unique-reference">{{ request.user.user_id }}</span>. Please share this code with a friend and earn 10 points!</p>
+    <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <h1>Edit profile</h1>
+            <form action="{% url 'user_profile' %}" method="post">
+              {% csrf_token %}
+              {% include 'partials/bootstrap_form.html' with form=user_form %}
+              <a id="change-password-link" href="{% url 'password_change' %}">Change Password</a><br>
+              <div id="save-reset-btn-container">
+              <input type="submit" value="Save Changes" class="btn btn-primary">
+              <input type="reset" value="Reset" class="btn btn-primary">
+            </div>
+            </form>  
+          </div>
         </div>
+      </div>
+
+      <div class="d-flex justify-content-center" id="delete-account-container">
+      <a class="btn btn-danger" id="delete-account-btn" type="button" onclick="return confirm('Are you sure you want to delete this account?')" href="{% url 'delete_account' %}">Delete Account</a>
     </div>
 </section>
 {% endblock content %}

@@ -57,10 +57,9 @@ header{
 /* About */
 .about{
 	padding-top: 5vh;
-	height: 100vh;
 	width:100vw;
-	margin: 80px auto;
-	text-align: center;
+	height: 100vh;
+	background-color: white;
 }
 
 .about-content{

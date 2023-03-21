@@ -92,7 +92,8 @@ class SpendingCategoryEditMultiForm(MultiModelForm):
 
 
 class LogInForm(forms.Form):
-    email = forms.EmailField(label='Email', required=True, validators=[validators.EmailValidator(message="Invalid Email")])
+    email = forms.EmailField(label='Email', required=True, validators=[
+                             validators.EmailValidator(message="Invalid Email")])
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
 
 
@@ -104,18 +105,18 @@ class SignUpForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email']
-        
+
     email = forms.EmailField(label='Email')
     first_name = forms.CharField(label='First Name')
     last_name = forms.CharField(label='Last Name')
-    
+
     new_password = forms.CharField(label='Password', widget=forms.PasswordInput(), validators=[RegexValidator(
         regex=r'^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).*$',
         message='Password must contain an uppercase character, a lowercase character and a number'
     )])
     password_confirmation = forms.CharField(
         label='Password confirmation', widget=forms.PasswordInput())
-    
+
     reference_code = forms.CharField(required=False, label="Reference Code")
 
     def check_reference_code(self):
@@ -130,14 +131,15 @@ class SignUpForm(forms.ModelForm):
             return None
 
         referre_name, referrer_id = referrer_data
-        referrer = User.objects.filter(first_name=referre_name, id=int(referrer_id))
+        referrer = User.objects.filter(
+            first_name=referre_name, id=int(referrer_id))
 
         if not referrer:
             self.add_error('reference_code',
                            'Please check the reference code. Such user is not found!')
             return None
         return referrer[0]
-    
+
     def clean(self):
         super().clean()
         self.referrer = self.check_reference_code()
@@ -165,15 +167,7 @@ class SignUpForm(forms.ModelForm):
         return self.user
 
 
-
 class UpdateUserForm(forms.ModelForm):
-    email = forms.EmailField(required=True, widget=forms.TextInput(
-        attrs={'class': 'form-control'}))
-    first_name = forms.CharField(max_length=100, label='first_name', widget=forms.TextInput(
-        attrs={'class': 'form-control'}))
-    last_name = forms.CharField(max_length=100, label='last_name', widget=forms.TextInput(
-        attrs={'class': 'form-control'}))
-
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email']

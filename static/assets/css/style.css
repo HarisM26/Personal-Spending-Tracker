@@ -68,6 +68,9 @@ h3 {
   .doughnut-chart-container {
     width: 45%;
   }
+  #news-main-card {
+    padding-right: 30px;
+  }
 }
 
 @media screen and (max-width: 550px) {
@@ -84,6 +87,11 @@ h3 {
   height: 64px;
   flex-shrink: 0;
   flex-grow: 0;
+}
+
+.card-box-shadow {
+  margin-bottom: 8px;
+  box-shadow: 2px 3px 5px var(--color-card-border);
 }
 
 .report .info-card h6,
@@ -117,6 +125,10 @@ h3 {
 .total-income-card .card-icon {
   color: var(--color-default);
   background: rgb(135, 229, 135);
+}
+
+#news-main-card {
+  border: none;
 }
 
 .largest-category-card .card-icon {
@@ -558,3 +570,40 @@ h3 {
   }
 }
 /*======================================*/
+
+/*=Profile*/
+#unique-reference {
+  background-color: var(--color-light);
+  font-size: 18px;
+  color: #02033e;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  border-radius: 3px;
+  padding: 8px;
+  margin-left: 3px;
+}
+#unique-reference-paragraph {
+  border: solid;
+  border-width: 1px;
+  border-radius: 5px;
+  padding: 8px;
+  border-color: var(--color-card-border);
+  box-shadow: 2px 3px 5px var(--color-card-border);
+}
+#delete-account-container {
+  margin-top: 80px;
+  background-color: rgba(242, 242, 242, 0.877);
+}
+#delete-account-btn {
+  background-color: var(--color-white);
+  color: red;
+}
+
+#delete-account-btn:hover {
+  color: var(--color-white);
+  background-color: red;
+}
+
+#save-reset-btn-container {
+  margin-top: 18px;
+}
+/*====================================*/
