@@ -114,6 +114,7 @@ def create_default_categories(user):
 
 def check_league(request):
     user = request.user
+    league_before_check = user.league_status
     if (user.league_status == 'bronze' and int(user.points) >= 200):
         user.league_status = 'silver'
         user.save()
@@ -134,7 +135,8 @@ def check_league(request):
         user.save()
         messages.success(
             request, "Congradulations! You have reached the final Diamond League. You will shortly recieve a present from us!")
-    EmailSender().send_league_status_change_email(user)
+    if league_before_check != user.league_status:
+        EmailSender().send_league_status_change_email(user)
 
 
 def get_percentage_of_limit_used(limit):
