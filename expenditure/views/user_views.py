@@ -96,6 +96,7 @@ def leaderboard(request):
     user_overall_place = users.filter(
         points__gt=request.user.points).count() + 1
 
+
     users = users.filter(
         league_status=request.user.league_status).order_by('-points')
     user_place = users.filter(points__gt=request.user.points).count() + 1
