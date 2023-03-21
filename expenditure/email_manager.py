@@ -13,6 +13,7 @@ class EmailSender():
     APPROCHING_LIMIT_TEMPLATE = 'emails/approaching_limit_email.html'
     REACHED_LIMIT_TEMPLATE = 'emails/reached_limit_email.html'
     CUSTOMER_SERVICE_REPLY_TEMPLATE = 'emails/customer_service_reply_email.html'
+    NEW_LEAGUE_REACHED_TEMPLATE = 'emails/new_league_reached_email.html'
 
     # message = "Thank you for signing up with us."
     # user_email=form.cleaned_data.get('email')
@@ -100,6 +101,19 @@ class EmailSender():
             [user.email],
             subject,
             self.REACHED_LIMIT_TEMPLATE,
+            context,
+        )
+
+    def send_league_status_change_email(self, user):
+        subject = "You have changed leagues!"
+        context = {
+            'first_name': user.first_name,
+            'league_name': user.league_status.upper(),
+        }
+        self.send_email(
+            [user.email],
+            subject,
+            self.NEW_LEAGUE_REACHED_TEMPLATE,
             context,
         )
 
