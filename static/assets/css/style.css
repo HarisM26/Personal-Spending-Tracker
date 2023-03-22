@@ -607,3 +607,10 @@ h3 {
   margin-top: 18px;
 }
 /*====================================*/
+
+/* Searched friends*/
+#searched-friends {
+  text-decoration: none;
+  color: inherit;
+}
+/*======================================*/
