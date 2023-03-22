@@ -93,18 +93,27 @@ def leaderboard(request):
         league_status=request.user.league_status).order_by('-points')
     user_place = users.filter(points__gt=request.user.points).count() + 1
 
-    if (users.filter(points__gte=request.user.points).last().points == request.user.points):
-        user_overall_place += 1
-        user_place += 1
+    # if (users.filter(points__gte=request.user.points).last().points == request.user.points):
+    #     user_overall_place += 1
+    #     user_place += 1
+
+    pedestal = []
+    for i in range(3):
+        try:
+            pedestal.append(users[i])
+        except IndexError:
+            pedestal.append('None')
+
 
     context = {
         'num_top_users': num_top_users,
         'users': users[:num_top_users],
         'user_place': user_place,
         'user_overall_place': user_overall_place,
-        'first_place':users[0],
-        'second_place':users[1],
-        'third_place':users[2],
+        'pedestal': pedestal,
+        'first_place':pedestal[0],
+        'second_place':pedestal[1],
+        'third_place':pedestal[2],
         'messages': messages.get_messages(request),
     }
     return render(request, 'leaderboard.html', context=context)
