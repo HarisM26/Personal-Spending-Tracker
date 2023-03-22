@@ -13,6 +13,9 @@ from .email_manager import EmailSender
 
 
 """Inspiration taken from https://groups.google.com/g/django-developers/c/LHnM_2jnZOM/m/8-oK6CXyEAAJ"""
+"""
+TODO: Add some sort of constants for league bounds
+"""
 
 
 def not_future(val):
@@ -136,7 +139,25 @@ def check_league(request):
         messages.success(
             request, "Congradulations! You have reached the final Diamond League. You will shortly recieve a present from us!")
     if league_before_check != user.league_status:
-        EmailSender(user).send_league_status_change_email(user)
+        EmailSender().send_league_status_change_email(user)
+
+
+def request_less_check_league(user):
+    """
+        Used by seeder
+    """
+    if (int(user.points) >= 200 and int(user.points) <= 600):
+        user.league_status = 'silver'
+        user.save()
+    elif (int(user.points) >= 600) and (int(user.points) <= 1800):
+        user.league_status = 'gold'
+        user.save()
+    elif (int(user.points) >= 1800 and int(user.points) <= 5000):
+        user.league_status = 'platinum'
+        user.save()
+    elif (int(user.points) >= 5000):
+        user.league_status = 'diamond'
+        user.save()
 
 
 def get_percentage_of_limit_used(limit):
