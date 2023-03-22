@@ -73,11 +73,11 @@ class SignUpViewTestCase(TestCase,LogInTester):
 	
 	def test_successful_referred_sign_up(self):
 		referred_input = {
-		    'first_name': 'Larry',
-	        'last_name': 'Lewis',
-	        'email': 'larrylewis@example.org',
-	        'new_password': 'Password123',
-	        'password_confirmation': 'Password123',
+			'first_name': 'Larry',
+			'last_name': 'Lewis',
+			'email': 'larrylewis@example.org',
+			'new_password': 'Password123',
+			'password_confirmation': 'Password123',
 			'reference_code': self.user.user_id
 		}
 		response = self.client.post(self.url, referred_input, follow=True)
