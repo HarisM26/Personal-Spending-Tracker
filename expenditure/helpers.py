@@ -136,7 +136,7 @@ def check_league(request):
         messages.success(
             request, "Congradulations! You have reached the final Diamond League. You will shortly recieve a present from us!")
     if league_before_check != user.league_status:
-        EmailSender().send_league_status_change_email(user)
+        EmailSender(user).send_league_status_change_email(user)
 
 
 def get_percentage_of_limit_used(limit):

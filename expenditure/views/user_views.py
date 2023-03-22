@@ -26,7 +26,7 @@ def sign_up(request):
             login(request, user)
             user.points += 10
             user.save()
-            EmailSender().send_welcome_email(user)
+            EmailSender(user).send_welcome_email(user)
             create_default_categories(user)
             return redirect('feed')
     else:
