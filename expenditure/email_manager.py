@@ -44,13 +44,17 @@ class EmailSender():
     # )
     # email.attach_alternative(html_content, "text/html")
 
-    def __init__(self):
-        pass
+    def __init__(self, user):
+        self.send_email_permission_denied = True
+        if user.toggle_email:
+            self.send_email_permission_denied = False
 
     def send_email(self, to, subject, template_name, context):
         """
-        Sends an email to the given email address.
+        Sends an email to the given email address if permission to send.
         """
+        if self.send_email_permission_denied:
+            return
         html_content = render_to_string(template_name, context)
         text_content = strip_tags(html_content)
         email = EmailMultiAlternatives(
