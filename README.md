@@ -108,4 +108,6 @@ IMAGES:
 TEMPLATES:
 
 
+- HTML email templates inspired by "Responsive HTML Email" Youtube channel: https://www.youtube.com/watch?v=_G5OuTmuU0Q
+
 OTHER

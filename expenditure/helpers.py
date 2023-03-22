@@ -9,9 +9,13 @@ from decimal import Decimal
 from expenditure.models.notification import Notification
 from expenditure.models.categories import SpendingCategory
 from expenditure.models.limit import Limit
+from .email_manager import EmailSender
 
 
 """Inspiration taken from https://groups.google.com/g/django-developers/c/LHnM_2jnZOM/m/8-oK6CXyEAAJ"""
+"""
+TODO: Add some sort of constants for league bounds
+"""
 
 
 def not_future(val):
@@ -123,6 +127,7 @@ def sending_email(message, user):
 
 def check_league(request):
     user = request.user
+    league_before_check = user.league_status
     if (user.league_status == 'bronze' and int(user.points) >= 200):
         user.league_status = 'silver'
         user.save()
@@ -155,7 +160,27 @@ def check_league(request):
         user.save()
         messages.success(
             request, "Congratulations! You have reached the final Diamond League. You will shortly recieve a present from us!")
-        sending_email(
-            'You have reached the final Diamond League! You can now get unlimited access to tips from our financial advisors and a chance to meet one!',
-            user
-        )
+    if league_before_check != user.league_status:
+        EmailSender().send_league_status_change_email(user)
+
+
+def request_less_check_league(user):
+    """
+        Used by seeder
+    """
+    if (int(user.points) >= 200 and int(user.points) <= 600):
+        user.league_status = 'silver'
+        user.save()
+    elif (int(user.points) >= 600) and (int(user.points) <= 1800):
+        user.league_status = 'gold'
+        user.save()
+    elif (int(user.points) >= 1800 and int(user.points) <= 5000):
+        user.league_status = 'platinum'
+        user.save()
+    elif (int(user.points) >= 5000):
+        user.league_status = 'diamond'
+        user.save()
+
+
+def get_percentage_of_limit_used(limit):
+    return ((Decimal(limit.limit_amount) - Decimal(limit.remaining_amount)) / Decimal(limit.limit_amount)) * 100

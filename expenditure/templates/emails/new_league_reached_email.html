@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Modern HTML Email Template</title>
+    <title>VOID Notification - Limit approaching</title>
     <style type="text/css">
       body {
         margin: 0;
@@ -24,6 +24,22 @@
         table-layout: fixed;
         background-color: #cccccc;
         padding-bottom: 60px;
+      }
+      .container {
+        position: relative;
+        text-align: center;
+        color: #ffffff;
+      }
+      .container .center-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+      .message-content {
+        line-height: 23px;
+        font-size: 15px;
+        padding: 5px 0 15px;
       }
       .main {
         background-color: #ffffff;
@@ -173,154 +189,17 @@
           </td>
         </tr>
 
-        <!-- THREE COLUMN SECTION -->
-
-        <tr>
-          <td>
-            <table width="100%">
-              <tr>
-                <td class="three-columns">
-                  <table class="content">
-                    <tr>
-                      <td class="padding">
-                        <table class="column">
-                          <tr>
-                            <td>
-                              <a href="#">
-                                <img
-                                  src="https://i.ibb.co/YjD2c5M/pin.png"
-                                  alt=""
-                                  width="130"
-                                  style="max-width: 130px"
-                                />
-                              </a>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <p style="font-weight: bold; font-size: 17px">
-                                Track
-                              </p>
-                              <p>Add all your expenses with ease.</p>
-                            </td>
-                          </tr>
-                        </table>
-                        <table class="column">
-                          <tr>
-                            <td>
-                              <a href="#">
-                                <img
-                                  src="https://i.ibb.co/xjzwhB1/categorise.png"
-                                  alt=""
-                                  width="130"
-                                  style="max-width: 130px"
-                                />
-                              </a>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <p style="font-weight: bold; font-size: 17px">
-                                Organise
-                              </p>
-                              <p>Add each expense to a category.</p>
-                            </td>
-                          </tr>
-                        </table>
-                        <table class="column">
-                          <tr>
-                            <td>
-                              <a href="#">
-                                <img
-                                  src="https://i.ibb.co/P1Cbxjb/finetune.png"
-                                  alt=""
-                                  width="130"
-                                  style="max-width: 130px"
-                                />
-                              </a>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>
-                              <p style="font-weight: bold; font-size: 17px">
-                                Personalise
-                              </p>
-                              <p>Fine tune the limits for each category.</p>
-                            </td>
-                          </tr>
-                        </table>
-                      </td>
-                    </tr>
-                  </table>
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-
-        <!-- TWO COLUMN SECTION -->
-
-        <tr>
-          <td style="background-color: #262930; color: #ffffff">
-            <table width="100%">
-              <tr>
-                <td class="two-columns final">
-                  <table class="column">
-                    <tr>
-                      <td class="padding">
-                        <table class="content">
-                          <tr>
-                            <td>
-                              <a href="#">
-                                <img
-                                  src="https://i.ibb.co/Z2KdNG7/pound.jpg"
-                                  alt=""
-                                  width="260px"
-                                  max-width="260px"
-                                />
-                              </a>
-                            </td>
-                          </tr>
-                        </table>
-                      </td>
-                    </tr>
-                  </table>
-
-                  <table class="column">
-                    <tr>
-                      <td class="padding">
-                        <table class="content">
-                          <tr>
-                            <td>
-                              <p style="font-weight: bold; font-size: 18px">
-                                Read our blog
-                              </p>
-                              <p>
-                                Stay up to date with all the latest advice and
-                                tips on how to save and build your wealth.
-                              </p>
-                              <a href="#" class="button">Read more</a>
-                            </td>
-                          </tr>
-                        </table>
-                      </td>
-                    </tr>
-                  </table>
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-
-        <!-- TITLE, TEXT & BUTTON -->
-
+        <!-- MAIN MESSAGE SECTION -->
         <tr>
           <td style="padding: 15px 0 15px">
             <table width="100%">
               <tr>
                 <td style="text-align: center; padding: 15px">
                   <p style="font-size: 20px; font-weight: bold">
-                    Something interesting to add here
+                    {{first_name}}, you have changed leagues!
+                  </p>
+                  <p style="font-size: 17px; font-weight: bold">
+                    You are now in {{league_name}}!
                   </p>
                   <p
                     style="
@@ -329,16 +208,35 @@
                       padding: 5px 0 15px;
                     "
                   >
-                    Lorem Ipsum yadi yadi ya. There is so much good everywhere,
-                    positivity all the way. Have an ice-cream or play a football
-                    game with mates. Either way all is good good good.
-                    Professional jargon continued. So mich fascination and money
-                    in your wallet.
+                    Keep collecting VOID points and reach your goals!
                   </p>
-                  <a href="#" class="button-dark"> Read more </a>
+                  <p
+                    style="
+                      line-height: 23px;
+                      font-size: 15px;
+                      padding: 5px 0 15px;
+                      font-weight: bold;
+                    "
+                  >
+                    The Void Money Tracker Team
+                  </p>
                 </td>
               </tr>
             </table>
+          </td>
+        </tr>
+
+        <!-- SECTION BREAK -->
+        <tr>
+          <td>
+            <a href="#"
+              ><img
+                src="https://i.ibb.co/Vm1J4Dd/bkg2.jpg"
+                alt=""
+                width="600"
+                style="max-width: 100%; height: 30px"
+              />
+            </a>
           </td>
         </tr>
 

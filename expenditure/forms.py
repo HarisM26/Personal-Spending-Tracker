@@ -1,12 +1,9 @@
 from django import forms
 from expenditure.models.categories import *
 from expenditure.models.transactions import *
-from django.contrib.auth.forms import UserCreationForm
 from django.core.validators import RegexValidator
-from django.core.exceptions import ValidationError
 from django.core import validators
 from bootstrap_datepicker_plus.widgets import DatePickerInput
-from datetime import datetime, date
 from .helpers import not_future
 from betterforms.multiform import MultiModelForm
 from django.contrib.auth import get_user_model
@@ -25,13 +22,6 @@ class SpendingTransactionForm(forms.ModelForm):
             'date': DatePickerInput(options={"format": "DD/MM/YYYY"}),
             'category': forms.HiddenInput(),
         }
-
-    # def clean_spending_date(self):
-    #     spending_date = self.cleaned_data.get('date')
-    #     current_date = date.today()
-    #     if spending_date > current_date:
-    #         self.add_error('date', 'The date of your outgoing outgoing transaction cannot be in the future')
-    #     return spending_date
 
 
 class QuickSpendingTransactionForm(forms.ModelForm):

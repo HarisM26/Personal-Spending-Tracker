@@ -48,7 +48,6 @@ def add_quick_spending(request):
 def add_spending_transaction(request, request_id):
     category = get_object_or_404(SpendingCategory, id=request_id)
     current_user = request.user
-    # category_limit = category.limit
     if request.method == 'POST':
         create_transaction_form = SpendingTransactionForm(
             request.POST, request.FILES)
@@ -93,8 +92,6 @@ def add_income_transaction(request, request_id):
             transaction = IncomeTransaction.objects.create(
                 title=title, date=date, amount=amount, notes=notes, income_category=category
             )
-            # transaction.save()
-            # Add points for creating and filling fields in new transaction
             current_user.points += transaction.get_points()
             current_user.save()
             messages.add_message(request, messages.SUCCESS,
@@ -201,4 +198,3 @@ def list_incomings(request):
         'incomings': incomings,
     }
     return render(request, 'incomings.html', context=context)
-# TODO:this might not be functional check and delete

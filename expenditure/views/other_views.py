@@ -5,8 +5,6 @@ from expenditure.helpers import *
 from django.contrib.auth.decorators import login_required
 from expenditure.views.transaction_views import add_quick_spending
 from expenditure.views.report_views import feed_page_report
-from expenditure.views.user_views import toggle_privacy
-import decimal
 
 
 @login_prohibited
@@ -30,7 +28,7 @@ def feed(request):
 
     context = {
         'categories_within_limit': feed_report_context['categories_within_limit'],
-        'total_budget': feed_report_context['total_budget'],  # not used yet
+        'total_budget': feed_report_context['total_budget'],
         'remaining_budget': feed_report_context['remaining_budget'],
         'total_spending': feed_report_context['total_spending'],
         'total_income': feed_report_context['total_income'],
@@ -55,5 +53,5 @@ def view_settings(request):
     toggle = current_user.toggle_notification
     toggle_priv = current_user.toggle_privacy
     toggle_email = current_user.toggle_email
-    
-    return render(request, 'settings.html', {'toggle': toggle, 'toggle_priv':toggle_priv, 'toggle_email':toggle_email})
+
+    return render(request, 'settings.html', {'toggle': toggle, 'toggle_priv': toggle_priv, 'toggle_email': toggle_email})

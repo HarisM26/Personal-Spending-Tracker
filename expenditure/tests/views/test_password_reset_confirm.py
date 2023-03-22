@@ -20,13 +20,6 @@ class PasswordResetCompleteTest(TestCase):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 302)
 
-    """ /Fails with no template used although works on server/
-
-    def test_correct_template_shown(self):
-        response = self.client.get(self.url)
-        self.assertTemplateUsed(response, 'password_reset_form.html')
-    """
-
     """ /Unsure why test fails - 
     def test_change_valid_password(self):
         response = self.client.post(self.url, {
