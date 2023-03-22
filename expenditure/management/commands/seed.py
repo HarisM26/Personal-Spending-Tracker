@@ -87,6 +87,7 @@ class Command(BaseCommand):
         self.add_default_categories(user)
         self.add_spending_categories(user)
         request_less_check_league(user)
+        self.add_followings(user)
 
     def add_default_categories(self, user):
         create_deafult_categories(user)
@@ -134,8 +135,7 @@ class Command(BaseCommand):
                     notes=note,
                 )
 
-
-"""
+    """
     def seed_users(self):
         self.stdout.write(self.style.SUCCESS('Seeding users...'))
         new_seeded_users = 0
@@ -162,15 +162,15 @@ class Command(BaseCommand):
         )
         user.set_password(self.DEFAULT_PASSWORD)
         self.add_followings(user, new_seeded_users)
+    """
 
-    def add_followings(self, user, new_seeded_users):
+    def add_followings(self, user):
         self.stdout.write(self.style.SUCCESS('Adding followings...'))
-        num_following = randint(0, new_seeded_users)
         all_users = list(User.objects.all())
+        num_following = randint(0, len(all_users) - 1)
         random_users = sample(all_users, num_following)
         for random_user in random_users:
             user.toggle_follow(random_user)
-"""
 
 
 def generate_email(first_name, last_name):
