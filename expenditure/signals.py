@@ -17,6 +17,14 @@ def remove_incometransaction_points(instance, *args, **kwargs):
     current_user.points -= 3
     current_user.save()
 
+@receiver(post_delete, sender=SpendingTransaction)
+def remove_spendingtransaction_points(instance, *args, **kwargs):
+    current_user = instance.spending_category.user
+    points = instance.get_points()
+    instance.spending_category.limit.remaining_amount += instance.amount
+    instance.spending_category.limit.save()
+    current_user.points -= points
+    current_user.save()
 
 @receiver(post_save, sender=SpendingTransaction)
 def update_remaining_amount(instance, created, *args, **kwargs):
@@ -31,6 +39,12 @@ def update_remaining_amount(instance, created, *args, **kwargs):
         limit = instance.spending_category.limit
         limit.remaining_amount = limit.limit_amount-total
         limit.save()
+
+""" @receiver(post_delete, sender=SpendingCategory)
+def remove_category_and_its_transactions(instance, *args, **kwargs):
+    all_category_transactions = SpendingTransaction.objects.filter(spending_category=instance)
+    for transaction in all_category_transactions:
+        transaction.delete() """
 
 @receiver(post_save, sender=SpendingCategory)
 def update_remaining_when_category_edited(instance, created, *args, **kwargs):

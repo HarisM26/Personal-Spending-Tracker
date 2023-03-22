@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 
 @login_required
 def add_quick_spending(request):
+    current_user = request.user
     spending_catgeory_queryset = SpendingCategory.objects.filter(
         user=request.user)
 
@@ -31,6 +32,8 @@ def add_quick_spending(request):
                 is_current=True,
                 date=today
             )
+            current_user.points += transaction.get_points()
+            current_user.save()
             messages.add_message(request, messages.SUCCESS,
                                  "Transaction created!")
             form = QuickSpendingTransactionForm(
@@ -168,13 +171,7 @@ def edit_incoming_transaction(request, id):
 @login_required
 def delete_spending_transaction(request, id):
     spending = get_object_or_404(SpendingTransaction, id=id)
-    current_user = request.user
-    points = spending.get_points()
-    spending.spending_category.limit.remaining_amount += spending.amount
-    spending.spending_category.limit.save()
     spending.delete()
-    current_user.points -= points
-    current_user.save()
     messages.success(request, "transaction deleted successfully!")
     return HttpResponseRedirect(reverse('spending'))
 
