@@ -157,7 +157,7 @@ h3 {
   display: inline-block;
 }
 
-#toggle_notification {
+.toggle-container {
   font-weight: 600;
   display: flex;
   align-items: center;

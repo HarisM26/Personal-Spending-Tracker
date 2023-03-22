@@ -1,7 +1,7 @@
 {% extends 'base_content.html' %}
 {% block content %}
 
-
+<section class="content-section">
 <div class="card">
     <div class="text-center">
         <p class="profile-statistics">
@@ -10,51 +10,61 @@
         <br>
         <br>
             {{user.followee_count}} Following &emsp;
-            {{user.follower_count}} Followers
+            {{user.follower_count}} Followers &emsp;
+            {{user.points}} Points
         </p>
-        <p>
-        	<h1>Your Friends</h1>
-        	<h10>{{r}}<h10>
-        </p>
-               
-        
-        
-        
-<!-- Search bar implementation -->
-        </br></br>
-    	<form action ="." method ="GET" value ="{{request.GET.q}}"><input type ="text" name ="q" value ="{{request.GET.q}}" placeholder="Search users..."/>
-    	<input type ="submit" name="submit" value="Search"/ class="btn btn-primary">
-    	</form>
-    	{% if submitbutton == 'Search' and request.GET.q != "" %}
-    	{% if results %}
-    	<h1> Here are the users for <b>{{request.GET.q}}</b></h1>
-    	<br/>    
-    	   		
-    	{% for r in results %}
-    	<form action = "{% url 'follow_toggle' id=user.id %}" method="get">
-    	    <h10>{{r}}<h10> 
-    	    {% if following %}
-    	    	<button class="btn btn-secondary">unadd</button>
-    	    {% else %}
-    	    	<button class="btn btn-primary">add</button>	
+        <h1>Your Friends</h1>
+            {% if following %}
+            {% for f in following %}
+        	<h10><a href="friends_profile/{{f.id}}">{{f.first_name}} {{f.last_name}}</a></h10>
+        	</br>
+            {% endfor %}
+            {% else %}
+    	    Search friends below
     	    {% endif %}
-    	    <button class="btn btn-primary">
-    	    	<a href="friends_profile/{{r.id}}">view profile</a>
-    	    </button>
-    	    <br>
-    	</form>
-    	
-    	
-    	{% endfor %}
-    	{% else %}
-    	No user found
-    	{% endif %}
-    	{% endif %}    	
+    </div>
     
-            	
-    
+        
+	<div style="text-align: center;">
+		<p>
+			<form action ="." method ="GET" value ="{{request.GET.q}}"><input type ="text" name ="q" value ="{{request.GET.q}}" placeholder="Search users..."/>
+			<input type ="submit" class="btn btn-secondary" name="submit" value="Search"/>
+			</form>
+			
+			{% if submitbutton == 'Search' and request.GET.q != "" %}
+			{% if results %}
+			        <h1> Here are the users for <b>{{request.GET.q}}</b></h1>
+			        <br/><br/>
+			
+			{% for r in results %}
+    	                {% if r.is_private == True %}
+    	                        <h10><b>{{r.first_name}} {{r.last_name}}</b> is a private user</h10> &emsp;
+    	                        </br>
+    	                        
+    	                        <a>--------------------------------------------------------------------------</a>
+    	                
+    	   
+    	                {% else %}
+				<form action = "{% url 'follow_toggle' id=r.id %}" method="get">
+					<h10><a href="friends_profile/{{r.id}}">{{r.first_name}} {{r.last_name}}</a></h10> &emsp;
+					{% if r in following %}
+					<button class="btn btn-secondary" style="margin-left: 20px;">Unadd</button>
+					{% else %}
+					<button class="btn btn-secondary" style="margin-left: 20px;">Add</button>
+					{% endif %}
+					</br>			<a>--------------------------------------------------------------------------</a>
+					</form>
+					
+					{% endif %}
+			{% endfor %}
+			{% else %}
+			No user found
+			{% endif %}
+			{% endif %}    	
+		</p>
 
+	</div>
 </div>
-</div>
+</section>
 
 {% endblock %}

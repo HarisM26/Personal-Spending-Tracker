@@ -4,7 +4,6 @@ from django.contrib.auth.models import AbstractBaseUser, UserManager, Permission
 from django.contrib.auth.base_user import BaseUserManager
 from django.utils.translation import gettext_lazy as _
 from expenditure.choices import TOGGLE_CHOICE, LEAGUE
-from libgravatar import Gravatar
 
 
 class UserManager(BaseUserManager):
@@ -69,7 +68,15 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     is_active = models.BooleanField(default=True)
 
+    is_private = models.BooleanField(default=False)
+
     toggle_notification = models.CharField(
+        max_length=3, choices=TOGGLE_CHOICE, default='ON')
+
+    toggle_privacy = models.CharField(
+        max_length=3, choices=TOGGLE_CHOICE, default='OFF')
+
+    toggle_email = models.CharField(
         max_length=3, choices=TOGGLE_CHOICE, default='ON')
 
     USERNAME_FIELD = 'email'
@@ -79,16 +86,6 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def full_name(self):
         return f'{self.first_name} {self.last_name}'
-
-    def gravatar(self, size=120):
-        """Return a URL to the user's gravatar."""
-        gravatar_object = Gravatar(self.email)
-        gravatar_url = gravatar_object.get_image(size=size, default='mp')
-        return gravatar_url
-
-    def mini_gravatar(self):
-        """Return a URL to a miniature version of the user's gravatar."""
-        return self.gravatar(size=60)
 
     def toggle_follow(self, followee):
         if followee == self:
@@ -106,6 +103,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def is_following(self, user):
         return user in self.followees.all()
+
+    def show_following(self):
+        return self.followees.all()
 
     def follower_count(self):
         return self.followers.count()

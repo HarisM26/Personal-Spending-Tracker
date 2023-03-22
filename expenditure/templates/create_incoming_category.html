@@ -10,6 +10,7 @@
             <li class="breadcrumb-item"> <a>Create Category</a></li>
         </ol>
     </nav>
+    {%include 'partials/messages.html' %}
     <div class="main-card">
         <form action="{% url 'create_incoming_category' %}" method="post">
             {% csrf_token %}

@@ -36,20 +36,20 @@ urlpatterns = [
     path('sign_up/', user_views.sign_up, name='sign_up'),
     path('log_in/', user_views.log_in, name='log_in'),
     path('log_out/', user_views.log_out, name='log_out'),
-    path('add_friend/', user_views.add_friend, name='add_friend'),
-    path('friends/', user_views.friends, name='friends'),
-    path('friends/friends_profile/<int:id>',
+    path('search_friends/', user_views.search_friends, name='search_friends'),
+    path('search_friends/friends_profile/<int:id>',
          user_views.show_friends_profile, name='friends_profile'),
-    path('friends/follow_toggle/<int:id>',
+    path('search_friends/follow_toggle/<int:id>',
          user_views.follow_toggle, name='follow_toggle'),
     path('leaderboard/', user_views.leaderboard, name='leaderboard'),
     path('profile/', user_views.profile, name='user_profile'),
     path('password-change/', user_views.ChangePasswordView.as_view(),
          name='password_change'),
     path('forgot_password/', user_views.forgot_password, name='forgot_password'),
-    path('delete_account/',user_views.delete_account, name='delete_account'),
-    path('search_friends/', user_views.search_friends, name='search_friends'),
-    
+    path('delete_account/', user_views.delete_account, name='delete_account'),
+    path('settings/toggle_privacy',
+         user_views.toggle_privacy, name='toggle_privacy'),
+
 
 
     # ========== Notification urls =============
@@ -59,6 +59,8 @@ urlpatterns = [
          name='view_selected_notification'),
     path('notification_page/', notification_views.notification_page,
          name='notification_page'),
+    path('settings/toggle_email',
+         notification_views.toggle_email, name='toggle_email'),
 
 
     # ========= Category urls ===========

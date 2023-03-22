@@ -13,6 +13,7 @@
             <li class="breadcrumb-item"> <a>Add Transaction</a></li>
           </ol>
       </nav>
+      {% include 'partials/messages.html' %}
     <div class="main-card">
         <form action="{% url 'add_income_transaction' request_id %}" method="post">
             {% csrf_token %}

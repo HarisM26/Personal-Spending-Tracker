@@ -13,22 +13,26 @@ for (i = 0; i < toggler.length; i++) {
   });
 }
 
+//toggle notifications
 
-const toggle_anchor = document.getElementById("toggle_anchor");
-
-const change_toggle_color = () =>{
-  if (toggle_anchor.textContent.trim() == "ON"){
-    toggle_anchor.style.color = `rgb(${18}, ${158}, ${5})`
+const change_toggle_color = (element) =>{
+  if (element.textContent.trim() == "ON"){
+    element.style.color = `rgb(${18}, ${158}, ${5})`
   }
   else {
-    toggle_anchor.style.color = `rgb(${158}, ${5}, ${5})`
+    element.style.color = `rgb(${158}, ${5}, ${5})`
   }
 }
 
-// check if html has loaded - then call listener
-if(toggle_anchor !== "undefined" && toggle_anchor !== null){
-  toggle_anchor.addEventListener('click' , change_toggle_color())
-}
+const toggle_anchor = Array.from(document.getElementsByClassName("toggle_anchor"));
+
+toggle_anchor.forEach( ( button, index ) =>
+{
+  const element = toggle_anchor[index]  
+    button.addEventListener("click",  
+      change_toggle_color(element)
+    )
+  });  
 
 if(document.getElementById("monthly-chart")){
   generateMonthlyChart("monthly-chart")

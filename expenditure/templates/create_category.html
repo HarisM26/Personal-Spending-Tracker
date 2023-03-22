@@ -3,7 +3,6 @@
 {% block content %}
 {{ form.media }}
 <section class="content-section" >
-    {%include 'partials/messages.html' %}
     <div>
         <h1>Create Category</h1>
     </div>
@@ -14,6 +13,7 @@
             <li class="breadcrumb-item"> <a>Create Category</a></li>
         </ol>
     </nav>
+    {%include 'partials/messages.html' %}
     <div class="main-card">
         <form action="{% url 'create_category' %}" method="post">
             {% csrf_token %}

@@ -64,7 +64,7 @@ def add_spending_transaction(request, request_id):
             current_user.save()
             messages.add_message(request, messages.SUCCESS,
                                  "Transaction created!")
-            return HttpResponseRedirect(reverse('spending'))
+            return HttpResponseRedirect(reverse('add_spending_transaction', args=[request_id]))
     else:
         create_transaction_form = SpendingTransactionForm()
 
@@ -96,7 +96,7 @@ def add_income_transaction(request, request_id):
             current_user.save()
             messages.add_message(request, messages.SUCCESS,
                                  "Transaction created!")
-            return HttpResponseRedirect(reverse('incomings'))
+            return HttpResponseRedirect(reverse('add_income_transaction', args=[request_id]))
     else:
         create_transaction_form = IncomeTransactionForm()
 
