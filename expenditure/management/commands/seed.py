@@ -2,28 +2,106 @@ from django.core.management.base import BaseCommand, CommandError
 from django.db import IntegrityError
 
 from expenditure.models.user import User
+from expenditure.models.categories import SpendingCategory
+from expenditure.models.limit import Limit
+from expenditure.models.transactions import SpendingTransaction
 from random import randint, choice, sample
+from datetime import datetime, timedelta, date
+from django.shortcuts import get_object_or_404
 
-
+from decimal import Decimal
 from faker import Faker
+from faker.providers import DynamicProvider
 
 
 class Command(BaseCommand):
 
     help = 'Seeds database with fake data'
 
-    USER_COUNT = 250
+    USERS_PER_LEAGUE = 20
     DEFAULT_PASSWORD = 'SeededUserPassword123'
+    LEAGUE_BOUNDS = [(0, 200), (200, 600), (600, 1800),
+                     (1800, 5000), (5000, 10000)]
 
     def __init__(self):
         super().__init__()
+        category_name_provider = DynamicProvider(
+            provider_name="category_name",
+            elements=["Private", "Self-improvement", "Health",
+                      "Clothing", "Online shopping", "Other"]
+        )
+        transaction_title_provider = DynamicProvider(
+            provider_name="transaction_title",
+            elements=["Food", "Night out", "Friends",
+                      "Travel", "Online shopping", "Other"]
+        )
         self.faker = Faker('en_GB')
+        self.faker.add_provider(category_name_provider)
+        self.faker.add_provider(transaction_title_provider)
+
+        fake = Faker()
 
     def handle(self, *args, **options):
         self.seed_users()
         self.users = User.objects.all()
         self.stdout.write(self.style.SUCCESS('Users seeded'))
 
+    def seed_users(self):
+        self.stdout.write(self.style.SUCCESS('Seeding users'))
+        for bound in self.LEAGUE_BOUNDS:
+            for i in range(self.USERS_PER_LEAGUE):
+                self.create_user(bound)
+                self.stdout.write(self.style.SUCCESS(
+                    f'User {i} seeded'))
+
+    def create_user(self, bound):
+        first_name = self.faker.first_name()
+        last_name = self.faker.last_name()
+        email = generate_email(first_name, last_name)
+        user = User.objects.create_user(
+            email=email,
+            first_name=first_name,
+            last_name=last_name,
+            password=self.DEFAULT_PASSWORD,
+            is_active=True,
+            is_staff=False,
+            toggle_email=False,
+        )
+        point = randint(bound[0], bound[1])
+        user.set_password(self.DEFAULT_PASSWORD)
+        self.add_spending_categories(user)
+
+    def add_spending_categories(self, user):
+        for i in range(randint(1, 2)):
+            name = self.faker.category_name()
+            limit_amount = Decimal(randint(1, 25) * 100)
+            limit = Limit.objects.create(
+                limit_amount=limit_amount,
+                start_date=date.today(),
+                end_date=datetime.now() + timedelta(days=30),
+                remaining_amount=limit_amount,
+            )
+            spending_category = SpendingCategory.objects.create(
+                user=user, name=name, limit=limit)
+            self.generate_transactions(spending_category)
+
+    def generate_transactions(self, spending_category):
+        num_transactions = randint(1, 10)
+        spending_category = get_object_or_404(
+            SpendingCategory, id=spending_category.id)
+        for i in range(num_transactions):
+            title = self.faker.transaction_title()
+            date = self.faker.date_between(start_date='-1y', end_date='now')
+            amount = generate_random_amount()
+            transaction = SpendingTransaction.objects.create(
+                title=self.faker.transaction_title(),
+                date=date,
+                amount=amount,
+                spending_category=spending_category,
+            )
+
+
+"""
     def seed_users(self):
         self.stdout.write(self.style.SUCCESS('Seeding users...'))
         new_seeded_users = 0
@@ -58,7 +136,12 @@ class Command(BaseCommand):
         random_users = sample(all_users, num_following)
         for random_user in random_users:
             user.toggle_follow(random_user)
+"""
 
 
 def generate_email(first_name, last_name):
     return '{}.{}@from.seed'.format(first_name.lower(), last_name.lower())
+
+
+def generate_random_amount():
+    return Decimal('%d.%d' % (randint(0, 999), randint(0, 99)))
