@@ -37,6 +37,10 @@ body {
 h3 {
   margin-top: 15px;
 }
+#categories-breakdown-container {
+  margin: 0px;
+  padding-top: 60px;
+}
 /*--------------------------------------------------------------
 # Main section
 --------------------------------------------------------------*/

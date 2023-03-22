@@ -57,7 +57,7 @@ window.onload = function(){
   }
 }
 
-
+// transaction modal
 const transaction = {
   date: "",
   title: "",

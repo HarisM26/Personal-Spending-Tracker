@@ -50,13 +50,6 @@ class IncomeTransactionForm(forms.ModelForm):
             'category': forms.HiddenInput(),
         }
 
-    # def clean_incoming_date(self):
-    #     incoming_date = self.cleaned_data.get('date')
-    #     current_date = date.today()
-    #     if incoming_date > current_date:
-    #         self.add_error('date', 'The date of your incoming transaction cannot be in the future')
-    #     return incoming_date
-
 
 class IncomeCategoryForm(forms.ModelForm):
     class Meta:

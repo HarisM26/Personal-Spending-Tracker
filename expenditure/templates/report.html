@@ -132,9 +132,10 @@
 </div>   
  <!-- End doughnut chart --> 
 
- <!--Categories by month-->
+ <h3 id="categories-breakdown-container">Categories Breakdown</h3>
+ <!--Spending categories by month-->
  <div class="categories-by-month">
-  <h4>Categories Breakdown</h4>
+  <h4>Spending</h4>
 {% regroup list_of_categories_and_transactions by spending_category as category_list %}
   {% for category in category_list %}
   
@@ -171,7 +172,48 @@
 {% empty %}
       <p>There are no transactions in this period of time.</p>
 {%endfor%}
-<!--End categories by month-->
+<!--End spending categories by month-->
+
+<!--Income categories by month-->
+<div class="categories-by-month">
+  <h4>Income</h4>
+{% regroup income_categories_and_transactions by income_category as category_list %}
+  {% for category in category_list %}
+  
+  <div>
+   <span>{{category.list|get_oldest_transaction_month|get_month}}&#44; {{category.list|get_oldest_transaction_year}}</span> </span> &#45;
+    <span>{{category.list|get_latest_transaction_month|get_month}}&#44; {{category.list|get_latest_transaction_year}}</span> 
+    
+  </div>
+<div class = "individual-category">
+  <ul id="myUL">
+    <li class="category_list"> 
+      <span id="category-name-tag" class="caret"><b>{{ category.grouper }}</b></span><br>
+      
+      <ul class="nested">
+        {% for transaction in category.list %}
+        <li class="transaction_list" data-bs-toggle="modal" data-bs-target="#transaction-detail-modal">
+          <div class="transaction-detail-container" data-bs-toggle="modal" data-bs-target="#transaction-detail-modal">
+          <div id="transaction-date">{{transaction.date}}</div>
+          <div id="transaction-title">{{transaction.title}}</div>
+          <div id="transaction-amount">&#163;{{transaction.amount|intcomma}}</div> 
+          <div id="transaction-category" hidden>{{transaction.income_category.name}}</div>
+          <div id="transaction-notes" hidden>{{transaction.notes}}</div>
+          {%if transaction.receipt%}
+          <img id="transaction-image" hidden src="{{transaction.receipt.url}}" alt="receipt">
+          {%endif%}
+          <div id="transaction-created" hidden>{{transaction.created}}</div>
+        </div>
+        </li>
+        {% endfor %}       
+      </ul>
+    </li>
+  </ul>
+</div>
+{% empty %}
+      <p>There are no transactions in this period of time.</p>
+{%endfor%}
+<!--End income categories by month-->
 
 </section>
 

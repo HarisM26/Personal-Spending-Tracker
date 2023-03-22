@@ -96,11 +96,20 @@ def get_list_of_categories_close_or_over_the_limit(user, from_date, to_date):
 
     return categories_over_the_budget, categories_close_to_the_budget
 
+
 def get_list_of_transactions_in_category(user, from_date, to_date):
     return SpendingTransaction.objects.select_related('spending_category').filter(
         date__gte=from_date,
         date__lte=to_date,
         spending_category__user=user
+    ).annotate(month=TruncMonth("date")).annotate(total=Sum("amount")).order_by("-date")
+
+
+def get_list_of_transactions_in_income_category(user, from_date, to_date):
+    return IncomeTransaction.objects.select_related('income_category').filter(
+        date__gte=from_date,
+        date__lte=to_date,
+        income_category__user=user
     ).annotate(month=TruncMonth("date")).annotate(total=Sum("amount")).order_by("-date")
 
 

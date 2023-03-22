@@ -35,6 +35,8 @@ def view_report(request):
         current_user, from_date, to_date)
     average_daily_spending = rm.get_average_daily_spending_within_time_frame(
         current_user, from_date, to_date)
+    income_categories_and_transactions = rm.get_list_of_transactions_in_income_category(
+        current_user, from_date, to_date)
 
     context = {
         "from_date": from_date,
@@ -46,6 +48,7 @@ def view_report(request):
         'list_of_categories_and_transactions': list_of_categories_and_transactions,
         'range_categories': range_categories,
         'average_daily_spending': average_daily_spending,
+        'income_categories_and_transactions': income_categories_and_transactions,
     }
     return render(request, 'report.html', context=context)
 
