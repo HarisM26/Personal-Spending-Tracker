@@ -24,6 +24,17 @@ def toggle_notification(request):
         current_user.toggle_notification = 'ON'
         current_user.save()
     return redirect('settings')
+    
+@login_required
+def toggle_email(request):
+    current_user = request.user
+    if current_user.toggle_email == 'ON':
+        current_user.toggle_email = 'OFF'
+        current_user.save()
+    else:
+        current_user.toggle_email = 'ON'
+        current_user.save()
+    return redirect('settings')
 
 
 @login_required

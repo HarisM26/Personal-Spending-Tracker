@@ -17,7 +17,7 @@ class ShowUserTest(TestCase):
 
     def test_follow_toggle_url(self):
         self.assertEqual(
-            self.url, f'/friends/follow_toggle/{self.followee.id}')
+            self.url, f'/search_friends/follow_toggle/{self.followee.id}')
 
     def test_get_follow_toggle_redirect_when_not_logged_in(self):
         redirect_url = reverse_with_next('log_in', self.url)

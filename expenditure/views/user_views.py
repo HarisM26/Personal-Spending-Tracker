@@ -80,12 +80,6 @@ def log_out(request):
     logout(request)
     return redirect('home')
 
-
-@login_required
-def add_friend(request):
-    return render(request, 'add_friend.html')
-
-
 @login_required
 def leaderboard(request):
     check_league(request)
@@ -116,7 +110,8 @@ def leaderboard(request):
     return render(request, 'leaderboard.html', context=context)
 
 
-def friends(request):
+@login_required
+def search_friends(request):
     if request.method == 'GET':
         query = request.GET.get('q')
 
@@ -125,27 +120,36 @@ def friends(request):
         if query is not None:
             lookups = Q(first_name__icontains=query) | Q(
                 last_name__icontains=query) | Q(email__icontains=query)
-
+                
             results = User.objects.filter(lookups).distinct()
-
-            context = {'results': results, 'submitbutton': submitbutton}
-
-            return render(request, 'friends.html', context)
+            
+            user = request.user
+            following = user.show_following()
+                        
+            context = {'results': results, 'submitbutton': submitbutton, 'following': following}
+            
+            return render(request, 'search_friends.html', context)
 
         else:
-            return render(request, 'friends.html')
+            user = request.user
+            following = user.show_following()
+            context = {'following': following}
+            return render(request, 'search_friends.html', context)
+            
 
     else:
-        return render(request, 'friends.html')
+            user = request.user
+            following = user.show_following()
+            context = {'following': following}
+            return render(request, 'search_friends.html', context)
+    
 
-
+@login_required
 def show_friends_profile(request, id):
-    check_league(request)
     results = User.objects.get(id=id)
     template = loader.get_template('friends_profile.html')
     context = {
-        'results': results,
-        'messages': messages.get_messages(request),
+        'results': results
     }
     return HttpResponse(template.render(context, request))
 
@@ -162,6 +166,20 @@ def follow_toggle(request, id):
         current_user.points += 1
         current_user.save()
         return redirect('friends_profile', id=id)
+        
+        
+@login_required
+def toggle_privacy(request):
+    current_user = request.user
+    if current_user.toggle_privacy == 'ON':
+        current_user.is_private = False
+        current_user.toggle_privacy = 'OFF'
+        current_user.save()
+    else:
+        current_user.toggle_privacy = 'ON'
+        current_user.is_private = True
+        current_user.save()
+    return redirect('settings')
 
 
 @login_required
@@ -226,36 +244,3 @@ def delete_account(request):
     User = get_user_model()
     User.objects.filter(pk=user_pk).delete()
     return redirect('home')
-
-@login_required
-def toggle_privacy(request):
-    current_user = request.user
-    if current_user.toggle_privacy == 'ON':
-        current_user.toggle_privacy = 'OFF'
-        current_user.save()
-    else:
-        current_user.toggle_privacy = 'ON'
-        current_user.save()
-    return redirect('settings')
-
-@login_required            
-def search_friends(request):
-    if request.method == 'GET':
-        query=request.GET.get('q')
-        
-        submitbutton=request.GET.get('submit')
-        
-        if query is not None:
-            lookups=Q(first_name__icontains=query)|Q(last_name__icontains=query)|Q(email__icontains=query)
-            
-            results= User.objects.filter(lookups).distinct()
-            
-            context={'results': results, 'submitbutton': submitbutton}
-            
-            return render(request, 'friends.html', context)
-            
-        else:
-            return render(request, 'friends.html')
-            
-    else:
-            return render(request, 'friends.html') 
