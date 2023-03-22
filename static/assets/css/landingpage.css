@@ -57,10 +57,12 @@ header{
 /* About */
 .about{
 	padding-top: 5vh;
-	height: 100vh;
 	width:100vw;
-	margin: 80px auto;
-	text-align: center;
+	height: 100vh;
+	background-color: white;
+	overflow: hidden;
+  	text-overflow: ellipsis;
+	padding-bottom: 5vh;
 }
 
 .about-content{
@@ -83,11 +85,10 @@ header{
 .about-content p{
 	color:gray;
 	font-size: 20px;
-	padding: 0px 40px;
+	
 }
 
 .about-content .row{
-	margin-top: 150px;
 	align-items: center;
 }
 
@@ -95,10 +96,11 @@ header{
 	border-radius: 10%;
 	width: 75%;
 	height: 75%;
-	display: block;
+	display: flex;
 	margin-left: auto;
 	margin-right: auto;
 }
+
 /* Contact */
 
 .contact{
@@ -140,10 +142,17 @@ header{
 	border-radius: 10%;
 	width: 50%;
 	height: 50%;
-	display: block;
 	margin-left: auto;
 	margin-right: auto;
+	display: flex;
 }
+
+@media (max-width: 750px) {
+	.contact-content .about-img {
+	  display: none;
+	}
+}
+  
 .contact-content .contact-end{
 	margin-top: 15vh;
 }
@@ -252,4 +261,30 @@ header{
 .news-card .news-source{
 	color: black;
 	margin-top: 30px;
+}
+
+
+.news-card .news-box{
+	height: 30vh;
+	overflow: scroll;
+  	text-overflow: ellipsis;
+
+}
+
+.news-card .btn{
+	display:flex;
+	text-align: center;
+}
+
+
+@media (max-width: 720px) {
+	.news-card .news-source{
+		display: none;
+	}
+	.news-card .news-published{
+		display: none;
+	}
+	.news-card .line{
+		display: none;
+	}
 }
