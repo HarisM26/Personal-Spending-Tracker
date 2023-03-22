@@ -16,7 +16,6 @@ class AddSpendingTransactionViews(TestCase):
         self.category = SpendingCategory.objects.create(
             user=User.objects.get(email='johndoe@example.com'),
             name='test_category',
-            # is_income=False,
             limit=Limit.objects.create(
                 limit_amount=Decimal('10.00'),
                 start_date=date.today(),

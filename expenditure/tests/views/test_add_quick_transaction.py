@@ -35,7 +35,6 @@ class QuickTransactionViews(TestCase):
     def test_transaction_urls(self):
         self.assertEqual(self.feed, '/feed/')
 
-    # changed
     def test_transaction_urls_are_accessible(self):
         self.client.login(email='johndoe@example.com', password='Password123')
         response = self.client.get(self.feed)

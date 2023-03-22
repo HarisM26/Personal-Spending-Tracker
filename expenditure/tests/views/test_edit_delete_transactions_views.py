@@ -18,7 +18,6 @@ class EditAndDeleteTransactionsViews(TestCase):
         self.category = SpendingCategory.objects.create(
             user=User.objects.get(email='johndoe@example.com'),
             name='test_category',
-            # is_income=False,
             limit=Limit.objects.create(
                 limit_amount=Decimal('100.00'),
                 start_date=date.today(),
@@ -109,14 +108,6 @@ class EditAndDeleteTransactionsViews(TestCase):
                          self.incoming_transaction_input['income_category'])
         self.assertEqual(transaction.amount, Decimal('60.00'))
         self.assertEqual(response.status_code, 302)
-
-    # def test_successful_receipt_edit(self):
-    #     self.client.login(email='johndoe@example.com', password='Password123')
-    #     self.transaction_input['receipt'] = self.image
-    #     response = self.client.post(f'/spending/edit/{self.transaction.pk}/', self.transaction_input)
-    #     transaction = SpendingTransaction.objects.get(pk=self.transaction.pk)
-    #     self.assertEqual(transaction, self.image)
-    #     self.assertEqual(response.status_code, 302)
 
     def test_spending_limit_amount_change(self):
         self.client.login(email='johndoe@example.com', password='Password123')

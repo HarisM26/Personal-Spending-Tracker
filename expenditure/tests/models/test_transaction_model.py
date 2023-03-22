@@ -144,7 +144,3 @@ class TestTransactionModel(TestCase):
     def test_incoming_unrequired_notes(self):
         self.incoming.notes = 'some notes'
         self.assert_incoming_is_valid()
-
-    # def test_unrequired_receipt(self):
-    #     self.spending.receipt = self.image
-    #     self.assert_spending_is_valid()

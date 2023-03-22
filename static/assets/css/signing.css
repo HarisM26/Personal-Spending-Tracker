@@ -1,19 +1,19 @@
 /* Register and Login css  */
 
 .signing {
-  min-height: 100vh;
-  width: 100vw;
-  height: 100vh;
-  background: url(/static/images/bkg2.jpg) no-repeat center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
+  background-image: url(/static/images/bkg2.jpg);;
   background-size: cover;
+  background-repeat:no-repeat;
+  background-position:center; 
+  -moz-background-size: cover;
   -o-background-size: cover;
-  background-color: var(--color-body);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 50px; /*scroll appears */
+  -webkit-background-size: cover;
+  -ms-content-zooming: none;
+  position:absolute;
+  width:110%;
+  height:100%;
+  overflow: scroll;
+
 }
 
 .signing .container {
@@ -34,7 +34,8 @@
 
 .signing .card {
   border-radius: 1rem;
-  margin-bottom: 20vh;
+  margin-top: 5vh;
+  margin-bottom: 20px;
 }
 
 .signing .card-body {

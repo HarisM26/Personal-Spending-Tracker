@@ -17,11 +17,11 @@
 
     <div class="card">
         <h1>Are you sure you want to delete this category?</h1>
-        <span><b>Category Name: {{ object.name }} </b></span><br>
+        <span><b>&nbsp;&nbsp;&nbsp;&nbsp;Category Name: {{ spending_category.name }} </b></span><br>
         <div class="card-body">
             <div class="col-sm-12 col-md-6 offset-md-3">
                 <div class="card-text text-start">
-                    <form action="{% url 'delete_spending_category' object.id %}" method="post">
+                    <form action="{% url 'delete_spending_category' spending_category.id %}" method="post">
                         {% csrf_token %}
                         {% include 'partials/bootstrap_form.html' with form=form %}
                         <span id="category-delete-btn">
