@@ -277,10 +277,10 @@ def search_friends(request):
 
             context = {'results': results, 'submitbutton': submitbutton}
 
-            return render(request, 'friends.html', context)
+            return render(request, 'search_friends.html', context)
 
         else:
-            return render(request, 'friends.html')
+            return render(request, 'search_friends.html')
 
     else:
-        return render(request, 'friends.html')
+        return render(request, 'search_friends.html')
