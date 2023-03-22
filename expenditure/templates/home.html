@@ -52,10 +52,12 @@
                         {% for article in articles %}
                         <div class="news-card swiper-slide" >
                             <div class="news-details">
-                                <h5 class="news-title">{{ article|get_article_dict_element:"title" }}</h5>
-                                <div class="line"></div>
-                                <p class="news-source">Source&#58;  &#160; {{ article|get_article_dict_element:"source"|get_article_dict_element:"Name" }}</p>
+                                <div class="news-box">
+                                    <h5 class="news-title">{{ article|get_article_dict_element:"title" }}</h5>
+                                </div>
+                                
                                 <div class="source">
+                                    <p class="news-source">Source&#58;  &#160; {{ article|get_article_dict_element:"source"|get_article_dict_element:"Name" }}</p>
                                     <p class="news-published"><small class="text-muted">Published on {{ article|get_article_dict_element:"publishedAt"|convert_date}}</small></p>
                                     <a href="{{ article|get_article_dict_element:'url' }}" target="_blank" class="btn btn-info">View article</a>
                                 </div>
