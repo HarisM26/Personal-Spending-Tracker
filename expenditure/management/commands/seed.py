@@ -5,9 +5,12 @@ from expenditure.models.user import User
 from expenditure.models.categories import SpendingCategory
 from expenditure.models.limit import Limit
 from expenditure.models.transactions import SpendingTransaction
-from random import randint, choice, sample
+from expenditure.views.category_views import create_deafult_categories
+from expenditure.helpers import request_less_check_league
+from random import random, randint, choice, sample
 from datetime import datetime, timedelta, date
 from django.shortcuts import get_object_or_404
+from expenditure.choices import TOGGLE_CHOICE
 
 from decimal import Decimal
 from faker import Faker
@@ -58,8 +61,8 @@ class Command(BaseCommand):
             for i in range(self.USERS_PER_LEAGUE):
                 self.create_user(bound)
                 self.stdout.write(self.style.SUCCESS(
-                    f'User {((bound_no * 10) + i)} seeded'))
-                bound_no += 1
+                    f'User {((bound_no * self.USERS_PER_LEAGUE) + i)} seeded'))
+            bound_no += 1
 
     def create_user(self, bound):
         first_name = self.faker.first_name()
@@ -74,9 +77,12 @@ class Command(BaseCommand):
             points=points,
             is_active=True,
             is_staff=False,
+            toggle_email='OFF'
         )
         user.set_password(self.DEFAULT_PASSWORD)
+        create_deafult_categories(user)
         self.add_spending_categories(user)
+        request_less_check_league(user)
 
     def add_spending_categories(self, user):
         for i in range(randint(1, 2)):
@@ -101,11 +107,16 @@ class Command(BaseCommand):
             date = self.faker.date_between(start_date='-1y', end_date='now')
             amount = generate_random_amount(
                 spending_category.limit.limit_amount//3)
+            note = ""
+            if random() < 0.5:
+                note = self.faker.sentence()
+
             transaction = SpendingTransaction.objects.create(
                 title=self.faker.transaction_title(),
                 date=date,
                 amount=amount,
                 spending_category=spending_category,
+                notes=note,
             )
 
 
