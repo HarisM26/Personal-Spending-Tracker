@@ -44,17 +44,13 @@ class EmailSender():
     # )
     # email.attach_alternative(html_content, "text/html")
 
-    def __init__(self, user):
-        self.send_email_permission_denied = True
-        # if user.toggle_email:
-        #     self.send_email_permission_denied = False
+    def __init__(self):
+        pass
 
     def send_email(self, to, subject, template_name, context):
         """
-        Sends an email to the given email address if permission to send.
+        Sends an email to the given email address.
         """
-        if self.send_email_permission_denied:
-            return
         html_content = render_to_string(template_name, context)
         text_content = strip_tags(html_content)
         email = EmailMultiAlternatives(
@@ -70,6 +66,9 @@ class EmailSender():
         """
         Sends a welcome email to the given email address.
         """
+        if user.toggle_email == 'OFF':
+            return
+
         subject = "Welcome to Void Money Tracker"
         context = {
             'first_name': user.first_name,
@@ -82,6 +81,9 @@ class EmailSender():
         )
 
     def send_approaching_limit_email(self, user, category_name, percentage_limit_used):
+        if user.toggle_email == 'OFF':
+            return
+
         subject = "Watch out! You are approaching your limit!"
         context = {
             'first_name': user.first_name,
@@ -96,6 +98,9 @@ class EmailSender():
         )
 
     def send_reached_limit_email(self, user, category_name):
+        if user.toggle_email == 'OFF':
+            return
+
         subject = "Watch out! You have reached your limit!"
         context = {
             'first_name': user.first_name,
@@ -109,6 +114,9 @@ class EmailSender():
         )
 
     def send_league_status_change_email(self, user):
+        if user.toggle_email == 'OFF':
+            return
+
         subject = "You have changed leagues!"
         context = {
             'first_name': user.first_name,

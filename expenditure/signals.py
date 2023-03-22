@@ -65,8 +65,8 @@ def transaction_post_save_handler(instance, created, *args, **kwargs):
             notification = create_limit_notification(
                 current_user, instance.spending_category.name, instance.spending_category.limit, total)
             notification.save()
-            EmailSender(current_user).send_approaching_limit_email(current_user, instance.spending_category.name,
-                                                                   get_percentage_of_limit_used(instance.spending_category.limit))
+            EmailSender().send_approaching_limit_email(current_user, instance.spending_category.name,
+                                                       get_percentage_of_limit_used(instance.spending_category.limit))
             limit = instance.spending_category.limit
             limit.status = 'approaching'
             limit.save()
@@ -74,7 +74,7 @@ def transaction_post_save_handler(instance, created, *args, **kwargs):
             notification = create_limit_notification(
                 current_user, instance.spending_category.name, instance.spending_category.limit, total)
             notification.save()
-            EmailSender(current_user).send_reached_limit_email(
+            EmailSender().send_reached_limit_email(
                 current_user, instance.spending_category.name)
             limit = instance.spending_category.limit
             limit.status = 'reached'
@@ -97,8 +97,8 @@ def category_post_save_handler(instance, created, *args, **kwargs):
             notification = create_limit_notification(
                 current_user, instance.name, instance.limit, total)
             notification.save()
-            EmailSender(current_user).send_approaching_limit_email(current_user, instance.spending_category.name,
-                                                                   get_percentage_of_limit_used(instance.spending_category.limit))
+            EmailSender().send_approaching_limit_email(current_user, instance.spending_category.name,
+                                                       get_percentage_of_limit_used(instance.spending_category.limit))
             limit = instance.limit
             limit.status = 'approaching'
             limit.save()
@@ -106,7 +106,7 @@ def category_post_save_handler(instance, created, *args, **kwargs):
             notification = create_limit_notification(
                 current_user, instance.name, instance.limit, total)
             notification.save()
-            EmailSender(current_user).send_reached_limit_email(
+            EmailSender().send_reached_limit_email(
                 current_user, instance.spending_category.name)
             limit = instance.limit
             limit.status = 'reached'
