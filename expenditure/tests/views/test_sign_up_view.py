@@ -77,19 +77,13 @@ class SignUpViewTestCase(TestCase, LogInTester):
         self.assertEqual(categories_after_count, categories_before_count + 4)
         categories = SpendingCategory.objects.all()
         self.assertFalse(categories[0].is_not_default)
-        # Two emails should have been sent, one welcome and one for league change
-        self.assertEqual(len(mail.outbox), 2)
+        # Check welcome email sent
+        self.assertEqual(len(mail.outbox), 1)
         welcome_email = mail.outbox[0]
         self.assertEqual(welcome_email.to, ['willsmith@example.org'])
         self.assertEqual(welcome_email.subject,
                          'Welcome to Void Money Tracker')
         self.assertEqual(welcome_email.from_email, settings.DEFAULT_FROM_EMAIL)
-        leaugue_change_email = mail.outbox[1]
-        self.assertEqual(leaugue_change_email.to, ['willsmith@example.org'])
-        self.assertEqual(leaugue_change_email.subject,
-                         'You have changed leagues!')
-        self.assertEqual(leaugue_change_email.from_email,
-                         settings.DEFAULT_FROM_EMAIL)
 
     def test_successful_referred_sign_up(self):
         referred_input = {
