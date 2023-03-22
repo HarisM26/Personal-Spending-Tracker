@@ -30,20 +30,16 @@ if(toggle_anchor !== "undefined" && toggle_anchor !== null){
   toggle_anchor.addEventListener('click' , change_toggle_color())
 }
 
-generateMonthlyChart("monthly-chart")
+if(document.getElementById("monthly-chart")){
+  generateMonthlyChart("monthly-chart")
+}
 
-/*moved from script.js in css folder*/
+//===============================sidebar
 window.onload = function(){
   const sidebar = document.querySelector(".sidebar");
   const closeBtn = document.querySelector("#btn");
-  const searchBtn = document.querySelector(".bx-search")
 
   closeBtn.addEventListener("click",function(){
-      sidebar.classList.toggle("open")
-      menuBtnChange()
-  })
-
-  searchBtn.addEventListener("click",function(){
       sidebar.classList.toggle("open")
       menuBtnChange()
   })
@@ -78,7 +74,7 @@ const changeInnerText = (tagId,value) => {
   }
 }
 
-const items = Array.from(document.getElementsByClassName("transaction_list"));
+const items = Array.from(document.getElementsByClassName("transaction-detail-container"));
 
 items.forEach( ( button, index ) =>
 {
@@ -128,10 +124,12 @@ items.forEach( ( button, index ) =>
 // call swiper from swiper.js
 swiper
 
-//Pie chart
+// generate doughnut chart
+const spendingCategorySelector = document.getElementsByClassName("category-in-range")
+if (spendingCategorySelector.length > 0){
 const doughnutLabel=[]
 const doughnutData=[]
-const rangeCategorySelector = Array.from(document.getElementsByClassName("category-in-range"));
+const rangeCategorySelector = Array.from(spendingCategorySelector);
 rangeCategorySelector.forEach((item)=>{
   for (let i = 0; i < item.children.length; i++){
     if (i<1){
@@ -142,6 +140,25 @@ rangeCategorySelector.forEach((item)=>{
     }
   }
 })
+generateCategoryChart("category-chart",doughnutLabel,doughnutData,"doughnut")
+}
 
+// generate pie chart
+const incomeCategoryElements = document.getElementsByClassName("income-category-hidden")
+if(incomeCategoryElements.length > 0){
+const pieLabel=[]
+const pieData=[]
+const incomeCategorySelector = Array.from(incomeCategoryElements);
+incomeCategorySelector.forEach((item)=>{
+  for (let i = 0; i < item.children.length; i++){
+    if (i<1){
+      pieLabel.push(item.children[i].textContent)
+    }
+    else{
+      pieData.push(item.children[i].textContent)
+    }
+  }
+})
 
-generateCategoryChart("category-chart",doughnutLabel,doughnutData)
+generateCategoryChart("income-chart",pieLabel,pieData,"pie")
+}

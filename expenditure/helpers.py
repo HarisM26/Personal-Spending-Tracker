@@ -6,7 +6,10 @@ from django.shortcuts import redirect
 from django.core.mail import send_mail
 from django.contrib import messages
 from decimal import Decimal
-import expenditure.models
+from expenditure.models.notification import Notification
+from expenditure.models.categories import SpendingCategory
+from expenditure.models.limit import Limit
+
 
 """Inspiration taken from https://groups.google.com/g/django-developers/c/LHnM_2jnZOM/m/8-oK6CXyEAAJ"""
 
@@ -26,7 +29,7 @@ def create_limit_notification(user, category_name, category_limit_obj, total):
     else:
         current_message = f'{category_name} category has reached its limit!'
 
-    notification = expenditure.models.Notification.objects.create(
+    notification = Notification.objects.create(
         user_receiver=user,
         title='About your limit',
         message=current_message
@@ -35,7 +38,7 @@ def create_limit_notification(user, category_name, category_limit_obj, total):
 
 
 def create_notification_about_refresh(user, category):
-    notification = expenditure.models.Notification.objects.create(
+    notification = Notification.objects.create(
         user_receiver=user,
         title='Yey!, A category has refreshed.',
         message=f'{category.name} category has refreshed. Let\'s not go over our £{category.limit} limit this time!. Happy saving!!'
@@ -63,22 +66,56 @@ def get_end_date(limit_type):
         return datetime.date(datetime.now()) + timedelta(days=364)
 
 
-def get_unread_nofications(user):
-    return expenditure.models.Notification.objects.filter(user_receiver=user, status='unread').count()
+def create_default_categories(user):
+    default_general = SpendingCategory.objects.create(
+        user=user,
+        name='General',
+        limit=Limit.objects.create(
+            limit_amount=Decimal('500'),
+            start_date=date.today(),
+            end_date=datetime.now() + timedelta(days=30),
+            remaining_amount=Decimal('500.00'),
+        )
+    )
+    default_groceries = SpendingCategory.objects.create(
+        user=user,
+        name='Groceries',
+        limit=Limit.objects.create(
+            limit_amount=Decimal('400.00'),
+            start_date=date.today(),
+            end_date=datetime.now() + timedelta(days=30),
+            remaining_amount=Decimal('400.00'),
+        )
+    )
+    default_transport = SpendingCategory.objects.create(
+        user=user,
+        name='Transport',
+        limit=Limit.objects.create(
+            limit_amount=Decimal('200.00'),
+            start_date=date.today(),
+            end_date=datetime.now() + timedelta(days=30),
+            remaining_amount=Decimal('200.00')
+        )
+    )
+    default_utilities = SpendingCategory.objects.create(
+        user=user,
+        name='Utilities',
+        limit=Limit.objects.create(
+            limit_amount=Decimal('100.00'),
+            start_date=date.today(),
+            end_date=datetime.now() + timedelta(days=30),
+            remaining_amount=Decimal('100.00'),
+        )
+    )
+    return default_general, default_groceries, default_transport, default_utilities
 
-def get_user_notifications(user):
-    return expenditure.models.Notification.objects.filter(user_receiver=user)
-
-def get_default_categories_as_set():
-    default_categories = {'General', 'Groceries', 'Transport', 'Utilities'}
-    return default_categories
 
 def sending_email(message, user):
     send_mail(
         'This is VOID Money Tracker',
         message,
-        from_email = None,
-        recipient_list = [user.email],
+        from_email=None,
+        recipient_list=[user.email],
         fail_silently=False,
     )
 
@@ -113,6 +150,6 @@ def check_league(request):
         user.save()
         messages.success(request, "Congradulations! You have reached the final Diamond League. You will shortly recieve a present from us!")
         sending_email(
-                'You have reached the final Diamond League! You can now get unlimited access to tips from our financial advisors and a chance to meet one!',
-                user
-            )    
+            'You have reached the final Diamond League! You can now get unlimited access to tips from our financial advisors and a chance to meet one!',
+            user
+        )

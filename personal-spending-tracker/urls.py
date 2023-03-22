@@ -17,79 +17,99 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls.static import static
 from django.conf import settings
-from expenditure import views
-from expenditure.views import ChangePasswordView
+from expenditure.views import other_views, category_views, transaction_views, user_views, notification_views, report_views
+
 # import notifications.urls
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    # ========= Before authentication urls ===========
-    path('', views.home, name='home'),
-    path('sign_up/', views.sign_up, name='sign_up'),
-    path('log_in/', views.log_in, name='log_in'),
-    path('about/', views.about, name='about'),
+    # ========= Other urls ===========
+    path('', other_views.home, name='home'),
+    path('feed/', other_views.feed, name='feed'),
+    path('features/', other_views.features, name='features'),
+    path('settings/', other_views.view_settings, name='settings'),
 
 
-    # ========= Authentication urls ===========
-    path('feed/', views.feed, name='feed'),
-    path('log_out/', views.log_out, name='log_out'),
-    path('features/', views.features, name='features'),
-    path('contact/', views.contact, name='contact'),
-    path('news_page/', views.news_page, name='news_page'),
-    path('transactions/<int:id>/', views.view_transaction, name='transaction'),
-
-    # =======================Spending
-    path('spending-category/<int:pk>/edit',
-         views.EditSpendingCategoryView.as_view(), name='edit_spending_category'),
-    path('spending-category/<int:pk>/delete',
-         views.DeleteSpendingCategoryView.as_view(), name='delete_spending_category'),
-    path('create_category/', views.CreateSpendingCategoryView.as_view(),
-         name='create_category'),
-    path('spending/', views.spending, name='spending'),
-    path('transactions/add/<int:request_id>/',
-         views.add_spending_transaction, name='add_spending_transaction'),
-    path('spending/edit/<int:id>/',
-         views.edit_spending_transaction, name='edit_spending'),
-    path('spending/delete/<int:id>/',
-         views.delete_spending_transaction, name='delete_spending'),
-
-    # ======================Income
-    path('income-category/<int:pk>/edit',
-         views.EditIncomeCategoryView.as_view(), name='edit_income_category'),
-    path('income-category/<int:pk>/delete',
-         views.DeleteIncomeCategoryView.as_view(), name='delete_income_category'),
-    path('create_incoming_category/', views.create_incoming_category,
-         name='create_incoming_category'),
-    path('transactions/add_income/<int:request_id>/',
-         views.add_income_transaction, name='add_income_transaction'),
-    path('transactions/income/', views.list_incomings, name='list_incomings'),
-    path('incomings/edit/<int:id>/',
-         views.edit_incoming_transaction, name='edit_income'),
-    path('incomings/delete/<int:id>/',
-         views.delete_incoming_transaction, name='delete_income'),
-    path('incomings/', views.incoming, name='incomings'),
+    # ========= User urls ===========
+    path('sign_up/', user_views.sign_up, name='sign_up'),
+    path('log_in/', user_views.log_in, name='log_in'),
+    path('log_out/', user_views.log_out, name='log_out'),
+    path('search_friends/', user_views.search_friends, name='search_friends'),
+    path('search_friends/friends_profile/<int:id>',
+         user_views.show_friends_profile, name='friends_profile'),
+    path('search_friends/follow_toggle/<int:id>',
+         user_views.follow_toggle, name='follow_toggle'),
+    path('leaderboard/', user_views.leaderboard, name='leaderboard'),
+    path('profile/', user_views.profile, name='user_profile'),
+    path('password-change/', user_views.ChangePasswordView.as_view(),
+         name='password_change'),
+    path('forgot_password/', user_views.forgot_password, name='forgot_password'),
+    path('delete_account/',user_views.delete_account, name='delete_account'),
+    path('settings/toggle_privacy',
+         user_views.toggle_privacy, name='toggle_privacy'),
+    
 
 
-    # ===================Settings
-    path('settings/', views.view_settings, name='settings'),
+    # ========== Notification urls =============
     path('settings/toggle_notification',
-         views.toggle_notification, name='toggle_notification'),
-    path('view_notification/<int:id>', views.view_selected_notification,
+         notification_views.toggle_notification, name='toggle_notification'),
+    path('view_notification/<int:id>', notification_views.view_selected_notification,
          name='view_selected_notification'),
-    path('notification_page/', views.notification_page, name='notification_page'),
+    path('notification_page/', notification_views.notification_page,
+         name='notification_page'),
+    path('settings/toggle_email',
+         notification_views.toggle_email, name='toggle_email'),
 
-    # ====================Profile/Password/friends
-    path('add_friend/', views.add_friend, name='add_friend'),
-    path('friends/', views.friends, name='friends'),
-    path('friends/friends_profile/<int:id>',
-         views.show_friends_profile, name='friends_profile'),
-    path('friends/follow_toggle/<int:id>',
-         views.follow_toggle, name='follow_toggle'),
-    path('leaderboard/', views.leaderboard, name='leaderboard'),
-    path('reports/', views.view_report, name='reports'),
-    path('profile/', views.profile, name='user_profile'),
-    path('password-change/', ChangePasswordView.as_view(), name='password_change'),
-    path('forgot_password/', views.forgot_password, name='forgot_password'),
+
+    # ========= Category urls ===========
+    path('spending-category/<int:pk>/edit',
+         category_views.EditSpendingCategoryView.as_view(), name='edit_spending_category'),
+    path('spending-category/<int:pk>/delete',
+         category_views.DeleteSpendingCategoryView.as_view(), name='delete_spending_category'),
+    path('create_category/', category_views.CreateSpendingCategoryView.as_view(),
+         name='create_category'),
+    path('spending/', category_views.spending, name='spending'),
+    path('income-category/<int:pk>/edit',
+         category_views.EditIncomeCategoryView.as_view(), name='edit_income_category'),
+    path('income-category/<int:pk>/delete',
+         category_views.DeleteIncomeCategoryView.as_view(), name='delete_income_category'),
+    path('create_incoming_category/', category_views.create_incoming_category,
+         name='create_incoming_category'),
+    path('incomings/', category_views.incoming, name='incomings'),
+
+
+    # ========= Transaction urls ============
+    path('transactions/add_income/<int:request_id>/',
+         transaction_views.add_income_transaction, name='add_income_transaction'),
+    path('transactions/income/',
+         transaction_views.list_incomings, name='list_incomings'),
+    path('incomings/edit/<int:id>/',
+         transaction_views.edit_incoming_transaction, name='edit_income'),
+    path('incomings/delete/<int:id>/',
+         transaction_views.delete_incoming_transaction, name='delete_income'),
+    path('transactions/add/<int:request_id>/',
+         transaction_views.add_spending_transaction, name='add_spending_transaction'),
+    path('spending/edit/<int:id>/',
+         transaction_views.edit_spending_transaction, name='edit_spending'),
+    path('spending/delete/<int:id>/',
+         transaction_views.delete_spending_transaction, name='delete_spending'),
+    path('transactions/<int:id>/',
+         transaction_views.view_transaction, name='transaction'),
+
+    # ========  Report urls ========
+
+    path('reports/', report_views.view_report, name='reports'),
+
+    # ====================Reset Password
+    path('reset_password/', user_views.PasswordResetView.as_view(),
+         name='reset_password'),
+    path('reset_password_sent/', user_views.PasswordResetDoneView.as_view(),
+         name='password_reset_done'),
+    path('reset/<uidb64>/<token>/', user_views.PasswordResetConfirmView.as_view(),
+         name='password_reset_confirm'),
+    path('reset_password_complete/', user_views.PasswordResetCompleteView.as_view(),
+         name='password_reset_complete'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

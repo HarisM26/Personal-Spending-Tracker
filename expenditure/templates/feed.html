@@ -4,12 +4,14 @@
 
 
 <section class="content-section">
+    <div>{%include 'partials/messages.html' %}</div>
+    <div >
     <div class="feed-header">
         <div>
             <h1>Dashboard</h1>
             {{ form.media }}
             <div class="quick-add">
-                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#quick-add-detail-modal">Quick Add</button>
+                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#quick-add-detail-modal" data-bs-toggle="tooltip" title="Add transaction">Quick Add</button>
 
                 </div>
             </div>
@@ -36,10 +38,10 @@
                 
                 <div class="card">
                     <div class="card-inner">
-                        <p class="text-primary"> Points </p>
+                        <p class="text-primary"> Points(TBC) </p>
                         <span class="pic"></span>
                     </div>
-                    <span class="text-primary font-weight-bold">62</span>
+                    <span class="text-primary font-weight-bold">{{ user_points }}</span>
                 </div>
 
                 <div class="card">
@@ -47,7 +49,7 @@
                         <p class="text-primary"> Total Spent </p>
                         <span class="pic"></span>
                     </div>
-                    <span class="text-primary font-weight-bold">£700</span>
+                    <span class="text-primary font-weight-bold">&#163;{{total_spending}}</span>
                 </div>
 
                 <div class="card">
@@ -55,27 +57,57 @@
                         <p class="text-primary"> Budget Remaining </p>
                         <span class="pic"></span>
                     </div>
-                    <span class="text-primary font-weight-bold">£350</span>
+                    <span class="text-primary font-weight-bold">&#163;{{remaining_budget}}</span>
                 </div>
 
                 <div class="card">
                     <div class="card-inner">
-                        <p class="text-primary"> Limits Kept </p>
+                        <p class="text-primary"> Total categories within limit </p>
                         <span class="pic"></span>
                     </div>
-                    <span class="text-primary font-weight-bold">17</span>
+                    <span class="text-primary font-weight-bold">{{categories_within_limit}}</span>
                 </div>
             </div>
+            <!--Hidden tags :: for pie chart-->
+            {%for category in income_categories%}
+            <div class="income-category-hidden" hidden>
+              <span >{{category.name}} </span>
+              <span >{{category.total|to_2_decimal_places}} </span>
+            </div>
+            {% endfor %}
+            <!--End hidden tags-->
 
+                <!-- Pie chart -->       
+            <div class="income-chart-div">
             
+                <span class="feed-report-card">
+                    <!-- Total income card  -->
+                    <div class="col-xxl-4 col-xl-12"> 
+
+                        <div class="card info-card total-income-card">
+                          <div class="card-body">
+                            <h5 class="card-title">Total Income</b></h5>
+                  
+                            <div class="d-flex align-items-center">
+                              <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                <i class="fa-regular fa-sterling-sign fa-2x"></i>
+                              </div>
+                              <div class="ps-3">
+                                <h6>&#163; {{total_income|to_2_decimal_places}}</h6>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- End total income card  -->
+                </span>
+               <canvas id="income-chart"> </canvas>
+             </div>   
+              <!-- End pie chart -->
+
 
             <div class="row">
                 <div class="col-md-8">
-                    <div class="card">
-                        <div id="bar-chart-container">
-                            <canvas id="monthly-chart"> </canvas>
-                        </div>   
-                    </div> 
                 </div>
                 <div class="col-md-4">
                     <div class="card">
@@ -112,7 +144,7 @@
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="quick-add-modal-label" >Quick Add</h5>
+          <h5 class="modal-title" id="quick-add-modal-label" >Quick Add Transaction</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">

@@ -5,7 +5,9 @@ from apscheduler.triggers.cron import CronTrigger
 from django_apscheduler.jobstores import DjangoJobStore, register_events
 from django_apscheduler.models import DjangoJobExecution
 from django_apscheduler import util
-import expenditure.models
+from expenditure.models.categories import SpendingCategory
+from expenditure.models.transactions import SpendingTransaction
+from expenditure.models.limit import Limit
 from expenditure.helpers import get_end_date, create_notification_about_refresh
 from datetime import timedelta
 
@@ -15,12 +17,12 @@ logger = logging.getLogger(__name__)
 def refresh_time_limit():
     print('================== Attempt to refresh =========================')
     # get limits with end date as a day before current day
-    expired_limits = expenditure.models.Limit.objects.filter(
+    expired_limits = Limit.objects.filter(
         end_date=datetime.date(datetime.now())-timedelta(days=1))
 
     for limit in expired_limits:
-        category = expenditure.models.SpendingCategory.objects.get(limit=limit)
-        transactions = expenditure.models.SpendingTransaction.objects.filter(
+        category = SpendingCategory.objects.get(limit=limit)
+        transactions = SpendingTransaction.objects.filter(
             spending_category=category)
 
         for transaction in transactions:
@@ -53,8 +55,6 @@ def delete_old_job_executions(max_age=604_800):
 
 # class Command(BaseCommand):
     # help = 'Run APScheduler'
-
-
 def start():
     scheduler = BackgroundScheduler()
     scheduler.add_jobstore(DjangoJobStore(), 'default')

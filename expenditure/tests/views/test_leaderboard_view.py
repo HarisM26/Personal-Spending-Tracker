@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
-from expenditure.models import User
+from expenditure.models.user import User
 from decimal import Decimal
 from expenditure.helpers import check_league
 
@@ -8,7 +8,7 @@ from expenditure.helpers import check_league
 class LeaderboardViewTest(TestCase):
 
     fixtures = ['expenditure/tests/fixtures/default_user.json',
-                    'expenditure/tests/fixtures/other_users.json']
+                'expenditure/tests/fixtures/other_users.json']
 
     def setUp(self):
         self.user = User.objects.get(email='johndoe@example.com')
@@ -32,8 +32,8 @@ class LeaderboardViewTest(TestCase):
         self.url = reverse('leaderboard')
 
     def test_leaderboard_url(self):
-        self.assertEqual(self.url,'/leaderboard/')
-   
+        self.assertEqual(self.url, '/leaderboard/')
+
     def test_leaderboard_url_are_accessible(self):
         self.client.login(email='johndoe@example.com', password='Password123')
         response = self.client.get(self.url)
@@ -41,7 +41,7 @@ class LeaderboardViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
         self.assertIn('leaderboard.html', (t.name for t in response.templates))
-    
+
     def test_user_league_order(self):
         self.client.login(email='johndoe@example.com', password='Password123')
         response = self.client.get(self.url)

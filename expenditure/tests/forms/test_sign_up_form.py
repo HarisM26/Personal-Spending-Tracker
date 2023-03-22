@@ -3,7 +3,7 @@ from django import forms
 from django.test import TestCase
 from django.contrib.auth.hashers import check_password
 from expenditure.forms import SignUpForm
-from expenditure.models import User
+from expenditure.models.user import User
 
 
 class SignUpFormTestCase(TestCase):

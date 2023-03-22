@@ -18,13 +18,27 @@
     <h3 id="notification-settings">Notification Settings</h3>
     <div id="toggle_notification">
       Toggle Notification
-       <button class="btn btn-secondary"><a id="toggle_anchor" href="{% url 'toggle_notification' %}"> {{ toggle }} </a> </button> 
+       <a class="btn btn-primary" id="toggle_anchor" href="{% url 'toggle_notification' %}"> {{ toggle }} </a> 
     </div>
       
   </div>
-
   
-      
+  <div class="main-card">
+    <h3 id="privacy-settings">Privacy Settings</h3>
+    <div id="toggle_privacy">
+      Private User
+       <button class="btn btn-primary"><a id="toggle_anchor" href="{% url 'toggle_privacy' %}"> {{ toggle_priv }} </a> </button> 
+   </div>
+   
+   </div>
+   
+   <div class="main-card">
+    <h3 id="email-settings">Email Settings</h3>
+    <div id="toggle_email">
+      Toggle Email
+       <button class="btn btn-primary"><a id="toggle_anchor" href="{% url 'toggle_email' %}"> {{ toggle_email }} </a> </button> 
+   </div>
+   
   </div>
 </section>
 

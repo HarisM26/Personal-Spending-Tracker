@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
-from expenditure.models import User
+from expenditure.models.user import User
 from expenditure.forms import UpdateUserForm
 from expenditure.tests.helpers import reverse_with_next
 from django.contrib import messages

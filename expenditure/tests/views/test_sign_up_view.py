@@ -3,7 +3,8 @@ from django.test import TestCase
 from django.urls import reverse 
 from django.contrib.auth.hashers import check_password
 from expenditure.forms import SignUpForm
-from expenditure.models import User, SpendingCategory
+from expenditure.models.user import User
+from expenditure.models.categories import SpendingCategory
 from expenditure.tests.helpers import LogInTester
 
 class SignUpViewTestCase(TestCase,LogInTester):
