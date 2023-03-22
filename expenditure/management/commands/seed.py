@@ -10,7 +10,6 @@ from expenditure.helpers import request_less_check_league
 from random import random, randint, choice, sample
 from datetime import datetime, timedelta, date
 from django.shortcuts import get_object_or_404
-from expenditure.choices import TOGGLE_CHOICE
 
 from decimal import Decimal
 from faker import Faker
@@ -27,6 +26,11 @@ class Command(BaseCommand):
     help = 'Seeds database with fake data'
 
     USERS_PER_LEAGUE = 20
+    MAX_TRANSACTIONS_PER_CATEGORY_PER_MONTH = 5
+
+    # Number of months prior to current date when transactions can be made
+    MAX_START_OF_TRANSACTIONS_FOR_USER = 14
+
     DEFAULT_PASSWORD = 'SeededUserPassword123'
     LEAGUE_BOUNDS = [(0, 200), (200, 600), (600, 1800),
                      (1800, 5000), (5000, 7000)]
@@ -80,9 +84,15 @@ class Command(BaseCommand):
             toggle_email='OFF'
         )
         user.set_password(self.DEFAULT_PASSWORD)
-        create_deafult_categories(user)
+        self.add_default_categories(user)
         self.add_spending_categories(user)
         request_less_check_league(user)
+
+    def add_default_categories(self, user):
+        create_deafult_categories(user)
+        user_default_categories = SpendingCategory.objects.filter(user=user)
+        for category in user_default_categories:
+            self.generate_transactions(category)
 
     def add_spending_categories(self, user):
         for i in range(randint(1, 2)):
@@ -99,25 +109,30 @@ class Command(BaseCommand):
             self.generate_transactions(spending_category)
 
     def generate_transactions(self, spending_category):
-        num_transactions = randint(1, 10)
+        num_transactions_per_month = randint(
+            0, self.MAX_TRANSACTIONS_PER_CATEGORY_PER_MONTH)
         spending_category = get_object_or_404(
             SpendingCategory, id=spending_category.id)
-        for i in range(num_transactions):
-            title = self.faker.transaction_title()
-            date = self.faker.date_between(start_date='-1y', end_date='now')
-            amount = generate_random_amount(
-                spending_category.limit.limit_amount//3)
-            note = ""
-            if random() < 0.5:
-                note = self.faker.sentence()
+        earliest_transaction_months_earlier = randint(
+            1, self.MAX_START_OF_TRANSACTIONS_FOR_USER)
+        for i in range(earliest_transaction_months_earlier):
+            for j in range(num_transactions_per_month):
+                title = self.faker.transaction_title()
+                date = self.faker.date_between(
+                    start_date='-{}y'.format(i), end_date='now')
+                amount = generate_random_amount(
+                    spending_category.limit.limit_amount//3)
+                note = ""
+                if random() < 0.5:
+                    note = self.faker.sentence()
 
-            transaction = SpendingTransaction.objects.create(
-                title=self.faker.transaction_title(),
-                date=date,
-                amount=amount,
-                spending_category=spending_category,
-                notes=note,
-            )
+                transaction = SpendingTransaction.objects.create(
+                    title=title,
+                    date=date,
+                    amount=amount,
+                    spending_category=spending_category,
+                    notes=note,
+                )
 
 
 """
