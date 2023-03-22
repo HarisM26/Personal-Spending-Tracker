@@ -16,12 +16,17 @@ from faker.providers import DynamicProvider
 
 class Command(BaseCommand):
 
+    """
+    Comment out init() check when seeding
+    TODO: Make seeder work without need to comment out in this wasy
+    """
+
     help = 'Seeds database with fake data'
 
     USERS_PER_LEAGUE = 20
     DEFAULT_PASSWORD = 'SeededUserPassword123'
     LEAGUE_BOUNDS = [(0, 200), (200, 600), (600, 1800),
-                     (1800, 5000), (5000, 10000)]
+                     (1800, 5000), (5000, 7000)]
 
     def __init__(self):
         super().__init__()
@@ -48,26 +53,28 @@ class Command(BaseCommand):
 
     def seed_users(self):
         self.stdout.write(self.style.SUCCESS('Seeding users'))
+        bound_no = 0
         for bound in self.LEAGUE_BOUNDS:
             for i in range(self.USERS_PER_LEAGUE):
                 self.create_user(bound)
                 self.stdout.write(self.style.SUCCESS(
-                    f'User {i} seeded'))
+                    f'User {((bound_no * 10) + i)} seeded'))
+                bound_no += 1
 
     def create_user(self, bound):
         first_name = self.faker.first_name()
         last_name = self.faker.last_name()
         email = generate_email(first_name, last_name)
+        points = randint(bound[0], bound[1])
         user = User.objects.create_user(
             email=email,
             first_name=first_name,
             last_name=last_name,
             password=self.DEFAULT_PASSWORD,
+            points=points,
             is_active=True,
             is_staff=False,
-            toggle_email=False,
         )
-        point = randint(bound[0], bound[1])
         user.set_password(self.DEFAULT_PASSWORD)
         self.add_spending_categories(user)
 
@@ -92,7 +99,8 @@ class Command(BaseCommand):
         for i in range(num_transactions):
             title = self.faker.transaction_title()
             date = self.faker.date_between(start_date='-1y', end_date='now')
-            amount = generate_random_amount()
+            amount = generate_random_amount(
+                spending_category.limit.limit_amount//3)
             transaction = SpendingTransaction.objects.create(
                 title=self.faker.transaction_title(),
                 date=date,
@@ -143,5 +151,5 @@ def generate_email(first_name, last_name):
     return '{}.{}@from.seed'.format(first_name.lower(), last_name.lower())
 
 
-def generate_random_amount():
-    return Decimal('%d.%d' % (randint(0, 999), randint(0, 99)))
+def generate_random_amount(max_amount):
+    return Decimal('%d.%d' % (randint(0, max_amount - 1), randint(0, 99)))
