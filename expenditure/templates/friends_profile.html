@@ -2,19 +2,31 @@
 {% block content %} 
 
 <section class="content-section">
-<div class="card">
-<button class="btn btn-primary"><a href="javascript:history.back()">back</a></button>
-       <h1> Profile</h1>
-       <h1>{{results.first_name}} {{results.last_name}} </h1>
+     <h1> Profile</h1>
+     <nav>
+          <ol class="breadcrumb">
+              <li class="breadcrumb-item active"> <a href="{% url 'feed' %}">Home</a></li>
+              <li class="breadcrumb-item"> <a>Friends</a></li>
+          </ol>
+      </nav>
+     <div class="card">
        
-       <p class="profile-statistics">
-            {{results.followee_count}} Following &emsp;
-            {{results.follower_count}} Followers &emsp;
-            {{results.points}} Points 
-            <br>
-       </p>
+       <h1>{{results.first_name}} {{results.last_name}} </h1>
+       <br>
+
+       
+       <div class="profile-statistics" style="margin-left: 20px;">
+            <h5>Following:</h5> {{results.followee_count}} &emsp;
+            <br><br>
+            <h5>Followers:</h5> {{results.follower_count}} &emsp;
+            <br><br>
+            <h5>Points:</h5> {{results.points}} &emsp;
+            <br><br>
        </div>
+
+       
+          <button class="btn btn-primary" onclick="javascript:history.back()" style="text-align: center; padding: auto; margin-bottom: 20px;"><a>Back</a></button>
            
-</div>
+     </div>
 </section>
 {% endblock content %}
