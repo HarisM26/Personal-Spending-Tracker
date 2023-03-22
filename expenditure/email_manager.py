@@ -46,8 +46,8 @@ class EmailSender():
 
     def __init__(self, user):
         self.send_email_permission_denied = True
-        if user.toggle_email:
-            self.send_email_permission_denied = False
+        # if user.toggle_email:
+        #     self.send_email_permission_denied = False
 
     def send_email(self, to, subject, template_name, context):
         """
