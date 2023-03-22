@@ -180,6 +180,7 @@ def delete_spending_transaction(request, id):
 def delete_incoming_transaction(request, id):
     income = get_object_or_404(IncomeTransaction, id=id)
     income.delete()
+    messages.success(request, "transaction deleted successfully!")
     return HttpResponseRedirect(reverse('incomings'))
 
 

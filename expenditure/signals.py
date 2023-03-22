@@ -1,4 +1,4 @@
-from django.db.models.signals import post_save, post_delete
+from django.db.models.signals import post_save, post_delete, pre_delete
 from .models import *
 from django.dispatch import receiver
 from decimal import *
@@ -13,18 +13,34 @@ User = get_user_model()
 
 @receiver(post_delete, sender=IncomeTransaction)
 def remove_incometransaction_points(instance, *args, **kwargs):
+    POINTS = instance.get_points()
     current_user = instance.income_category.user
-    current_user.points -= 3
+    current_user.points -= POINTS
     current_user.save()
 
 @receiver(post_delete, sender=SpendingTransaction)
 def remove_spendingtransaction_points(instance, *args, **kwargs):
     current_user = instance.spending_category.user
-    points = instance.get_points()
+    POINTS = instance.get_points()
     instance.spending_category.limit.remaining_amount += instance.amount
     instance.spending_category.limit.save()
-    current_user.points -= points
+    current_user.points -= POINTS
     current_user.save()
+
+@receiver(pre_delete, sender=IncomeCategory)
+def remove_incomecategory_and_its_transactions(instance, *args, **kwargs):
+    all_transactions = IncomeTransaction.objects.filter(
+            income_category=instance)
+    for transaction in all_transactions:
+        transaction.delete()
+
+@receiver(pre_delete, sender=SpendingCategory)
+def remove_spendingcategory_and_its_transactions(instance, *args, **kwargs):
+    all_transactions = SpendingTransaction.objects.filter(
+            spending_category=instance)
+    for transaction in all_transactions:
+        transaction.delete()
+
 
 @receiver(post_save, sender=SpendingTransaction)
 def update_remaining_amount(instance, created, *args, **kwargs):
@@ -39,12 +55,6 @@ def update_remaining_amount(instance, created, *args, **kwargs):
         limit = instance.spending_category.limit
         limit.remaining_amount = limit.limit_amount-total
         limit.save()
-
-""" @receiver(post_delete, sender=SpendingCategory)
-def remove_category_and_its_transactions(instance, *args, **kwargs):
-    all_category_transactions = SpendingTransaction.objects.filter(spending_category=instance)
-    for transaction in all_category_transactions:
-        transaction.delete() """
 
 @receiver(post_save, sender=SpendingCategory)
 def update_remaining_when_category_edited(instance, created, *args, **kwargs):

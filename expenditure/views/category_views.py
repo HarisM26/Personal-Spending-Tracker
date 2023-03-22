@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render, redirect
 from expenditure.forms import *
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -22,7 +23,7 @@ def spending(request):
     return render(request, 'spending.html', context)
 
 
-def create_deafult_categories(user):
+def create_default_categories(user):
     default_general = SpendingCategory.objects.create(
         user=user,
         name='General',
@@ -98,16 +99,27 @@ def incoming(request):
     return render(request, 'incomings.html', context)
 
 
-class DeleteSpendingCategoryView(LoginRequiredMixin, DeleteView):
-    model = SpendingCategory
-    template_name = "delete_spending_category.html"
-    success_url = reverse_lazy('spending')
+@login_required
+def DeleteSpendingCategory(request, pk):
+    spending_category = get_object_or_404(SpendingCategory, id=pk)
+
+    if request.method == 'POST':
+        spending_category.delete()
+        return redirect('spending')
+
+    return render(request, 'delete_spending_category.html', {'spending_category': spending_category})
 
 
-class DeleteIncomeCategoryView(LoginRequiredMixin, DeleteView):
-    model = IncomeCategory
-    template_name = "delete_income_category.html"
-    success_url = reverse_lazy('incomings')
+@login_required
+def DeleteIncomeCategory(request, pk):
+    income_category = get_object_or_404(IncomeCategory, id=pk)
+
+    if request.method == 'POST':
+        income_category.delete()
+        return redirect('incomings')
+    
+    return render(request, 'delete_income_category.html', {'income_category': income_category})
+
 
 # UpdateView requirements:
 # model; tell Django to update model records
