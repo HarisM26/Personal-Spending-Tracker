@@ -5,7 +5,7 @@ from expenditure.models.user import User
 from expenditure.models.categories import SpendingCategory
 from expenditure.models.limit import Limit
 from expenditure.models.transactions import SpendingTransaction
-from expenditure.views.category_views import create_deafult_categories
+from expenditure.views.category_views import create_default_categories
 from expenditure.helpers import request_less_check_league
 from random import random, randint, choice, sample
 from datetime import datetime, timedelta, date
@@ -90,12 +90,16 @@ class Command(BaseCommand):
         self.add_followings(user)
 
     def add_default_categories(self, user):
-        create_deafult_categories(user)
+        self.stdout.write(self.style.SUCCESS(
+            'Seeding default spending categories with transactions'))
+        create_default_categories(user)
         user_default_categories = SpendingCategory.objects.filter(user=user)
         for category in user_default_categories:
             self.generate_transactions(category)
 
     def add_spending_categories(self, user):
+        self.stdout.write(self.style.SUCCESS(
+            'Seeding user spending categories with transactions'))
         for i in range(randint(1, 2)):
             name = self.faker.category_name()
             limit_amount = Decimal(randint(1, 25) * 100)
@@ -134,35 +138,6 @@ class Command(BaseCommand):
                     spending_category=spending_category,
                     notes=note,
                 )
-
-    """
-    def seed_users(self):
-        self.stdout.write(self.style.SUCCESS('Seeding users...'))
-        new_seeded_users = 0
-        while new_seeded_users < self.USER_COUNT:
-            try:
-                self.create_user(new_seeded_users)
-                new_seeded_users += 1
-                self.stdout.write(self.style.SUCCESS(
-                    f'User {new_seeded_users} seeded'))
-            except IntegrityError:
-                continue
-
-    def create_user(self, new_seeded_users):
-        first_name = self.faker.first_name()
-        last_name = self.faker.last_name()
-        email = generate_email(first_name, last_name)
-        user = User.objects.create_user(
-            email=email,
-            first_name=first_name,
-            last_name=last_name,
-            password=self.DEFAULT_PASSWORD,
-            is_active=True,
-            is_staff=False,
-        )
-        user.set_password(self.DEFAULT_PASSWORD)
-        self.add_followings(user, new_seeded_users)
-    """
 
     def add_followings(self, user):
         self.stdout.write(self.style.SUCCESS('Adding followings...'))
