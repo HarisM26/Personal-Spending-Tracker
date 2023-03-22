@@ -124,7 +124,3 @@ class TransactionFormTestCase(TestCase):
         form = SpendingTransactionForm(data=self.form_input)
         self.assertTrue(form.is_valid())
 
-    # def test_form_rejects_receipt(self):
-    #     self.incoming_form_input['receipt'] = self.image
-    #     form = IncomeTransactionForm(data=self.incoming_form_input)
-    #     self.assertFalse(form.is_valid())
