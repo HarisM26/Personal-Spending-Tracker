@@ -5,6 +5,9 @@
   -webkit-background-size: cover;
   -moz-background-size: cover;
   background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  -moz-background-size: cover;
   -o-background-size: cover;
   background-color: var(--color-body);
   background-attachment: fixed;
@@ -39,7 +42,8 @@
 
 .signing .card {
   border-radius: 1rem;
-  margin-bottom: 20vh;
+  margin-top: 5vh;
+  margin-bottom: 20px;
 }
 
 .signing .card-body {

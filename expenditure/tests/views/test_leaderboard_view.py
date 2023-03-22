@@ -42,14 +42,14 @@ class LeaderboardViewTest(TestCase):
 
         self.assertIn('leaderboard.html', (t.name for t in response.templates))
 
-    # def test_user_league_order(self):
-    #    self.client.login(email='johndoe@example.com', password='Password123')
-    #    response = self.client.get(self.url)
-    #    user_place = response.context['user_place']
-    #    user_overall_place = response.context['user_overall_place']
+    def test_user_league_order(self):
+        self.client.login(email='johndoe@example.com', password='Password123')
+        response = self.client.get(self.url)
+        user_place = response.context['user_place']
+        user_overall_place = response.context['user_overall_place']
 
-    #    self.assertEqual(2, user_place)
-    #    self.assertEqual(4, user_overall_place)
+        self.assertEqual(2, user_place)
+        self.assertEqual(4, user_overall_place)
 
     def test_bronze_status_update(self):
         self.user.points = 200

@@ -149,7 +149,6 @@ class TransactionViews(TestCase):
         self.assertEqual(self.url_edit_incoming_transaction,
                          f'/incomings/edit/{self.transaction_incoming.id}/')
 
-    # changed
     def test_transaction_urls_are_accessible(self):
         self.client.login(email='johndoe@example.com', password='Password123')
         response_list_spendings = self.client.get(self.url_list_spendings)
@@ -175,28 +174,6 @@ class TransactionViews(TestCase):
                       (t.name for t in response_add_income_transaction.templates))
         self.assertIn('transaction.html',
                       (t.name for t in response_transaction.templates))
-
-    # def test_add_transaction(self):
-    #     self.client.login(email='johndoe@example.com', password='Password123')
-    #     response = self.client.get(f'/transactions/add/{self.transaction.category.pk}/')
-    #     form = response.context['create_transaction_form']
-    #     self.assertTrue(isinstance(form, SpendingForm))
-    #     self.assertFalse(form.is_bound)
-    #     before_count = Transaction.objects.all().count()
-    #     response = self.client.post(self.url_add_transaction, self.transaction_input)
-
-    # NOOO
-    # def test_transaction_urls_are_accessible(self):
-        # response_list_spendings = self.client.get(self.url_list_spendings)
-        # response_list_incomings = self.client.get(self.url_list_incomings)
-        # response_add_transaction = self.client.get(self.url_add_transaction)
-        # self.assertEqual(response_list_spendings.status_code, 302,200)
-        # self.assertEqual(response_list_incomings.status_code, 302,200)
-        # self.assertEqual(response_add_transaction.status_code, 302,200)
-        # print(f'<<========== {response_list_spendings.templates}======>>')
-        # self.assertIn('spending.html', (t.name for t in response_list_spendings.templates))
-        # self.assertIn('incomings.html', (t.name for t in response_list_incomings.templates))
-        # self.assertIn('add_transaction.html', (t.name for t in response_add_transaction.templates))
 
     def test_add_transaction(self):
         self.client.login(email='johndoe@example.com', password='Password123')
@@ -243,7 +220,6 @@ class TransactionViews(TestCase):
                          self.incoming_transaction_input['date'])
         self.assertEqual(transaction.amount,
                          self.incoming_transaction_input['amount'])
-        # self.assertEqual(transaction.category.pk, self.incoming_transaction_input['category'])
 
     def test_transaction_returns_3_points_for_3_filled_fields(self):
         self.client.login(email='johndoe@example.com', password='Password123')
@@ -260,43 +236,6 @@ class TransactionViews(TestCase):
                                self.transaction.spending_category.pk])
         self.assertRedirects(response, response_url,
                              status_code=302, target_status_code=200)
-
-    """ def test_transaction_returns_4_points_for_4_filled_fields(self):
-        self.client.login(email='johndoe@example.com', password='Password123')
-        response = self.client.get(f'/transactions/add/{self.transaction.spending_category.pk}/')
-        form = response.context['create_transaction_form']
-        self.assertTrue(isinstance(form, SpendingTransactionForm))
-        self.assertFalse(form.is_bound)
-        response = self.client.post(self.url_add_transaction, self.transaction_input_4_points, follow=True)
-        spending_transaction = SpendingTransaction.objects.latest('created')
-        self.assertEqual(spending_transaction.get_points(), 4)
-        response_url = reverse('spending')
-        self.assertRedirects(response, response_url, status_code=302, target_status_code=200)
-
-    def test_transaction_returns_4_points_for_4_filled_fields_2(self):
-        self.client.login(email='johndoe@example.com', password='Password123')
-        response = self.client.get(f'/transactions/add/{self.transaction.spending_category.pk}/')
-        form = response.context['create_transaction_form']
-        self.assertTrue(isinstance(form, SpendingTransactionForm))
-        self.assertFalse(form.is_bound)
-        response = self.client.post(self.url_add_transaction, self.transaction_input_4_points_2, follow=True)
-        spending_transaction = SpendingTransaction.objects.all()
-        import pdb; pdb.set_trace()
-        self.assertEqual(spending_transaction.get_points(), 4)
-        response_url = reverse('spending')
-        self.assertRedirects(response, response_url, status_code=302, target_status_code=200) """
-
-    '''def test_transaction_returns_5_points_for_5_filled_fields(self):
-        self.client.login(email='johndoe@example.com', password='Password123')
-        response = self.client.get(f'/transactions/add/{self.transaction.spending_category.pk}/')
-        form = response.context['create_transaction_form']
-        self.assertTrue(isinstance(form, SpendingTransactionForm))
-        self.assertFalse(form.is_bound)
-        response = self.client.post(self.url_add_transaction, self.transaction_input_5_points, follow=True)
-        spending_transaction = SpendingTransaction.objects.latest('created')
-        self.assertEqual(spending_transaction.get_points(), 5)
-        response_url = reverse('spending')
-        self.assertRedirects(response, response_url, status_code=302, target_status_code=200)'''
 
     def test_incoming_transaction_returns_3_points_for_3_filled_fields(self):
         self.client.login(email='johndoe@example.com', password='Password123')

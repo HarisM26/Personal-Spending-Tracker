@@ -82,14 +82,14 @@ class SignUpFormTestCase(TestCase):
         self.assertTrue(is_password_correct)
 
     def test_reference_code_accepted(self):
-        referrer = User.objects.get(email='johndoe@example.com')
-        before_points = referrer.points
+        before_points = User.objects.get(email='johndoe@example.com').points
         self.form_input['reference_code'] = self.referrer_id
         form = SignUpForm(data=self.form_input)
         self.assertEqual(self.referrer_id, 'John@1')
         self.assertTrue(form.is_valid())
         form.save()
-        #self.assertEqual(referrer.points, before_points+10)
+        referrer = User.objects.get(email='johndoe@example.com')
+        self.assertEqual(referrer.points, before_points+10)
 
     def test_reference_code_rejected_incorrect_format(self):
         self.form_input['reference_code'] = 'bhu@xdrt'

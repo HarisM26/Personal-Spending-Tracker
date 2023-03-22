@@ -12,7 +12,7 @@ class Command(BaseCommand):
 
     help = 'Seeds database with fake data'
 
-    USER_COUNT = 250
+    USER_COUNT = 40
     DEFAULT_PASSWORD = 'SeededUserPassword123'
 
     def __init__(self):
