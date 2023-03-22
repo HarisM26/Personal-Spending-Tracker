@@ -5,6 +5,7 @@ from expenditure.helpers import *
 from django.contrib.auth.decorators import login_required
 from expenditure.views.transaction_views import add_quick_spending
 from expenditure.views.report_views import feed_page_report
+from expenditure.views.user_views import toggle_privacy
 import decimal
 
 
@@ -52,4 +53,7 @@ def features(request):
 def view_settings(request):
     current_user = request.user
     toggle = current_user.toggle_notification
-    return render(request, 'settings.html', {'toggle': toggle})
+    toggle_priv = current_user.toggle_privacy
+    toggle_email = current_user.toggle_email
+    
+    return render(request, 'settings.html', {'toggle': toggle, 'toggle_priv':toggle_priv, 'toggle_email':toggle_email})
