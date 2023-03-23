@@ -37,6 +37,7 @@ For all test scenarios, the objectives of the Homepage also apply.
 - Test the registration process including successful registration, error handling
 - Verify the user receives a confirmation email
 - Test the link to the login page
+- Verify user is able to use friend referral code to sign up and points are awarded correctly
 
 3.1.3 User Log-In Page
 - Check the required fields and field validation
@@ -70,9 +71,38 @@ For all test scenarios, the objectives of the Homepage also apply.
 - Verify user can easily add transactions using the quick add feauture
 - Check the required fields and field validation for quick add feauture
 - Test user can view a brief of notifications if any received
+- Check that user can log out from service
 
+3.3.2 User Spending
+- Verify user can create, edit and delete relevant spending categories
+- Verify user can create, view, edit and delete transaction in spending categories
+- Check the required fields and field validation
 
+3.3.3 User Income
+- Verify user can create, edit and delete income categories
+- Verify user can create, view, edit and delete transaction in income categories
+- Check the required fields and field validation
 
+3.3.4 User Reports
+- Check the required fields and field validation
+- Verify user can use fields provided to generate accurate reports
+
+3.3.5 User Friends
+- Check user can search for and add friends
+- Verify user is able to see their Friends
+- Check user can see their friends' profile
+
+3.3.6 User Leaderboard
+- Verify podium and leaderboard is accurate
+- Check that user is able to see their position in the leaderboard
+
+3.3.7 User profile
+- Verify user is able to views and edit their profile
+- Verify user can delete their account
+
+3.3.8 User Settings
+- Verify user can use toggles on settings to change their settings
+- Verify user settings are updated and behave correctly
 
 
 4. Test Cases and Results
