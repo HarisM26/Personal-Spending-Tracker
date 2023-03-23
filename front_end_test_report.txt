@@ -108,43 +108,143 @@ For all test scenarios, the objectives of the Homepage also apply.
 4. Test Cases and Results
 -------------------------
 
-Describe each test case in detail, including the steps to reproduce, expected results, and actual results. Use the following format for each test case:
+-- Test Case 1: Log-in Page - Layout and Design Elements --
+Description:
+Objective: Verify that the log-in page has the correct layout and design elements.
+Test Scenario: User Log-In Page
 
-### Test Case [ID]: [Test Case Title]
+Steps to Reproduce:
+1. Open the web application and navigate to the log-in page.
+2. Check the presence of the following elements:
+  - Page title or header
+  - Username/email field
+  - Password field
+  - Log-in button
+  - Forgot password link
+  - Sign-up link
 
-#### Description:
+Expected Results:
+  - The log-in page contains all the required elements with the correct design and positioning.
 
-- Objective: [Briefly describe the objective of this test case]
-- Test Scenario: [Associated Test Scenario]
+Actual Results:
+[Actual Result 1]
 
-#### Steps to Reproduce:
+Pass/Fail:
+[Pass/Fail]
 
-1. [Step 1]
-2. [Step 2]
-3. [Step 3]
-...
+Comments:
+[Any additional comments or observations]
 
-#### Expected Results:
+-- Test Case 2: Log-in Page - Successful Log-in --
+Description:
+Objective: Verify that a user can successfully log in with valid credentials.
+Test Scenario: User Log-In Page
 
-- [Expected result 1]
-- [Expected result 2]
-- [Expected result 3]
-...
+Steps to Reproduce:
+1. Open the web application and navigate to the log-in page.
+2. Enter a valid username/email and password.
+3. Click the log-in button.
 
-#### Actual Results:
+Expected Results:
+- The user is successfully logged in and redirected to the appropriate page (e.g., dashboard or homepage).
 
-- [Actual result 1]
-- [Actual result 2]
-- [Actual result 3]
-...
+Actual Results:
+[Actual result 1]
 
-#### Pass/Fail:
+Pass/Fail:
+[Pass/Fail]
 
-- [Pass/Fail]
+Comments:
+[Any additional comments or observations]
 
-#### Comments:
+-- Test Case 3: Log-in Page - Invalid email --
+Description:
+Objective: Verify that an error message is displayed when a user attempts to log in with an invalid email.
+Test Scenario: User Log-In Page
 
-- [Any additional comments or observations]
+Steps to Reproduce:
+1. Open the web application and navigate to the log-in page.
+2. Enter an invalid email and random password.
+3. Click the log-in button.
+
+Expected Results:
+- An error message is displayed, indicating that the provided credentials are incorrect.
+
+Actual Results:
+[Actual result 1]
+
+Pass/Fail:
+[Pass/Fail]
+
+Comments:
+[Any additional comments or observations]
+
+-- Test Case 4: Log-in Page - Invalid password --
+Description:
+Objective: Verify that an error message is displayed when a user attempts to log in with an invalid password.
+Test Scenario: User Log-In Page
+
+Steps to Reproduce:
+1. Open the web application and navigate to the log-in page.
+2. Enter a Enter a valid, registered email and incorrect password.
+3. Click the log-in button.
+
+Expected Results:
+- An error message is displayed, indicating that the provided credentials are incorrect.
+
+Actual Results:
+[Actual result 1]
+
+Pass/Fail:
+[Pass/Fail]
+
+Comments:
+[Any additional comments or observations]
+
+-- Test Case 5: Log-in Page - Empty Fields and Validation --
+Description:
+Objective: Verify that validation is in place for empty fields and an error message is displayed when a user attempts to log in with empty fields.
+Test Scenario: User Log-In Page
+
+Steps to Reproduce:
+1. Open the web application and navigate to the log-in page.
+2. Leave the email and/or password fields empty. (Repeat test with all combinations)
+3. Click the log-in button.
+
+Expected Results:
+- For each combination an error message is displayed, indicating that the email and password fields cannot be empty.
+
+Actual Results:
+[Actual result 1]
+
+Pass/Fail:
+[Pass/Fail]
+
+Comments:
+[Any additional comments or observations]
+
+-- Test Case 5: Log-in Page - Forgot Password and Sign-Up Links --
+Description:
+Objective: Verify that the Forgot Password and Sign-Up links navigate to the correct pages.
+Test Scenario: User Log-In Page
+
+Steps to Reproduce:
+1. Open the web application and navigate to the log-in page.
+2. Click the Forgot Password link and verify it navigates to the Password Reset Request page.
+3. Click the Sign-Up link and verify it navigates to the User Sign-Up page.
+
+Expected Results:
+1. The Forgot Password link navigates to the Password Reset Request page.
+2. The Sign-Up link navigates to the User Sign-Up page.
+
+Actual Results:
+[Actual]
+
+Pass/Fail:
+[Pass/Fail]
+
+Comments:
+[Any additional comments or observations]
 
 5. Issues and Bugs
 ------------------
