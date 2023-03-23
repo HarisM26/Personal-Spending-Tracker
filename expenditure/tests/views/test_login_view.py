@@ -110,6 +110,7 @@ class LogInViewTestCase(TestCase, LogInTester):
       self.assertTemplateUsed(response, 'feed.html')
       messages_list = list(response.context['messages'])
       self.assertEqual(len(messages_list), 1)
+      self.assertEqual(self.user.get_points, 1)
 
     def test_valid_log_in_by_inactive_user(self):
         self.user.is_active = False

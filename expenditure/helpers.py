@@ -135,8 +135,7 @@ def check_league(request):
             'Congratulations! You have reached the Silver League. You need to have 600 points to progress to the next league.',
             user
         )
-        messages.success(
-            request, "Congratulations! You have reached the Silver League. You need to have 150 points to progress to the next league.")
+        messages.success(request, "Congratulations! You have reached the Silver League. You need to have 150 points to progress to the next league.")
     elif ((user.league_status == 'silver' and int(user.points) >= 600)):
         user.league_status = 'gold'
         user.save()
@@ -144,8 +143,7 @@ def check_league(request):
             'Congratulations! You have reached the Gold League. You need to have 1800 points to progress to the next league.',
             user
         )
-        messages.success(
-            request, "Congratulations! You have reached the Gold League. You need to have 300 points to progress to the next league.")
+        messages.success(request, "Congratulations! You have reached the Gold League. You need to have 300 points to progress to the next league.")
     elif ((user.league_status == 'gold' and int(user.points) >= 1800)):
         user.league_status = 'platinum'
         user.save()
@@ -153,13 +151,11 @@ def check_league(request):
             'Congratulations! You have reached the Platinum League. You need to have 5000 points to progress to the next league.',
             user
         )
-        messages.success(
-            request, "Congratulations! You have reached the Platinum League. You need to have 500 points to progress to the next league.")
+        messages.success(request, "Congratulations! You have reached the Platinum League. You need to have 500 points to progress to the next league.")
     elif ((user.league_status == 'platinum' and int(user.points) >= 5000)):
         user.league_status = 'diamond'
         user.save()
-        messages.success(
-            request, "Congratulations! You have reached the final Diamond League. You will shortly recieve a present from us!")
+        messages.success(request, "Congratulations! You have reached the final Diamond League. You will shortly recieve a present from us!")
     if league_before_check != user.league_status:
         EmailSender().send_league_status_change_email(user)
 

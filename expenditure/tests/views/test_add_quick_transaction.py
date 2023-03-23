@@ -7,6 +7,8 @@ from expenditure.models.categories import SpendingCategory
 from expenditure.models.user import User
 from decimal import Decimal
 from expenditure.forms import QuickSpendingTransactionForm
+from django.core import mail
+from django.conf import settings
 
 
 class QuickTransactionViews(TestCase):
@@ -26,7 +28,7 @@ class QuickTransactionViews(TestCase):
         )
 
         self.transaction_input = {
-            'amount': Decimal('80.00'),
+            'amount': Decimal('8.00'),
             'spending_category': self.category.id,
         }
 
@@ -50,10 +52,27 @@ class QuickTransactionViews(TestCase):
         self.assertTrue(isinstance(form, QuickSpendingTransactionForm))
         self.assertFalse(form.is_bound)
         before_count = SpendingTransaction.objects.all().count()
-        response = self.client.post(
-            self.feed, self.transaction_input, follow=True)
+        response = self.client.post(self.feed, self.transaction_input, follow=True)
         after_count = SpendingTransaction.objects.count()
         self.assertEqual(after_count, before_count+1)
         transaction = SpendingTransaction.objects.latest('created')
-        self.assertEqual(self.category.user,
-                         transaction.spending_category.user)
+        self.assertEqual(self.category.user,transaction.spending_category.user)
+    
+    # def test_transaction_approaching_the_limit(self):
+    #     self.client.login(email='johndoe@example.com', password='Password123')
+    #     self.client.get(self.feed)
+    #     transaction_input = {
+    #         'amount': Decimal('9.00'),
+    #         'spending_category': self.category.id, 
+    #         }
+    #     response = self.client.post(self.feed, self.transaction_input, follow=True)
+    #     transaction = SpendingTransaction.objects.latest('created')
+    #     self.assertEqual(self.category.user,transaction.spending_category.user)
+    #     self.client.get(self.feed)
+    #     self.assertEqual(len(mail.outbox), 0)
+    #     approaching_email = mail.outbox[0]
+    #     self.assertEqual(approaching_email.to, ['johndoe@example.com'])
+    #     self.assertEqual(approaching_email.subject,
+    #                      'Watch out! You are approaching your limit!')
+    #     self.assertEqual(approaching_email.from_email, settings.DEFAULT_FROM_EMAIL)
+

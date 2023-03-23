@@ -37,9 +37,6 @@ class EmailSender():
         """
         Sends a welcome email to the given email address.
         """
-        if user.toggle_email == 'OFF':
-            return
-
         subject = "Welcome to Void Money Tracker"
         context = {
             'first_name': user.first_name,

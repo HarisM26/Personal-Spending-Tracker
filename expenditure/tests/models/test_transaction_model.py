@@ -94,12 +94,10 @@ class TestTransactionModel(TestCase):
         self.assert_transaction_is_valid()
 
     def test_str(self):
-        self.assertEqual(str(self.transaction), f'desc: ' +
-                         self.transaction.title + ' ->  £' + str(self.transaction.amount))
+        self.assertEqual(str(self.transaction), f'desc: ' + self.transaction.title + ' ->  £' + str(self.transaction.amount))
 
     def test_get_absolute_url(self):
-        response_url = reverse('transaction', kwargs={
-                               'id': self.transaction.pk})
+        response_url = reverse('transaction', kwargs={'id': self.transaction.pk})
         self.assertEqual(self.transaction.get_absolute_url(), response_url)
 
     def assert_incoming_is_valid(self):

@@ -45,8 +45,7 @@ class BasicReportViews(TestCase):
         self.client.login(email='johndoe@example.com', password='Password123')
         response_reports = self.client.get(self.url_reports)
         self.assertEqual(response_reports.status_code, 200)
-        self.assertIn(
-            'report.html', (t.name for t in response_reports.templates))
+        self.assertIn('report.html', (t.name for t in response_reports.templates))
 
     def test_report_updates_with_date(self):
         self.client.login(email='johndoe@example.com', password='Password123')
@@ -55,5 +54,4 @@ class BasicReportViews(TestCase):
             'to_date': date.today(),
         })
         self.assertEqual(response_reports.status_code, 200)
-        self.assertIn(
-            'report.html', (t.name for t in response_reports.templates))
+        self.assertIn('report.html', (t.name for t in response_reports.templates))

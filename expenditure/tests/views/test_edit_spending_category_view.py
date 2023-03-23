@@ -29,8 +29,7 @@ class EditSpendingCategoryViewTestCase(TestCase):
             )
         )
         self.url_list_spendings = reverse('spending')
-        self.url_edit_category = reverse(
-            'edit_spending_category', kwargs={'pk': self.category.id})
+        self.url_edit_category = reverse('edit_spending_category', kwargs={'pk': self.category.id})
 
         self.edited_form = {
             'category-name': 'ChangedCategory',
@@ -40,8 +39,7 @@ class EditSpendingCategoryViewTestCase(TestCase):
 
     def test_edit_category_url(self):
         self.assertEqual(self.url_list_spendings, '/spending/')
-        self.assertEqual(self.url_edit_category,
-                         f"/spending-category/{self.category.id}/edit")
+        self.assertEqual(self.url_edit_category, f"/spending-category/{self.category.id}/edit")
 
     def test_get_category(self):
         self.client.login(email=self.user.email, password='Password123')
@@ -54,31 +52,23 @@ class EditSpendingCategoryViewTestCase(TestCase):
     def test_get_category_redirects_when_not_logged_in(self):
         redirect_url = reverse_with_next('log_in', self.url_edit_category)
         response = self.client.get(self.url_edit_category)
-        self.assertRedirects(response, redirect_url,
-                             status_code=302, target_status_code=200)
+        self.assertRedirects(response, redirect_url, status_code=302, target_status_code=200)
 
     def test_edit_category_changed(self):
-        self.client.login(email=self.category.user.email,
-                          password='Password123')
-        response = self.client.post(
-            self.url_edit_category, self.edited_form, follow=True)
+        self.client.login(email=self.category.user.email, password='Password123')
+        response = self.client.post(self.url_edit_category, self.edited_form, follow=True)
         response_url = reverse('spending')
-        self.assertRedirects(response, response_url,
-                             status_code=302, target_status_code=200)
+        self.assertRedirects(response, response_url, status_code=302, target_status_code=200)
         self.assertTemplateUsed(response, 'spending.html')
         self.category.refresh_from_db()
         self.assertEqual(self.category.name, self.edited_form['category-name'])
-        self.assertEqual(self.category.limit.limit_amount,
-                         self.edited_form['limit-limit_amount'])
-        self.assertEqual(self.category.limit.time_limit_type,
-                         self.edited_form['limit-time_limit_type'])
+        self.assertEqual(self.category.limit.limit_amount, self.edited_form['limit-limit_amount'])
+        self.assertEqual(self.category.limit.time_limit_type, self.edited_form['limit-time_limit_type'])
 
     def test_unsuccesful_category_edit(self):
-        self.client.login(email=self.category.user.email,
-                          password='Password123')
+        self.client.login(email=self.category.user.email, password='Password123')
         self.edited_form['limit-limit_amount'] = Decimal('-500.00')
-        response = self.client.post(
-            self.url_edit_category, self.edited_form, follow=True)
+        response = self.client.post(self.url_edit_category, self.edited_form, follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'edit_spending_category.html')
         form = response.context['form']
@@ -89,6 +79,5 @@ class EditSpendingCategoryViewTestCase(TestCase):
     def test_post_category_edit_redirects_when_not_logged_in(self):
         redirect_url = reverse_with_next('log_in', self.url_edit_category)
         response = self.client.post(self.url_edit_category, self.edited_form)
-        self.assertRedirects(response, redirect_url,
-                             status_code=302, target_status_code=200)
+        self.assertRedirects(response, redirect_url, status_code=302, target_status_code=200)
         self.assertEqual('test_category', self.category.name)

@@ -12,11 +12,9 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def add_quick_spending(request):
     current_user = request.user
-    spending_catgeory_queryset = SpendingCategory.objects.filter(
-        user=request.user)
+    spending_catgeory_queryset = SpendingCategory.objects.filter(user=request.user)
 
-    form = QuickSpendingTransactionForm(
-        initial={'spending_category': spending_catgeory_queryset.first()})
+    form = QuickSpendingTransactionForm(initial={'spending_category': spending_catgeory_queryset.first()})
 
     if request.method == 'POST':
         form = QuickSpendingTransactionForm(request.POST)
@@ -36,8 +34,7 @@ def add_quick_spending(request):
             current_user.save()
             messages.add_message(request, messages.SUCCESS,
                                  "Transaction created!")
-            form = QuickSpendingTransactionForm(
-                initial={'spending_category': spending_category})
+            form = QuickSpendingTransactionForm(initial={'spending_category': spending_category})
 
     form.fields['spending_category'].queryset = spending_catgeory_queryset
 
@@ -49,8 +46,7 @@ def add_spending_transaction(request, request_id):
     category = get_object_or_404(SpendingCategory, id=request_id)
     current_user = request.user
     if request.method == 'POST':
-        create_transaction_form = SpendingTransactionForm(
-            request.POST, request.FILES)
+        create_transaction_form = SpendingTransactionForm(request.POST, request.FILES)
         if create_transaction_form.is_valid():
             create_transaction_form.save(commit=False)
             title = create_transaction_form.cleaned_data.get('title')
@@ -59,7 +55,11 @@ def add_spending_transaction(request, request_id):
             notes = create_transaction_form.cleaned_data.get('notes')
             receipt = create_transaction_form.cleaned_data.get('receipt')
             transaction = SpendingTransaction.objects.create(
-                title=title, date=date, amount=amount, notes=notes, spending_category=category, receipt=receipt
+                title=title, 
+                date=date, amount=amount, 
+                notes=notes, 
+                spending_category=category, 
+                receipt=receipt
             )
             # Add points for creating and filling fields in new transaction
             current_user.points += transaction.get_points()
@@ -90,7 +90,11 @@ def add_income_transaction(request, request_id):
             amount = create_transaction_form.cleaned_data.get('amount')
             notes = create_transaction_form.cleaned_data.get('notes')
             transaction = IncomeTransaction.objects.create(
-                title=title, date=date, amount=amount, notes=notes, income_category=category
+                title=title, 
+                date=date, 
+                amount=amount, 
+                notes=notes, 
+                income_category=category
             )
             current_user.points += transaction.get_points()
             current_user.save()
@@ -115,13 +119,11 @@ def edit_spending_transaction(request, id):
     points_before = spending_transaction.get_points()
 
     if request.method == 'POST':
-        form = SpendingTransactionForm(
-            request.POST, request.FILES, instance=spending_transaction)
+        form = SpendingTransactionForm(request.POST, request.FILES, instance=spending_transaction)
         if form.is_valid():
             form.save(commit=False)
             if not (amount == form.cleaned_data.get('amount')):
-                spending_transaction.spending_category.limit.remaining_amount += (
-                    amount - form.cleaned_data.get('amount'))
+                spending_transaction.spending_category.limit.remaining_amount += (amount - form.cleaned_data.get('amount'))
                 spending_transaction.spending_category.limit.save()
             form.save()
             # Update how many points the user gets for this transaction

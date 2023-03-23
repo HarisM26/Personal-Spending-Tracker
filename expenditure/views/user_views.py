@@ -80,16 +80,10 @@ def leaderboard(request):
     num_top_users = 10
 
     users = User.objects
-    user_overall_place = users.filter(
-        points__gt=request.user.points).count() + 1
+    user_overall_place = users.filter(points__gt=request.user.points).count() + 1
 
-    users = users.filter(
-        league_status=request.user.league_status).order_by('-points')
+    users = users.filter(league_status=request.user.league_status).order_by('-points')
     user_place = users.filter(points__gt=request.user.points).count() + 1
-
-    # if (users.filter(points__gte=request.user.points).last().points == request.user.points):
-    #     user_overall_place += 1
-    #     user_place += 1
 
     pedestal = []
     for i in range(3):

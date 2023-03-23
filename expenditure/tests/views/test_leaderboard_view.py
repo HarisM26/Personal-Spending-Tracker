@@ -1,8 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
+from django.core import mail
 from expenditure.models.user import User
-from decimal import Decimal
-from expenditure.helpers import check_league
 
 
 class LeaderboardViewTest(TestCase):
@@ -56,8 +55,7 @@ class LeaderboardViewTest(TestCase):
         self.user.save()
         self.client.login(email='johndoe@example.com', password='Password123')
         response = self.client.get(self.url)
-        user_league_status = User.objects.get(
-            email='johndoe@example.com').league_status
+        user_league_status = User.objects.get(email='johndoe@example.com').league_status
         self.assertEqual('silver', user_league_status)
 
     def test_silver_status_update(self):
@@ -66,28 +64,35 @@ class LeaderboardViewTest(TestCase):
         self.user_1.save()
         self.client.login(email='janedoe@example.com', password='Password123')
         response = self.client.get(self.url)
-        user_league_status = User.objects.get(
-            email='janedoe@example.com').league_status
+        user_league_status = User.objects.get(email='janedoe@example.com').league_status
         self.assertEqual('gold', user_league_status)
 
     def test_gold_status_update(self):
         self.user_2.league_status = 'gold'
         self.user_2.points = 1800
         self.user_2.save()
-        self.client.login(email='willowsmith@example.org',
-                          password='Password123')
+        self.client.login(email='willowsmith@example.org', password='Password123')
         response = self.client.get(self.url)
-        user_league_status = User.objects.get(
-            email='willowsmith@example.org').league_status
+        user_league_status = User.objects.get(email='willowsmith@example.org').league_status
         self.assertEqual('platinum', user_league_status)
 
     def test_diamond_status_update(self):
         self.user_3.league_status = 'platinum'
         self.user_3.points = 5000
         self.user_3.save()
-        self.client.login(email='sarahkipling@example.org',
-                          password='Password123')
+        self.client.login(email='sarahkipling@example.org', password='Password123')
         response = self.client.get(self.url)
-        user_league_status = User.objects.get(
-            email='sarahkipling@example.org').league_status
+        user_league_status = User.objects.get(email='sarahkipling@example.org').league_status
         self.assertEqual('diamond', user_league_status)
+
+    def test_status_update_without_email(self):
+        self.user_3.toggle_email = 'OFF'
+        self.user.save()
+        self.user_3.league_status = 'platinum'
+        self.user_3.points = 5000
+        self.user_3.save()
+        self.client.login(email='sarahkipling@example.org', password='Password123')
+        response = self.client.get(self.url)
+        user_league_status = User.objects.get(email='sarahkipling@example.org').league_status
+        self.assertEqual('diamond', user_league_status)
+        self.assertEqual(len(mail.outbox), 0)
