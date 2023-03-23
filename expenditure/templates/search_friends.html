@@ -2,67 +2,89 @@
 {% block content %}
 
 <section class="content-section">
+	<nav>
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item active"> <a href="{% url 'feed' %}">Home</a></li>
+			<li class="breadcrumb-item"> <a">Friends</a></li>
+		</ol>
+	</nav>
 <div class="card">
-    <div class="text-center">
-        <p class="profile-statistics">
-        <br>
-        <br>
-        <br>
-        <br>
-            {{user.followee_count}} Following &emsp;
-            {{user.follower_count}} Followers &emsp;
-            {{user.points}} Points
-        </p>
-        <h1>Your Friends</h1>
-            {% if following %}
-            {% for f in following %}
-        	<a id="searched-friends" href="friends_profile/{{f.id}}">{{f.first_name}} {{f.last_name}}</a>
-        	</br>
-            {% endfor %}
-            {% else %}
-    	    Search friends below
-    	    {% endif %}
-    </div>
-    
-        
-	<div style="text-align: center;">
-		<p>
-			<form action ="." method ="GET" value ="{{request.GET.q}}"><input type ="text" name ="q" value ="{{request.GET.q}}" placeholder="Search users..."/>
-			<input type ="submit" class="btn btn-secondary" name="submit" value="Search"/>
-			</form>
-			
-			{% if submitbutton == 'Search' and request.GET.q != "" %}
-			{% if results %}
-			        <h1> Here are the users for <b>{{request.GET.q}}</b></h1>
-			        <br/><br/>
-			
-			{% for r in results %}
-    	                {% if r.is_private == True %}
-    	                        <h10><b>{{r.first_name}} {{r.last_name}}</b> is a private user</h10> &emsp;
-    	                        </br>
-    	                        
-    	                        <a>--------------------------------------------------------------------------</a>
-    	                
-    	   
-    	                {% else %}
-				<form action = "{% url 'follow_toggle' id=r.id %}" method="get">
-					<h10><a href="friends_profile/{{r.id}}">{{r.first_name}} {{r.last_name}}</a></h10> &emsp;
-					{% if r in following %}
-					<button class="btn btn-secondary" style="margin-left: 20px;">Unadd</button>
+	<nav>
+		<div class="nav nav-tabs" id="nav-tab" role="tablist">
+			<button class="nav-link active" id="nav-search-tab" data-bs-toggle="tab" data-bs-target="#nav-search" type="button" role="tab" aria-controls="nav-friends" aria-selected="false">Search</button>
+		  <button class="nav-link" id="nav-myprofile-tab" data-bs-toggle="tab" data-bs-target="#nav-myprofile" type="button" role="tab" aria-controls="nav-myprofile" aria-selected="true">My Profile</button>
+		</div>
+	</nav>
+	<div class="tab-content" id="nav-tabContent">
+
+		<div class="tab-pane fade show active" id="nav-search" role="tabpanel" aria-labelledby="nav-search-tab">
+			<div class="text-center">
+				<p class="profile-statistics">
+				<h1>Your Friends</h1>
+					{% if following %}
+					{% for f in following %}
+					<a id="searched-friends" href="friends_profile/{{f.id}}">{{f.first_name}} {{f.last_name}}</a>
+					</br>
+					{% endfor %}
 					{% else %}
-					<button class="btn btn-secondary" style="margin-left: 20px;">Add</button>
+					Search friends below
 					{% endif %}
-					</br>			<a>--------------------------------------------------------------------------</a>
+			</div>
+			<div style="text-align: center;">
+				<p>
+					<form action ="." method ="GET" value ="{{request.GET.q}}"><input type ="text" name ="q" value ="{{request.GET.q}}" placeholder="Search users..."/>
+					<input type ="submit" class="btn btn-secondary" name="submit" value="Search"/>
 					</form>
 					
+					{% if submitbutton == 'Search' and request.GET.q != "" %}
+					{% if results %}
+							<h1> Here are the users for <b>{{request.GET.q}}</b></h1>
+							<br/><br/>
+					
+					{% for r in results %}
+								{% if r.is_private == True %}
+										<h10><b>{{r.first_name}} {{r.last_name}}</b> is a private user</h10> &emsp;
+										</br>
+										
+										<a>--------------------------------------------------------------------------</a>
+								
+				   
+								{% else %}
+						<form action = "{% url 'follow_toggle' id=r.id %}" method="get">
+							<h10><a href="friends_profile/{{r.id}}">{{r.first_name}} {{r.last_name}}</a></h10> &emsp;
+							{% if r in following %}
+							<button class="btn btn-secondary" style="margin-left: 20px;">Unadd</button>
+							{% else %}
+							<button class="btn btn-secondary" style="margin-left: 20px;">Add</button>
+							{% endif %}
+							</br>			<a>--------------------------------------------------------------------------</a>
+							</form>
+							
+							{% endif %}
+					{% endfor %}
+					{% else %}
+					No user found
 					{% endif %}
-			{% endfor %}
-			{% else %}
-			No user found
-			{% endif %}
-			{% endif %}    	
-		</p>
+					{% endif %}    	
+				</p>
+		
+			</div>
+		</div>
 
+		<div class="tab-pane fade" id="nav-myprofile" role="tabpanel" aria-labelledby="nav-myprofile-tab">
+			<h1>{{user.first_name}} {{user.last_name}} </h1>
+       		<br>
+
+       
+			<div class="profile-statistics" style="margin-left: 20px;">
+					<h5>Following:</h5> {{user.followee_count}} &emsp;
+					<br><br>
+					<h5>Followers:</h5> {{user.follower_count}} &emsp;
+					<br><br>
+					<h5>Points:</h5> {{user.points}} &emsp;
+					<br><br>
+			</div>
+		</div>
 	</div>
 </div>
 </section>
