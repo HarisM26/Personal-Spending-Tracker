@@ -610,6 +610,14 @@ h3 {
 #save-reset-btn-container {
   margin-top: 18px;
 }
+#change-password-link {
+  color: var(--color-dark);
+  text-decoration: none;
+}
+#change-password-link:hover {
+  color: var(--color-second);
+}
+
 /*====================================*/
 
 /* Searched friends*/
@@ -618,3 +626,6 @@ h3 {
   color: inherit;
 }
 /*======================================*/
+#bell-icon {
+  color: var(--color-dark);
+}
