@@ -1,0 +1,87 @@
+Title: Frontend Manual Testing Report
+Project: [Project Name]
+Date: [Date]
+Tester(s): [Tester Name(s)]
+
+1. Introduction
+---------------
+
+Provide a brief introduction to the project, its purpose, and the objectives of the manual testing process.
+
+2. Test Environment
+-------------------
+
+Describe the test environment, including:
+- Browser(s) and version(s) used
+- Operating System(s) and version(s) used
+- Screen resolutions tested
+- Network conditions (if applicable)
+
+3. Test Scenarios
+-----------------
+
+List the main test scenarios and briefly describe their objectives. For example:
+
+4. Test Cases and Results
+-------------------------
+
+Describe each test case in detail, including the steps to reproduce, expected results, and actual results. Use the following format for each test case:
+
+### Test Case [ID]: [Test Case Title]
+
+#### Description:
+
+- Objective: [Briefly describe the objective of this test case]
+- Test Scenario: [Associated Test Scenario]
+
+#### Steps to Reproduce:
+
+1. [Step 1]
+2. [Step 2]
+3. [Step 3]
+...
+
+#### Expected Results:
+
+- [Expected result 1]
+- [Expected result 2]
+- [Expected result 3]
+...
+
+#### Actual Results:
+
+- [Actual result 1]
+- [Actual result 2]
+- [Actual result 3]
+...
+
+#### Pass/Fail:
+
+- [Pass/Fail]
+
+#### Comments:
+
+- [Any additional comments or observations]
+
+5. Issues and Bugs
+------------------
+
+List any issues or bugs discovered during testing, along with their severity, priority, and status (e.g., Open, In Progress, Resolved). Use the following format for each issue:
+
+### Issue [ID]: [Issue Title]
+
+- Description: [Briefly describe the issue]
+- Severity: [Low/Medium/High/Critical]
+- Priority: [Low/Medium/High]
+- Status: [Open/In Progress/Resolved]
+- Comments: [Any additional comments or observations]
+
+6. Conclusion
+-------------
+
+Provide a summary of the testing process, highlighting any major concerns, overall test results, and recommendations for improvements.
+
+7. Attachments
+--------------
+
+Include any relevant attachments, such as screenshots, logs, or other files that support the test report.
