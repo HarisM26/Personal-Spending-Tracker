@@ -107,6 +107,8 @@ For all test scenarios, the objectives of the Homepage also apply.
 
 4. Test Cases and Results
 -------------------------
+4.
+4.3 Log in Scenario
 
 -- Test Case 1: Log-in Page - Layout and Design Elements --
 Description:
