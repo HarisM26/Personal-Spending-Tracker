@@ -32,8 +32,9 @@
 			</div>
 			<div style="text-align: center;">
 				<p>
-					<form action ="." method ="GET" value ="{{request.GET.q}}"><input type ="text" name ="q" value ="{{request.GET.q}}" placeholder="Search users..."/>
-					<input type ="submit" class="btn btn-secondary" name="submit" value="Search"/>
+					<form action ="." method ="GET" value ="{{request.GET.q}}">
+						<input type ="text" name ="q" value ="{{request.GET.q}}" placeholder="Search users..."/>
+						<input type ="submit" class="btn btn-secondary" name="submit" value="Search"/>
 					</form>
 					
 					{% if submitbutton == 'Search' and request.GET.q != "" %}

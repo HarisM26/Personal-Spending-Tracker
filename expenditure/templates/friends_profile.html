@@ -6,7 +6,8 @@
      <nav>
           <ol class="breadcrumb">
               <li class="breadcrumb-item active"> <a href="{% url 'feed' %}">Home</a></li>
-              <li class="breadcrumb-item"> <a>Friends</a></li>
+              <li class="breadcrumb-item"> <a href="{% url 'search_friends' %}">Friends</a></li>
+              <li class="breadcrumb-item"> <a>{{results.first_name}} {{results.last_name}}</a></li>
           </ol>
       </nav>
      <div class="card">
