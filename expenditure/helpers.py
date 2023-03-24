@@ -114,17 +114,6 @@ def create_default_categories(user):
     )
     return default_general, default_groceries, default_transport, default_utilities
 
-
-def sending_email(message, user):
-    send_mail(
-        'This is VOID Money Tracker',
-        message,
-        from_email=None,
-        recipient_list=[user.email],
-        fail_silently=False,
-    )
-
-
 def check_league(request):
     user = request.user
     league_before_check = user.league_status
