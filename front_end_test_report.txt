@@ -1,7 +1,7 @@
 Title: Frontend Manual Testing Report
 Project: Void Money Tracker
-Date: [Date]
-Tester(s): [Name(s) of testers]
+Date: 24/03/2023
+Tester(s): Vanessa Neboh
 
 1. Introduction
 ---------------
@@ -18,7 +18,7 @@ Overall, this report aims to provide a comprehensive evaluation of the front-end
 -------------------
 
 The tests in this report have been conducted on the following browsers and operating systems:
-- Safari Version 15.6.1 (17613.3.9.1.16) with macOS Monterey Version 12.6.3 with a screen resolution of 2560px x 1600px
+- Safari Version 16.3 (18614.4.6.1.6) with macOS Ventura version 13.2.1 with a screen resolution of 2560px × 1600px
 
 3. Test Scenarios
 -----------------
@@ -132,10 +132,10 @@ Expected Results:
     The home page contains all the required elements with the correct design and positioning.
 
 Actual Results:
-    [Actual result 1]
+    The home page contains all the required elements with the correct design and positioning.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -158,10 +158,10 @@ Expected Results:
     All navigation links work correctly and take the user to the appropriate sections or pages.
 
 Actual Results:
-    [Actual result 1]
+    All navigation links work correctly and take the user to the appropriate sections or pages.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -183,10 +183,10 @@ Expected Results:
     The swiper cards in the news section function correctly and take the user to the appropriate news articles when the links are clicked.
 
 Actual Results:
-    [Actual result 1]
+    The swiper cards in the news section function correctly and take the user to the appropriate news articles when the links are clicked.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -216,10 +216,10 @@ Expected Results:
     The sign-up page contains all the required elements with the correct design and positioning.
 
 Actual Results:
-    [Actual result 1]
+    The sign-up page contains all the required elements with the correct design and positioning.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -239,10 +239,10 @@ Expected Results:
     The user is successfully registered and redirected to the dashboard. An email should be sent to the user welcoming them to the platform.
 
 Actual Results:
-    [Actual result 1]
+    The user is successfully registered and redirected to the dashboard. An email should be sent to the user welcoming them to the platform.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -262,10 +262,10 @@ Expected Results:
     The user is successfully registered and the reference code is processed accordingly (user with reference code is awarded extra points).
 
 Actual Results:
-    [Actual result 1]
+    The user is successfully registered and the reference code is processed accordingly (user with reference code is awarded extra points).
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -284,10 +284,10 @@ Expected Results:
     An error message is displayed for each field with incorrect or incomplete information, indicating the specific issue.
 
 Actual Results:
-    [Actual result 1]
+    An error message is displayed for each field with incorrect or incomplete information, indicating the specific issue.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -306,10 +306,10 @@ Expected Results:
     An error message is displayed for each empty field, indicating that the field cannot be empty.
 
 Actual Results:
-    [Actual result 1]
+    An error message is displayed for each empty field, indicating that the field cannot be empty.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -329,10 +329,10 @@ Expected Results:
     An error message is displayed, indicating that the provided reference code is invalid.
 
 Actual Results:
-    [Actual result 1]
+    An error message is displayed, indicating that the provided reference code is invalid.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -350,10 +350,10 @@ Expected Results:
     The Log-in link navigates to the User Log-In page.
 
 Actual Results:
-    [Actual result 1]
+    The Log-in link navigates to the User Log-In page.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -373,10 +373,10 @@ Expected Results:
     An error message is displayed, indicating that the email is already in use.
 
 Actual Results:
-    [Actual result 1]
+    An error message is displayed, indicating that the email is already in use.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -403,10 +403,11 @@ Expected Results:
   - The log-in page contains all the required elements with the correct design and positioning.
 
 Actual Results:
-[Actual Result 1]
+    The log-in page contains all the required elements with the correct design and positioning.
+
 
 Pass/Fail:
-[Pass/Fail]
+    Pass
 
 Comments:
 [Any additional comments or observations]
@@ -425,10 +426,10 @@ Expected Results:
 - The user is successfully logged in and redirected to the appropriate page (e.g., dashboard or homepage).
 
 Actual Results:
-[Actual result 1]
+The user is successfully logged in and redirected to the appropriate page (e.g., dashboard or homepage)
 
 Pass/Fail:
-[Pass/Fail]
+Pass
 
 Comments:
 [Any additional comments or observations]
