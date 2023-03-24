@@ -111,7 +111,7 @@ Edit Income Transaction Page:
 - The edit transaction page path is "Home/Incoming/Edit Income Transaction"
 - The page has a form with a title, date created, amount, and notes.
 
-### Done
+
 
 Reports Page:
 
@@ -130,7 +130,11 @@ Reports Page:
 - The income category breakdown section works similarly to the spending category breakdown section.
 
 
+### Done
 
+Friends page:
+- The friends page path is "Home/Friends"
+- The page has two tabs which the user can choo
 
 
 
@@ -173,6 +177,51 @@ If the user is not in the top 10, verify that they appear at the bottom of the l
 
 Expected Results:
 The Leaderboard page functions correctly and displays the correct information as described.
+
+Actual Results:
+[Actual result 1]
+
+Pass/Fail:
+[Pass/Fail]
+
+Comments:
+[Any additional comments or observations]
+
+
+-- Test Case X: Logout Functionality - Navigation Bar --
+Description:
+Objective: Verify that the logout link in the navigation bar functions correctly and logs the user out.
+Test Scenario: Logging out using the navigation bar
+
+Steps to Reproduce:
+1. Log in to the web application with valid credentials.
+2. Click on the "user account" icon in the navigation bar and select "log out" from the drop-down menu.
+3. Verify that the user is logged out and redirected to the home page.
+
+Expected Results:
+The logout link in the navigation bar functions correctly, logging the user out and redirecting them to the login page.
+
+Actual Results:
+[Actual result 1]
+
+Pass/Fail:
+[Pass/Fail]
+
+Comments:
+[Any additional comments or observations]
+
+-- Test Case X: Logout Functionality - Side Bar --
+Description:
+Objective: Verify that the logout link in the side bar functions correctly and logs the user out.
+Test Scenario: Logging out using the side bar
+
+Steps to Reproduce:
+1. Log in to the web application with valid credentials.
+2. Open the side bar and click on the "log out" link.
+3. Verify that the user is logged out and redirected to the home page.
+
+Expected Results:
+The logout link in the side bar functions correctly, logging the user out and redirecting them to the login page.
 
 Actual Results:
 [Actual result 1]
