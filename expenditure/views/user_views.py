@@ -143,9 +143,9 @@ def show_friends_profile(request, id):
 
 
 @login_required
-def follow_toggle(request, request_id):
+def follow_toggle(request, id):
     current_user = request.user
-    searched_user = get_object_or_404(User, id=request_id)
+    searched_user = get_object_or_404(User, id=id)
     current_user.toggle_follow(searched_user)
     request.session['is_following'] = current_user.is_following(
         searched_user)
