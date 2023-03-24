@@ -1416,6 +1416,109 @@ Pass/Fail:
 Comments:
     [Any additional comments or observations]
 
+### NEW
+
+-- Test Case 32.1: Reports Page Layout and Design --
+Description:
+    Objective: Verify the layout and design of the Reports page.
+    Test Scenario: Reports Page
+
+Steps to Reproduce:
+    Log in to the web application with valid credentials.
+    Navigate to the Reports page.
+    Verify that the path displayed is "Home/Reports".
+    Check that the page has a form with a "from" date and a "to" date which can be submitted to regenerate a spending report.
+    Verify the presence of the following sections on the page: Total Monthly Transactions, Ratio of Spending from Each Category, Largest Spending Category, Average Daily Spending, Categories Past and Close to Limit, Spending Categories Breakdown, and Income Categories Breakdown.
+
+Expected Results:
+    The layout and design of the Reports page match the described elements.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+-- Test Case 32.2: Reports Page Functionality: Charts --
+Description:
+    Objective: Verify that the charts on the Reports page function correctly and display the correct information.
+    Test Scenario: Reports Page
+
+Steps to Reproduce:
+    Log in to the web application with valid credentials.
+    Navigate to the Reports page.
+    Set a "from" date and a "to" date and submit the form.
+    Verify that the page displays a chart showing total monthly transactions per month within the time period specified.
+    Verify that the page displays a chart which shows the ratio of spending from each category for the time period specified.
+
+Expected Results:
+    The charts on the Reports page function correctly and display the correct information as described.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+-- Test Case 32.3: Reports Page Functionality: Spending and Income Categories Breakdown --
+Description:
+    Objective: Verify that the spending and income categories breakdown sections on the Reports page function correctly and display the correct information.
+    Test Scenario: Reports Page
+
+Steps to Reproduce:
+    Log in to the web application with valid credentials.
+    Navigate to the Reports page.
+    Set a "from" date and a "to" date and submit the form.
+    Verify that the page shows a spending categories breakdown section which is a list of categories where for every month any spending categories with spending are displayed.
+    Click on a spending category and verify that it opens a dropdown for that spending category showing all the transactions in that spending category for that month.
+    Check that each transaction is shown with the date it was made, its title, and the amount of that transaction.
+    Verify that the page shows an income categories breakdown which is a list of categories where for every month any income categories with income are displayed.
+    Check that the income category breakdown section works similarly to the spending category breakdown section.
+
+Expected Results:
+    The spending and income categories breakdown sections on the Reports page function correctly and display the correct information as described.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+-- Test Case 32.4: Reports Page Functionality: Additional Metrics --
+Description:
+    Objective: Verify that the additional metrics on the Reports page function correctly and display the correct information.
+    Test Scenario: Reports Page
+
+Steps to Reproduce:
+    Log in to the web application with valid credentials.
+    Navigate to the Reports page.
+    Set a "from" date and a "to" date and submit the form.
+    Check that the page shows the category with the largest total spending along with how much money was spent in that category.
+    Verify that the page shows the average daily spending for the time period specified.
+    Check that the page shows the number of categories past the limit per month on average.
+    Verify that the page shows the number of categories close to the limit per month on average.
+
+Expected Results:
+    The additional metrics on the Reports page function correctly and display the correct information as described.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
 5. Issues and Bugs
 ------------------
 

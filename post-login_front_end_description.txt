@@ -115,7 +115,19 @@ Edit Income Transaction Page:
 
 Reports Page:
 
-
+- The reports page path is "Home/Reports"
+- The page has a form with a "from" date and a "to" date which can be submitted to regenerate a spending report
+- The page displays a charts showing total monthly transactions per month within the time period specified
+- The page displays a chart which shows the ratio of spending from each category for the time period specified
+- The page shows the category with the largest total spending along with how much money was spent in that category.
+- The page shows the average daily spending for the time period specified
+- The page shows the number of categories past the limit per month on average
+- The page shows the number of categories close to the limit per month on average
+- The page shows a spending categories breakdown section which is a list of categories where for every month any spending categories with spending are displayed.
+- Clicking on a spending category will open a dropdown for that spending category showing all the transactions in that spending category for that month.
+- Each transaction is shown with the date it was made, its title, and the amount of that transaction.
+- The page shows an income categories breakdown which is a list of categories where for every month any income categories with income are displayed.
+- The income category breakdown section works similarly to the spending category breakdown section.
 
 
 
