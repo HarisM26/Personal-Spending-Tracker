@@ -23,20 +23,13 @@ def view_report(request):
             "to_date": to_date
         })
 
-    transactions = rm.get_total_transactions_by_date(
-        current_user, from_date, to_date)
-    largest_category = rm.get_the_category_with_the_largest_total_spending(
-        current_user, from_date, to_date)
-    close_categories = rm.get_list_of_categories_close_or_over_the_limit(
-        current_user, from_date, to_date)
-    list_of_categories_and_transactions = rm.get_list_of_transactions_in_category(
-        current_user, from_date, to_date)
-    range_categories = rm.get_categories_within_time_frame(
-        current_user, from_date, to_date)
-    average_daily_spending = rm.get_average_daily_spending_within_time_frame(
-        current_user, from_date, to_date)
-    income_categories_and_transactions = rm.get_list_of_transactions_in_income_category(
-        current_user, from_date, to_date)
+    transactions = rm.get_total_transactions_by_date(current_user, from_date, to_date)
+    largest_category = rm.get_the_category_with_the_largest_total_spending(current_user, from_date, to_date)
+    close_categories = rm.get_list_of_categories_close_or_over_the_limit(current_user, from_date, to_date)
+    list_of_categories_and_transactions = rm.get_list_of_transactions_in_category(current_user, from_date, to_date)
+    range_categories = rm.get_categories_within_time_frame(current_user, from_date, to_date)
+    average_daily_spending = rm.get_average_daily_spending_within_time_frame(current_user, from_date, to_date)
+    income_categories_and_transactions = rm.get_list_of_transactions_in_income_category(current_user, from_date, to_date)
 
     context = {
         "from_date": from_date,

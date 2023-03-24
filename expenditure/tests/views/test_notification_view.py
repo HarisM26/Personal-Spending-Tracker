@@ -46,6 +46,14 @@ class NotificationViewTest(TestCase):
         response = self.client.get(self.notifications_url)
         self.assertRedirects(response, redirect_url,
                              status_code=302, target_status_code=200)
+    
+    def test_notification_page(self):
+        self.client.login(email='johndoe@example.com', password='Password123')
+        response = self.client.get(self.notifications_url)
+
+        self.assertEqual(response.status_code, 200)
+
+        self.assertIn('notification_page.html', (t.name for t in response.templates))
 
     def test_successful_notification_creation(self):
         before_count = Notification.objects.count()

@@ -131,3 +131,51 @@ class UserModelTestCase(TestCase):
     def _assert_user_is_invalid(self):
         with self.assertRaises(ValidationError):
             self.user.full_clean()
+
+    def test_successful_create_superuser(self):
+            super_user = User.objects.create_superuser(
+                    email = 'superuser@mail.ru',
+                    first_name = 'John',
+                    last_name = 'Doe',
+                    password = 'Password123',
+                )
+            self.assertTrue(super_user.is_superuser)
+
+    def test_unsuccessful_create_superuser_without_email(self):
+        with self.assertRaises(ValueError):
+            User.objects.create_superuser(
+                email = '',
+                first_name = 'John',
+                last_name = 'Doe',
+                password = 'Password123',
+            )
+
+    def test_unsuccessful_create_superuser_without_rights(self):
+        with self.assertRaises(ValueError):
+            User.objects.create_superuser(
+                email = 'director2@mail.ru',
+                first_name = 'John',
+                last_name = 'Doe',
+                password = 'Password123',
+                is_superuser = False,
+            )
+    
+    def test_unsuccessful_create_superuser_without_staff(self):
+        with self.assertRaises(ValueError):
+            User.objects.create_superuser(
+                email = 'director2@mail.ru',
+                first_name = 'John',
+                last_name = 'Doe',
+                password = 'Password123',
+                is_staff = False,
+            )
+    
+    def test_full_name(self):
+        full_name = f'{self.user.first_name} {self.user.last_name}'
+        self.assertEqual(self.user.full_name(), full_name)
+
+    def test_str(self):
+        self.assertEqual(str(self.user), f'{self.user.email}')
+    
+    
+

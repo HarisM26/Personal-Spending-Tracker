@@ -14,6 +14,9 @@ class ShowUserTest(TestCase):
     def setUp(self):
         self.user = User.objects.get(email='johndoe@example.com')
         self.url = reverse('user_profile')
+        self.user_2 =  User.objects.get(email='janedoe@example.com')
+        self.url_friends = reverse('friends_profile', kwargs={'id': self.user_2.id})
+        self.url_delete = reverse('delete_account')
         self.form_input = {
             'first_name': 'John2',
             'last_name': 'Doe2',
@@ -22,6 +25,15 @@ class ShowUserTest(TestCase):
 
     def test_profile_url(self):
         self.assertEqual(self.url, '/profile/')
+        self.assertEqual(self.url_friends, f'/search_friends/friends_profile/{self.user_2.id}')
+        self.assertEqual(self.url_delete, '/delete_account/')
+    
+    def test_profile_friends_accessible(self):
+        self.client.login(email='johndoe@example.com', password='Password123')
+        response = self.client.get(self.url_friends)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('friends_profile.html', (t.name for t in response.templates))
+
 
     def test_get_profile(self):
         self.client.login(email=self.user.email, password='Password123')
@@ -93,5 +105,13 @@ class ShowUserTest(TestCase):
     def test_post_profile_redirects_when_not_logged_in(self):
         redirect_url = reverse_with_next('log_in', self.url)
         response = self.client.post(self.url, self.form_input)
+        self.assertRedirects(response, redirect_url,
+                             status_code=302, target_status_code=200)
+    
+    def test_delete_accessible(self):
+        self.client.login(email='johndoe@example.com', password='Password123')
+        response = self.client.get(self.url_delete)
+        self.assertEqual(response.status_code, 302)
+        redirect_url = reverse('home')
         self.assertRedirects(response, redirect_url,
                              status_code=302, target_status_code=200)
