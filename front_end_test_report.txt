@@ -448,10 +448,10 @@ Expected Results:
 - An error message is displayed, indicating that the provided credentials are incorrect.
 
 Actual Results:
-[Actual result 1]
+An error message is displayed, indicating that the provided credentials are incorrect.
 
 Pass/Fail:
-[Pass/Fail]
+Pass
 
 Comments:
 [Any additional comments or observations]
@@ -470,10 +470,10 @@ Expected Results:
 - An error message is displayed, indicating that the provided credentials are incorrect.
 
 Actual Results:
-[Actual result 1]
+An error message is displayed, indicating that the provided credentials are incorrect.
 
 Pass/Fail:
-[Pass/Fail]
+Pass
 
 Comments:
 [Any additional comments or observations]
@@ -492,10 +492,10 @@ Expected Results:
 - For each combination an error message is displayed, indicating that the email and password fields cannot be empty.
 
 Actual Results:
-[Actual result 1]
+For each combination an error message is displayed, indicating that the email and password fields cannot be empty.
 
 Pass/Fail:
-[Pass/Fail]
+Pass
 
 Comments:
 [Any additional comments or observations]
@@ -515,10 +515,11 @@ Expected Results:
 2. The Sign-Up link navigates to the User Sign-Up page.
 
 Actual Results:
-[Actual]
+1. The Forgot Password link navigates to the Password Reset Request page.
+2. The Sign-Up link navigates to the User Sign-Up page.
 
 Pass/Fail:
-[Pass/Fail]
+Pass
 
 Comments:
 [Any additional comments or observations]
@@ -541,13 +542,13 @@ Expected Results:
     The Reset Password page contains all the required elements with the correct design and positioning. An email should be sent to the user with further instructions on how to reset the password.
 
 Actual Results:
-    [Actual result 1]
+    The Reset Password page contains all the required elements with the correct design and positioning. An email should be sent to the user with further instructions on how to reset the password.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
-    [Any additional comments or observations]
+    the CSS of the website doesnt extend to some of the links
 
 -- Test Case 19: Reset Password Page - Request Password Reset --
 Description:
@@ -563,10 +564,10 @@ Expected Results:
     The user is redirected to the Reset Password Sent page.
 
 Actual Results:
-    [Actual result 1]
+    The user is redirected to the Reset Password Sent page.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -585,10 +586,10 @@ Expected Results:
     The user is redirected to the Reset Password Sent page. The user does not receive an email at the address entered.
 
 Actual Results:
-    [Actual result 1]
+    The user is redirected to the Reset Password Sent page. The user does not receive an email at the address entered.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -611,10 +612,10 @@ Expected Results:
     The Reset Password Sent page contains all the required elements with the correct design and positioning.
 
 Actual Results:
-    [Actual result 1]
+    The Reset Password Sent page contains all the required elements with the correct design and positioning.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -642,10 +643,13 @@ Expected Results:
     The reset password link takes the user to the Reset Password Confirm page.
 
 Actual Results:
-    [Actual result 1]
+    The reset password email is sent from the correct sender email address.
+    The subject line is appropriate and clear.
+    The email body contains instructions and a reset password link.
+    The reset password link takes the user to the Reset Password Confirm page.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -669,10 +673,10 @@ Expected Results:
     The Reset Password Confirm page contains all the required elements with the correct design and positioning.
 
 Actual Results:
-    [Actual result 1]
+    The Reset Password Confirm page contains all the required elements with the correct design and positioning.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -692,10 +696,10 @@ Expected Results:
     The user's password is successfully reset, and they are redirected to the Password Reset Complete page.
 
 Actual Results:
-    [Actual result 1]
+    The user's password is successfully reset, and they are redirected to the Password Reset Complete page.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -715,10 +719,10 @@ Expected Results:
     An error message is displayed, indicating that the entered passwords do not match.
 
 Actual Results:
-    [Actual result 1]
+    An error message is displayed, indicating that the entered passwords do not match.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -741,10 +745,10 @@ Expected Results:
     The Password Reset Complete page contains all the required elements with the correct design and positioning.
 
 Actual Results:
-    [Actual result 1]
+     The Password Reset Complete page contains all the required elements with the correct design and positioning.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
