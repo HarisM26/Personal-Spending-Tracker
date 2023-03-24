@@ -39,7 +39,7 @@ urlpatterns = [
     path('search_friends/', user_views.search_friends, name='search_friends'),
     path('search_friends/friends_profile/<int:id>',
          user_views.show_friends_profile, name='friends_profile'),
-    path('search_friends/follow_toggle',
+    path('search_friends/follow_toggle/<int:request_id>',
          user_views.follow_toggle, name='follow_toggle'),
     path('leaderboard/', user_views.leaderboard, name='leaderboard'),
     path('profile/', user_views.profile, name='user_profile'),
@@ -47,10 +47,8 @@ urlpatterns = [
          name='password_change'),
     path('forgot_password/', user_views.forgot_password, name='forgot_password'),
     path('delete_account/', user_views.delete_account, name='delete_account'),
-    path('settings/toggle_privacy',
+    path('settings/toggle_privacy/',
          user_views.toggle_privacy, name='toggle_privacy'),
-#     path('search_friends/follow/<int:request_id>',
-#           user_views.follow_toggle, name='follow_toggle'),
 
 
 

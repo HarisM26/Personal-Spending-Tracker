@@ -22,11 +22,12 @@
 		{% for result in search_results %}
 	    <li class="d-flex justify-content-between align-items-center friend-search-list card-box-shadow">
 				<i class='bx bx-user-circle bx-sm'></i>
-				<a class="anchor-unhide" href="{% url 'friends_profile' result.id%}">{{ result.first_name }} {{ result.last_name }}</a> <form method="post">
+				<a class="anchor-unhide" href="{% url 'friends_profile' result.id%}">{{ result.first_name }} {{ result.last_name }}</a> 
+				<form method="post">
 	        {% csrf_token %}
-	        <button class="btn btn-info" type="submit" name="item_id" value="{{ result.id }}">
+	        <a href="{%url 'follow_toggle' result.id%}" class="btn btn-info" type="submit" name="item_id" value="{{ result.id }}">
 	        {% if request.session.is_following %} Remove{% else %}Add{% endif %}
-	        </button>
+					</a>
 	    </form></li>
 			{% empty %}
 			No user(s) found

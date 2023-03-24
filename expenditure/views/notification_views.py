@@ -24,7 +24,8 @@ def toggle_notification(request):
         current_user.toggle_notification = 'ON'
         current_user.save()
     return redirect('settings')
-    
+
+
 @login_required
 def toggle_email(request):
     current_user = request.user

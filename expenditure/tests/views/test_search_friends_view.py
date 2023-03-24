@@ -40,7 +40,7 @@ class SearchFriendsTest(TestCase):
                              status_code=302, target_status_code=200)
     
     def test_privacy_toggle_url(self):
-        self.assertEqual(self.url_privacy, '/settings/toggle_privacy')
+        self.assertEqual(self.url_privacy, '/settings/toggle_privacy/')
 
     def test_get_privacy_toggle_redirects_when_not_logged_in(self):
         redirect_url = reverse_with_next('log_in', self.url_privacy)
