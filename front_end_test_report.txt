@@ -52,7 +52,7 @@ For all test scenarios, the objectives of the Homepage also apply.
 - Verify the user receives a password reset email with a unique reset link
 
 3.2.2 Reset Password Sent Page
-- Check the correct page is displayed
+- Verify the layout, design elements, and content
 
 3.2.2 Reset Password Email
 - Verify the email content, including subject, sender, and recipient
@@ -69,6 +69,9 @@ For all test scenarios, the objectives of the Homepage also apply.
 - Test the link to the login page and other related pages
 
 3.3 Scenarios after user is logged into service
+
+3.3.0 Logged-in Pages:
+- Verify the layout, and design elements are consistent for all logged in pages.
 
 3.3.1 User Feed
 - Verify user can easily add transactions using the quick add feauture
@@ -748,6 +751,8 @@ Pass/Fail:
 Comments:
     [Any additional comments or observations]
 
+4.5 Logged-in Pages Scenario ----------------------------------------------------------------
+
 -- Test Case 26: Logged-in Pages - Layout and Design Elements --
 Description:
     Objective: Verify that all pages accessible after logging in have the correct layout and design elements.
@@ -776,7 +781,7 @@ Comments:
 -- Test Case 27: Navigation Bar Functionality --
 Description:
     Objective: Verify that the navigation bar functions correctly in all logged-in pages.
-    Test Scenario: Navigation Bar
+    Test Scenario: Logged-in Pages 
 
 Steps to Reproduce:
     Log in to the web application with valid credentials.
@@ -805,7 +810,7 @@ Comments:
 -- Test Case 28: Side Bar Functionality --
 Description:
     Objective: Verify that the side bar functions correctly in all logged-in pages.
-    Test Scenario: Side Bar
+    Test Scenario: Logged-in Pages 
 
 Steps to Reproduce:
     Log in to the web application with valid credentials.
@@ -825,6 +830,8 @@ Pass/Fail:
 
 Comments:
     [Any additional comments or observations]
+
+4.4 All Notifications Page Scenario ----------------------------------------------------------------
 
 -- Test Case 29: All Notifications Page Functionality --
 Description:
@@ -850,6 +857,8 @@ Pass/Fail:
 Comments:
     [Any additional comments or observations]
 
+4.4 View Notifications Page Scenario ----------------------------------------------------------------
+
 -- Test Case 30: View Notification Page Functionality --
 Description:
     Objective: Verify that the View Notification page functions correctly and displays the correct information.
@@ -874,6 +883,8 @@ Pass/Fail:
 Comments:
     [Any additional comments or observations]
 
+4.4 Profile Page Scenario ----------------------------------------------------------------
+
 -- Test Case 31: Profile Page Functionality --
 Description:
     Objective: Verify that the Profile page functions correctly and displays the correct information.
@@ -897,6 +908,8 @@ Pass/Fail:
 
 Comments:
     [Any additional comments or observations]
+
+4.4 Settings Page Scenario ----------------------------------------------------------------
 
 -- Test Case 32: Settings Page Functionality --
 Description:
@@ -923,7 +936,9 @@ Pass/Fail:
 
 Comments:
     [Any additional comments or observations]
-######
+
+4.4 User Dashboard Scenario ----------------------------------------------------------------
+
 -- Test Case 33: Dashboard Page Layout and Design --
 Description:
     Objective: Verify that the Dashboard page functions correctly and displays the correct information.
@@ -972,10 +987,12 @@ Pass/Fail:
 Comments:
     [Any additional comments or observations]
 
+4.4 User Spending Scenario ----------------------------------------------------------------
+
 -- Test Case 35: Spending Page Display and Navigation --
 Description:
     Objective: Verify that the Spending Page is displayed correctly and that the user can navigate to it.
-    Test Scenario: Spending Page
+    Test Scenario: User Spending
 
 Steps to Reproduce:
     Log in to the web application with valid credentials.
@@ -997,7 +1014,7 @@ Comments:
 -- Test Case 36: Spending Page Default Categories --
 Description:
     Objective: Verify that the default spending categories are displayed on the Spending page.
-    Test Scenario: Spending Page
+    Test Scenario: User Spending
 
 Steps to Reproduce:
     Log in to the web application with valid credentials.
@@ -1019,7 +1036,7 @@ Comments:
 -- Test Case 37: Spending Page Create New Category --
 Description:
     Objective: Verify that the user can create a new spending category on the Spending page.
-    Test Scenario: Spending Page 
+    Test Scenario: User Spending 
 
 Steps to Reproduce:
     Log in to the web application with valid credentials.
@@ -1042,7 +1059,7 @@ Comments:
 -- Test Case 38: Spending Page Category Transactions --
 Description:
     Objective: Verify that the user can view and interact with transactions within a spending category on the Spending page.
-    Test Scenario: Spending Page
+    Test Scenario: User Spending
 
 Steps to Reproduce:
     Log in to the web application with valid credentials.
@@ -1066,7 +1083,7 @@ Comments:
 -- Test Case 39: Spending Page Create and Edit Transactions --
 Description:
     Objective: Verify that the user can create and edit transactions on the Spending page.
-    Test Scenario: Spending Page 
+    Test Scenario: User Spending 
 
 Steps to Reproduce:
     Log in to the web application with valid credentials.
@@ -1095,7 +1112,7 @@ Comments:
 -- Test Case 40: Spending Page Delete Category and Transaction --
 Description:
     Objective: Verify that the user can delete a category and transaction on the Spending page.
-    Test Scenario: Spending Page 
+    Test Scenario: User Spending
 
 Steps to Reproduce:
     Log in to the web application with valid credentials.
@@ -1123,7 +1140,7 @@ Comments:
 -- Test Case 41: Create Spending Category Page Functionality --
 Description:
     Objective: Verify that the user can create a new spending category on the Create Spending Category page.
-    Test Scenario: Create Spending Category Page
+    Test Scenario: User Spending
 
 Steps to Reproduce:
     Log in to the web application with valid credentials.
@@ -1147,7 +1164,7 @@ Comments:
 -- Test Case 42: Edit Spending Category Page Functionality --
 Description:
     Objective: Verify that the user can edit an existing spending category on the Edit Spending Category page.
-    Test Scenario: Edit Spending Category Page
+    Test Scenario: User Spending
 
 Steps to Reproduce:
     Log in to the web application with valid credentials.
@@ -1171,7 +1188,7 @@ Comments:
 -- Test Case 43: Delete Category Page Functionality --
 Description:
     Objective: Verify that the user can delete a category on the Delete Category page.
-    Test Scenario: Delete Category Page
+    Test Scenario: User Spending
 
 Steps to Reproduce:
     Log in to the web application with valid credentials.
@@ -1192,12 +1209,10 @@ Pass/Fail:
 Comments:
     [Any additional comments or observations]
 
-###### NEW
-
 -- Test Case 44: Add Transaction Page Functionality --
 Description:
     Objective: Verify that the user can add a transaction on the Add Transaction page.
-    Test Scenario: Add Transaction Page 
+    Test Scenario: User Spending
 
 Steps to Reproduce:
     Log in to the web application with valid credentials.
@@ -1221,7 +1236,7 @@ Comments:
 -- Test Case 45: Edit Transaction Page Functionality --
 Description:
     Objective: Verify that the user can edit a transaction on the Edit Transaction page.
-    Test Scenario: Edit Transaction Page 
+    Test Scenario: User Spending
 
 Steps to Reproduce:
     Log in to the web application with valid credentials.
@@ -1245,7 +1260,7 @@ Comments:
 -- Test Case 46: Delete Transaction Functionality --
 Description:
     Objective: Verify that the user can delete a transaction from a spending category.
-    Test Scenario: Delete Transaction 
+    Test Scenario: User Spending
 
 Steps to Reproduce:
     Log in to the web application with valid credentials.
@@ -1269,7 +1284,7 @@ Comments:
 -- Test Case 47: View Transaction Details in Modal Dialog --
 Description:
     Objective: Verify that the user can view transaction details in a modal dialog.
-    Test Scenario: Spending Page
+    Test Scenario: User Spending
 
 Steps to Reproduce:
     Log in to the web application with valid credentials.
@@ -1291,11 +1306,12 @@ Comments:
     [Any additional comments or observations]
 
 ### NEW --------------------------------
+4.4 User Income Scenario ----------------------------------------------------------------
 
 -- Test Case 48: Income Page Functionality --
 Description:
     Objective: Verify that the Income page displays the user's income categories and allows the user to add, edit, and delete categories and transactions.
-    Test Scenario: Income Page 
+    Test Scenario: User Income
 
 Steps to Reproduce:
     Log in to the web application with valid credentials.
@@ -1319,7 +1335,7 @@ Comments:
 -- Test Case 49: Create Incoming Category Page Functionality --
 Description:
     Objective: Verify that the user can create a new incoming category on the Create Incoming Category page.
-    Test Scenario: Create Incoming Category Page 
+    Test Scenario: User Income 
 
 Steps to Reproduce:
     Log in to the web application with valid credentials.
@@ -1344,7 +1360,7 @@ Comments:
 -- Test Case 50: Edit Incoming Category Page Functionality --
 Description:
     Objective: Verify that the user can edit an existing incoming category on the Edit Incoming Category page.
-    Test Scenario: Edit Incoming Category Page 
+    Test Scenario: User Income
 
 Steps to Reproduce:
     Log in to the web application with valid credentials.
@@ -1369,7 +1385,7 @@ Comments:
 -- Test Case 51: Add Income Transaction Functionality --
 Description:
     Objective: Verify that the user can add an income transaction on the Add Income Transaction page.
-    Test Scenario: Add Income Transaction 
+    Test Scenario: User Income 
 
 Steps to Reproduce:
     Log in to the web application with valid credentials.
@@ -1394,7 +1410,7 @@ Comments:
 -- Test Case 52: Edit Income Transaction Functionality --
 Description:
     Objective: Verify that the user can edit an existing income transaction on the Edit Income Transaction page.
-    Test Scenario: Edit Income Transaction 
+    Test Scenario: User Income 
 
 Steps to Reproduce:
     Log in to the web application with valid credentials.
@@ -1417,11 +1433,12 @@ Comments:
     [Any additional comments or observations]
 
 ### NEW
+4.4 User Reports Scenario ----------------------------------------------------------------
 
--- Test Case 32.1: Reports Page Layout and Design --
+-- Test Case 53: Reports Page Layout and Design --
 Description:
     Objective: Verify the layout and design of the Reports page.
-    Test Scenario: Reports Page
+    Test Scenario: User Reports
 
 Steps to Reproduce:
     Log in to the web application with valid credentials.
@@ -1442,10 +1459,10 @@ Pass/Fail:
 Comments:
     [Any additional comments or observations]
 
--- Test Case 32.2: Reports Page Functionality: Charts --
+-- Test Case 54: Reports Page Functionality: Charts --
 Description:
     Objective: Verify that the charts on the Reports page function correctly and display the correct information.
-    Test Scenario: Reports Page
+    Test Scenario: User Reports
 
 Steps to Reproduce:
     Log in to the web application with valid credentials.
@@ -1466,10 +1483,10 @@ Pass/Fail:
 Comments:
     [Any additional comments or observations]
 
--- Test Case 32.3: Reports Page Functionality: Spending and Income Categories Breakdown --
+-- Test Case 55: Reports Page Functionality: Spending and Income Categories Breakdown --
 Description:
     Objective: Verify that the spending and income categories breakdown sections on the Reports page function correctly and display the correct information.
-    Test Scenario: Reports Page
+    Test Scenario: User Reports
 
 Steps to Reproduce:
     Log in to the web application with valid credentials.
@@ -1493,10 +1510,10 @@ Pass/Fail:
 Comments:
     [Any additional comments or observations]
 
--- Test Case 32.4: Reports Page Functionality: Additional Metrics --
+-- Test Case 56: Reports Page Functionality: Additional Metrics --
 Description:
     Objective: Verify that the additional metrics on the Reports page function correctly and display the correct information.
-    Test Scenario: Reports Page
+    Test Scenario: User Reports
 
 Steps to Reproduce:
     Log in to the web application with valid credentials.
