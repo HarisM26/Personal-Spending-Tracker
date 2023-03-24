@@ -770,10 +770,10 @@ Expected Results
     All pages accessible after logging in contain the required elements with the correct design and positioning.
 
 Actual Results:
-    [Actual result 1]
+    All pages accessible after logging in contain the required elements with the correct design and positioning.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -799,10 +799,10 @@ Expected Results:
     The navigation bar functions correctly on all logged-in pages, with all elements working as described.
 
 Actual Results:
-    [Actual result 1]
+    The navigation bar functions correctly on all logged-in pages, with all elements working as described.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -823,10 +823,9 @@ Expected Results:
     The side bar functions correctly on all logged-in pages, with all elements working as described.
 
 Actual Results:
-    [Actual result 1]
-
+     The side bar functions correctly on all logged-in pages, with all elements working as described.
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -847,11 +846,10 @@ Expected Results:
     The All Notifications page functions correctly and displays the correct information as described.
 
 Actual Results:
-    [Actual result 1]
+    The All Notifications page functions correctly and displays the correct information as described.
 
 Pass/Fail:
-    [Pass/Fail]
-
+    Pass
 Comments:
     [Any additional comments or observations]
 
@@ -871,10 +869,10 @@ Expected Results:
     The View Notification page functions correctly and displays the correct information as described.
 
 Actual Results:
-    [Actual result 1]
+    The View Notification page functions correctly and displays the correct information as described.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -895,10 +893,10 @@ Expected Results:
     The Profile page functions correctly and displays the correct information as described.
 
 Actual Results:
-    [Actual result 1]
+    The Profile page functions correctly and displays the correct information as described.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -921,10 +919,10 @@ Expected Results:
     The Settings page functions correctly and displays the correct information as described.
 
 Actual Results:
-    [Actual result 1]
+    The Settings page functions correctly and displays the correct information as described.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -945,10 +943,10 @@ Expected Results:
     The Dashboard page functions correctly and displays the correct information as described.
 
 Actual Results:
-    [Actual result 1]
+    The Dashboard page functions correctly and displays the correct information as described.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -969,10 +967,10 @@ Expected Results:
     The user can use the "Quick Add" button on the Dashboard page to add a transaction.
 
 Actual Results:
-    [Actual result 1]
-
+    The user can use the "Quick Add" button on the Dashboard page to add a transaction.
+    
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -991,10 +989,10 @@ Expected Results:
     The Spending page is displayed correctly and the user can navigate to it.
 
 Actual Results:
-    [Actual result 1]
+    The Spending page is displayed correctly and the user can navigate to it.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -1013,10 +1011,10 @@ Expected Results:
     The default spending categories are displayed on the Spending page.
 
 Actual Results:
-    [Actual result 1]
-
+    The default spending categories are displayed on the Spending page.
+    
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -1036,10 +1034,10 @@ Expected Results:
     The user can create a new spending category on the Spending page.
 
 Actual Results:
-    [Actual result 1]
+    The user can create a new spending category on the Spending page.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -1060,10 +1058,10 @@ Expected Results:
     The user can view and interact with transactions within a spending category on the Spending page.
 
 Actual Results:
-    [Actual result 1]
+    The user can view and interact with transactions within a spending category on the Spending page.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -1089,10 +1087,10 @@ Expected Results:
     The user can create and edit transactions on the Spending page.
 
 Actual Results:
-    [Actual result 1]
+    The user can create and edit transactions on the Spending page.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -1117,10 +1115,10 @@ Expected Results:
     The user can delete a category and transaction on the Spending page.
 
 Actual Results:
-    [Actual result 1]
+    The user can delete a category and transaction on the Spending page.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -1141,10 +1139,10 @@ Expected Results:
     The user can create a new spending category on the Create Spending Category page.
 
 Actual Results:
-    [Actual result 1]
+    The user can create a new spending category on the Create Spending Category page.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -1165,10 +1163,10 @@ Expected Results:
     The user can edit an existing spending category on the Edit Spending Category page.
 
 Actual Results:
-    [Actual result 1]
+    The user can edit an existing spending category on the Edit Spending Category page.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -1189,10 +1187,10 @@ Expected Results:
     The user can delete a category on the Delete Category page.
 
 Actual Results:
-    [Actual result 1]
+    The user can delete a category on the Delete Category page.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -1215,10 +1213,10 @@ Expected Results:
     The user can add a transaction on the Add Transaction page.
 
 Actual Results:
-    [Actual result 1]
+    The user can add a transaction on the Add Transaction page.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -1239,10 +1237,10 @@ Expected Results:
     The user can edit a transaction on the Edit Transaction page.
 
 Actual Results:
-    [Actual result 1]
+    The user can edit a transaction on the Edit Transaction page.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -1263,10 +1261,10 @@ Expected Results:
     The user can delete a transaction from a spending category.
 
 Actual Results:
-    [Actual result 1]
+    The user can delete a transaction from a spending category.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -1287,10 +1285,10 @@ Expected Results:
     The user can view transaction details in a modal dialog.
 
 Actual Results:
-    [Actual result 1]
+    The user can view transaction details in a modal dialog.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -1313,10 +1311,10 @@ Expected Results:
     The Income page displays the user's income categories and allows the user to add, edit, and delete categories and transactions.
 
 Actual Results:
-    [Actual result 1]
+    The Income page displays the user's income categories and allows the user to add, edit, and delete categories and transactions.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -1338,10 +1336,10 @@ Expected Results:
     The user can create a new incoming category on the Create Incoming Category page.
 
 Actual Results:
-    [Actual result 1]
-
+    The user can create a new incoming category on the Create Incoming Category page.
+    
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -1363,10 +1361,10 @@ Expected Results:
     The user can edit an existing incoming category on the Edit Incoming Category page.
 
 Actual Results:
-    [Actual result 1]
+    The user can edit an existing incoming category on the Edit Incoming Category page.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -1388,10 +1386,10 @@ Expected Results:
     The user can add an income transaction on the Add Income Transaction page.
 
 Actual Results
-    [Actual result 1]
+    The user can add an income transaction on the Add Income Transaction page.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -1413,10 +1411,10 @@ Expected Results:
     The user can edit an existing income transaction on the Edit Income Transaction page.
 
 Actual Results:
-    [Actual result 1]
+    The user can edit an existing income transaction on the Edit Income Transaction page.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -1439,10 +1437,10 @@ Expected Results:
     The layout and design of the Reports page match the described elements.
 
 Actual Results:
-    [Actual result 1]
+    The layout and design of the Reports page match the described elements.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -1463,10 +1461,10 @@ Expected Results:
     The charts on the Reports page function correctly and display the correct information as described.
 
 Actual Results:
-    [Actual result 1]
+    The charts on the Reports page function correctly and display the correct information as described.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -1490,10 +1488,10 @@ Expected Results:
     The spending and income categories breakdown sections on the Reports page function correctly and display the correct information as described.
 
 Actual Results:
-    [Actual result 1]
+    The spending and income categories breakdown sections on the Reports page function correctly and display the correct information as described.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
@@ -1516,10 +1514,10 @@ Expected Results:
     The additional metrics on the Reports page function correctly and display the correct information as described.
 
 Actual Results:
-    [Actual result 1]
+    The additional metrics on the Reports page function correctly and display the correct information as described.
 
 Pass/Fail:
-    [Pass/Fail]
+    Pass
 
 Comments:
     [Any additional comments or observations]
