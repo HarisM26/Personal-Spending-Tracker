@@ -161,3 +161,9 @@ class DateReportForm(forms.Form):
                                 not_future], widget=DatePickerInput(options={"format": "DD/MM/YYYY"}))
     to_date = forms.DateField(label="to", validators=[
                               not_future], widget=DatePickerInput(options={"format": "DD/MM/YYYY"}))
+
+
+class FriendSearchForm(forms.Form):
+    search = forms.CharField(validators=[RegexValidator(
+        regex=r'^([A-z_ ])*$',  # regex for alphabets and whitespaces
+        message='Field accepts aphabets only.')])

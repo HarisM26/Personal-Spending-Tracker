@@ -625,6 +625,14 @@ h3 {
   text-decoration: none;
   color: inherit;
 }
+
+.friend-search-list {
+  padding: 10px;
+}
+.anchor-unhide {
+  color: black;
+  text-decoration: none;
+}
 /*======================================*/
 #bell-icon {
   color: var(--color-dark);

@@ -1,4 +1,4 @@
-"""personalspendingtracker URL Configuration
+"""personal-spending-tracker URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.1/topics/http/urls/
@@ -39,7 +39,7 @@ urlpatterns = [
     path('search_friends/', user_views.search_friends, name='search_friends'),
     path('search_friends/friends_profile/<int:id>',
          user_views.show_friends_profile, name='friends_profile'),
-    path('search_friends/follow_toggle/<int:id>',
+    path('search_friends/follow_toggle',
          user_views.follow_toggle, name='follow_toggle'),
     path('leaderboard/', user_views.leaderboard, name='leaderboard'),
     path('profile/', user_views.profile, name='user_profile'),
@@ -49,6 +49,8 @@ urlpatterns = [
     path('delete_account/', user_views.delete_account, name='delete_account'),
     path('settings/toggle_privacy',
          user_views.toggle_privacy, name='toggle_privacy'),
+    # path('search_friends/follow/<int:request_id>',
+    # user_views.follow_toggle, name='follow_toggle'),
 
 
 
@@ -61,6 +63,7 @@ urlpatterns = [
          name='notification_page'),
     path('settings/toggle_email',
          notification_views.toggle_email, name='toggle_email'),
+
 
 
     # ========= Category urls ===========
