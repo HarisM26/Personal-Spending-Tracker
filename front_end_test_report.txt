@@ -51,6 +51,9 @@ For all test scenarios, the objectives of the Homepage also apply.
 - Test the password reset request process, including successful request submission and error handling
 - Verify the user receives a password reset email with a unique reset link
 
+3.2.2 Reset Password Sent Page
+- Check the correct page is displayed
+
 3.2.2 Reset Password Email
 - Verify the email content, including subject, sender, and recipient
 - Check the email contains a unique password reset link with a valid expiration time
@@ -107,10 +110,280 @@ For all test scenarios, the objectives of the Homepage also apply.
 
 4. Test Cases and Results
 -------------------------
-4.
-4.3 Log in Scenario
 
--- Test Case 1: Log-in Page - Layout and Design Elements --
+4.1 Homepage Scenario
+
+-- Test Case 1: Home Page - Layout and Design Elements --
+Description:
+    Objective: Verify that the home page has the correct layout and design elements.
+    Test Scenario: Home Page
+
+Steps to Reproduce:
+    Open the web application and navigate to the home page.
+    Check the presence of the following elements:
+        Navigation bar with logo, product name, "Home" link, "About" link, "News" link, "Contact" link, "Login" link and "Get Started" link
+        "Home" section with product name, slogan, "Login" and "Get Started" buttons
+        "About Us" section with image, "What we do" and "Who we are" text
+        "News" section with swiper cards with news article title, source, date of publication and "View article" button
+        "Contact" section with Information about Enquiries and Techinical Support
+        Swiper cards in the news section with article titles and links
+
+Expected Results:
+    The home page contains all the required elements with the correct design and positioning.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+-- Test Case 2: Home Page - Navigation Bar Links Functionality --
+Description:
+    Objective: Verify that all navigation links on the home page function correctly.
+    Test Scenario: Home Page
+
+Steps to Reproduce:
+    Open the web application and navigate to the home page.
+    Click the "Home" link, product name or logo in the navigation bar and verify it takes the user to the top of the home page.
+    Click the "About" link in the navigation barand verify it takes the user to the about section on the home page.
+    Click the "News" link in the navigation barand verify it takes the user to the news section on the home page.
+    Click the "Contact" link in the navigation barand verify it takes the user to the contact section on the home page.
+    Click the "Login" link in the navigation barand verify it takes the user to the login page.
+    Click the "Get Started" link in the navigation barand verify it takes the user to the sign-up page.
+
+Expected Results:
+    All navigation links work correctly and take the user to the appropriate sections or pages.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+-- Test Case 3: Home Page - News Swiper Cards Functionality --
+Description:
+    Objective: Verify that the swiper cards in the news section function correctly and link to the appropriate news articles.
+    Test Scenario: Home Page
+
+Steps to Reproduce:
+    Open the web application and navigate to the home page.
+    Scroll to the news section and interact with the swiper cards, checking the following:
+        The swiper cards can be swiped or navigated through.
+        The article titles, source and publication date are displayed correctly on the cards.
+        The cards contain links to the corresponding news articles.
+    Click the links on the swiper cards and verify that they take the user to the correct news articles.
+
+Expected Results:
+    The swiper cards in the news section function correctly and take the user to the appropriate news articles when the links are clicked.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+4.2 Sign-up Page Scenario ----------------------------------------------------------------
+
+-- Test Case 4: Sign-up Page - Layout and Design Elements --
+Description:
+    Objective: Verify that the sign-up page has the correct layout and design elements.
+    Test Scenario: User Sign-Up Page
+
+Steps to Reproduce:
+    Open the web application and navigate to the sign-up page.
+    Check the presence of the following elements:
+        Navigation bar with logo, product name, "Home" link, "Login" link and "Get Started" link
+        Page title
+        First name field
+        Last Name field
+        Email field
+        Password field
+        Password confirmation field
+        Reference Code
+        Sign-up button (Register)
+        Log-in link
+
+Expected Results:
+    The sign-up page contains all the required elements with the correct design and positioning.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+-- Test Case 5: Sign-up Page - Successful Registration without Reference Code--
+Description:
+    Objective: Verify that a user can successfully register with valid information.
+    Test Scenario: User Sign-Up Page
+
+Steps to Reproduce:
+    Open the web application and navigate to the sign-up page.
+    Enter valid information into all required fields (first name, last name, email, password, and password confirmation).
+    Leave the reference code field empty.
+    Click the sign-up button.
+
+Expected Results:
+    The user is successfully registered and redirected to the dashboard. An email should be sent to the user welcoming them to the platform.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+-- Test Case 6: Referral Code Field - Successful Registration with Reference Code --
+Description:
+    Objective: Verify that a user can successfully register with a valid referral code.
+    Test Scenario: User Sign-Up Page
+
+Steps to Reproduce:
+    Open the web application and navigate to the sign-up page.
+    Enter valid information into all required fields (full name, email, password, and password confirmation).
+    Enter a valid reference code into the reference code field.
+    Click the sign-up button.
+
+Expected Results:
+    The user is successfully registered and the reference code is processed accordingly (user with reference code is awarded extra points).
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+-- Test Case 7: Sign-up Page - Field Validation --
+Description:
+    Objective: Verify that proper validation is in place for each required input field, and error messages are displayed when incorrect information is entered.
+    Test Scenario: User Sign-Up Page
+
+Steps to Reproduce:
+    Open the web application and navigate to the sign-up page.
+    Test each field by entering incorrect or incomplete information (e.g., invalid email format, password too short, mismatched passwords).
+    Click the sign-up button.
+
+Expected Results:
+    An error message is displayed for each field with incorrect or incomplete information, indicating the specific issue.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+-- Test Case 8: Sign-up Page - Empty Fields and Validation --
+Description:
+    Objective: Verify that validation is in place for empty fields and error messages are displayed when a user attempts to register with empty fields.
+    Test Scenario: User Sign-Up Page
+
+Steps to Reproduce:
+    Open the web application and navigate to the sign-up page.
+    Leave one or more required fields empty.
+    Click the sign-up button.
+
+Expected Results:
+    An error message is displayed for each empty field, indicating that the field cannot be empty.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+-- Test Case 9: Sign-up Page - Invalid Reference Code Error --
+Description:
+    Objective: Verify that an error message is displayed when a user enters an invalid reference code.
+    Test Scenario: User Sign-Up Page
+
+Steps to Reproduce:
+    Open the web application and navigate to the sign-up page.
+    Enter valid information into all required fields (full name, email, password, and password confirmation).
+    Enter an invalid reference code into the reference code field.
+    Click the sign-up button.
+
+Expected Results:
+    An error message is displayed, indicating that the provided reference code is invalid.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+-- Test Case 10: Sign-up Page - Log-in Link --
+Description:
+    Objective: Verify that the Log-in link navigates to the correct page.
+    Test Scenario: User Sign-Up Page
+
+Steps to Reproduce:
+    Open the web application and navigate to the sign-up page.
+    Click the Log-in link.
+
+Expected Results:
+    The Log-in link navigates to the User Log-In page.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+-- Test Case 11: Sign-up Page - Duplicate Email --
+Description:
+    Objective: Verify that an error message is displayed when a user attempts to register with an email that is already in use.
+    Test Scenario: User Sign-Up Page
+
+Steps to Reproduce:
+    Open the web application and navigate to the sign-up page.
+    Enter an email that is already registered in the system.
+    Complete the other required fields with valid information.
+    Click the sign-up button.
+
+Expected Results:
+    An error message is displayed, indicating that the email is already in use.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+4.3 Log-In Scenario ----------------------------------------------------------------
+
+-- Test Case 12: Log-In Page - Layout and Design Elements --
 Description:
 Objective: Verify that the log-in page has the correct layout and design elements.
 Test Scenario: User Log-In Page
@@ -118,12 +391,13 @@ Test Scenario: User Log-In Page
 Steps to Reproduce:
 1. Open the web application and navigate to the log-in page.
 2. Check the presence of the following elements:
-  - Page title or header
-  - Username/email field
+    Navigation bar with logo, product name, "Home" link, "Login" link and "Get Started" link
+  - Page title
+  - Email field
   - Password field
-  - Log-in button
+  - Login button
   - Forgot password link
-  - Sign-up link
+  - Sign-up link (Get started)
 
 Expected Results:
   - The log-in page contains all the required elements with the correct design and positioning.
@@ -137,7 +411,7 @@ Pass/Fail:
 Comments:
 [Any additional comments or observations]
 
--- Test Case 2: Log-in Page - Successful Log-in --
+-- Test Case 13: Log-in Page - Successful Log-in --
 Description:
 Objective: Verify that a user can successfully log in with valid credentials.
 Test Scenario: User Log-In Page
@@ -159,7 +433,7 @@ Pass/Fail:
 Comments:
 [Any additional comments or observations]
 
--- Test Case 3: Log-in Page - Invalid email --
+-- Test Case 14: Log-in Page - Invalid email --
 Description:
 Objective: Verify that an error message is displayed when a user attempts to log in with an invalid email.
 Test Scenario: User Log-In Page
@@ -181,7 +455,7 @@ Pass/Fail:
 Comments:
 [Any additional comments or observations]
 
--- Test Case 4: Log-in Page - Invalid password --
+-- Test Case 15: Log-in Page - Invalid password --
 Description:
 Objective: Verify that an error message is displayed when a user attempts to log in with an invalid password.
 Test Scenario: User Log-In Page
@@ -203,7 +477,7 @@ Pass/Fail:
 Comments:
 [Any additional comments or observations]
 
--- Test Case 5: Log-in Page - Empty Fields and Validation --
+-- Test Case 16: Log-in Page - Empty Fields and Validation --
 Description:
 Objective: Verify that validation is in place for empty fields and an error message is displayed when a user attempts to log in with empty fields.
 Test Scenario: User Log-In Page
@@ -225,14 +499,14 @@ Pass/Fail:
 Comments:
 [Any additional comments or observations]
 
--- Test Case 5: Log-in Page - Forgot Password and Sign-Up Links --
+-- Test Case 17: Log-in Page - Forgot Password and Sign-Up Links --
 Description:
 Objective: Verify that the Forgot Password and Sign-Up links navigate to the correct pages.
 Test Scenario: User Log-In Page
 
 Steps to Reproduce:
 1. Open the web application and navigate to the log-in page.
-2. Click the Forgot Password link and verify it navigates to the Password Reset Request page.
+2. Click the Forgot Password link and verify it navigates to the Password Reset page.
 3. Click the Sign-Up link and verify it navigates to the User Sign-Up page.
 
 Expected Results:
@@ -247,6 +521,900 @@ Pass/Fail:
 
 Comments:
 [Any additional comments or observations]
+
+4.4 Reset Password Page Scenario ----------------------------------------------------------------
+
+-- Test Case 18: Reset Password Page - Layout and Design Elements ---
+Description:
+    Objective: Verify that the Reset Password page has the correct layout and design elements.
+    Test Scenario: Reset Password Page
+
+Steps to Reproduce:
+    Open the web application and navigate to the Reset Password page.
+    Check the presence of the following elements:
+        Page title
+        Email field
+        Send button
+
+Expected Results:
+    The Reset Password page contains all the required elements with the correct design and positioning. An email should be sent to the user with further instructions on how to reset the password.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+-- Test Case 19: Reset Password Page - Request Password Reset --
+Description:
+    Objective: Verify that a user can successfully request a password reset with a valid email address.
+    Test Scenario: Reset Password Page
+
+Steps to Reproduce:
+    Open the web application and navigate to the Reset Password page.
+    Enter a valid email address associated with a registered account.
+    Click the Reset Password button.
+
+Expected Results:
+    The user is redirected to the Reset Password Sent page.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+-- Test Case 20: Reset Password Page - Invalid Email Address Handling --
+Description:
+    Objective: Verify that an email is not sent when a user enters an invalid email address.
+    Test Scenario: Reset Password Page
+
+Steps to Reproduce:
+    Open the web application and navigate to the Reset Password page.
+    Enter an invalid email address (not associated with any registered account).
+    Click the Send button.
+
+Expected Results:
+    The user is redirected to the Reset Password Sent page. The user does not receive an email at the address entered.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+4.4 Reset Password Sent Page Scenario ----------------------------------------------------------------
+
+-- Test Case 21: Reset Password Sent Page - Layout and Design Elements --
+Description:
+    Objective: Verify that the Reset Password Sent page has the correct layout and design elements.
+    Test Scenario: Reset Password Sent Page
+
+Steps to Reproduce:
+    Request a password reset for a valid email address (as described in Test Case 19).
+    Check the presence of the following elements on the Reset Password Sent page:
+        Page title
+        Confirmation message
+        Instructions for user to reset the password
+
+Expected Results:
+    The Reset Password Sent page contains all the required elements with the correct design and positioning.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+4.4 Reset Password Email Scenario ----------------------------------------------------------------
+
+-- Test Case 9: Reset Password Email - Content and Functionality --
+Description:
+    Objective: Verify that the reset password email has the correct content and functionality.
+    Test Scenario: Reset Password Email
+
+Steps to Reproduce:
+    Request a password reset for a valid email address (as described in Test Case 19).
+    Check the user's email inbox for the reset password email.
+    Verify the following elements in the email:
+        Sender email address
+        Subject line
+        Email body content (including instructions and reset password link)
+    Click the reset password link in the email.
+
+Expected Results:
+    The reset password email is sent from the correct sender email address.
+    The subject line is appropriate and clear.
+    The email body contains instructions and a reset password link.
+    The reset password link takes the user to the Reset Password Confirm page.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+4.5 Reset Password Confirm Page Scenario ----------------------------------------------------------------
+
+-- Test Case 22: Reset Password Confirm Page - Layout and Design Elements --
+Description:
+    Objective: Verify that the Reset Password Confirm page has the correct layout and design elements.
+    Test Scenario: Reset Password Confirm Page
+
+Steps to Reproduce:
+    Access the password reset link sent to the user's email address.
+    Check the presence of the following elements on the Reset Password Confirm page:
+        Page title
+        New password field
+        Confirm new password field
+        Change password button
+
+Expected Results:
+    The Reset Password Confirm page contains all the required elements with the correct design and positioning.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+-- Test Case 23: Reset Password Confirm Page - Successful Password Reset --
+Description:
+    Objective: Verify that a user can successfully reset their password with valid new password and confirmation password.
+    Test Scenario: Reset Password Confirm Page
+
+Steps to Reproduce:
+    Access the password reset link sent to the user's email address.
+    Enter a valid new password in the New password field.
+    Enter the same password in the Confirm new password field.
+    Click the Change Password button.
+
+Expected Results:
+    The user's password is successfully reset, and they are redirected to the Password Reset Complete page.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+-- Test Case 24: Reset Password Confirm Page - Mismatched Passwords Error --
+Description:
+    Objective: Verify that an error message is displayed when a user enters mismatched passwords.
+    Test Scenario: Reset Password Confirm Page
+
+Steps to Reproduce:
+    Access the password reset link sent to the user's email address.
+    Enter a valid new password in the New password field.
+    Enter a different password in the Confirm new password field.
+    Click the Change Password button.
+
+Expected Results:
+    An error message is displayed, indicating that the entered passwords do not match.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+4.4 Password Reset Complete Page Scenario ----------------------------------------------------------------
+
+-- Test Case 25: Password Reset Complete Page - Layout and Design Elements --
+Description:
+    Objective: Verify that the Password Reset Complete page has the correct layout and design elements.
+    Test Scenario: Password Reset Complete Page
+
+Steps to Reproduce:
+    Successfully reset the user's password (as described in Test Case 23).
+    Check the presence of the following elements on the Password Reset Complete page:
+        Page title
+        Confirmation message
+        Login button
+
+Expected Results:
+    The Password Reset Complete page contains all the required elements with the correct design and positioning.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+-- Test Case 26: Logged-in Pages - Layout and Design Elements --
+Description:
+    Objective: Verify that all pages accessible after logging in have the correct layout and design elements.
+    Test Scenario: Logged-in Pages 
+
+Steps to Reproduce:
+    Log in to the web application with valid credentials.
+    For each page accessible after logging in, check the presence of the following elements:
+        Page title
+        Navigation bar with logo, product name, notification bell icon, user account icon, points display, and user's first name
+        Side bar with the option to open/close it, containing links to Dashboard, Spending, Income, Reports, Friends, Leaderboard pages, and a log out link
+        Path displayed for navigation between pages
+
+Expected Results
+    All pages accessible after logging in contain the required elements with the correct design and positioning.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+-- Test Case 27: Navigation Bar Functionality --
+Description:
+    Objective: Verify that the navigation bar functions correctly in all logged-in pages.
+    Test Scenario: Navigation Bar
+
+Steps to Reproduce:
+    Log in to the web application with valid credentials.
+    For each page accessible after logging in, perform the following actions:
+        Click on the logo and/or product name and verify that it takes the user to the Dashboard page.
+        Click on the notification bell icon and verify that it displays a drop-down menu with notification names and a "See all notifications" link.
+        Click on a notification name and verify that it takes the user to the View Notification page for that notification.
+        Click on the "See all notifications" link and verify that it takes the user to the All Notifications page.
+        Click on the user account icon and verify that it displays a drop-down menu with links to Profile, Settings, and log out.
+        Click on the Profile link and verify that it takes the user to the Profile page.
+        Click on the Settings link and verify that it takes the user to the Settings page.
+        Verify that the user's points and first name are displayed correctly.
+
+Expected Results:
+    The navigation bar functions correctly on all logged-in pages, with all elements working as described.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+-- Test Case 28: Side Bar Functionality --
+Description:
+    Objective: Verify that the side bar functions correctly in all logged-in pages.
+    Test Scenario: Side Bar
+
+Steps to Reproduce:
+    Log in to the web application with valid credentials.
+    For each page accessible after logging in, perform the following actions:
+        Open and close the side bar, verifying that the icons and link names are displayed correctly in both states.
+        Click on the links to Dashboard, Spending, Income, Reports, Friends, and Leaderboard pages, verifying that they navigate to the respective pages.
+        Click on the log out link and verify that the user is logged out.
+
+Expected Results:
+    The side bar functions correctly on all logged-in pages, with all elements working as described.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+-- Test Case 29: All Notifications Page Functionality --
+Description:
+    Objective: Verify that the All Notifications page functions correctly and displays the correct information.
+    Test Scenario: All Notifications Page
+
+Steps to Reproduce:
+    Log in to the web application with valid credentials.
+    Navigate to the All Notifications page.
+    Verify that the path displayed is "Home/All Notifications".
+    Check that the All Notifications page displays a list of all notifications received with the name, message, date received, and whether it was read by the user.
+    Click on a notification and verify that it takes the user to the View Notification page for that notification.
+
+Expected Results:
+    The All Notifications page functions correctly and displays the correct information as described.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+-- Test Case 30: View Notification Page Functionality --
+Description:
+    Objective: Verify that the View Notification page functions correctly and displays the correct information.
+    Test Scenario: View Notification Page
+
+Steps to Reproduce:
+    Log in to the web application with valid credentials.
+    Navigate to the View Notification page for a specific notification (either from the All Notifications page or from the notification drop-down menu).
+    Verify that the path displayed is "Home/All Notifications/View Notification".
+    Check that the View Notification page displays the notification's name, message, date received, and whether it was read by the user.
+    Click Close and verify that it takes the user to the All Notifications page or follow the link to the related page (e.g., Spending page for a limit reached notification).
+
+Expected Results:
+    The View Notification page functions correctly and displays the correct information as described.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+-- Test Case 31: Profile Page Functionality --
+Description:
+    Objective: Verify that the Profile page functions correctly and displays the correct information.
+    Test Scenario: Profile Page
+
+Steps to Reproduce:
+    Log in to the web application with valid credentials.
+    Navigate to the Profile page.
+    Verify that the path displayed is "Home/Profile".
+    Check that the Profile page displays the user's reference code, first and last names, and email address in an editable form, as well as a "Delete Account" button.
+    Click on the "Delete Account" button and verify that a pop-up dialog appears to confirm the action.
+
+Expected Results:
+    The Profile page functions correctly and displays the correct information as described.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+-- Test Case 32: Settings Page Functionality --
+Description:
+    Objective: Verify that the Settings page functions correctly and displays the correct information.
+    Test Scenario: Settings Page
+
+Steps to Reproduce:
+    Log in to the web application with valid credentials.
+    Navigate to the Settings page.
+    Verify that the path displayed is "Home/Settings".
+    Check that the Settings page displays toggles for notification settings, privacy settings, and email settings.
+    Turn off notification settings and verify that the user does not receive notifications.
+    Turn on privacy settings and verify that the user's profile is not visible to other users.
+    Turn off email settings and verify that the user does not receive email notifications.
+
+Expected Results:
+    The Settings page functions correctly and displays the correct information as described.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+######
+-- Test Case 33: Dashboard Page Layout and Design --
+Description:
+    Objective: Verify that the Dashboard page functions correctly and displays the correct information.
+    Test Scenario: Dashboard Page
+
+Steps to Reproduce:
+    Log in to the web application with valid credentials.
+    Navigate to the Dashboard page.
+    Verify that the path displayed is "Home/Dashboard".
+    Check that the Dashboard page displays the user's points, total spent, "budget remaining", "total categories within limit", total income, and a chart to show data about user income.
+    Verify that the Dashboard page has a news section displaying the 4 most recent news articles.
+
+Expected Results:
+    The Dashboard page functions correctly and displays the correct information as described.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+-- Test Case 34: Quick Add Functionality on Dashboard Page --
+Description:
+    Objective: Verify that the user can use the "Quick Add" button on the Dashboard page to add a transaction.
+    Test Scenario: Dashboard Page
+
+Steps to Reproduce:
+    Log in to the web application with valid credentials.
+    Navigate to the Dashboard page.
+    Click on the "Quick Add" button to open the quick add form.
+    Fill in the required fields (amount and spending category) and submit the form.
+    Verify that the transaction is added to the selected category on the Spending page.
+
+Expected Results:
+    The user can use the "Quick Add" button on the Dashboard page to add a transaction.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+-- Test Case 35: Spending Page Display and Navigation --
+Description:
+    Objective: Verify that the Spending Page is displayed correctly and that the user can navigate to it.
+    Test Scenario: Spending Page
+
+Steps to Reproduce:
+    Log in to the web application with valid credentials.
+    Navigate to the Spending page.
+    Verify that the path displayed is "Home/Spending".
+
+Expected Results:
+    The Spending page is displayed correctly and the user can navigate to it.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+-- Test Case 36: Spending Page Default Categories --
+Description:
+    Objective: Verify that the default spending categories are displayed on the Spending page.
+    Test Scenario: Spending Page
+
+Steps to Reproduce:
+    Log in to the web application with valid credentials.
+    Navigate to the Spending page.
+    Check that the default categories "General", "Groceries", "Transport", and "Utilities" are displayed.
+
+Expected Results:
+    The default spending categories are displayed on the Spending page.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+-- Test Case 37: Spending Page Create New Category --
+Description:
+    Objective: Verify that the user can create a new spending category on the Spending page.
+    Test Scenario: Spending Page 
+
+Steps to Reproduce:
+    Log in to the web application with valid credentials.
+    Navigate to the Spending page.
+    Click the "Create new category" button.
+    Verify that the user is taken to the "Create Category" page.
+
+Expected Results:
+    The user can create a new spending category on the Spending page.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+-- Test Case 38: Spending Page Category Transactions --
+Description:
+    Objective: Verify that the user can view and interact with transactions within a spending category on the Spending page.
+    Test Scenario: Spending Page
+
+Steps to Reproduce:
+    Log in to the web application with valid credentials.
+    Navigate to the Spending page.
+    Click on a spending category to display the transactions list.
+    Verify that the transactions are displayed correctly, including date created, title, points awarded, and buttons to edit and remove the transaction.
+    Click on a transaction to open the modal dialog with transaction details.
+
+Expected Results:
+    The user can view and interact with transactions within a spending category on the Spending page.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+-- Test Case 39: Spending Page Create and Edit Transactions --
+Description:
+    Objective: Verify that the user can create and edit transactions on the Spending page.
+    Test Scenario: Spending Page 
+
+Steps to Reproduce:
+    Log in to the web application with valid credentials.
+    Navigate to the Spending page.
+    Click on the "Add Transaction" button for a category.
+    Verify that the user is taken to the "Add Transaction" page.
+    Fill in the required fields and submit the form.
+    Verify that the new transaction is added to the category.
+    Click on the "Edit" button for the created transaction.
+    Verify that the user is taken to the "Edit Spending Transaction" page.
+    Edit the transaction details and submit the form.
+    Verify that the transaction is updated with the new information.
+
+Expected Results:
+    The user can create and edit transactions on the Spending page.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+-- Test Case 40: Spending Page Delete Category and Transaction --
+Description:
+    Objective: Verify that the user can delete a category and transaction on the Spending page.
+    Test Scenario: Spending Page 
+
+Steps to Reproduce:
+    Log in to the web application with valid credentials.
+    Navigate to the Spending page.
+    Click on the "Remove Category" button for a user-created category.
+    Verify that the user is taken to the "Delete Category" page.
+    Click the confirm button to delete the category.
+    Verify that the category is removed from the Spending page.
+    Click on a transaction's "Remove" button.
+    Confirm the deletion in the pop-up dialog.
+    Verify that the transaction is removed from the category.
+
+Expected Results:
+    The user can delete a category and transaction on the Spending page.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+-- Test Case 41: Create Spending Category Page Functionality --
+Description:
+    Objective: Verify that the user can create a new spending category on the Create Spending Category page.
+    Test Scenario: Create Spending Category Page
+
+Steps to Reproduce:
+    Log in to the web application with valid credentials.
+    Navigate to the Spending page.
+    Click the "Create new category" button.
+    Fill in the required fields (name, limit amount, and time limit type) and submit the form.
+    Verify that the new category is added to the Spending page.
+
+Expected Results:
+    The user can create a new spending category on the Create Spending Category page.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+-- Test Case 42: Edit Spending Category Page Functionality --
+Description:
+    Objective: Verify that the user can edit an existing spending category on the Edit Spending Category page.
+    Test Scenario: Edit Spending Category Page
+
+Steps to Reproduce:
+    Log in to the web application with valid credentials.
+    Navigate to the Spending page.
+    Click the "Edit" button for an existing category.
+    Modify the category details (name, limit amount, and time limit type) and submit the form.
+    Verify that the category is updated with the new information on the Spending page.
+
+Expected Results:
+    The user can edit an existing spending category on the Edit Spending Category page.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+-- Test Case 43: Delete Category Page Functionality --
+Description:
+    Objective: Verify that the user can delete a category on the Delete Category page.
+    Test Scenario: Delete Category Page
+
+Steps to Reproduce:
+    Log in to the web application with valid credentials.
+    Navigate to the Spending page.
+    Click on the "Remove Category" button for a user-created category.
+    Confirm the deletion on the Delete Category page.
+    Verify that the category is removed from the Spending page.
+
+Expected Results:
+    The user can delete a category on the Delete Category page.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+###### NEW
+
+-- Test Case 44: Add Transaction Page Functionality --
+Description:
+    Objective: Verify that the user can add a transaction on the Add Transaction page.
+    Test Scenario: Add Transaction Page 
+
+Steps to Reproduce:
+    Log in to the web application with valid credentials.
+    Navigate to the Spending page.
+    Click on the "Add Transaction" button for a category.
+    Fill in the required fields (title, date created, amount, notes, and upload a receipt) and submit the form.
+    Verify that the transaction is added to the category on the Spending page.
+
+Expected Results:
+    The user can add a transaction on the Add Transaction page.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+-- Test Case 45: Edit Transaction Page Functionality --
+Description:
+    Objective: Verify that the user can edit a transaction on the Edit Transaction page.
+    Test Scenario: Edit Transaction Page 
+
+Steps to Reproduce:
+    Log in to the web application with valid credentials.
+    Navigate to the Spending page.
+    Click on the "Edit" button for a transaction.
+    Modify the transaction details (title, date created, amount, notes, and upload a new receipt) and submit the form.
+    Verify that the transaction is updated with the new information on the Spending page.
+
+Expected Results:
+    The user can edit a transaction on the Edit Transaction page.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+-- Test Case 46: Delete Transaction Functionality --
+Description:
+    Objective: Verify that the user can delete a transaction from a spending category.
+    Test Scenario: Delete Transaction 
+
+Steps to Reproduce:
+    Log in to the web application with valid credentials.
+    Navigate to the Spending page.
+    Click on the "Remove" button for a transaction.
+    Confirm the deletion in the pop-up dialog.
+    Verify that the transaction is removed from the category on the Spending page.
+
+Expected Results:
+    The user can delete a transaction from a spending category.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+-- Test Case 47: View Transaction Details in Modal Dialog --
+Description:
+    Objective: Verify that the user can view transaction details in a modal dialog.
+    Test Scenario: Spending Page
+
+Steps to Reproduce:
+    Log in to the web application with valid credentials.
+    Navigate to the Spending page.
+    Click on a transaction in the drop-down menu of a category.
+    Verify that the modal dialog displays the transaction details (title, points awarded, date and time created, amount, category, notes, and receipt).
+    Close the modal dialog by clicking the "Close" button.
+
+Expected Results:
+    The user can view transaction details in a modal dialog.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+### NEW --------------------------------
+
+-- Test Case 48: Income Page Functionality --
+Description:
+    Objective: Verify that the Income page displays the user's income categories and allows the user to add, edit, and delete categories and transactions.
+    Test Scenario: Income Page 
+
+Steps to Reproduce:
+    Log in to the web application with valid credentials.
+    Navigate to the Income page.
+    Verify that the user can see their income categories.
+    Verify that the user can add a new income category, edit an existing category, and delete a category.
+    Verify that the user can add, edit, and delete transactions for each income category.
+
+Expected Results:
+    The Income page displays the user's income categories and allows the user to add, edit, and delete categories and transactions.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+-- Test Case 49: Create Incoming Category Page Functionality --
+Description:
+    Objective: Verify that the user can create a new incoming category on the Create Incoming Category page.
+    Test Scenario: Create Incoming Category Page 
+
+Steps to Reproduce:
+    Log in to the web application with valid credentials.
+    Navigate to the Income page.
+    Click on the "Create new category" button.
+    Verify that the user is redirected to the "Create Incoming Category" page.
+    Fill in the required fields and submit the form.
+    Verify that the new category is added to the Income page.
+
+Expected Results:
+    The user can create a new incoming category on the Create Incoming Category page.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+-- Test Case 50: Edit Incoming Category Page Functionality --
+Description:
+    Objective: Verify that the user can edit an existing incoming category on the Edit Incoming Category page.
+    Test Scenario: Edit Incoming Category Page 
+
+Steps to Reproduce:
+    Log in to the web application with valid credentials.
+    Navigate to the Income page.
+    Click on the edit button for an existing category.
+    Verify that the user is redirected to the "Edit Incoming Category" page.
+    Make changes to the category and submit the form.
+    Verify that the changes are reflected on the Income page.
+
+Expected Results:
+    The user can edit an existing incoming category on the Edit Incoming Category page.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+-- Test Case 51: Add Income Transaction Functionality --
+Description:
+    Objective: Verify that the user can add an income transaction on the Add Income Transaction page.
+    Test Scenario: Add Income Transaction 
+
+Steps to Reproduce:
+    Log in to the web application with valid credentials.
+    Navigate to the Income page.
+    Click on the add transaction button for an existing category.
+    Verify that the user is redirected to the "Add Income Transaction" page.
+    Fill in the required fields and submit the form.
+    Verify that the new transaction is added to the selected category on the Income page.
+
+Expected Results:
+    The user can add an income transaction on the Add Income Transaction page.
+
+Actual Results
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
+
+-- Test Case 52: Edit Income Transaction Functionality --
+Description:
+    Objective: Verify that the user can edit an existing income transaction on the Edit Income Transaction page.
+    Test Scenario: Edit Income Transaction 
+
+Steps to Reproduce:
+    Log in to the web application with valid credentials.
+    Navigate to the Income page.
+    Click on the edit button for an existing transaction within a category.
+    Verify that the user is redirected to the "Edit Income Transaction" page.
+    Make changes to the transaction and submit the form.
+    Verify that the changes are reflected in the selected category on the Income page.
+
+Expected Results:
+    The user can edit an existing income transaction on the Edit Income Transaction page.
+
+Actual Results:
+    [Actual result 1]
+
+Pass/Fail:
+    [Pass/Fail]
+
+Comments:
+    [Any additional comments or observations]
 
 5. Issues and Bugs
 ------------------
