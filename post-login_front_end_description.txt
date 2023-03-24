@@ -1,0 +1,119 @@
+Information about all pages the user can access after logging in:
+- All pages have a title
+- All pages have a navigation bar:
+- The navigation bar contains a logo and product name which, when clicked, take the user to the dashboard page.
+- The navigation bar contains a notification bell icon which, when clicked, presents the user with a drop down menu which shows the user the names of all notifications received as well as a See all notifications link
+- If the user clicks on a notification name, the user is taken to the View Notification page for that notification.
+- If the user clicks on the See all notifications link the user is taken to the All Notifications page
+- The navigation bar contains a "user account" icon which, when clicked, presents the user with a drop down menu with links to go to Profile, Settings or log out.
+- If the user clicks on Profile the user is taken to the Profile page.
+- If the user clicks on Settings the user is taken to the Settings page.
+- The navigation bar shows the user how many points they have and displays their first name
+- All pages have a side bar with the option to open/close the side bar
+- When the side bar is closed, only icons are displayed
+- When the side bar is opened, both the icons and link names are displayed
+- The side bar contains links to the dashboard, spending, income, reports, friends and leaderboard pages
+- The side bar contains a log out link
+- All pages show a path which can be used to navigate between pages. For example, if the path shown is "Home/All Notifications/View Notification", the user can click on "All Notifications" to go to the All Notifications page.
+
+All Notifications page:
+- The all notifications page path is "Home/All Notifications"
+- The all notifications page has a list of all notifications received with the name, message, date received and whether it was read by the user.
+- Clicking on a notification will take the user to the View Notification page for that notification
+
+View Notification page:
+- The view notification page path is "Home/All Notifications/View Notification"
+- The view notification page shows the notification's name, message, date received and whether it was read by the user
+- The user can click Close to go to All Notifications page or go to another page which concerns the notification. For example, if a limit is reached, it will take the user to the Spending page.
+
+Profile Page:
+- The profile page path is "Home/Profile"
+- The profile page shows the user's reference code, the user's first and last names, email address in a form which can be edited by the user, or the details can be reset.
+- The user can also choose to delete their account by clicking on the "Delete Account" button
+- After clicking on the "Delete Account" button the user is presented with a pop up dialog to confirm the action.
+
+Settings Page:
+- The settings page path is "Home/Settings"
+- The settings page shows a toggle for notification settings, privacy settings and email settings.
+- With notification settings off, the user will not receive notifications
+- With privacy settings on, the user's profile will not be seen by other users
+- With email settings on, the user will not receive email notifications
+
+
+Dashboard page:
+- The dashboard page path is Home/Dashboard
+- The dashboard shows the user's points, total spent, "budget remaining" and "total categories within limit", total income and a chart to show data about user income
+- The dashboard has a news section which shows the 4 most recent news articles
+- The dashboard has a "Quick Add" button which opens a quick add form. The quick add form allows the user to add a transaction. The form has an amount field and spending category drop down menu
+
+Spending Page:
+- The spending page path is Home/Spending
+- The spending page has a "Create new category" button which takes the user to the "Create Category" page
+- The spending page shows all of the user's spending categories.
+- On sign up the user should already have 4 default categories: "General", "Groceries", "Transport" and "Utilities".
+- If a category is added by the user, the category appears on the Page
+- Each category in the list should have a name, limit, "amount left to spend", an edit button (which takes the user to the "Edit Spending Category" page for that category), and a button to add a transaction (which takes the user to the "Add Transaction" page for that category)
+- User created categories should also have a button for removing a category which taked the user to the "Delete Category" page.
+- When the category is clicked, a list of all transactions in the category should be displayed in a drop down as well as the current total transactions amount in the category.
+- Each transaction in the drop down menu should have a date created, the title of the transaction, how many points out of 5 they have received for submitting the transaction, a button to edit the transaction (which takes the user to the "Edit Spending Transaction" page) and a button to remove the transaction (which presents the user with a pop up asking the user if they are sure they want to delete the transaction).
+- Clickling on a transaction in the drop down menu displays a scrollable modal dialogue with the transaction.
+- The modal dialog has a header and shows the title of the transaction, points awarded out of 5 points to the user, the date and time created, amount, category, notes and receipt.
+- The modal dialog has a close button
+
+Create Spending Category Page:
+- The create category page path is "Home/Spending/CreateCategory"
+- The page has a form with a name and "limit amount" fields and a "time limit type" field to allow the user to create a new spending category.
+
+Edit Spending Category Page:
+- The edit category page path is "Home/Spending/Edit Category"
+- The page has a form with a name and "limit amount" fields and a "time limit type" field to allow the user to edit a category. 
+
+Delete Category Page:
+- The delete category page path is "Home/Spending/Delete Category"
+- The page has a header asking user if they want to delete the category, the category name, a button to confirm the action and a button to cancel the action.
+
+Add Transaction Page:
+- The add transaction page path is "Home/Spending/Add Transaction"
+- The page has a form with a title, date created, amount, notes and the option to upload a receipt.
+
+Edit Transaction Page:
+- The edit transaction page path is "Home/Spending/Edit Spending Transaction"
+- The page has a form with a title, date created, amount, notes and the option to upload a receipt.
+
+
+
+Income Page:
+- The income page path is "Home/Incomings"
+- The spending page has a "Create new category" button which takes the user to the "Create Incoming Category" page
+- The spending page shows all of the user's incoming categories.
+- If a category is added by the user, the category appears on the Page
+- Each category in the list should have a name, an edit button (which takes the user to the "Edit Incoming Category" page for that category), a button to add a transaction (which takes the user to the "Add Income" page for that category) and a button for removing a category which taked the user to the "Delete Category" page.
+- When the category is clicked, a list of all transactions in the category should be displayed in a drop down as well as the current total transactions amount in the category.
+- Each transaction in the drop down menu should have a date created, the title of the transaction, how many points out of 5 they have received for submitting the transaction, a button to edit the transaction (which takes the user to the "Edit Income Transaction" page) and a button to remove the transaction (which presents the user with a pop up asking the user if they are sure they want to delete the transaction).
+- Clickling on a transaction in the drop down menu displays a scrollable modal dialogue with the transaction.
+- The modal dialog has a header and shows the title of the transaction, points awarded out of 5 points to the user, the date and time created, amount, category, and notes.
+- The modal dialog has a close button
+
+
+Create Incoming Category Page:
+- The incoming category page path is "Home/Incoming/Create Category"
+- The page has a form with a name to allow the user to create a new spending category.
+
+Edit Incoming Category Page:
+- The edit category page path is "Home/Incoming/Edit Category"
+- The page has a form with a name to allow the user to edit a category. 
+
+Add Income Page:
+- The add income page path is "Home/Incoming/Add Transaction"
+- The page has a form with a title, date created, amount, and notes.
+
+Edit Income Transaction Page:
+- The edit transaction page path is "Home/Incoming/Edit Income Transaction"
+- The page has a form with a title, date created, amount, and notes.
+
+### Done
+
+Leaderboard Page:
+- The leaderboard page path is "Home/Leaderboard"
+- The leaderboard page shows which league the user is in, a podium with the names of the top three users from their league and the number of points those users have.
+- The leaderboard page has a leaderboard showing the top 10 players from their league. Each row shows the player's position, the first and last name of the user and their number of points. If the user is not in the top 10, he appears at the bottom of the leaderboard.
