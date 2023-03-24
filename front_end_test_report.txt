@@ -1,7 +1,7 @@
 Title: Frontend Manual Testing Report
 Project: Void Money Tracker
 Date: 24/03/2023
-Tester(s): Vanessa Neboh
+Tester(s): Vanessa Neboh, Konrad Bylina
 
 1. Introduction
 ---------------
@@ -1421,7 +1421,7 @@ Comments:
 
 ### NEW
 
--- Test Case 32.1: Reports Page Layout and Design --
+-- Test Case 53: Reports Page Layout and Design --
 Description:
     Objective: Verify the layout and design of the Reports page.
     Test Scenario: Reports Page
@@ -1445,7 +1445,7 @@ Pass/Fail:
 Comments:
     [Any additional comments or observations]
 
--- Test Case 32.2: Reports Page Functionality: Charts --
+-- Test Case 54: Reports Page Functionality: Charts --
 Description:
     Objective: Verify that the charts on the Reports page function correctly and display the correct information.
     Test Scenario: Reports Page
@@ -1469,7 +1469,7 @@ Pass/Fail:
 Comments:
     [Any additional comments or observations]
 
--- Test Case 32.3: Reports Page Functionality: Spending and Income Categories Breakdown --
+-- Test Case 55: Reports Page Functionality: Spending and Income Categories Breakdown --
 Description:
     Objective: Verify that the spending and income categories breakdown sections on the Reports page function correctly and display the correct information.
     Test Scenario: Reports Page
@@ -1496,7 +1496,7 @@ Pass/Fail:
 Comments:
     [Any additional comments or observations]
 
--- Test Case 32.4: Reports Page Functionality: Additional Metrics --
+-- Test Case 56: Reports Page Functionality: Additional Metrics --
 Description:
     Objective: Verify that the additional metrics on the Reports page function correctly and display the correct information.
     Test Scenario: Reports Page
@@ -1525,22 +1525,28 @@ Comments:
 5. Issues and Bugs
 ------------------
 
-List any issues or bugs discovered during testing, along with their severity, priority, and status (e.g., Open, In Progress, Resolved). Use the following format for each issue:
+Although all tests passed, there are some known issues which have not been fixed yet.
+Freidns - Searching friend and adding a friend changes the button of all users displayed to "Remove" suggesting that all users have been added as friends
 
-### Issue [ID]: [Issue Title]
+### Issue 1: Buggy add friend button on friends page
 
-- Description: [Briefly describe the issue]
-- Severity: [Low/Medium/High/Critical]
-- Priority: [Low/Medium/High]
-- Status: [Open/In Progress/Resolved]
-- Comments: [Any additional comments or observations]
+- Description: When user searches up a friend and multiple users appear, on clicking 'Add' for one user, all user 'Add' buttons change to "Remove"
+- Severity: Medium
+- Priority: High
+- Status: In Progress
+- Comments: Although this bug is not very severe, it can lead to a lot of confusion on the user side. Should be fixed as soon as possible. The source of the issue is still not clear.
+
 
 6. Conclusion
 -------------
 
-Provide a summary of the testing process, highlighting any major concerns, overall test results, and recommendations for improvements.
+In this test report, we have conducted a series of tests to verify the functionality and design of various pages within the web application. While all tests appear to pass, it is essential to acknowledge that this report is not exhaustive, and there may be gaps in our testing coverage. The tests conducted focused on specific scenarios, and some edge cases or unexpected user interactions were not considered.
 
-7. Attachments
---------------
+One limitation of this test report is that only two testers formally conducted all of the tests. This may introduce bias and may have led to overlooking certain issues or inconsistencies. To improve the testing process, the testing process could involve multiple testers to provide diverse perspectives and identify potential problems more effectively. Increasing the number of browsers and operating systems used during testing would also make the results more reliable as some tests may have failed on different browsers.
 
-Include any relevant attachments, such as screenshots, logs, or other files that support the test report.
+Additionally, it would be beneficial to enhance the testing process by incorporating different testing methodologies, such as exploratory testing, stress testing, and security testing. This would help identify issues that may not be captured through the current test cases.
+
+Moreover, automating some test cases using tools like Selenium could have helped streamline the testing process and ensure that regression tests are performed consistently, especially when new features are introduced or updates are made to the application.
+
+In conclusion, while the current test report suggests that the web application is functioning as intended, it is crucial to recognize that there may be gaps in the testing coverage.
+
