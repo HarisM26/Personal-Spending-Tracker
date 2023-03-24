@@ -3,7 +3,7 @@ from expenditure.forms import *
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse_lazy
 from expenditure.models.user import *
 from expenditure.helpers import *
@@ -115,30 +115,6 @@ def leaderboard(request):
 # global variable
 search = ''
 
-# from django.shortcuts import render, redirect
-# from .models import ListItem
-#
-# def list_view(request):
-#    items = ListItem.objects.all()
-#    if request.method == 'POST':
-#        item_id = request.POST.get('item_id')
-#        item = ListItem.objects.get(pk=item_id)
-#        item.status = not item.status
-#        item.save()
-#        return redirect('list_view')
-#
-
-# <ul>
-# {% for item in items %}
-#    <li>{{ item.name }} <form method="post">
-#        {% csrf_token %}
-#        <button type="submit" name="item_id" value="{{ item.id }}">
-#        {% if item.status %}Mark as incomplete{% else %}Mark as complete{% endif %}
-#        </button>
-#    </form></li>
-# {% endfor %}
-# </ul>
-
 
 @login_required
 def search_friends(request):
@@ -173,31 +149,13 @@ def show_friends_profile(request, id):
 
 
 @login_required
-def follow_toggle(request):
+def follow_toggle(request, request_id):
     current_user = request.user
-    print(f'===========')
-    results = search_friends(request)
-    print(f'====={results}======')
-    if request.method == 'POST':
-        item_id = request.POST.get('item_id')
-        searched_user = User.objects.get(pk=item_id)
-        current_user.toggle_follow(searched_user)
-        print(f'====={searched_user.first_name}======')
-        print(f'== ==={current_user.first_name} - -{searched_user.first_name} - ->{current_user.is_following(searched_user)} == == ==')
-
-        request.session['is_following'] = current_user.is_following(
-            searched_user)
-        return redirect('search_friends')
-    return render(request, 'search_friends.html', {'search_results': results})
-#    current_user = request.user
-#    searched_user = get_object_or_404(User, id=request_id)
-#    current_user.toggle_follow(searched_user)
-#    print(f'{current_user.is_following(searched_user)}=============')
-#    if not current_user.is_following(searched_user):
-#        current_user.points += 1
-#        current_user.save()
-#    request.session['is_following'] = current_user.is_following(searched_user)
-#    return redirect('search_friends')
+    searched_user = get_object_or_404(User, id=request_id)
+    current_user.toggle_follow(searched_user)
+    request.session['is_following'] = current_user.is_following(
+        searched_user)
+    return redirect('search_friends')
 
 
 @login_required
