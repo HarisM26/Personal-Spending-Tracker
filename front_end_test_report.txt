@@ -54,17 +54,17 @@ For all test scenarios, the objectives of the Homepage also apply.
 3.2.2 Reset Password Sent Page
 - Verify the layout, design elements, and content
 
-3.2.2 Reset Password Email
+3.2.3 Reset Password Email
 - Verify the email content, including subject, sender, and recipient
 - Check the email contains a unique password reset link with a valid expiration time
 - Test the password reset link by clicking on it and confirming it redirects to the Password Reset Confirm page
 
-3.2.3 Reset Password Confirm Page
+3.2.4 Reset Password Confirm Page
 - Check the required fields and field validation (new password and password confirmation)
 - Test the password reset process, including successful password reset, error handling, and expired reset link handling
 - Verify the user is redirected to the Password Reset Complete page upon successful password reset
 
-3.2.4 Password Reset Complete Page
+3.2.5 Password Reset Complete Page
 - Check the presence of a confirmation message indicating a successful password reset
 - Test the link to the login page and other related pages
 
@@ -73,48 +73,57 @@ For all test scenarios, the objectives of the Homepage also apply.
 3.3.0 Logged-in Pages:
 - Verify the layout, and design elements are consistent for all logged in pages.
 
-3.3.1 User Feed
+3.3.1 Notifications
+- Verify the layout, design elements and content for all natification pages.
+- Check links from notifications take user to correct place.
+- Verify the user receives and can access notifications when notifications are received
+
+3.3.2 Profile Page
+- Verify the layout, design elements and content
+- Verify user is able to view and edit their profile
+- Check forms for editing user profile information and field validation.
+- Verify user can delete their account
+
+3.3.3 Settings Page
+- Verify the layout, design elements and content
+- Verify user can use toggles on settings to change their settings
+- Verify user settings are updated and behave correctly
+
+3.3.4 User Dashboard
 - Verify user can easily add transactions using the quick add feauture
 - Check the required fields and field validation for quick add feauture
 - Test user can view a brief of notifications if any received
 - Check that user can log out from service
 
-3.3.2 User Spending
+3.3.5 User Spending
 - Verify user can create, edit and delete relevant spending categories
 - Verify user can create, view, edit and delete transaction in spending categories
 - Check the required fields and field validation
 
-3.3.3 User Income
+3.3.6 User Income
 - Verify user can create, edit and delete income categories
 - Verify user can create, view, edit and delete transaction in income categories
 - Check the required fields and field validation
 
-3.3.4 User Reports
+3.3.7 User Reports
 - Check the required fields and field validation
 - Verify user can use fields provided to generate accurate reports
 
-3.3.5 User Friends
+3.3.8 User Friends
 - Check user can search for and add friends
 - Verify user is able to see their Friends
 - Check user can see their friends' profile
+- Check user is able to view their own profile
 
-3.3.6 User Leaderboard
+3.3.9 User Leaderboard
 - Verify podium and leaderboard is accurate
 - Check that user is able to see their position in the leaderboard
-
-3.3.7 User profile
-- Verify user is able to views and edit their profile
-- Verify user can delete their account
-
-3.3.8 User Settings
-- Verify user can use toggles on settings to change their settings
-- Verify user settings are updated and behave correctly
 
 
 4. Test Cases and Results
 -------------------------
 
-4.1 Homepage Scenario
+4.1.1 Homepage Scenario ----------------------------------------------------------------
 
 -- Test Case 1: Home Page - Layout and Design Elements --
 Description:
@@ -194,7 +203,7 @@ Pass/Fail:
 Comments:
     [Any additional comments or observations]
 
-4.2 Sign-up Page Scenario ----------------------------------------------------------------
+4.1.2 User Sign-up Page Scenario ----------------------------------------------------------------
 
 -- Test Case 4: Sign-up Page - Layout and Design Elements --
 Description:
@@ -384,7 +393,7 @@ Pass/Fail:
 Comments:
     [Any additional comments or observations]
 
-4.3 Log-In Scenario ----------------------------------------------------------------
+4.1.3 User Log-In Page Scenario ----------------------------------------------------------------
 
 -- Test Case 12: Log-In Page - Layout and Design Elements --
 Description:
@@ -525,7 +534,7 @@ Pass/Fail:
 Comments:
 [Any additional comments or observations]
 
-4.4 Reset Password Page Scenario ----------------------------------------------------------------
+4.2.1 Reset Password Page Scenario ----------------------------------------------------------------
 
 -- Test Case 18: Reset Password Page - Layout and Design Elements ---
 Description:
@@ -595,7 +604,7 @@ Pass/Fail:
 Comments:
     [Any additional comments or observations]
 
-4.4 Reset Password Sent Page Scenario ----------------------------------------------------------------
+4.2.2 Reset Password Sent Page Scenario ----------------------------------------------------------------
 
 -- Test Case 21: Reset Password Sent Page - Layout and Design Elements --
 Description:
@@ -621,7 +630,7 @@ Pass/Fail:
 Comments:
     [Any additional comments or observations]
 
-4.4 Reset Password Email Scenario ----------------------------------------------------------------
+4.2.3 Reset Password Email Scenario ----------------------------------------------------------------
 
 -- Test Case 9: Reset Password Email - Content and Functionality --
 Description:
@@ -652,7 +661,7 @@ Pass/Fail:
 Comments:
     [Any additional comments or observations]
 
-4.5 Reset Password Confirm Page Scenario ----------------------------------------------------------------
+4.2.4 Reset Password Confirm Page Scenario ----------------------------------------------------------------
 
 -- Test Case 22: Reset Password Confirm Page - Layout and Design Elements --
 Description:
@@ -725,7 +734,7 @@ Pass/Fail:
 Comments:
     [Any additional comments or observations]
 
-4.4 Password Reset Complete Page Scenario ----------------------------------------------------------------
+4.2.5 Password Reset Complete Page Scenario ----------------------------------------------------------------
 
 -- Test Case 25: Password Reset Complete Page - Layout and Design Elements --
 Description:
@@ -751,7 +760,7 @@ Pass/Fail:
 Comments:
     [Any additional comments or observations]
 
-4.5 Logged-in Pages Scenario ----------------------------------------------------------------
+4.3.0 Logged-in Pages Scenario ----------------------------------------------------------------
 
 -- Test Case 26: Logged-in Pages - Layout and Design Elements --
 Description:
@@ -831,12 +840,12 @@ Pass/Fail:
 Comments:
     [Any additional comments or observations]
 
-4.4 All Notifications Page Scenario ----------------------------------------------------------------
+4.3.1 Notifications Scenario ----------------------------------------------------------------
 
 -- Test Case 29: All Notifications Page Functionality --
 Description:
     Objective: Verify that the All Notifications page functions correctly and displays the correct information.
-    Test Scenario: All Notifications Page
+    Test Scenario: Notifications
 
 Steps to Reproduce:
     Log in to the web application with valid credentials.
@@ -857,12 +866,10 @@ Pass/Fail:
 Comments:
     [Any additional comments or observations]
 
-4.4 View Notifications Page Scenario ----------------------------------------------------------------
-
 -- Test Case 30: View Notification Page Functionality --
 Description:
     Objective: Verify that the View Notification page functions correctly and displays the correct information.
-    Test Scenario: View Notification Page
+    Test Scenario: Notifications
 
 Steps to Reproduce:
     Log in to the web application with valid credentials.
@@ -883,7 +890,7 @@ Pass/Fail:
 Comments:
     [Any additional comments or observations]
 
-4.4 Profile Page Scenario ----------------------------------------------------------------
+4.3.2 Profile Page Scenario ----------------------------------------------------------------
 
 -- Test Case 31: Profile Page Functionality --
 Description:
@@ -909,7 +916,7 @@ Pass/Fail:
 Comments:
     [Any additional comments or observations]
 
-4.4 Settings Page Scenario ----------------------------------------------------------------
+4.3.3 Settings Page Scenario ----------------------------------------------------------------
 
 -- Test Case 32: Settings Page Functionality --
 Description:
@@ -937,12 +944,12 @@ Pass/Fail:
 Comments:
     [Any additional comments or observations]
 
-4.4 User Dashboard Scenario ----------------------------------------------------------------
+4.3.4 User Dashboard Scenario ----------------------------------------------------------------
 
 -- Test Case 33: Dashboard Page Layout and Design --
 Description:
     Objective: Verify that the Dashboard page functions correctly and displays the correct information.
-    Test Scenario: Dashboard Page
+    Test Scenario: User Dashboard
 
 Steps to Reproduce:
     Log in to the web application with valid credentials.
@@ -966,7 +973,7 @@ Comments:
 -- Test Case 34: Quick Add Functionality on Dashboard Page --
 Description:
     Objective: Verify that the user can use the "Quick Add" button on the Dashboard page to add a transaction.
-    Test Scenario: Dashboard Page
+    Test Scenario: User Dashboard
 
 Steps to Reproduce:
     Log in to the web application with valid credentials.
@@ -987,7 +994,7 @@ Pass/Fail:
 Comments:
     [Any additional comments or observations]
 
-4.4 User Spending Scenario ----------------------------------------------------------------
+4.3.5 User Spending Scenario ----------------------------------------------------------------
 
 -- Test Case 35: Spending Page Display and Navigation --
 Description:
@@ -1305,8 +1312,7 @@ Pass/Fail:
 Comments:
     [Any additional comments or observations]
 
-### NEW --------------------------------
-4.4 User Income Scenario ----------------------------------------------------------------
+4.3.6 User Income Scenario ----------------------------------------------------------------
 
 -- Test Case 48: Income Page Functionality --
 Description:
@@ -1432,8 +1438,7 @@ Pass/Fail:
 Comments:
     [Any additional comments or observations]
 
-### NEW
-4.4 User Reports Scenario ----------------------------------------------------------------
+4.3.7 User Reports Scenario ----------------------------------------------------------------
 
 -- Test Case 53: Reports Page Layout and Design --
 Description:
