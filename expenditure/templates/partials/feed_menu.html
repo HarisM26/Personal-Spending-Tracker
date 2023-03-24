@@ -3,11 +3,14 @@
     <ul id="auth-navbar" class="d-flex justify-content-end">
       <li class="nav-item dropdown">
         <a class="nav-link " href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-          <i class="fa-regular fa-bell fa-lg position-relative">
+          
             {% if unread_status_count > 0 %}
+            <i class="bx bxs-bell bx-tada bx-sm" id="bell-icon">
               <span class="position-absolute top-0 start-100 translate-middle p-1 badge border border-light bg-danger rounded-circle"> </span>
-            {% endif %}
-          </i> 
+            {%else%}
+            <i class="bx bxs-bell bx-sm" id="bell-icon"></i>
+              {% endif %}
+            </i> 
         </a>
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
           {% for notification in latest_notifications%}

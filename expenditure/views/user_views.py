@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from expenditure.forms import *
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -106,38 +106,54 @@ def leaderboard(request):
     return render(request, 'leaderboard.html', context=context)
 
 
+# global variable
+search = ''
+
+# from django.shortcuts import render, redirect
+# from .models import ListItem
+#
+# def list_view(request):
+#    items = ListItem.objects.all()
+#    if request.method == 'POST':
+#        item_id = request.POST.get('item_id')
+#        item = ListItem.objects.get(pk=item_id)
+#        item.status = not item.status
+#        item.save()
+#        return redirect('list_view')
+#
+
+# <ul>
+# {% for item in items %}
+#    <li>{{ item.name }} <form method="post">
+#        {% csrf_token %}
+#        <button type="submit" name="item_id" value="{{ item.id }}">
+#        {% if item.status %}Mark as incomplete{% else %}Mark as complete{% endif %}
+#        </button>
+#    </form></li>
+# {% endfor %}
+# </ul>
+
+
 @login_required
 def search_friends(request):
-    if request.method == 'GET':
-        query = request.GET.get('q')
-
-        submitbutton = request.GET.get('submit')
-
-        if query is not None:
-            lookups = Q(first_name__icontains=query) | Q(
-                last_name__icontains=query) | Q(email__icontains=query)
-
-            results = User.objects.filter(lookups).distinct()
-
-            user = request.user
-            following = user.show_following()
-
-            context = {'results': results,
-                       'submitbutton': submitbutton, 'following': following}
-
-            return render(request, 'search_friends.html', context)
-
-        else:
-            user = request.user
-            following = user.show_following()
-            context = {'following': following}
-            return render(request, 'search_friends.html', context)
-
+    global search
+    current_user = request.user
+    if request.method == "POST":
+        form = FriendSearchForm(request.POST)
+        if form.is_valid():
+            search = form.cleaned_data.get('search')
     else:
-        user = request.user
-        following = user.show_following()
-        context = {'following': following}
-        return render(request, 'search_friends.html', context)
+        form = FriendSearchForm()
+    results = []
+    if search != '':
+        results = User.objects.filter(first_name__contains=search).exclude(
+            id=current_user.id) | User.objects.filter(last_name__contains=search).exclude(id=current_user.id)
+
+    context = {
+        'form': form,
+        'search_results': results,
+    }
+    return render(request, 'search_friends.html', context)
 
 
 @login_required
@@ -145,23 +161,37 @@ def show_friends_profile(request, id):
     results = User.objects.get(id=id)
     template = loader.get_template('friends_profile.html')
     context = {
-        'results': results
+        'results': results,
     }
     return HttpResponse(template.render(context, request))
 
 
 @login_required
-def follow_toggle(request, id):
+def follow_toggle(request):
     current_user = request.user
-    try:
-        followee = User.objects.get(id=id)
-        current_user.toggle_follow(followee)
-    except ObjectDoesNotExist:
-        return redirect('friends')
-    else:
-        current_user.points += 1
-        current_user.save()
-        return redirect('friends_profile', id=id)
+    print(f'===========')
+    results = search_friends(request)
+    print(f'====={results}======')
+    if request.method == 'POST':
+        item_id = request.POST.get('item_id')
+        searched_user = User.objects.get(pk=item_id)
+        current_user.toggle_follow(searched_user)
+        print(f'====={searched_user.first_name}======')
+        print(f'== ==={current_user.first_name} - -{searched_user.first_name} - ->{current_user.is_following(searched_user)} == == ==')
+
+        request.session['is_following'] = current_user.is_following(
+            searched_user)
+        return redirect('search_friends')
+    return render(request, 'search_friends.html', {'search_results': results})
+#    current_user = request.user
+#    searched_user = get_object_or_404(User, id=request_id)
+#    current_user.toggle_follow(searched_user)
+#    print(f'{current_user.is_following(searched_user)}=============')
+#    if not current_user.is_following(searched_user):
+#        current_user.points += 1
+#        current_user.save()
+#    request.session['is_following'] = current_user.is_following(searched_user)
+#    return redirect('search_friends')
 
 
 @login_required
@@ -234,4 +264,3 @@ class PasswordResetConfirmView(PasswordResetConfirmView):
 
 class PasswordResetCompleteView(PasswordResetCompleteView):
     template_name = 'password_reset_complete.html'
-

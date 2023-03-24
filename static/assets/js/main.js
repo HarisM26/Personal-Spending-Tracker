@@ -24,6 +24,7 @@ const change_toggle_color = (element) =>{
   }
 }
 
+
 const toggle_anchor = Array.from(document.getElementsByClassName("toggle_anchor"));
 
 toggle_anchor.forEach( ( button, index ) =>
@@ -65,6 +66,7 @@ const transaction = {
   category: "",
   notes: "",
   receipt: "",
+  points: "",
   created: "",
 }
 
@@ -107,6 +109,9 @@ items.forEach( ( button, index ) =>
             console.log(transaction.receipt)
             transaction.receipt = child.src;
             break;
+          case "transaction-points":
+            transaction.points = child.textContent;
+            break;
           case "transaction-created":
           transaction.created = child.textContent;
           break;
@@ -120,6 +125,7 @@ items.forEach( ( button, index ) =>
       changeInnerText("transaction-category-modal",transaction.category)
       changeInnerText("transaction-notes-modal",transaction.notes)
       changeInnerText("transaction-receipt-modal",transaction.receipt)
+      changeInnerText("transaction-points-modal",transaction.points)
       changeInnerText("transaction-created-modal",transaction.created)
 
     })

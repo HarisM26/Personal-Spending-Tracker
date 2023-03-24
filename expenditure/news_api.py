@@ -1,8 +1,9 @@
+
+from django.conf import settings
 from newsapi import NewsApiClient
 from decouple import config
 import sys
 
-print(sys.path)
 
 # Init
 newsapi = NewsApiClient(api_key=config('NEWS_API_KEY'))

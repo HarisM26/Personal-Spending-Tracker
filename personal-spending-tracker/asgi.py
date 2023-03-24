@@ -15,6 +15,3 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE',
                       'personal-spending-tracker.settings')
 
 application = get_asgi_application()
-
-
-
