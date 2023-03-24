@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 
 def refresh_time_limit():
-    print('================== Attempt to refresh =========================')
+    # print('================== Attempt to refresh =========================')
     # get limits with end date as a day before current day
     expired_limits = Limit.objects.filter(
         end_date=datetime.date(datetime.now())-timedelta(days=1))
