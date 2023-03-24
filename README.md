@@ -27,7 +27,7 @@ The project is called personal-spending-tracker. It currently consists of a sing
 
 ## Deployed version of the application
 
-The deployed version of the application can be found at \_\_\_
+The deployed version of the application can be found at http://malikharis03.pythonanywhere.com
 
 ## Installation instructions
 
@@ -99,14 +99,13 @@ IMAGES:
 
 - pound: https://pixabay.com/illustrations/pound-uk-money-currency-finance-685059/
 - bkg2: https://www.pexels.com/photo/gray-and-white-wallpaper-1103970/
-- bkg3: https://www.pexels.com/photo/close-up-shot-of-a-blue-flower-14120471/ 
+- bkg3: https://www.pexels.com/photo/close-up-shot-of-a-blue-flower-14120471/
 - bkg4: https://www.pexels.com/photo/view-of-street-from-a-glass-window-531880/
 - first: https://www.flaticon.com/free-icon/1st-place_4899679?term=first+place&page=1&position=1&origin=style&related_id=4899679
-- second: https://www.flaticon.com/free-icon/2nd-place_4899684?term=second+place&page=1&position=1&origin=style&related_id=4899684 
-- third: https://www.flaticon.com/free-icon/3rd-place_4899691?term=third+place&page=1&position=27&origin=search&related_id=4899691 
+- second: https://www.flaticon.com/free-icon/2nd-place_4899684?term=second+place&page=1&position=1&origin=style&related_id=4899684
+- third: https://www.flaticon.com/free-icon/3rd-place_4899691?term=third+place&page=1&position=27&origin=search&related_id=4899691
 
 TEMPLATES:
-
 
 - HTML email templates inspired by "Responsive HTML Email" Youtube channel: https://www.youtube.com/watch?v=_G5OuTmuU0Q
 
