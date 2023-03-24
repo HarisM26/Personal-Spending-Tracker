@@ -16,6 +16,19 @@
 	<input type="submit" value="Search" class="btn btn-info">
 </form>
 
+<div class="main-card">
+	<ul>
+		<h4> My Friends</h4>
+        {% for follow in following %}
+	    <li class="d-flex justify-content-between align-items-center friend-search-list card-box-shadow">
+				<a href="{% url 'friends_profile' follow.id%}" class="anchor-unhide">{{follow.first_name}} {{follow.last_name}}</a>
+				
+			</li>
+			{% empty %}
+			No follower(s) found
+		 {% endfor %}
+	 </ul> 
+</div>
 
 <div class="main-card">
 	<ul>
@@ -23,15 +36,19 @@
 	    <li class="d-flex justify-content-between align-items-center friend-search-list card-box-shadow">
 				<i class='bx bx-user-circle bx-sm'></i>
 				<a class="anchor-unhide" href="{% url 'friends_profile' result.id%}">{{ result.first_name }} {{ result.last_name }}</a> 
-				<form method="post">
-	        {% csrf_token %}
-	        <a href="{%url 'follow_toggle' result.id%}" class="btn btn-info" type="submit" name="item_id" value="{{ result.id }}">
-	        {% if request.session.is_following %} Remove{% else %}Add{% endif %}
-					</a>
-	    </form></li>
-			{% empty %}
+				
+	        
+	        {% if request.session.is_following %} 	
+					<a href="{%url 'follow_toggle' result.id%}" class="btn btn-info"> Remove </a>
+					{% else %}
+					<a href="{%url 'follow_toggle' result.id%}" class="btn btn-info"> Add </a>
+					{% endif %}
+					
+		</li>
+		{% empty %}
 			No user(s) found
 		 {% endfor %}
+			
 	 </ul> 
 
 </div>

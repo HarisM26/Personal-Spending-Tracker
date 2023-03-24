@@ -39,7 +39,7 @@ urlpatterns = [
     path('search_friends/', user_views.search_friends, name='search_friends'),
     path('search_friends/friends_profile/<int:id>',
          user_views.show_friends_profile, name='friends_profile'),
-    path('search_friends/follow_toggle/<int:request_id>',
+    path('search_friends/follow_toggle/<int:id>',
          user_views.follow_toggle, name='follow_toggle'),
     path('leaderboard/', user_views.leaderboard, name='leaderboard'),
     path('profile/', user_views.profile, name='user_profile'),
