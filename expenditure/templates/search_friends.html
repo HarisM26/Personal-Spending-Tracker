@@ -8,34 +8,65 @@
 				<li class="breadcrumb-item active"> <a href="{% url 'feed' %}">Home</a></li>
 				<li class="breadcrumb-item"> <a">Search friends</a></li>
 		</ol>
-</nav>
+	</nav>
 
-<form action="" method="POST">
-	{% csrf_token %}
-	{% include 'partials/bootstrap_form.html' with form=form %}
-	<input type="submit" value="Search" class="btn btn-info">
-</form>
+	<div class="card">
 
+		<nav>
+			<div class="nav nav-tabs" id="nav-tab" role="tablist">
+				<button class="nav-link active" id="nav-search-tab" data-bs-toggle="tab" data-bs-target="#nav-search" type="button" role="tab" aria-controls="nav-friends" aria-selected="false">Search</button>
+			  <button class="nav-link" id="nav-myprofile-tab" data-bs-toggle="tab" data-bs-target="#nav-myprofile" type="button" role="tab" aria-controls="nav-myprofile" aria-selected="true">My Profile</button>
+			</div>
+		</nav>
 
-<div class="main-card">
-	<ul>
-		{% for result in search_results %}
-	    <li class="d-flex justify-content-between align-items-center friend-search-list card-box-shadow">
-				<i class='bx bx-user-circle bx-sm'></i>
-				<a class="anchor-unhide" href="{% url 'friends_profile' result.id%}">{{ result.first_name }} {{ result.last_name }}</a> 
-				<form method="post">
-	        {% csrf_token %}
-	        <a href="{%url 'follow_toggle' result.id%}" class="btn btn-info" type="submit" name="item_id" value="{{ result.id }}">
-	        {% if request.session.is_following %} Remove{% else %}Add{% endif %}
-					</a>
-	    </form></li>
-			{% empty %}
-			No user(s) found
-		 {% endfor %}
-	 </ul> 
+		<div class="tab-content" id="nav-tabContent">
 
-</div>
+			<div class="tab-pane fade show active" id="nav-search" role="tabpanel" aria-labelledby="nav-search-tab">
+				<div id="search-tab-margins">
+					<form action="" method="POST">
+						{% csrf_token %}
+						{% include 'partials/bootstrap_form.html' with form=form %}
+						<input type="submit" value="Search" class="btn btn-info">
+					</form>
 
+					<div class="main-card">
+						<ul>
+							{% for result in search_results %}
+							<li class="d-flex justify-content-between align-items-center friend-search-list card-box-shadow">
+									<i class='bx bx-user-circle bx-sm'></i>
+									<a class="anchor-unhide" href="{% url 'friends_profile' result.id%}">{{ result.first_name }} {{ result.last_name }}</a> 
+									<form method="post">
+								{% csrf_token %}
+								<a href="{%url 'follow_toggle' result.id%}" class="btn btn-info" type="submit" name="item_id" value="{{ result.id }}">
+								{% if request.session.is_following %} Remove{% else %}Add{% endif %}
+										</a>
+							</form></li>
+								{% empty %}
+								No user(s) found
+							{% endfor %}
+						</ul> 
+				
+					</div>
+				</div>
+
+			</div>
+
+			<div class="tab-pane fade" id="nav-myprofile" role="tabpanel" aria-labelledby="nav-myprofile-tab">
+				<h1>{{user.first_name}} {{user.last_name}} </h1>
+				   <br>
+	
+		   
+				<div class="profile-statistics" style="margin-left: 20px;">
+						<h5>Following:</h5> {{user.followee_count}} &emsp;
+						<br><br>
+						<h5>Followers:</h5> {{user.follower_count}} &emsp;
+						<br><br>
+						<h5>Points:</h5> {{user.points}} &emsp;
+						<br><br>
+				</div>
+			</div>
+		</div>
+	</div>
 </section>
 
 {% endblock %}
