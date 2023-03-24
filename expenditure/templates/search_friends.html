@@ -8,9 +8,13 @@
 				<li class="breadcrumb-item active"> <a href="{% url 'feed' %}">Home</a></li>
 				<li class="breadcrumb-item"> <a">Search friends</a></li>
 		</ol>
-	</nav>
+</nav>
 
-	<div class="card">
+<form action="" method="POST">
+	{% csrf_token %}
+	{% include 'partials/bootstrap_form.html' with form=form %}
+	<input type="submit" value="Search" class="btn btn-info">
+</form>
 
 <div class="main-card">
 	<ul>
@@ -46,6 +50,8 @@
 		 {% endfor %}
 			
 	 </ul> 
+
+</div>
 
 </section>
 
