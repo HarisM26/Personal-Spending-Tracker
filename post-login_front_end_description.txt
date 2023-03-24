@@ -113,7 +113,60 @@ Edit Income Transaction Page:
 
 ### Done
 
+Reports Page:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Leaderboard Page:
 - The leaderboard page path is "Home/Leaderboard"
 - The leaderboard page shows which league the user is in, a podium with the names of the top three users from their league and the number of points those users have.
 - The leaderboard page has a leaderboard showing the top 10 players from their league. Each row shows the player's position, the first and last name of the user and their number of points. If the user is not in the top 10, he appears at the bottom of the leaderboard.
+
+
+
+
+
+
+
+-- Test Case 31: Leaderboard Page Functionality --
+Description:
+Objective: Verify that the Leaderboard page functions correctly and displays the correct information.
+Test Scenario: Leaderboard Page
+
+Steps to Reproduce:
+Log in to the web application with valid credentials.
+Navigate to the Leaderboard page.
+Verify that the path displayed is "Home/Leaderboard".
+Check that the Leaderboard page displays the user's league, a podium with the names of the top three users from their league, and the number of points those users have.
+Verify that the leaderboard shows the top 10 players from the user's league. Each row should display the player's position, the first and last name of the user, and their number of points.
+If the user is not in the top 10, verify that they appear at the bottom of the leaderboard.
+
+Expected Results:
+The Leaderboard page functions correctly and displays the correct information as described.
+
+Actual Results:
+[Actual result 1]
+
+Pass/Fail:
+[Pass/Fail]
+
+Comments:
+[Any additional comments or observations]
